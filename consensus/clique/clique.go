@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package clique implements the proof-of-authority consensus engine.
 package clique
@@ -25,20 +25,20 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/accounts"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/consensus"
-	"github.com/DEC/go-DEC/consensus/misc"
-	"github.com/DEC/go-DEC/core/state"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/crypto/sha3"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/params"
-	"github.com/DEC/go-DEC/rlp"
-	"github.com/DEC/go-DEC/rpc"
+	"github.com/DEWH/go-DEWH/accounts"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/consensus"
+	"github.com/DEWH/go-DEWH/consensus/misc"
+	"github.com/DEWH/go-DEWH/core/state"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/crypto/sha3"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/params"
+	"github.com/DEWH/go-DEWH/rlp"
+	"github.com/DEWH/go-DEWH/rpc"
 	lru "github.com/hashicorp/golang-lru"
 )
 
@@ -57,8 +57,8 @@ var (
 	extraVanity = 32 // Fixed number of extra-data prefix bytes reserved for signer vanity
 	extraSeal   = 65 // Fixed number of extra-data suffix bytes reserved for signer seal
 
-	nonceAuthVote = hexutil.MustDecode("0xffffffffffffffff") // Magic nonce number to vote on adding a new signer
-	nonceDropVote = hexutil.MustDecode("0x0000000000000000") // Magic nonce number to vote on removing a signer.
+	nonceAuthVote = hexutil.MustDEWHode("0xffffffffffffffff") // Magic nonce number to vote on adding a new signer
+	nonceDropVote = hexutil.MustDEWHode("0x0000000000000000") // Magic nonce number to vote on removing a signer.
 
 	uncleHash = types.CalcUncleHash(nil) // Always Keccak256(RLP([])) as uncles are meaningless outside of PoW.
 
@@ -166,7 +166,7 @@ func sigHash(header *types.Header) (hash common.Hash) {
 	return hash
 }
 
-// ecrecover extracts the DEC account address from a signed header.
+// ecrecover extracts the DEWH account address from a signed header.
 func ecrecover(header *types.Header, sigcache *lru.ARCCache) (common.Address, error) {
 	// If the signature's already cached, return that
 	hash := header.Hash()
@@ -179,7 +179,7 @@ func ecrecover(header *types.Header, sigcache *lru.ARCCache) (common.Address, er
 	}
 	signature := header.Extra[len(header.Extra)-extraSeal:]
 
-	// Recover the public key and the DEC address
+	// Recover the public key and the DEWH address
 	pubkey, err := crypto.Ecrecover(sigHash(header).Bytes(), signature)
 	if err != nil {
 		return common.Address{}, err
@@ -192,7 +192,7 @@ func ecrecover(header *types.Header, sigcache *lru.ARCCache) (common.Address, er
 }
 
 // Clique is the proof-of-authority consensus engine proposed to support the
-// DEC testnet following the Ropsten attacks.
+// DEWH testnet following the Ropsten attacks.
 type Clique struct {
 	config *params.CliqueConfig // Consensus engine configuration parameters
 	db     ethdb.Database       // Database to store and retrieve snapshot checkpoints
@@ -202,7 +202,7 @@ type Clique struct {
 
 	proposals map[common.Address]bool // Current list of proposals we are pushing
 
-	signer common.Address // DEC address of the signing key
+	signer common.Address // DEWH address of the signing key
 	signFn SignerFn       // Signer function to authorize hashes with
 	lock   sync.RWMutex   // Protects the signer fields
 }
@@ -228,7 +228,7 @@ func New(config *params.CliqueConfig, db ethdb.Database) *Clique {
 	}
 }
 
-// Author implements consensus.Engine, returning the DEC address recovered
+// Author implements consensus.Engine, returning the DEWH address recovered
 // from the signature in the header's extra-data section.
 func (c *Clique) Author(header *types.Header) (common.Address, error) {
 	return ecrecover(header, c.signatures)

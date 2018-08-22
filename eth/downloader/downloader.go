@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package downloader contains the manual full chain synchronisation.
 package downloader
@@ -25,15 +25,15 @@ import (
 	"sync/atomic"
 	"time"
 
-	DEC "github.com/DEC/go-DEC"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/core/rawdb"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/event"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/metrics"
-	"github.com/DEC/go-DEC/params"
+	DEWH "github.com/DEWH/go-DEWH"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/core/rawdb"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/event"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/metrics"
+	"github.com/DEWH/go-DEWH/params"
 )
 
 var (
@@ -240,7 +240,7 @@ func New(mode SyncMode, stateDb ethdb.Database, mux *event.TypeMux, chain BlockC
 // In addition, during the state download phase of fast synchronisation the number
 // of processed and the total number of known states are also returned. Otherwise
 // these are zero.
-func (d *Downloader) Progress() DEC.SyncProgress {
+func (d *Downloader) Progress() DEWH.SyncProgress {
 	// Lock the current stats and return the progress
 	d.syncStatsLock.RLock()
 	defer d.syncStatsLock.RUnlock()
@@ -254,7 +254,7 @@ func (d *Downloader) Progress() DEC.SyncProgress {
 	case LightSync:
 		current = d.lightchain.CurrentHeader().Number.Uint64()
 	}
-	return DEC.SyncProgress{
+	return DEWH.SyncProgress{
 		StartingBlock: d.syncStatsChainOrigin,
 		CurrentBlock:  current,
 		HighestBlock:  d.syncStatsChainHeight,

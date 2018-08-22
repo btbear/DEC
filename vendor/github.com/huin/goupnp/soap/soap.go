@@ -58,9 +58,9 @@ func (client *SOAPClient) PerformAction(actionNamespace, actionName string, inAc
 	}
 
 	responseEnv := newSOAPEnvelope()
-	decoder := xml.NewDecoder(response.Body)
-	if err := decoder.Decode(responseEnv); err != nil {
-		return fmt.Errorf("goupnp: error decoding response body: %v", err)
+	DEWHoder := xml.NewDEWHoder(response.Body)
+	if err := DEWHoder.DEWHode(responseEnv); err != nil {
+		return fmt.Errorf("goupnp: error DEWHoding response body: %v", err)
 	}
 
 	if responseEnv.Body.Fault != nil {

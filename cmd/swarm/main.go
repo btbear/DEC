@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -28,22 +28,22 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/DEC/go-DEC/accounts"
-	"github.com/DEC/go-DEC/accounts/keystore"
-	"github.com/DEC/go-DEC/cmd/utils"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/console"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/internal/debug"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/swarm"
-	bzzapi "github.com/DEC/go-DEC/swarm/api"
-	swarmmetrics "github.com/DEC/go-DEC/swarm/metrics"
-	"github.com/DEC/go-DEC/swarm/tracing"
-	sv "github.com/DEC/go-DEC/swarm/version"
+	"github.com/DEWH/go-DEWH/accounts"
+	"github.com/DEWH/go-DEWH/accounts/keystore"
+	"github.com/DEWH/go-DEWH/cmd/utils"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/console"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/internal/debug"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/swarm"
+	bzzapi "github.com/DEWH/go-DEWH/swarm/api"
+	swarmmetrics "github.com/DEWH/go-DEWH/swarm/metrics"
+	"github.com/DEWH/go-DEWH/swarm/tracing"
+	sv "github.com/DEWH/go-DEWH/swarm/version"
 
 	"gopkg.in/urfave/cli.v1"
 )
@@ -110,7 +110,7 @@ var (
 	}
 	SwarmSwapAPIFlag = cli.StringFlag{
 		Name:   "swap-api",
-		Usage:  "URL of the DEC API provider to use to settle SWAP payments",
+		Usage:  "URL of the DEWH API provider to use to settle SWAP payments",
 		EnvVar: SWARM_ENV_SWAP_API,
 	}
 	SwarmSyncDisabledFlag = cli.BoolTFlag{
@@ -196,7 +196,7 @@ var (
 	}
 )
 
-//declare a few constant error messages, useful for later error check comparisons in test
+//DEWHlare a few constant error messages, useful for later error check comparisons in test
 var (
 	SWARM_ERR_NO_BZZACCOUNT   = "bzzaccount option is required but not set; check your config file, command line or environment variables"
 	SWARM_ERR_SWAP_SET_NO_API = "SWAP is enabled but --swap-api is not set"
@@ -211,25 +211,25 @@ var defaultSubcommandHelp = cli.Command{
 	Hidden:             true,
 }
 
-var defaultNodeConfig = node.DefaultConfig
+var defaultNoDEWHonfig = node.DefaultConfig
 
 // This init function sets defaults so cmd/swarm can run alongside geth.
 func init() {
-	defaultNodeConfig.Name = clientIdentifier
-	defaultNodeConfig.Version = sv.VersionWithCommit(gitCommit)
-	defaultNodeConfig.P2P.ListenAddr = ":30399"
-	defaultNodeConfig.IPCPath = "bzzd.ipc"
+	defaultNoDEWHonfig.Name = clientIdentifier
+	defaultNoDEWHonfig.Version = sv.VersionWithCommit(gitCommit)
+	defaultNoDEWHonfig.P2P.ListenAddr = ":30399"
+	defaultNoDEWHonfig.IPCPath = "bzzd.ipc"
 	// Set flag defaults for --help display.
 	utils.ListenPortFlag.Value = 30399
 }
 
-var app = utils.NewApp(gitCommit, "DEC Swarm")
+var app = utils.NewApp(gitCommit, "DEWH Swarm")
 
 // This init function creates the cli.App.
 func init() {
 	app.Action = bzzd
 	app.HideVersion = true // we have a command to print the version
-	app.Copyright = "Copyright 2013-2016 The go-DEC Authors"
+	app.Copyright = "Copyright 2013-2016 The go-DEWH Authors"
 	app.Commands = []cli.Command{
 		{
 			Action:             version,
@@ -394,12 +394,12 @@ Downloads a swarm bzz uri to the given dir. When no dir is provided, working dir
 					Description: `
 Export a local chunk database as a tar archive (use - to send to stdout).
 
-    swarm db export ~/.DEC/swarm/bzz-KEY/chunks chunks.tar
+    swarm db export ~/.DEWH/swarm/bzz-KEY/chunks chunks.tar
 
 The export may be quite large, consider piping the output through the Unix
 pv(1) tool to get a progress bar:
 
-    swarm db export ~/.DEC/swarm/bzz-KEY/chunks - | pv > chunks.tar
+    swarm db export ~/.DEWH/swarm/bzz-KEY/chunks - | pv > chunks.tar
 `,
 				},
 				{
@@ -411,12 +411,12 @@ pv(1) tool to get a progress bar:
 					Description: `
 Import chunks from a tar archive into a local chunk database (use - to read from stdin).
 
-    swarm db import ~/.DEC/swarm/bzz-KEY/chunks chunks.tar
+    swarm db import ~/.DEWH/swarm/bzz-KEY/chunks chunks.tar
 
 The import may be quite large, consider piping the input through the Unix
 pv(1) tool to get a progress bar:
 
-    pv chunks.tar | swarm db import ~/.DEC/swarm/bzz-KEY/chunks -
+    pv chunks.tar | swarm db import ~/.DEWH/swarm/bzz-KEY/chunks -
 `,
 				},
 				{
@@ -534,7 +534,7 @@ func bzzd(ctx *cli.Context) error {
 		utils.Fatalf("unable to configure swarm: %v", err)
 	}
 
-	cfg := defaultNodeConfig
+	cfg := defaultNoDEWHonfig
 
 	//pss operates on ws
 	cfg.WSModules = append(cfg.WSModules, "pss")
@@ -545,8 +545,8 @@ func bzzd(ctx *cli.Context) error {
 	if _, err := os.Stat(bzzconfig.Path); err == nil {
 		cfg.DataDir = bzzconfig.Path
 	}
-	//setup the DEC node
-	utils.SetNodeConfig(ctx, &cfg)
+	//setup the DEWH node
+	utils.SetNoDEWHonfig(ctx, &cfg)
 	stack, err := node.New(&cfg)
 	if err != nil {
 		utils.Fatalf("can't create node: %v", err)
@@ -554,7 +554,7 @@ func bzzd(ctx *cli.Context) error {
 	//a few steps need to be done after the config phase is completed,
 	//due to overriding behavior
 	initSwarmNode(bzzconfig, stack, ctx)
-	//register BZZ as node.Service in the DEC node
+	//register BZZ as node.Service in the DEWH node
 	registerBzzService(bzzconfig, stack)
 	//start the node
 	utils.StartNode(stack)
@@ -588,7 +588,7 @@ func registerBzzService(bzzconfig *bzzapi.Config, stack *node.Node) {
 		// In production, mockStore must be always nil.
 		return swarm.NewSwarm(bzzconfig, nil)
 	}
-	//register within the DEC node
+	//register within the DEWH node
 	if err := stack.Register(boot); err != nil {
 		utils.Fatalf("Failed to register the Swarm service: %v", err)
 	}
@@ -600,7 +600,7 @@ func getAccount(bzzaccount string, ctx *cli.Context, stack *node.Node) *ecdsa.Pr
 		utils.Fatalf(SWARM_ERR_NO_BZZACCOUNT)
 	}
 	// Try to load the arg as a hex key file.
-	if key, err := crypto.LoadECDSA(bzzaccount); err == nil {
+	if key, err := crypto.LoaDEWHDSA(bzzaccount); err == nil {
 		log.Info("Swarm account key loaded", "address", crypto.PubkeyToAddress(key.PublicKey))
 		return key
 	}
@@ -608,7 +608,7 @@ func getAccount(bzzaccount string, ctx *cli.Context, stack *node.Node) *ecdsa.Pr
 	am := stack.AccountManager()
 	ks := am.Backends(keystore.KeyStoreType)[0].(*keystore.KeyStore)
 
-	return decryptStoreAccount(ks, bzzaccount, utils.MakePasswordList(ctx))
+	return DEWHryptStoreAccount(ks, bzzaccount, utils.MakePasswordList(ctx))
 }
 
 // getPrivKey returns the private key of the specified bzzaccount
@@ -619,11 +619,11 @@ func getPrivKey(ctx *cli.Context) *ecdsa.PrivateKey {
 	if err != nil {
 		utils.Fatalf("unable to configure swarm: %v", err)
 	}
-	cfg := defaultNodeConfig
+	cfg := defaultNoDEWHonfig
 	if _, err := os.Stat(bzzconfig.Path); err == nil {
 		cfg.DataDir = bzzconfig.Path
 	}
-	utils.SetNodeConfig(ctx, &cfg)
+	utils.SetNoDEWHonfig(ctx, &cfg)
 	stack, err := node.New(&cfg)
 	if err != nil {
 		utils.Fatalf("can't create node: %v", err)
@@ -631,7 +631,7 @@ func getPrivKey(ctx *cli.Context) *ecdsa.PrivateKey {
 	return getAccount(bzzconfig.BzzAccount, ctx, stack)
 }
 
-func decryptStoreAccount(ks *keystore.KeyStore, account string, passwords []string) *ecdsa.PrivateKey {
+func DEWHryptStoreAccount(ks *keystore.KeyStore, account string, passwords []string) *ecdsa.PrivateKey {
 	var a accounts.Account
 	var err error
 	if common.IsHexAddress(account) {
@@ -654,12 +654,12 @@ func decryptStoreAccount(ks *keystore.KeyStore, account string, passwords []stri
 	}
 	for i := 0; i < 3; i++ {
 		password := getPassPhrase(fmt.Sprintf("Unlocking swarm account %s [%d/3]", a.Address.Hex(), i+1), i, passwords)
-		key, err := keystore.DecryptKey(keyjson, password)
+		key, err := keystore.DEWHryptKey(keyjson, password)
 		if err == nil {
 			return key.PrivateKey
 		}
 	}
-	utils.Fatalf("Can't decrypt swarm account key")
+	utils.Fatalf("Can't DEWHrypt swarm account key")
 	return nil
 }
 

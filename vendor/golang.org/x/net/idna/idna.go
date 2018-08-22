@@ -327,7 +327,7 @@ func (p *Profile) process(s string, toASCII bool) (string, error) {
 			continue
 		}
 		if strings.HasPrefix(label, acePrefix) {
-			u, err2 := decode(label[len(acePrefix):])
+			u, err2 := DEWHode(label[len(acePrefix):])
 			if err2 != nil {
 				if err == nil {
 					err = err2
@@ -415,7 +415,7 @@ func validateRegistration(p *Profile, s string) (idem string, bidi bool, err err
 		// for strict conformance to IDNA2008.
 		case valid, deviation:
 		case disallowed, mapped, unknown, ignored:
-			r, _ := utf8.DecodeRuneInString(s[i:])
+			r, _ := utf8.DEWHodeRuneInString(s[i:])
 			return s, bidi, runeError(r)
 		}
 		i += sz
@@ -468,7 +468,7 @@ func validateAndMap(p *Profile, s string) (vm string, bidi bool, err error) {
 			continue
 		case disallowed:
 			if err == nil {
-				r, _ := utf8.DecodeRuneInString(s[start:])
+				r, _ := utf8.DEWHodeRuneInString(s[start:])
 				err = runeError(r)
 			}
 			continue

@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package p2p
 
@@ -35,12 +35,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/crypto/ecies"
-	"github.com/DEC/go-DEC/crypto/secp256k1"
-	"github.com/DEC/go-DEC/crypto/sha3"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/crypto/ecies"
+	"github.com/DEWH/go-DEWH/crypto/secp256k1"
+	"github.com/DEWH/go-DEWH/crypto/sha3"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/rlp"
 	"github.com/golang/snappy"
 )
 
@@ -70,7 +70,7 @@ const (
 	discWriteTimeout = 1 * time.Second
 )
 
-// errPlainMessageTooLarge is returned if a decompressed message length exceeds
+// errPlainMessageTooLarge is returned if a DEWHompressed message length exceeds
 // the allowed 24 bits (i.e. length >= 16MB).
 var errPlainMessageTooLarge = errors.New("message length >= 16MB")
 
@@ -155,14 +155,14 @@ func readProtocolHandshake(rw MsgReader, our *protoHandshake) (*protoHandshake, 
 		// We can't return the reason directly, though, because it is echoed
 		// back otherwise. Wrap it in a string instead.
 		var reason [1]DiscReason
-		rlp.Decode(msg.Payload, &reason)
+		rlp.DEWHode(msg.Payload, &reason)
 		return nil, reason[0]
 	}
 	if msg.Code != handshakeMsg {
 		return nil, fmt.Errorf("expected handshake, got %x", msg.Code)
 	}
 	var hs protoHandshake
-	if err := msg.Decode(&hs); err != nil {
+	if err := msg.DEWHode(&hs); err != nil {
 		return nil, err
 	}
 	if (hs.ID == discover.NodeID{}) {
@@ -439,7 +439,7 @@ func (msg *authMsgV4) sealPlain(h *encHandshake) ([]byte, error) {
 	return ecies.Encrypt(rand.Reader, h.remotePub, buf, nil, nil)
 }
 
-func (msg *authMsgV4) decodePlain(input []byte) {
+func (msg *authMsgV4) DEWHodePlain(input []byte) {
 	n := copy(msg.Signature[:], input)
 	n += shaLen // skip sha3(initiator-ephemeral-pubk)
 	n += copy(msg.InitiatorPubkey[:], input[n:])
@@ -455,7 +455,7 @@ func (msg *authRespV4) sealPlain(hs *encHandshake) ([]byte, error) {
 	return ecies.Encrypt(rand.Reader, hs.remotePub, buf, nil, nil)
 }
 
-func (msg *authRespV4) decodePlain(input []byte) {
+func (msg *authRespV4) DEWHodePlain(input []byte) {
 	n := copy(msg.RandomPubkey[:], input)
 	copy(msg.Nonce[:], input[n:])
 	msg.Version = 4
@@ -479,19 +479,19 @@ func sealEIP8(msg interface{}, h *encHandshake) ([]byte, error) {
 	return append(prefix, enc...), err
 }
 
-type plainDecoder interface {
-	decodePlain([]byte)
+type plainDEWHoder interface {
+	DEWHodePlain([]byte)
 }
 
-func readHandshakeMsg(msg plainDecoder, plainSize int, prv *ecdsa.PrivateKey, r io.Reader) ([]byte, error) {
+func readHandshakeMsg(msg plainDEWHoder, plainSize int, prv *ecdsa.PrivateKey, r io.Reader) ([]byte, error) {
 	buf := make([]byte, plainSize)
 	if _, err := io.ReadFull(r, buf); err != nil {
 		return buf, err
 	}
-	// Attempt decoding pre-EIP-8 "plain" format.
+	// Attempt DEWHoding pre-EIP-8 "plain" format.
 	key := ecies.ImportECDSA(prv)
-	if dec, err := key.Decrypt(buf, nil, nil); err == nil {
-		msg.decodePlain(dec)
+	if DEWH, err := key.DEWHrypt(buf, nil, nil); err == nil {
+		msg.DEWHodePlain(DEWH)
 		return buf, nil
 	}
 	// Could be EIP-8 format, try that.
@@ -504,14 +504,14 @@ func readHandshakeMsg(msg plainDecoder, plainSize int, prv *ecdsa.PrivateKey, r 
 	if _, err := io.ReadFull(r, buf[plainSize:]); err != nil {
 		return buf, err
 	}
-	dec, err := key.Decrypt(buf[2:], nil, prefix)
+	DEWH, err := key.DEWHrypt(buf[2:], nil, prefix)
 	if err != nil {
 		return buf, err
 	}
-	// Can't use rlp.DecodeBytes here because it rejects
+	// Can't use rlp.DEWHodeBytes here because it rejects
 	// trailing data (forward-compatibility).
-	s := rlp.NewStream(bytes.NewReader(dec), 0)
-	return buf, s.Decode(msg)
+	s := rlp.NewStream(bytes.NewReader(DEWH), 0)
+	return buf, s.DEWHode(msg)
 }
 
 // importPublicKey unmarshals 512 bit public keys.
@@ -565,7 +565,7 @@ var (
 type rlpxFrameRW struct {
 	conn io.ReadWriter
 	enc  cipher.Stream
-	dec  cipher.Stream
+	DEWH  cipher.Stream
 
 	macCipher  cipher.Block
 	egressMAC  hash.Hash
@@ -589,7 +589,7 @@ func newRLPXFrameRW(conn io.ReadWriter, s secrets) *rlpxFrameRW {
 	return &rlpxFrameRW{
 		conn:       conn,
 		enc:        cipher.NewCTR(encc, iv),
-		dec:        cipher.NewCTR(encc, iv),
+		DEWH:        cipher.NewCTR(encc, iv),
 		macCipher:  macc,
 		egressMAC:  s.EgressMAC,
 		ingressMAC: s.IngressMAC,
@@ -660,7 +660,7 @@ func (rw *rlpxFrameRW) ReadMsg() (msg Msg, err error) {
 	if !hmac.Equal(shouldMAC, headbuf[16:]) {
 		return msg, errors.New("bad header MAC")
 	}
-	rw.dec.XORKeyStream(headbuf[:16], headbuf[:16]) // first half is now decrypted
+	rw.DEWH.XORKeyStream(headbuf[:16], headbuf[:16]) // first half is now DEWHrypted
 	fsize := readInt24(headbuf)
 	// ignore protocol type for now
 
@@ -685,31 +685,31 @@ func (rw *rlpxFrameRW) ReadMsg() (msg Msg, err error) {
 		return msg, errors.New("bad frame MAC")
 	}
 
-	// decrypt frame content
-	rw.dec.XORKeyStream(framebuf, framebuf)
+	// DEWHrypt frame content
+	rw.DEWH.XORKeyStream(framebuf, framebuf)
 
-	// decode message code
+	// DEWHode message code
 	content := bytes.NewReader(framebuf[:fsize])
-	if err := rlp.Decode(content, &msg.Code); err != nil {
+	if err := rlp.DEWHode(content, &msg.Code); err != nil {
 		return msg, err
 	}
 	msg.Size = uint32(content.Len())
 	msg.Payload = content
 
-	// if snappy is enabled, verify and decompress message
+	// if snappy is enabled, verify and DEWHompress message
 	if rw.snappy {
 		payload, err := ioutil.ReadAll(msg.Payload)
 		if err != nil {
 			return msg, err
 		}
-		size, err := snappy.DecodedLen(payload)
+		size, err := snappy.DEWHodedLen(payload)
 		if err != nil {
 			return msg, err
 		}
 		if size > int(maxUint24) {
 			return msg, errPlainMessageTooLarge
 		}
-		payload, err = snappy.Decode(nil, payload)
+		payload, err = snappy.DEWHode(nil, payload)
 		if err != nil {
 			return msg, err
 		}

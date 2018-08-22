@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 package main
 
 import (
@@ -26,13 +26,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/simulations"
-	"github.com/DEC/go-DEC/swarm/log"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/simulations"
+	"github.com/DEWH/go-DEWH/swarm/log"
 )
 
 var (
-	nodeCount = 16
+	noDEWHount = 16
 )
 
 //This test is used to test the overlay simulation.
@@ -43,7 +43,7 @@ var (
 //It also provides a documentation on the steps needed by frontends
 //to use the simulations
 func TestOverlaySim(t *testing.T) {
-	t.Skip("Test is flaky, see: https://github.com/ethersphere/go-DEC/issues/592")
+	t.Skip("Test is flaky, see: https://github.com/ethersphere/go-DEWH/issues/592")
 	//start the simulation
 	log.Info("Start simulation backend")
 	//get the simulation networ; needed to subscribe for up events
@@ -69,7 +69,7 @@ func TestOverlaySim(t *testing.T) {
 	//start the mocker, needs a node count and an ID
 	resp, err = http.PostForm(srv.URL+"/mocker/start",
 		url.Values{
-			"node-count":  {fmt.Sprintf("%d", nodeCount)},
+			"node-count":  {fmt.Sprintf("%d", noDEWHount)},
 			"mocker-type": {simulations.GetMockerList()[0]},
 		})
 	if err != nil {
@@ -95,7 +95,7 @@ func TestOverlaySim(t *testing.T) {
 	//start watching node up events...
 	go watchSimEvents(net, ctx, trigger)
 
-	//...and wait until all expected up events (nodeCount) have been received
+	//...and wait until all expected up events (noDEWHount) have been received
 LOOP:
 	for {
 		select {
@@ -103,7 +103,7 @@ LOOP:
 			//new node up event received, increase counter
 			upCount++
 			//all expected node up events received
-			if upCount == nodeCount {
+			if upCount == noDEWHount {
 				break LOOP
 			}
 		case <-ctx.Done():
@@ -137,8 +137,8 @@ LOOP:
 	}
 
 	//check if number of nodes received is same as sent
-	if len(nodesArr) != nodeCount {
-		t.Fatal(fmt.Errorf("Expected %d number of nodes, got %d", nodeCount, len(nodesArr)))
+	if len(nodesArr) != noDEWHount {
+		t.Fatal(fmt.Errorf("Expected %d number of nodes, got %d", noDEWHount, len(nodesArr)))
 	}
 
 	//need to let it run for a little while, otherwise stopping it immediately can crash due running nodes

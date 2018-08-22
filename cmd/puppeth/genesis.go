@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -21,16 +21,16 @@ import (
 	"errors"
 	"math"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/consensus/ethash"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/params"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/consensus/ethash"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/params"
 )
 
-// cppDECGenesisSpec represents the genesis specification format used by the
-// C++ DEC implementation.
-type cppDECGenesisSpec struct {
+// cppDEWHGenesisSpec represents the genesis specification format used by the
+// C++ DEWH implementation.
+type cppDEWHGenesisSpec struct {
 	SealEngine string `json:"sealEngine"`
 	Params     struct {
 		AccountStartNonce       hexutil.Uint64 `json:"accountStartNonce"`
@@ -62,38 +62,38 @@ type cppDECGenesisSpec struct {
 		GasLimit   hexutil.Uint64 `json:"gasLimit"`
 	} `json:"genesis"`
 
-	Accounts map[common.Address]*cppDECGenesisSpecAccount `json:"accounts"`
+	Accounts map[common.Address]*cppDEWHGenesisSpecAccount `json:"accounts"`
 }
 
-// cppDECGenesisSpecAccount is the prefunded genesis account and/or precompiled
+// cppDEWHGenesisSpecAccount is the prefunded genesis account and/or precompiled
 // contract definition.
-type cppDECGenesisSpecAccount struct {
+type cppDEWHGenesisSpecAccount struct {
 	Balance     *hexutil.Big                   `json:"balance"`
 	Nonce       uint64                         `json:"nonce,omitempty"`
-	Precompiled *cppDECGenesisSpecBuiltin `json:"precompiled,omitempty"`
+	Precompiled *cppDEWHGenesisSpecBuiltin `json:"precompiled,omitempty"`
 }
 
-// cppDECGenesisSpecBuiltin is the precompiled contract definition.
-type cppDECGenesisSpecBuiltin struct {
+// cppDEWHGenesisSpecBuiltin is the precompiled contract definition.
+type cppDEWHGenesisSpecBuiltin struct {
 	Name          string                               `json:"name,omitempty"`
 	StartingBlock hexutil.Uint64                       `json:"startingBlock,omitempty"`
-	Linear        *cppDECGenesisSpecLinearPricing `json:"linear,omitempty"`
+	Linear        *cppDEWHGenesisSpecLinearPricing `json:"linear,omitempty"`
 }
 
-type cppDECGenesisSpecLinearPricing struct {
+type cppDEWHGenesisSpecLinearPricing struct {
 	Base uint64 `json:"base"`
 	Word uint64 `json:"word"`
 }
 
-// newCppDECGenesisSpec converts a go-DEC genesis block into a Parity specific
+// newCppDEWHGenesisSpec converts a go-DEWH genesis block into a Parity specific
 // chain specification format.
-func newCppDECGenesisSpec(network string, genesis *core.Genesis) (*cppDECGenesisSpec, error) {
-	// Only ethash is currently supported between go-DEC and cpp-DEC
+func newCppDEWHGenesisSpec(network string, genesis *core.Genesis) (*cppDEWHGenesisSpec, error) {
+	// Only ethash is currently supported between go-DEWH and cpp-DEWH
 	if genesis.Config.Ethash == nil {
 		return nil, errors.New("unsupported consensus engine")
 	}
 	// Reconstruct the chain spec in Parity's format
-	spec := &cppDECGenesisSpec{
+	spec := &cppDEWHGenesisSpec{
 		SealEngine: "Ethash",
 	}
 	spec.Params.AccountStartNonce = 0
@@ -126,36 +126,36 @@ func newCppDECGenesisSpec(network string, genesis *core.Genesis) (*cppDECGenesis
 	spec.Genesis.ExtraData = (hexutil.Bytes)(genesis.ExtraData)
 	spec.Genesis.GasLimit = (hexutil.Uint64)(genesis.GasLimit)
 
-	spec.Accounts = make(map[common.Address]*cppDECGenesisSpecAccount)
+	spec.Accounts = make(map[common.Address]*cppDEWHGenesisSpecAccount)
 	for address, account := range genesis.Alloc {
-		spec.Accounts[address] = &cppDECGenesisSpecAccount{
+		spec.Accounts[address] = &cppDEWHGenesisSpecAccount{
 			Balance: (*hexutil.Big)(account.Balance),
 			Nonce:   account.Nonce,
 		}
 	}
-	spec.Accounts[common.BytesToAddress([]byte{1})].Precompiled = &cppDECGenesisSpecBuiltin{
-		Name: "ecrecover", Linear: &cppDECGenesisSpecLinearPricing{Base: 3000},
+	spec.Accounts[common.BytesToAddress([]byte{1})].Precompiled = &cppDEWHGenesisSpecBuiltin{
+		Name: "ecrecover", Linear: &cppDEWHGenesisSpecLinearPricing{Base: 3000},
 	}
-	spec.Accounts[common.BytesToAddress([]byte{2})].Precompiled = &cppDECGenesisSpecBuiltin{
-		Name: "sha256", Linear: &cppDECGenesisSpecLinearPricing{Base: 60, Word: 12},
+	spec.Accounts[common.BytesToAddress([]byte{2})].Precompiled = &cppDEWHGenesisSpecBuiltin{
+		Name: "sha256", Linear: &cppDEWHGenesisSpecLinearPricing{Base: 60, Word: 12},
 	}
-	spec.Accounts[common.BytesToAddress([]byte{3})].Precompiled = &cppDECGenesisSpecBuiltin{
-		Name: "ripemd160", Linear: &cppDECGenesisSpecLinearPricing{Base: 600, Word: 120},
+	spec.Accounts[common.BytesToAddress([]byte{3})].Precompiled = &cppDEWHGenesisSpecBuiltin{
+		Name: "ripemd160", Linear: &cppDEWHGenesisSpecLinearPricing{Base: 600, Word: 120},
 	}
-	spec.Accounts[common.BytesToAddress([]byte{4})].Precompiled = &cppDECGenesisSpecBuiltin{
-		Name: "identity", Linear: &cppDECGenesisSpecLinearPricing{Base: 15, Word: 3},
+	spec.Accounts[common.BytesToAddress([]byte{4})].Precompiled = &cppDEWHGenesisSpecBuiltin{
+		Name: "identity", Linear: &cppDEWHGenesisSpecLinearPricing{Base: 15, Word: 3},
 	}
 	if genesis.Config.ByzantiumBlock != nil {
-		spec.Accounts[common.BytesToAddress([]byte{5})].Precompiled = &cppDECGenesisSpecBuiltin{
+		spec.Accounts[common.BytesToAddress([]byte{5})].Precompiled = &cppDEWHGenesisSpecBuiltin{
 			Name: "modexp", StartingBlock: (hexutil.Uint64)(genesis.Config.ByzantiumBlock.Uint64()),
 		}
-		spec.Accounts[common.BytesToAddress([]byte{6})].Precompiled = &cppDECGenesisSpecBuiltin{
-			Name: "alt_bn128_G1_add", StartingBlock: (hexutil.Uint64)(genesis.Config.ByzantiumBlock.Uint64()), Linear: &cppDECGenesisSpecLinearPricing{Base: 500},
+		spec.Accounts[common.BytesToAddress([]byte{6})].Precompiled = &cppDEWHGenesisSpecBuiltin{
+			Name: "alt_bn128_G1_add", StartingBlock: (hexutil.Uint64)(genesis.Config.ByzantiumBlock.Uint64()), Linear: &cppDEWHGenesisSpecLinearPricing{Base: 500},
 		}
-		spec.Accounts[common.BytesToAddress([]byte{7})].Precompiled = &cppDECGenesisSpecBuiltin{
-			Name: "alt_bn128_G1_mul", StartingBlock: (hexutil.Uint64)(genesis.Config.ByzantiumBlock.Uint64()), Linear: &cppDECGenesisSpecLinearPricing{Base: 40000},
+		spec.Accounts[common.BytesToAddress([]byte{7})].Precompiled = &cppDEWHGenesisSpecBuiltin{
+			Name: "alt_bn128_G1_mul", StartingBlock: (hexutil.Uint64)(genesis.Config.ByzantiumBlock.Uint64()), Linear: &cppDEWHGenesisSpecLinearPricing{Base: 40000},
 		}
-		spec.Accounts[common.BytesToAddress([]byte{8})].Precompiled = &cppDECGenesisSpecBuiltin{
+		spec.Accounts[common.BytesToAddress([]byte{8})].Precompiled = &cppDEWHGenesisSpecBuiltin{
 			Name: "alt_bn128_pairing_product", StartingBlock: (hexutil.Uint64)(genesis.Config.ByzantiumBlock.Uint64()),
 		}
 	}
@@ -201,10 +201,10 @@ type parityChainSpec struct {
 
 	Genesis struct {
 		Seal struct {
-			DEC struct {
+			DEWH struct {
 				Nonce   hexutil.Bytes `json:"nonce"`
 				MixHash hexutil.Bytes `json:"mixHash"`
-			} `json:"DEC"`
+			} `json:"DEWH"`
 		} `json:"seal"`
 
 		Difficulty *hexutil.Big   `json:"difficulty"`
@@ -256,10 +256,10 @@ type parityChainSpecAltBnPairingPricing struct {
 	Pair uint64 `json:"pair"`
 }
 
-// newParityChainSpec converts a go-DEC genesis block into a Parity specific
+// newParityChainSpec converts a go-DEWH genesis block into a Parity specific
 // chain specification format.
 func newParityChainSpec(network string, genesis *core.Genesis, bootnodes []string) (*parityChainSpec, error) {
-	// Only ethash is currently supported between go-DEC and Parity
+	// Only ethash is currently supported between go-DEWH and Parity
 	if genesis.Config.Ethash == nil {
 		return nil, errors.New("unsupported consensus engine")
 	}
@@ -294,10 +294,10 @@ func newParityChainSpec(network string, genesis *core.Genesis, bootnodes []strin
 	spec.Params.EIP214Transition = genesis.Config.ByzantiumBlock.Uint64()
 	spec.Params.EIP658Transition = genesis.Config.ByzantiumBlock.Uint64()
 
-	spec.Genesis.Seal.DEC.Nonce = (hexutil.Bytes)(make([]byte, 8))
-	binary.LittleEndian.PutUint64(spec.Genesis.Seal.DEC.Nonce[:], genesis.Nonce)
+	spec.Genesis.Seal.DEWH.Nonce = (hexutil.Bytes)(make([]byte, 8))
+	binary.LittleEndian.PutUint64(spec.Genesis.Seal.DEWH.Nonce[:], genesis.Nonce)
 
-	spec.Genesis.Seal.DEC.MixHash = (hexutil.Bytes)(genesis.Mixhash[:])
+	spec.Genesis.Seal.DEWH.MixHash = (hexutil.Bytes)(genesis.Mixhash[:])
 	spec.Genesis.Difficulty = (*hexutil.Big)(genesis.Difficulty)
 	spec.Genesis.Author = genesis.Coinbase
 	spec.Genesis.Timestamp = (hexutil.Uint64)(genesis.Timestamp)
@@ -341,9 +341,9 @@ func newParityChainSpec(network string, genesis *core.Genesis, bootnodes []strin
 	return spec, nil
 }
 
-// pyDECGenesisSpec represents the genesis specification format used by the
-// Python DEC implementation.
-type pyDECGenesisSpec struct {
+// pyDEWHGenesisSpec represents the genesis specification format used by the
+// Python DEWH implementation.
+type pyDEWHGenesisSpec struct {
 	Nonce      hexutil.Bytes     `json:"nonce"`
 	Timestamp  hexutil.Uint64    `json:"timestamp"`
 	ExtraData  hexutil.Bytes     `json:"extraData"`
@@ -355,14 +355,14 @@ type pyDECGenesisSpec struct {
 	ParentHash common.Hash       `json:"parentHash"`
 }
 
-// newPyDECGenesisSpec converts a go-DEC genesis block into a Parity specific
+// newPyDEWHGenesisSpec converts a go-DEWH genesis block into a Parity specific
 // chain specification format.
-func newPyDECGenesisSpec(network string, genesis *core.Genesis) (*pyDECGenesisSpec, error) {
-	// Only ethash is currently supported between go-DEC and pyDEC
+func newPyDEWHGenesisSpec(network string, genesis *core.Genesis) (*pyDEWHGenesisSpec, error) {
+	// Only ethash is currently supported between go-DEWH and pyDEWH
 	if genesis.Config.Ethash == nil {
 		return nil, errors.New("unsupported consensus engine")
 	}
-	spec := &pyDECGenesisSpec{
+	spec := &pyDEWHGenesisSpec{
 		Timestamp:  (hexutil.Uint64)(genesis.Timestamp),
 		ExtraData:  genesis.ExtraData,
 		GasLimit:   (hexutil.Uint64)(genesis.GasLimit),

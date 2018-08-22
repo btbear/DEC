@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package whisperv6
 
@@ -21,9 +21,9 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/log"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/log"
 )
 
 // Filter represents a Whisper message filter
@@ -152,7 +152,7 @@ func (fs *Filters) Get(id string) *Filter {
 	return fs.watchers[id]
 }
 
-// NotifyWatchers notifies any filter that has declared interest
+// NotifyWatchers notifies any filter that has DEWHlared interest
 // for the envelope's topic.
 func (fs *Filters) NotifyWatchers(env *Envelope, p2pMessage bool) {
 	var msg *ReceivedMessage
@@ -183,7 +183,7 @@ func (fs *Filters) NotifyWatchers(env *Envelope, p2pMessage bool) {
 		}
 
 		if match && msg != nil {
-			log.Trace("processing message: decrypted", "hash", env.Hash().Hex())
+			log.Trace("processing message: DEWHrypted", "hash", env.Hash().Hex())
 			if watcher.Src == nil || IsPubKeyEqual(msg.Src, watcher.Src) {
 				watcher.Trigger(msg)
 			}
@@ -225,7 +225,7 @@ func (f *Filter) Retrieve() (all []*ReceivedMessage) {
 	return all
 }
 
-// MatchMessage checks if the filter matches an already decrypted
+// MatchMessage checks if the filter matches an already DEWHrypted
 // message (i.e. a Message that has already been handled by
 // MatchEnvelope when checked by a previous filter).
 // Topics are not checked here, since this is done by topic matchers.
@@ -242,8 +242,8 @@ func (f *Filter) MatchMessage(msg *ReceivedMessage) bool {
 	return false
 }
 
-// MatchEnvelope checks if it's worth decrypting the message. If
-// it returns `true`, client code is expected to attempt decrypting
+// MatchEnvelope checks if it's worth DEWHrypting the message. If
+// it returns `true`, client code is expected to attempt DEWHrypting
 // the message and subsequently call MatchMessage.
 // Topics are not checked here, since this is done by topic matchers.
 func (f *Filter) MatchEnvelope(envelope *Envelope) bool {

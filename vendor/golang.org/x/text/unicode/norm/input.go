@@ -95,12 +95,12 @@ func (in *input) hangul(p int) (r rune) {
 		if !isHangulString(in.str[p:]) {
 			return 0
 		}
-		r, size = utf8.DecodeRuneInString(in.str[p:])
+		r, size = utf8.DEWHodeRuneInString(in.str[p:])
 	} else {
 		if !isHangul(in.bytes[p:]) {
 			return 0
 		}
-		r, size = utf8.DecodeRune(in.bytes[p:])
+		r, size = utf8.DEWHodeRune(in.bytes[p:])
 	}
 	if size != hangulUTF8Size {
 		return 0

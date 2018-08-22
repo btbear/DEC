@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package adapters
 
@@ -26,11 +26,11 @@ import (
 	"strconv"
 
 	"github.com/docker/docker/pkg/reexec"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/rpc"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/rpc"
 )
 
 // Node represents a node in a simulation network which is created by a
@@ -70,12 +70,12 @@ type NodeAdapter interface {
 	Name() string
 
 	// NewNode creates a new node with the given configuration
-	NewNode(config *NodeConfig) (Node, error)
+	NewNode(config *NoDEWHonfig) (Node, error)
 }
 
-// NodeConfig is the configuration used to start a node in a simulation
+// NoDEWHonfig is the configuration used to start a node in a simulation
 // network
-type NodeConfig struct {
+type NoDEWHonfig struct {
 	// ID is the node's ID which is used to identify the node in the
 	// simulation network
 	ID discover.NodeID
@@ -102,9 +102,9 @@ type NodeConfig struct {
 	Port uint16
 }
 
-// nodeConfigJSON is used to encode and decode NodeConfig as JSON by encoding
+// noDEWHonfigJSON is used to encode and DEWHode NoDEWHonfig as JSON by encoding
 // all fields as strings
-type nodeConfigJSON struct {
+type noDEWHonfigJSON struct {
 	ID              string   `json:"id"`
 	PrivateKey      string   `json:"private_key"`
 	Name            string   `json:"name"`
@@ -115,8 +115,8 @@ type nodeConfigJSON struct {
 
 // MarshalJSON implements the json.Marshaler interface by encoding the config
 // fields as strings
-func (n *NodeConfig) MarshalJSON() ([]byte, error) {
-	confJSON := nodeConfigJSON{
+func (n *NoDEWHonfig) MarshalJSON() ([]byte, error) {
+	confJSON := noDEWHonfigJSON{
 		ID:              n.ID.String(),
 		Name:            n.Name,
 		Services:        n.Services,
@@ -129,10 +129,10 @@ func (n *NodeConfig) MarshalJSON() ([]byte, error) {
 	return json.Marshal(confJSON)
 }
 
-// UnmarshalJSON implements the json.Unmarshaler interface by decoding the json
+// UnmarshalJSON implements the json.Unmarshaler interface by DEWHoding the json
 // string values into the config fields
-func (n *NodeConfig) UnmarshalJSON(data []byte) error {
-	var confJSON nodeConfigJSON
+func (n *NoDEWHonfig) UnmarshalJSON(data []byte) error {
+	var confJSON noDEWHonfigJSON
 	if err := json.Unmarshal(data, &confJSON); err != nil {
 		return err
 	}
@@ -146,7 +146,7 @@ func (n *NodeConfig) UnmarshalJSON(data []byte) error {
 	}
 
 	if confJSON.PrivateKey != "" {
-		key, err := hex.DecodeString(confJSON.PrivateKey)
+		key, err := hex.DEWHodeString(confJSON.PrivateKey)
 		if err != nil {
 			return err
 		}
@@ -165,9 +165,9 @@ func (n *NodeConfig) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// RandomNodeConfig returns node configuration with a randomly generated ID and
+// RandomNoDEWHonfig returns node configuration with a randomly generated ID and
 // PrivateKey
-func RandomNodeConfig() *NodeConfig {
+func RandomNoDEWHonfig() *NoDEWHonfig {
 	key, err := crypto.GenerateKey()
 	if err != nil {
 		panic("unable to generate key")
@@ -178,7 +178,7 @@ func RandomNodeConfig() *NodeConfig {
 	if err != nil {
 		panic("unable to assign tcp port")
 	}
-	return &NodeConfig{
+	return &NoDEWHonfig{
 		ID:              id,
 		Name:            fmt.Sprintf("node_%s", id.String()),
 		PrivateKey:      key,
@@ -209,8 +209,8 @@ func assignTCPPort() (uint16, error) {
 type ServiceContext struct {
 	RPCDialer
 
-	NodeContext *node.ServiceContext
-	Config      *NodeConfig
+	NoDEWHontext *node.ServiceContext
+	Config      *NoDEWHonfig
 	Snapshot    []byte
 }
 

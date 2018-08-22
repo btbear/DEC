@@ -1,18 +1,18 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
@@ -25,20 +25,20 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/common/math"
-	"github.com/DEC/go-DEC/core/rawdb"
-	"github.com/DEC/go-DEC/core/state"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/params"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/common/math"
+	"github.com/DEWH/go-DEWH/core/rawdb"
+	"github.com/DEWH/go-DEWH/core/state"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/params"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
-//go:generate gencodec -type Genesis -field-override genesisSpecMarshaling -out gen_genesis.go
-//go:generate gencodec -type GenesisAccount -field-override genesisAccountMarshaling -out gen_genesis_account.go
+//go:generate gencoDEWH -type Genesis -field-override genesisSpecMarshaling -out gen_genesis.go
+//go:generate gencoDEWH -type GenesisAccount -field-override genesisAccountMarshaling -out gen_genesis_account.go
 
 var errGenesisNoConfig = errors.New("genesis has no chain configuration")
 
@@ -49,11 +49,11 @@ type Genesis struct {
 	Nonce      uint64              `json:"nonce"`
 	Timestamp  uint64              `json:"timestamp"`
 	ExtraData  []byte              `json:"extraData"`
-	GasLimit   uint64              `json:"gasLimit"   gencodec:"required"`
-	Difficulty *big.Int            `json:"difficulty" gencodec:"required"`
+	GasLimit   uint64              `json:"gasLimit"   gencoDEWH:"required"`
+	Difficulty *big.Int            `json:"difficulty" gencoDEWH:"required"`
 	Mixhash    common.Hash         `json:"mixHash"`
 	Coinbase   common.Address      `json:"coinbase"`
-	Alloc      GenesisAlloc        `json:"alloc"      gencodec:"required"`
+	Alloc      GenesisAlloc        `json:"alloc"      gencoDEWH:"required"`
 
 	// These fields are used for consensus tests. Please don't use them
 	// in actual genesis blocks.
@@ -81,27 +81,27 @@ func (ga *GenesisAlloc) UnmarshalJSON(data []byte) error {
 type GenesisAccount struct {
 	Code       []byte                      `json:"code,omitempty"`
 	Storage    map[common.Hash]common.Hash `json:"storage,omitempty"`
-	Balance    *big.Int                    `json:"balance" gencodec:"required"`
+	Balance    *big.Int                    `json:"balance" gencoDEWH:"required"`
 	Nonce      uint64                      `json:"nonce,omitempty"`
 	PrivateKey []byte                      `json:"secretKey,omitempty"` // for tests
 }
 
-// field type overrides for gencodec
+// field type overrides for gencoDEWH
 type genesisSpecMarshaling struct {
-	Nonce      math.HexOrDecimal64
-	Timestamp  math.HexOrDecimal64
+	Nonce      math.HexOrDEWHimal64
+	Timestamp  math.HexOrDEWHimal64
 	ExtraData  hexutil.Bytes
-	GasLimit   math.HexOrDecimal64
-	GasUsed    math.HexOrDecimal64
-	Number     math.HexOrDecimal64
-	Difficulty *math.HexOrDecimal256
+	GasLimit   math.HexOrDEWHimal64
+	GasUsed    math.HexOrDEWHimal64
+	Number     math.HexOrDEWHimal64
+	Difficulty *math.HexOrDEWHimal256
 	Alloc      map[common.UnprefixedAddress]GenesisAccount
 }
 
 type genesisAccountMarshaling struct {
 	Code       hexutil.Bytes
-	Balance    *math.HexOrDecimal256
-	Nonce      math.HexOrDecimal64
+	Balance    *math.HexOrDEWHimal256
+	Nonce      math.HexOrDEWHimal64
 	Storage    map[storageJSON]storageJSON
 	PrivateKey hexutil.Bytes
 }
@@ -116,7 +116,7 @@ func (h *storageJSON) UnmarshalText(text []byte) error {
 		return fmt.Errorf("too many hex characters in storage key/value %q", text)
 	}
 	offset := len(h) - len(text)/2 // pad on the left
-	if _, err := hex.Decode(h[offset:], text); err != nil {
+	if _, err := hex.DEWHode(h[offset:], text); err != nil {
 		fmt.Println(err)
 		return fmt.Errorf("invalid hex storage key/value %q", text)
 	}
@@ -297,15 +297,15 @@ func GenesisBlockForTesting(db ethdb.Database, addr common.Address, balance *big
 	return g.MustCommit(db)
 }
 
-// DefaultGenesisBlock returns the DEC main net genesis block.
+// DefaultGenesisBlock returns the DEWH main net genesis block.
 func DefaultGenesisBlock() *Genesis {
 	return &Genesis{
 		Config:     params.MainnetChainConfig,
 		Nonce:      66,
-		ExtraData:  hexutil.MustDecode("0x11bbe8db4e347b4e8c937c1c8370e4b5ed33adb3db69cbdb7a38e1e50b1b82fa"),
+		ExtraData:  hexutil.MustDEWHode("0x11bbe8db4e347b4e8c937c1c8370e4b5ed33adb3db69cbdb7a38e1e50b1b82fa"),
 		GasLimit:   5000,
 		Difficulty: big.NewInt(17179869184),
-		Alloc:      decodePrealloc(mainnetAllocData),
+		Alloc:      DEWHodePrealloc(mainnetAllocData),
 	}
 }
 
@@ -314,10 +314,10 @@ func DefaultTestnetGenesisBlock() *Genesis {
 	return &Genesis{
 		Config:     params.TestnetChainConfig,
 		Nonce:      66,
-		ExtraData:  hexutil.MustDecode("0x3535353535353535353535353535353535353535353535353535353535353535"),
+		ExtraData:  hexutil.MustDEWHode("0x3535353535353535353535353535353535353535353535353535353535353535"),
 		GasLimit:   16777216,
 		Difficulty: big.NewInt(1048576),
-		Alloc:      decodePrealloc(testnetAllocData),
+		Alloc:      DEWHodePrealloc(testnetAllocData),
 	}
 }
 
@@ -326,10 +326,10 @@ func DefaultRinkebyGenesisBlock() *Genesis {
 	return &Genesis{
 		Config:     params.RinkebyChainConfig,
 		Timestamp:  1492009146,
-		ExtraData:  hexutil.MustDecode("0x52657370656374206d7920617574686f7269746168207e452e436172746d616e42eb768f2244c8811c63729a21a3569731535f067ffc57839b00206d1ad20c69a1981b489f772031b279182d99e65703f0076e4812653aab85fca0f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+		ExtraData:  hexutil.MustDEWHode("0x52657370656374206d7920617574686f7269746168207e452e436172746d616e42eb768f2244c8811c63729a21a3569731535f067ffc57839b00206d1ad20c69a1981b489f772031b279182d99e65703f0076e4812653aab85fca0f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
 		GasLimit:   4700000,
 		Difficulty: big.NewInt(1),
-		Alloc:      decodePrealloc(rinkebyAllocData),
+		Alloc:      DEWHodePrealloc(rinkebyAllocData),
 	}
 }
 
@@ -360,9 +360,9 @@ func DeveloperGenesisBlock(period uint64, faucet common.Address) *Genesis {
 	}
 }
 
-func decodePrealloc(data string) GenesisAlloc {
+func DEWHodePrealloc(data string) GenesisAlloc {
 	var p []struct{ Addr, Balance *big.Int }
-	if err := rlp.NewStream(strings.NewReader(data), 0).Decode(&p); err != nil {
+	if err := rlp.NewStream(strings.NewReader(data), 0).DEWHode(&p); err != nil {
 		panic(err)
 	}
 	ga := make(GenesisAlloc, len(p))

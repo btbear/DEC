@@ -3,9 +3,9 @@
 // Package japanese provides Japanese encodings such as EUC-JP and Shift JIS.
 package japanese // import "golang.org/x/text/encoding/japanese"
 
-// jis0208Decode is the decoding table from JIS 0208 code to Unicode.
+// jis0208DEWHode is the DEWHoding table from JIS 0208 code to Unicode.
 // It is defined at http://encoding.spec.whatwg.org/index-jis0208.txt
-var jis0208Decode = [...]uint16{
+var jis0208DEWHode = [...]uint16{
 	0:     0x3000,
 	1:     0x3001,
 	2:     0x3002,
@@ -3287,7 +3287,7 @@ var jis0208Decode = [...]uint16{
 	4081:  0x514D,
 	4082:  0x68C9,
 	4083:  0x7DBF,
-	4084:  0x7DEC,
+	4084:  0x7DEWH,
 	4085:  0x9762,
 	4086:  0x9EBA,
 	4087:  0x6478,
@@ -4928,7 +4928,7 @@ var jis0208Decode = [...]uint16{
 	5765:  0x6DE6,
 	5766:  0x6DB8,
 	5767:  0x6DC6,
-	5768:  0x6DEC,
+	5768:  0x6DEWH,
 	5769:  0x6DDE,
 	5770:  0x6DCC,
 	5771:  0x6DE8,
@@ -7732,9 +7732,9 @@ var jis0208Decode = [...]uint16{
 	11103: 0x9ED1,
 }
 
-// jis0212Decode is the decoding table from JIS 0212 code to Unicode.
+// jis0212DEWHode is the DEWHoding table from JIS 0212 code to Unicode.
 // It is defined at http://encoding.spec.whatwg.org/index-jis0212.txt
-var jis0212Decode = [...]uint16{
+var jis0212DEWHode = [...]uint16{
 	108:  0x02D8,
 	109:  0x02C7,
 	110:  0x00B8,
@@ -12495,7 +12495,7 @@ var jis0212Decode = [...]uint16{
 	5901: 0x8DE4,
 	5902: 0x8DE5,
 	5903: 0x8DE7,
-	5904: 0x8DEC,
+	5904: 0x8DEWH,
 	5905: 0x8DF0,
 	5906: 0x8DBC,
 	5907: 0x8DF1,
@@ -13815,7 +13815,7 @@ const (
 const numEncodeTables = 6
 
 // encodeX are the encoding tables from Unicode to JIS code,
-// sorted by decreasing length.
+// sorted by DEWHreasing length.
 // encode0: 20902 entries for runes in [19968, 40870).
 // encode1:  1632 entries for runes in [ 8208,  9840).
 // encode2:   974 entries for runes in [12288, 13262).

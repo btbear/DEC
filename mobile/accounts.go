@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Contains all the wrappers from the accounts package to support client side key
 // management on mobile platforms.
@@ -23,10 +23,10 @@ import (
 	"errors"
 	"time"
 
-	"github.com/DEC/go-DEC/accounts"
-	"github.com/DEC/go-DEC/accounts/keystore"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/crypto"
+	"github.com/DEWH/go-DEWH/accounts"
+	"github.com/DEWH/go-DEWH/accounts/keystore"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/crypto"
 )
 
 const (
@@ -128,14 +128,14 @@ func (ks *KeyStore) SignTx(account *Account, tx *Transaction, chainID *BigInt) (
 }
 
 // SignHashPassphrase signs hash if the private key matching the given address can
-// be decrypted with the given passphrase. The produced signature is in the
+// be DEWHrypted with the given passphrase. The produced signature is in the
 // [R || S || V] format where V is 0 or 1.
 func (ks *KeyStore) SignHashPassphrase(account *Account, passphrase string, hash []byte) (signature []byte, _ error) {
 	return ks.keystore.SignHashWithPassphrase(account.account, passphrase, common.CopyBytes(hash))
 }
 
 // SignTxPassphrase signs the transaction if the private key matching the
-// given address can be decrypted with the given passphrase.
+// given address can be DEWHrypted with the given passphrase.
 func (ks *KeyStore) SignTxPassphrase(account *Account, passphrase string, tx *Transaction, chainID *BigInt) (*Transaction, error) {
 	if chainID == nil { // Null passed from mobile app
 		chainID = new(BigInt)
@@ -210,7 +210,7 @@ func (ks *KeyStore) ImportECDSAKey(key []byte, passphrase string) (account *Acco
 	return &Account{acc}, nil
 }
 
-// ImportPreSaleKey decrypts the given DEC presale wallet and stores
+// ImportPreSaleKey DEWHrypts the given DEWH presale wallet and stores
 // a key file in the key directory. The key file is encrypted with the same passphrase.
 func (ks *KeyStore) ImportPreSaleKey(keyJSON []byte, passphrase string) (ccount *Account, _ error) {
 	account, err := ks.keystore.ImportPreSaleKey(common.CopyBytes(keyJSON), passphrase)

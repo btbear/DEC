@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -21,9 +21,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/DEC/go-DEC/accounts/keystore"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/log"
+	"github.com/DEWH/go-DEWH/accounts/keystore"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/log"
 )
 
 // deployNode creates a new node configuration based on some user input.
@@ -121,7 +121,7 @@ func (w *wizard) deployNode(boot bool) {
 		} else if w.conf.Genesis.Config.Clique != nil {
 			// If a previous signer was already set, offer to reuse it
 			if infos.keyJSON != "" {
-				if key, err := keystore.DecryptKey([]byte(infos.keyJSON), infos.keyPass); err != nil {
+				if key, err := keystore.DEWHryptKey([]byte(infos.keyJSON), infos.keyPass); err != nil {
 					infos.keyJSON, infos.keyPass = "", ""
 				} else {
 					fmt.Println()
@@ -141,8 +141,8 @@ func (w *wizard) deployNode(boot bool) {
 				fmt.Println("What's the unlock password for the account? (won't be echoed)")
 				infos.keyPass = w.readPassword()
 
-				if _, err := keystore.DecryptKey([]byte(infos.keyJSON), infos.keyPass); err != nil {
-					log.Error("Failed to decrypt key with given passphrase")
+				if _, err := keystore.DEWHryptKey([]byte(infos.keyJSON), infos.keyPass); err != nil {
+					log.Error("Failed to DEWHrypt key with given passphrase")
 					return
 				}
 			}
@@ -164,7 +164,7 @@ func (w *wizard) deployNode(boot bool) {
 		nocache = w.readDefaultString("n") != "n"
 	}
 	if out, err := deployNode(client, w.network, w.conf.bootnodes, infos, nocache); err != nil {
-		log.Error("Failed to deploy DEC node container", "err", err)
+		log.Error("Failed to deploy DEWH node container", "err", err)
 		if len(out) > 0 {
 			fmt.Printf("%s\n", out)
 		}

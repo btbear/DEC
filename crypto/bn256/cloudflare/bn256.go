@@ -2,7 +2,7 @@
 // level.
 //
 // Bilinear groups are the basis of many of the new cryptographic protocols that
-// have been proposed over the past decade. They consist of a triplet of groups
+// have been proposed over the past DEWHade. They consist of a triplet of groups
 // (G₁, G₂ and GT) such that there exists a function e(g₁ˣ,g₂ʸ)=gTˣʸ (where gₓ
 // is a generator of the respective group). That function is called a pairing
 // function.
@@ -107,9 +107,9 @@ func (e *G1) Marshal() []byte {
 	}
 	temp := &gfP{}
 
-	montDecode(temp, &e.p.x)
+	montDEWHode(temp, &e.p.x)
 	temp.Marshal(ret)
-	montDecode(temp, &e.p.y)
+	montDEWHode(temp, &e.p.y)
 	temp.Marshal(ret[numBytes:])
 
 	return ret
@@ -239,13 +239,13 @@ func (e *G2) Marshal() []byte {
 	}
 	temp := &gfP{}
 
-	montDecode(temp, &e.p.x.x)
+	montDEWHode(temp, &e.p.x.x)
 	temp.Marshal(ret)
-	montDecode(temp, &e.p.x.y)
+	montDEWHode(temp, &e.p.x.y)
 	temp.Marshal(ret[numBytes:])
-	montDecode(temp, &e.p.y.x)
+	montDEWHode(temp, &e.p.y.x)
 	temp.Marshal(ret[2*numBytes:])
-	montDecode(temp, &e.p.y.y)
+	montDEWHode(temp, &e.p.y.y)
 	temp.Marshal(ret[3*numBytes:])
 
 	return ret
@@ -385,29 +385,29 @@ func (e *GT) Marshal() []byte {
 	ret := make([]byte, numBytes*12)
 	temp := &gfP{}
 
-	montDecode(temp, &e.p.x.x.x)
+	montDEWHode(temp, &e.p.x.x.x)
 	temp.Marshal(ret)
-	montDecode(temp, &e.p.x.x.y)
+	montDEWHode(temp, &e.p.x.x.y)
 	temp.Marshal(ret[numBytes:])
-	montDecode(temp, &e.p.x.y.x)
+	montDEWHode(temp, &e.p.x.y.x)
 	temp.Marshal(ret[2*numBytes:])
-	montDecode(temp, &e.p.x.y.y)
+	montDEWHode(temp, &e.p.x.y.y)
 	temp.Marshal(ret[3*numBytes:])
-	montDecode(temp, &e.p.x.z.x)
+	montDEWHode(temp, &e.p.x.z.x)
 	temp.Marshal(ret[4*numBytes:])
-	montDecode(temp, &e.p.x.z.y)
+	montDEWHode(temp, &e.p.x.z.y)
 	temp.Marshal(ret[5*numBytes:])
-	montDecode(temp, &e.p.y.x.x)
+	montDEWHode(temp, &e.p.y.x.x)
 	temp.Marshal(ret[6*numBytes:])
-	montDecode(temp, &e.p.y.x.y)
+	montDEWHode(temp, &e.p.y.x.y)
 	temp.Marshal(ret[7*numBytes:])
-	montDecode(temp, &e.p.y.y.x)
+	montDEWHode(temp, &e.p.y.y.x)
 	temp.Marshal(ret[8*numBytes:])
-	montDecode(temp, &e.p.y.y.y)
+	montDEWHode(temp, &e.p.y.y.y)
 	temp.Marshal(ret[9*numBytes:])
-	montDecode(temp, &e.p.y.z.x)
+	montDEWHode(temp, &e.p.y.z.x)
 	temp.Marshal(ret[10*numBytes:])
-	montDecode(temp, &e.p.y.z.y)
+	montDEWHode(temp, &e.p.y.z.y)
 	temp.Marshal(ret[11*numBytes:])
 
 	return ret

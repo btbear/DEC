@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package adapters
 
@@ -35,11 +35,11 @@ import (
 	"time"
 
 	"github.com/docker/docker/pkg/reexec"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/rpc"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/rpc"
 	"golang.org/x/net/websocket"
 )
 
@@ -72,7 +72,7 @@ func (e *ExecAdapter) Name() string {
 }
 
 // NewNode returns a new ExecNode using the given config
-func (e *ExecAdapter) NewNode(config *NodeConfig) (Node, error) {
+func (e *ExecAdapter) NewNode(config *NoDEWHonfig) (Node, error) {
 	if len(config.Services) == 0 {
 		return nil, errors.New("node must have at least one service")
 	}
@@ -90,7 +90,7 @@ func (e *ExecAdapter) NewNode(config *NodeConfig) (Node, error) {
 	}
 
 	// generate the config
-	conf := &execNodeConfig{
+	conf := &execNoDEWHonfig{
 		Stack: node.DefaultConfig,
 		Node:  config,
 	}
@@ -105,7 +105,7 @@ func (e *ExecAdapter) NewNode(config *NodeConfig) (Node, error) {
 	conf.Stack.NoUSB = true
 
 	// listen on a localhost port, which we set when we
-	// initialise NodeConfig (usually a random port)
+	// initialise NoDEWHonfig (usually a random port)
 	conf.Stack.P2P.ListenAddr = fmt.Sprintf(":%d", config.Port)
 
 	node := &ExecNode{
@@ -124,7 +124,7 @@ func (e *ExecAdapter) NewNode(config *NodeConfig) (Node, error) {
 type ExecNode struct {
 	ID     discover.NodeID
 	Dir    string
-	Config *execNodeConfig
+	Config *execNoDEWHonfig
 	Cmd    *exec.Cmd
 	Info   *p2p.NodeInfo
 
@@ -324,11 +324,11 @@ func init() {
 	reexec.Register("p2p-node", execP2PNode)
 }
 
-// execNodeConfig is used to serialize the node configuration so it can be
+// execNoDEWHonfig is used to serialize the node configuration so it can be
 // passed to the child process as a JSON encoded environment variable
-type execNodeConfig struct {
+type execNoDEWHonfig struct {
 	Stack     node.Config       `json:"stack"`
-	Node      *NodeConfig       `json:"node"`
+	Node      *NoDEWHonfig       `json:"node"`
 	Snapshots map[string][]byte `json:"snapshots,omitempty"`
 	PeerAddrs map[string]string `json:"peer_addrs,omitempty"`
 }
@@ -359,14 +359,14 @@ func execP2PNode() {
 	// read the services from argv
 	serviceNames := strings.Split(os.Args[1], ",")
 
-	// decode the config
+	// DEWHode the config
 	confEnv := os.Getenv("_P2P_NODE_CONFIG")
 	if confEnv == "" {
 		log.Crit("missing _P2P_NODE_CONFIG")
 	}
-	var conf execNodeConfig
+	var conf execNoDEWHonfig
 	if err := json.Unmarshal([]byte(confEnv), &conf); err != nil {
-		log.Crit("error decoding _P2P_NODE_CONFIG", "err", err)
+		log.Crit("error DEWHoding _P2P_NODE_CONFIG", "err", err)
 	}
 	conf.Stack.P2P.PrivateKey = conf.Node.PrivateKey
 	conf.Stack.Logger = log.New("node.id", conf.Node.ID.String())
@@ -392,10 +392,10 @@ func execP2PNode() {
 		if !exists {
 			log.Crit("unknown node service", "name", name)
 		}
-		constructor := func(nodeCtx *node.ServiceContext) (node.Service, error) {
+		constructor := func(noDEWHtx *node.ServiceContext) (node.Service, error) {
 			ctx := &ServiceContext{
 				RPCDialer:   &wsRPCDialer{addrs: conf.PeerAddrs},
-				NodeContext: nodeCtx,
+				NoDEWHontext: noDEWHtx,
 				Config:      conf.Node,
 			}
 			if conf.Snapshots != nil {

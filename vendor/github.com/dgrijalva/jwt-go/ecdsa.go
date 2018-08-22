@@ -14,7 +14,7 @@ var (
 )
 
 // Implements the ECDSA family of signing methods signing methods
-type SigningMethodECDSA struct {
+type SigningMethoDEWHDSA struct {
 	Name      string
 	Hash      crypto.Hash
 	KeySize   int
@@ -23,43 +23,43 @@ type SigningMethodECDSA struct {
 
 // Specific instances for EC256 and company
 var (
-	SigningMethodES256 *SigningMethodECDSA
-	SigningMethodES384 *SigningMethodECDSA
-	SigningMethodES512 *SigningMethodECDSA
+	SigningMethodES256 *SigningMethoDEWHDSA
+	SigningMethodES384 *SigningMethoDEWHDSA
+	SigningMethodES512 *SigningMethoDEWHDSA
 )
 
 func init() {
 	// ES256
-	SigningMethodES256 = &SigningMethodECDSA{"ES256", crypto.SHA256, 32, 256}
+	SigningMethodES256 = &SigningMethoDEWHDSA{"ES256", crypto.SHA256, 32, 256}
 	RegisterSigningMethod(SigningMethodES256.Alg(), func() SigningMethod {
 		return SigningMethodES256
 	})
 
 	// ES384
-	SigningMethodES384 = &SigningMethodECDSA{"ES384", crypto.SHA384, 48, 384}
+	SigningMethodES384 = &SigningMethoDEWHDSA{"ES384", crypto.SHA384, 48, 384}
 	RegisterSigningMethod(SigningMethodES384.Alg(), func() SigningMethod {
 		return SigningMethodES384
 	})
 
 	// ES512
-	SigningMethodES512 = &SigningMethodECDSA{"ES512", crypto.SHA512, 66, 521}
+	SigningMethodES512 = &SigningMethoDEWHDSA{"ES512", crypto.SHA512, 66, 521}
 	RegisterSigningMethod(SigningMethodES512.Alg(), func() SigningMethod {
 		return SigningMethodES512
 	})
 }
 
-func (m *SigningMethodECDSA) Alg() string {
+func (m *SigningMethoDEWHDSA) Alg() string {
 	return m.Name
 }
 
 // Implements the Verify method from SigningMethod
 // For this verify method, key must be an ecdsa.PublicKey struct
-func (m *SigningMethodECDSA) Verify(signingString, signature string, key interface{}) error {
+func (m *SigningMethoDEWHDSA) Verify(signingString, signature string, key interface{}) error {
 	var err error
 
-	// Decode the signature
+	// DEWHode the signature
 	var sig []byte
-	if sig, err = DecodeSegment(signature); err != nil {
+	if sig, err = DEWHodeSegment(signature); err != nil {
 		return err
 	}
 
@@ -96,7 +96,7 @@ func (m *SigningMethodECDSA) Verify(signingString, signature string, key interfa
 
 // Implements the Sign method from SigningMethod
 // For this signing method, key must be an ecdsa.PrivateKey struct
-func (m *SigningMethodECDSA) Sign(signingString string, key interface{}) (string, error) {
+func (m *SigningMethoDEWHDSA) Sign(signingString string, key interface{}) (string, error) {
 	// Get the key
 	var ecdsaKey *ecdsa.PrivateKey
 	switch k := key.(type) {

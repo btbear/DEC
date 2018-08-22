@@ -73,9 +73,9 @@ func init() {
 func (m *SigningMethodRSAPSS) Verify(signingString, signature string, key interface{}) error {
 	var err error
 
-	// Decode the signature
+	// DEWHode the signature
 	var sig []byte
-	if sig, err = DecodeSegment(signature); err != nil {
+	if sig, err = DEWHodeSegment(signature); err != nil {
 		return err
 	}
 

@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/DEC/go-DEC/metrics"
+	"github.com/DEWH/go-DEWH/metrics"
 )
 
 // a regexp for extracting the unit from time.Duration.String

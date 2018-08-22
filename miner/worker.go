@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package miner
 
@@ -24,18 +24,18 @@ import (
 	"sync/atomic"
 	"time"
 
-	mapset "github.com/deckarep/golang-set"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/consensus"
-	"github.com/DEC/go-DEC/consensus/misc"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/core/state"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/core/vm"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/event"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/params"
+	mapset "github.com/DEWHkarep/golang-set"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/consensus"
+	"github.com/DEWH/go-DEWH/consensus/misc"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/core/state"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/core/vm"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/event"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/params"
 )
 
 const (
@@ -47,8 +47,8 @@ const (
 	txChanSize = 4096
 	// chainHeadChanSize is the size of channel listening to ChainHeadEvent.
 	chainHeadChanSize = 10
-	// chainSideChanSize is the size of channel listening to ChainSideEvent.
-	chainSideChanSize = 10
+	// chainSiDEWHhanSize is the size of channel listening to ChainSideEvent.
+	chainSiDEWHhanSize = 10
 )
 
 // Agent can register themself with the worker
@@ -100,7 +100,7 @@ type worker struct {
 	txsSub       event.Subscription
 	chainHeadCh  chan core.ChainHeadEvent
 	chainHeadSub event.Subscription
-	chainSideCh  chan core.ChainSideEvent
+	chainSiDEWHh  chan core.ChainSideEvent
 	chainSideSub event.Subscription
 	wg           sync.WaitGroup
 
@@ -140,7 +140,7 @@ func newWorker(config *params.ChainConfig, engine consensus.Engine, coinbase com
 		mux:            mux,
 		txsCh:          make(chan core.NewTxsEvent, txChanSize),
 		chainHeadCh:    make(chan core.ChainHeadEvent, chainHeadChanSize),
-		chainSideCh:    make(chan core.ChainSideEvent, chainSideChanSize),
+		chainSiDEWHh:    make(chan core.ChainSideEvent, chainSiDEWHhanSize),
 		chainDb:        eth.ChainDb(),
 		recv:           make(chan *Result, resultQueueSize),
 		chain:          eth.BlockChain(),
@@ -154,7 +154,7 @@ func newWorker(config *params.ChainConfig, engine consensus.Engine, coinbase com
 	worker.txsSub = eth.TxPool().SubscribeNewTxsEvent(worker.txsCh)
 	// Subscribe events for blockchain
 	worker.chainHeadSub = eth.BlockChain().SubscribeChainHeadEvent(worker.chainHeadCh)
-	worker.chainSideSub = eth.BlockChain().SubscribeChainSideEvent(worker.chainSideCh)
+	worker.chainSideSub = eth.BlockChain().SubscribeChainSideEvent(worker.chainSiDEWHh)
 	go worker.update()
 
 	go worker.wait()
@@ -254,7 +254,7 @@ func (self *worker) update() {
 			self.commitNewWork()
 
 		// Handle ChainSideEvent
-		case ev := <-self.chainSideCh:
+		case ev := <-self.chainSiDEWHh:
 			self.uncleMu.Lock()
 			self.possibleUncles[ev.Block.Hash()] = ev.Block
 			self.uncleMu.Unlock()

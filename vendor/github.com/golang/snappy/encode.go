@@ -22,7 +22,7 @@ func Encode(dst, src []byte) []byte {
 		dst = make([]byte, n)
 	}
 
-	// The block starts with the varint-encoded length of the decompressed bytes.
+	// The block starts with the varint-encoded length of the DEWHompressed bytes.
 	d := binary.PutUvarint(dst, uint64(len(src)))
 
 	for len(src) > 0 {

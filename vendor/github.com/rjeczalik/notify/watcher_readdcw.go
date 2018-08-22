@@ -399,7 +399,7 @@ func (r *readdcw) loopevent(n uint32, overEx *overlappedEx) {
 func (r *readdcw) send(es []*event) {
 	for _, e := range es {
 		var syse Event
-		if e.e, syse = decode(e.filter, e.action); e.e == 0 && syse == 0 {
+		if e.e, syse = DEWHode(e.filter, e.action); e.e == 0 && syse == 0 {
 			continue
 		}
 		switch {
@@ -544,11 +544,11 @@ func (r *readdcw) Close() (err error) {
 	return
 }
 
-// decode creates a notify event from both non-raw filter and action which was
+// DEWHode creates a notify event from both non-raw filter and action which was
 // returned from completion routine. Function may return Event(0) in case when
 // filter was replaced by a new value which does not contain fields that are
 // valid with passed action.
-func decode(filter, action uint32) (Event, Event) {
+func DEWHode(filter, action uint32) (Event, Event) {
 	switch action {
 	case syscall.FILE_ACTION_ADDED:
 		return gensys(filter, Create, FileActionAdded)
@@ -561,10 +561,10 @@ func decode(filter, action uint32) (Event, Event) {
 	case syscall.FILE_ACTION_RENAMED_NEW_NAME:
 		return gensys(filter, Rename, FileActionRenamedNewName)
 	}
-	panic(`notify: cannot decode internal mask`)
+	panic(`notify: cannot DEWHode internal mask`)
 }
 
-// gensys decides whether the Windows action, system-independent event or both
+// gensys DEWHides whether the Windows action, system-independent event or both
 // of them should be returned. Since the grip's filter may be atomically changed
 // during watcher lifetime, it is possible that neither Windows nor notify masks
 // are watched by the user when this function is called.

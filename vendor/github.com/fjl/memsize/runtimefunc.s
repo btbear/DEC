@@ -1,1 +1,1 @@
-// This file is required to make stub function declarations work.
+// This file is required to make stub function DEWHlarations work.

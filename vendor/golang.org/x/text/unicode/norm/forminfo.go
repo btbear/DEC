@@ -7,17 +7,17 @@ package norm
 // This file contains Form-specific logic and wrappers for data in tables.go.
 
 // Rune info is stored in a separate trie per composing form. A composing form
-// and its corresponding decomposing form share the same trie.  Each trie maps
+// and its corresponding DEWHomposing form share the same trie.  Each trie maps
 // a rune to a uint16. The values take two forms.  For v >= 0x8000:
 //   bits
 //   15:    1 (inverse of NFD_QC bit of qcInfo)
-//   13..7: qcInfo (see below). isYesD is always true (no decompostion).
+//   13..7: qcInfo (see below). isYesD is always true (no DEWHompostion).
 //    6..0: ccc (compressed CCC value).
-// For v < 0x8000, the respective rune has a decomposition and v is an index
-// into a byte array of UTF-8 decomposition sequences and additional info and
+// For v < 0x8000, the respective rune has a DEWHomposition and v is an index
+// into a byte array of UTF-8 DEWHomposition sequences and additional info and
 // has the form:
-//    <header> <decomp_byte>* [<tccc> [<lccc>]]
-// The header contains the number of bytes in the decomposition (excluding this
+//    <header> <DEWHomp_byte>* [<tccc> [<lccc>]]
+// The header contains the number of bytes in the DEWHomposition (excluding this
 // length byte). The two most significant bits of this length byte correspond
 // to bit 5 and 4 of qcInfo (see below).  The byte sequence itself starts at v+1.
 // The byte sequence is followed by a trailing and leading CCC if the values
@@ -38,8 +38,8 @@ const (
 type Properties struct {
 	pos   uint8  // start position in reorderBuffer; used in composition.go
 	size  uint8  // length of UTF-8 encoding of this rune
-	ccc   uint8  // leading canonical combining class (ccc if not decomposition)
-	tccc  uint8  // trailing canonical combining class (ccc if not decomposition)
+	ccc   uint8  // leading canonical combining class (ccc if not DEWHomposition)
+	tccc  uint8  // trailing canonical combining class (ccc if not DEWHomposition)
 	nLead uint8  // number of leading non-starters.
 	flags qcInfo // quick check flags
 	index uint16
@@ -67,7 +67,7 @@ var formTable = []*formInfo{{
 	composing:     false,
 	compatibility: false,
 	info:          lookupInfoNFC,
-	nextMain:      nextDecomposed,
+	nextMain:      nextDEWHomposed,
 }, {
 	form:          NFKC,
 	composing:     true,
@@ -79,7 +79,7 @@ var formTable = []*formInfo{{
 	composing:     false,
 	compatibility: true,
 	info:          lookupInfoNFKC,
-	nextMain:      nextDecomposed,
+	nextMain:      nextDEWHomposed,
 }}
 
 // We do not distinguish between boundaries for NFC, NFD, etc. to avoid
@@ -94,7 +94,7 @@ func (p Properties) BoundaryBefore() bool {
 	if p.ccc == 0 && !p.combinesBackward() {
 		return true
 	}
-	// We assume that the CCC of the first character in a decomposition
+	// We assume that the CCC of the first character in a DEWHomposition
 	// is always non-zero if different from info.ccc and that we can return
 	// false at this point. This is verified by maketables.
 	return false
@@ -110,7 +110,7 @@ func (p Properties) BoundaryAfter() bool {
 // We pack quick check data in 4 bits:
 //   5:    Combines forward  (0 == false, 1 == true)
 //   4..3: NFC_QC Yes(00), No (10), or Maybe (11)
-//   2:    NFD_QC Yes (0) or No (1). No also means there is a decomposition.
+//   2:    NFD_QC Yes (0) or No (1). No also means there is a DEWHomposition.
 //   1..0: Number of trailing non-starters.
 //
 // When all 4 bits are zero, the character is inert, meaning it is never
@@ -122,7 +122,7 @@ func (p Properties) isYesD() bool { return p.flags&0x4 == 0 }
 
 func (p Properties) combinesForward() bool  { return p.flags&0x20 != 0 }
 func (p Properties) combinesBackward() bool { return p.flags&0x8 != 0 } // == isMaybe
-func (p Properties) hasDecomposition() bool { return p.flags&0x4 != 0 } // == isNoD
+func (p Properties) hasDEWHomposition() bool { return p.flags&0x4 != 0 } // == isNoD
 
 func (p Properties) isInert() bool {
 	return p.flags&qcInfoMask == 0 && p.ccc == 0
@@ -140,17 +140,17 @@ func (p Properties) nTrailingNonStarters() uint8 {
 	return uint8(p.flags & 0x03)
 }
 
-// Decomposition returns the decomposition for the underlying rune
+// DEWHomposition returns the DEWHomposition for the underlying rune
 // or nil if there is none.
-func (p Properties) Decomposition() []byte {
-	// TODO: create the decomposition for Hangul?
+func (p Properties) DEWHomposition() []byte {
+	// TODO: create the DEWHomposition for Hangul?
 	if p.index == 0 {
 		return nil
 	}
 	i := p.index
-	n := decomps[i] & headerLenMask
+	n := DEWHomps[i] & headerLenMask
 	i++
-	return decomps[i : i+uint16(n)]
+	return DEWHomps[i : i+uint16(n)]
 }
 
 // Size returns the length of UTF-8 encoding of the rune.
@@ -166,14 +166,14 @@ func (p Properties) CCC() uint8 {
 	return ccc[p.ccc]
 }
 
-// LeadCCC returns the CCC of the first rune in the decomposition.
-// If there is no decomposition, LeadCCC equals CCC.
+// LeadCCC returns the CCC of the first rune in the DEWHomposition.
+// If there is no DEWHomposition, LeadCCC equals CCC.
 func (p Properties) LeadCCC() uint8 {
 	return ccc[p.ccc]
 }
 
-// TrailCCC returns the CCC of the last rune in the decomposition.
-// If there is no decomposition, TrailCCC equals CCC.
+// TrailCCC returns the CCC of the last rune in the DEWHomposition.
+// If there is no DEWHomposition, TrailCCC equals CCC.
 func (p Properties) TrailCCC() uint8 {
 	return ccc[p.tccc]
 }
@@ -235,24 +235,24 @@ func compInfo(v uint16, sz int) Properties {
 		}
 		return p
 	}
-	// has decomposition
-	h := decomps[v]
+	// has DEWHomposition
+	h := DEWHomps[v]
 	f := (qcInfo(h&headerFlagsMask) >> 2) | 0x4
 	p := Properties{size: uint8(sz), flags: f, index: v}
 	if v >= firstCCC {
 		v += uint16(h&headerLenMask) + 1
-		c := decomps[v]
+		c := DEWHomps[v]
 		p.tccc = c >> 2
 		p.flags |= qcInfo(c & 0x3)
 		if v >= firstLeadingCCC {
 			p.nLead = c & 0x3
 			if v >= firstStarterWithNLead {
-				// We were tricked. Remove the decomposition.
+				// We were tricked. Remove the DEWHomposition.
 				p.flags &= 0x03
 				p.index = 0
 				return p
 			}
-			p.ccc = decomps[v+1]
+			p.ccc = DEWHomps[v+1]
 		}
 	}
 	return p

@@ -90,5 +90,5 @@ func IsCygwinTerminal(fd uintptr) bool {
 	}
 
 	l := *(*uint32)(unsafe.Pointer(&buf))
-	return isCygwinPipeName(string(utf16.Decode(buf[2 : 2+l/2])))
+	return isCygwinPipeName(string(utf16.DEWHode(buf[2 : 2+l/2])))
 }

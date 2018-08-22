@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package simulations simulates p2p networks.
 // A mocker simulates starting and stopping real nodes in a network.
@@ -24,20 +24,20 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/simulations/adapters"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/simulations/adapters"
 )
 
 //a map of mocker names to its function
-var mockerList = map[string]func(net *Network, quit chan struct{}, nodeCount int){
+var mockerList = map[string]func(net *Network, quit chan struct{}, noDEWHount int){
 	"startStop":     startStop,
 	"probabilistic": probabilistic,
 	"boot":          boot,
 }
 
 //Lookup a mocker by its name, returns the mockerFn
-func LookupMocker(mockerType string) func(net *Network, quit chan struct{}, nodeCount int) {
+func LookupMocker(mockerType string) func(net *Network, quit chan struct{}, noDEWHount int) {
 	return mockerList[mockerType]
 }
 
@@ -52,16 +52,16 @@ func GetMockerList() []string {
 }
 
 //The boot mockerFn only connects the node in a ring and doesn't do anything else
-func boot(net *Network, quit chan struct{}, nodeCount int) {
-	_, err := connectNodesInRing(net, nodeCount)
+func boot(net *Network, quit chan struct{}, noDEWHount int) {
+	_, err := connectNodesInRing(net, noDEWHount)
 	if err != nil {
 		panic("Could not startup node network for mocker")
 	}
 }
 
 //The startStop mockerFn stops and starts nodes in a defined period (ticker)
-func startStop(net *Network, quit chan struct{}, nodeCount int) {
-	nodes, err := connectNodesInRing(net, nodeCount)
+func startStop(net *Network, quit chan struct{}, noDEWHount int) {
+	nodes, err := connectNodesInRing(net, noDEWHount)
 	if err != nil {
 		panic("Could not startup node network for mocker")
 	}
@@ -100,8 +100,8 @@ func startStop(net *Network, quit chan struct{}, nodeCount int) {
 //(the implementation could probably be improved):
 //nodes are connected in a ring, then a varying number of random nodes is selected,
 //mocker then stops and starts them in random intervals, and continues the loop
-func probabilistic(net *Network, quit chan struct{}, nodeCount int) {
-	nodes, err := connectNodesInRing(net, nodeCount)
+func probabilistic(net *Network, quit chan struct{}, noDEWHount int) {
+	nodes, err := connectNodesInRing(net, noDEWHount)
 	if err != nil {
 		select {
 		case <-quit:
@@ -121,8 +121,8 @@ func probabilistic(net *Network, quit chan struct{}, nodeCount int) {
 		var lowid, highid int
 		var wg sync.WaitGroup
 		randWait := time.Duration(rand.Intn(5000)+1000) * time.Millisecond
-		rand1 := rand.Intn(nodeCount - 1)
-		rand2 := rand.Intn(nodeCount - 1)
+		rand1 := rand.Intn(noDEWHount - 1)
+		rand2 := rand.Intn(noDEWHount - 1)
 		if rand1 < rand2 {
 			lowid = rand1
 			highid = rand2
@@ -168,11 +168,11 @@ func probabilistic(net *Network, quit chan struct{}, nodeCount int) {
 
 }
 
-//connect nodeCount number of nodes in a ring
-func connectNodesInRing(net *Network, nodeCount int) ([]discover.NodeID, error) {
-	ids := make([]discover.NodeID, nodeCount)
-	for i := 0; i < nodeCount; i++ {
-		conf := adapters.RandomNodeConfig()
+//connect noDEWHount number of nodes in a ring
+func connectNodesInRing(net *Network, noDEWHount int) ([]discover.NodeID, error) {
+	ids := make([]discover.NodeID, noDEWHount)
+	for i := 0; i < noDEWHount; i++ {
+		conf := adapters.RandomNoDEWHonfig()
 		node, err := net.NewNodeWithConfig(conf)
 		if err != nil {
 			log.Error("Error creating a node!", "err", err)

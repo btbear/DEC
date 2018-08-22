@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package stream
 
@@ -31,15 +31,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/p2p/discover"
-	p2ptest "github.com/DEC/go-DEC/p2p/testing"
-	"github.com/DEC/go-DEC/swarm/network"
-	"github.com/DEC/go-DEC/swarm/network/simulation"
-	"github.com/DEC/go-DEC/swarm/pot"
-	"github.com/DEC/go-DEC/swarm/state"
-	"github.com/DEC/go-DEC/swarm/storage"
-	mockdb "github.com/DEC/go-DEC/swarm/storage/mock/db"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	p2ptest "github.com/DEWH/go-DEWH/p2p/testing"
+	"github.com/DEWH/go-DEWH/swarm/network"
+	"github.com/DEWH/go-DEWH/swarm/network/simulation"
+	"github.com/DEWH/go-DEWH/swarm/pot"
+	"github.com/DEWH/go-DEWH/swarm/state"
+	"github.com/DEWH/go-DEWH/swarm/storage"
+	mockdb "github.com/DEWH/go-DEWH/swarm/storage/mock/db"
 	colorable "github.com/mattn/go-colorable"
 )
 
@@ -184,12 +184,12 @@ func readAll(fileStore *storage.FileStore, hash []byte) (int64, error) {
 
 func uploadFilesToNodes(sim *simulation.Simulation) ([]storage.Address, []string, error) {
 	nodes := sim.UpNodeIDs()
-	nodeCnt := len(nodes)
-	log.Debug(fmt.Sprintf("Uploading %d files to nodes", nodeCnt))
+	noDEWHnt := len(nodes)
+	log.Debug(fmt.Sprintf("Uploading %d files to nodes", noDEWHnt))
 	//array holding generated files
-	rfiles := make([]string, nodeCnt)
+	rfiles := make([]string, noDEWHnt)
 	//array holding the root hashes of the files
-	rootAddrs := make([]storage.Address, nodeCnt)
+	rootAddrs := make([]storage.Address, noDEWHnt)
 
 	var err error
 	//for every node, generate a file and upload

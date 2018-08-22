@@ -138,7 +138,7 @@ func (f Function) PkgDotName() string {
 func (f Function) IsExported() bool {
 	name := f.Name()
 	parts := strings.Split(name, ".")
-	r, _ := utf8.DecodeRuneInString(parts[len(parts)-1])
+	r, _ := utf8.DEWHodeRuneInString(parts[len(parts)-1])
 	if unicode.ToUpper(r) == r {
 		return true
 	}

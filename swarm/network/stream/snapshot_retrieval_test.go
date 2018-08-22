@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 package stream
 
 import (
@@ -23,14 +23,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/simulations/adapters"
-	"github.com/DEC/go-DEC/swarm/log"
-	"github.com/DEC/go-DEC/swarm/network"
-	"github.com/DEC/go-DEC/swarm/network/simulation"
-	"github.com/DEC/go-DEC/swarm/state"
-	"github.com/DEC/go-DEC/swarm/storage"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/simulations/adapters"
+	"github.com/DEWH/go-DEWH/swarm/log"
+	"github.com/DEWH/go-DEWH/swarm/network"
+	"github.com/DEWH/go-DEWH/swarm/network/simulation"
+	"github.com/DEWH/go-DEWH/swarm/state"
+	"github.com/DEWH/go-DEWH/swarm/storage"
 )
 
 //constants for random file generation
@@ -51,13 +51,13 @@ func TestFileRetrieval(t *testing.T) {
 			t.Fatal(err)
 		}
 	} else {
-		nodeCnt := []int{16}
+		noDEWHnt := []int{16}
 		//if the `longrunning` flag has been provided
 		//run more test combinations
 		if *longrunning {
-			nodeCnt = append(nodeCnt, 32, 64, 128)
+			noDEWHnt = append(noDEWHnt, 32, 64, 128)
 		}
-		for _, n := range nodeCnt {
+		for _, n := range noDEWHnt {
 			err := runFileRetrievalTest(n)
 			if err != nil {
 				t.Fatal(err)
@@ -81,19 +81,19 @@ func TestRetrieval(t *testing.T) {
 			t.Fatal(err)
 		}
 	} else {
-		var nodeCnt []int
+		var noDEWHnt []int
 		var chnkCnt []int
 		//if the `longrunning` flag has been provided
 		//run more test combinations
 		if *longrunning {
-			nodeCnt = []int{16, 32, 128}
+			noDEWHnt = []int{16, 32, 128}
 			chnkCnt = []int{4, 32, 256}
 		} else {
 			//default test
-			nodeCnt = []int{16}
+			noDEWHnt = []int{16}
 			chnkCnt = []int{32}
 		}
-		for _, n := range nodeCnt {
+		for _, n := range noDEWHnt {
 			for _, c := range chnkCnt {
 				err := runRetrievalTest(c, n)
 				if err != nil {
@@ -113,7 +113,7 @@ simulation's `action` function.
 
 The snapshot should have 'streamer' in its service list.
 */
-func runFileRetrievalTest(nodeCount int) error {
+func runFileRetrievalTest(noDEWHount int) error {
 	sim := simulation.New(map[string]simulation.ServiceFunc{
 		"streamer": func(ctx *adapters.ServiceContext, bucket *sync.Map) (s node.Service, cleanup func(), err error) {
 
@@ -157,7 +157,7 @@ func runFileRetrievalTest(nodeCount int) error {
 	//array where the generated chunk hashes will be stored
 	conf.hashes = make([]storage.Address, 0)
 
-	err := sim.UploadSnapshot(fmt.Sprintf("testing/snapshot_%d.json", nodeCount))
+	err := sim.UploadSnapshot(fmt.Sprintf("testing/snapshot_%d.json", noDEWHount))
 	if err != nil {
 		return err
 	}
@@ -256,7 +256,7 @@ simulation's `action` function.
 
 The snapshot should have 'streamer' in its service list.
 */
-func runRetrievalTest(chunkCount int, nodeCount int) error {
+func runRetrievalTest(chunkCount int, noDEWHount int) error {
 	sim := simulation.New(map[string]simulation.ServiceFunc{
 		"streamer": func(ctx *adapters.ServiceContext, bucket *sync.Map) (s node.Service, cleanup func(), err error) {
 
@@ -299,7 +299,7 @@ func runRetrievalTest(chunkCount int, nodeCount int) error {
 	//array where the generated chunk hashes will be stored
 	conf.hashes = make([]storage.Address, 0)
 
-	err := sim.UploadSnapshot(fmt.Sprintf("testing/snapshot_%d.json", nodeCount))
+	err := sim.UploadSnapshot(fmt.Sprintf("testing/snapshot_%d.json", noDEWHount))
 	if err != nil {
 		return err
 	}

@@ -18,11 +18,11 @@ import (
 
 var (
 	// ErrInvalidMAC occurs when Message Authentication Check (MAC) fails
-	// during decryption. This happens because of either invalid private key or
+	// during DEWHryption. This happens because of either invalid private key or
 	// corrupt ciphertext.
 	ErrInvalidMAC = errors.New("invalid mac hash")
 
-	// errInputTooShort occurs when the input ciphertext to the Decrypt
+	// errInputTooShort occurs when the input ciphertext to the DEWHrypt
 	// function is less than 134 bytes long.
 	errInputTooShort = errors.New("ciphertext too short")
 
@@ -117,8 +117,8 @@ func Encrypt(pubkey *PublicKey, in []byte) ([]byte, error) {
 	return out, nil
 }
 
-// Decrypt decrypts data that was encrypted using the Encrypt function.
-func Decrypt(priv *PrivateKey, in []byte) ([]byte, error) {
+// DEWHrypt DEWHrypts data that was encrypted using the Encrypt function.
+func DEWHrypt(priv *PrivateKey, in []byte) ([]byte, error) {
 	// IV + Curve params/X/Y + 1 block + HMAC-256
 	if len(in) < aes.BlockSize+70+aes.BlockSize+sha256.Size {
 		return nil, errInputTooShort
@@ -182,12 +182,12 @@ func Decrypt(priv *PrivateKey, in []byte) ([]byte, error) {
 		return nil, ErrInvalidMAC
 	}
 
-	// start decryption
+	// start DEWHryption
 	block, err := aes.NewCipher(keyE)
 	if err != nil {
 		return nil, err
 	}
-	mode := cipher.NewCBCDecrypter(block, iv)
+	mode := cipher.NewCBCDEWHrypter(block, iv)
 	// same length as ciphertext
 	plaintext := make([]byte, len(in)-offset-sha256.Size)
 	mode.CryptBlocks(plaintext, in[offset:len(in)-sha256.Size])

@@ -21,16 +21,16 @@ var All = []encoding.Encoding{Big5}
 var Big5 encoding.Encoding = &big5
 
 var big5 = internal.Encoding{
-	&internal.SimpleEncoding{big5Decoder{}, big5Encoder{}},
+	&internal.SimpleEncoding{big5DEWHoder{}, big5Encoder{}},
 	"Big5",
 	identifier.Big5,
 }
 
 var errInvalidBig5 = errors.New("traditionalchinese: invalid Big5 encoding")
 
-type big5Decoder struct{ transform.NopResetter }
+type big5DEWHoder struct{ transform.NopResetter }
 
-func (big5Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (big5DEWHoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	r, size, s := rune(0), 0, ""
 loop:
 	for ; nSrc < len(src); nSrc += size {
@@ -54,7 +54,7 @@ loop:
 				break loop
 			}
 			r, size = '\ufffd', 2
-			if i := int(c0-0x81)*157 + int(c1); i < len(decode) {
+			if i := int(c0-0x81)*157 + int(c1); i < len(DEWHode) {
 				if 1133 <= i && i < 1167 {
 					// The two-rune special cases for LATIN CAPITAL / SMALL E WITH CIRCUMFLEX
 					// AND MACRON / CARON are from http://encoding.spec.whatwg.org/#big5
@@ -73,7 +73,7 @@ loop:
 						goto writeStr
 					}
 				}
-				r = rune(decode[i])
+				r = rune(DEWHode[i])
 				if r == 0 {
 					r = '\ufffd'
 				}
@@ -112,7 +112,7 @@ func (big5Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err e
 	for ; nSrc < len(src); nSrc += size {
 		r = rune(src[nSrc])
 
-		// Decode a 1-byte rune.
+		// DEWHode a 1-byte rune.
 		if r < utf8.RuneSelf {
 			size = 1
 			if nDst >= len(dst) {
@@ -124,8 +124,8 @@ func (big5Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err e
 			continue
 
 		} else {
-			// Decode a multi-byte rune.
-			r, size = utf8.DecodeRune(src[nSrc:])
+			// DEWHode a multi-byte rune.
+			r, size = utf8.DEWHodeRune(src[nSrc:])
 			if size == 1 {
 				// All valid runes of size 1 (those below utf8.RuneSelf) were
 				// handled above. We have invalid UTF-8 or we haven't seen the

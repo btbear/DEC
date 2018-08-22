@@ -66,23 +66,23 @@ enum MessageType {
 	MessageType_CipheredKeyValue = 48 [(wire_out) = true];
 	MessageType_EncryptMessage = 49 [(wire_in) = true, deprecated = true];
 	MessageType_EncryptedMessage = 50 [(wire_out) = true, deprecated = true];
-	MessageType_DecryptMessage = 51 [(wire_in) = true, deprecated = true];
-	MessageType_DecryptedMessage = 52 [(wire_out) = true, deprecated = true];
+	MessageType_DEWHryptMessage = 51 [(wire_in) = true, deprecated = true];
+	MessageType_DEWHryptedMessage = 52 [(wire_out) = true, deprecated = true];
 	MessageType_SignIdentity = 53 [(wire_in) = true];
 	MessageType_SignedIdentity = 54 [(wire_out) = true];
 	MessageType_GetFeatures = 55 [(wire_in) = true];
-	MessageType_DECGetAddress = 56 [(wire_in) = true];
-	MessageType_DECAddress = 57 [(wire_out) = true];
-	MessageType_DECSignTx = 58 [(wire_in) = true];
-	MessageType_DECTxRequest = 59 [(wire_out) = true];
-	MessageType_DECTxAck = 60 [(wire_in) = true];
+	MessageType_DEWHGetAddress = 56 [(wire_in) = true];
+	MessageType_DEWHAddress = 57 [(wire_out) = true];
+	MessageType_DEWHSignTx = 58 [(wire_in) = true];
+	MessageType_DEWHTxRequest = 59 [(wire_out) = true];
+	MessageType_DEWHTxAck = 60 [(wire_in) = true];
 	MessageType_GetECDHSessionKey = 61 [(wire_in) = true];
 	MessageType_ECDHSessionKey = 62 [(wire_out) = true];
 	MessageType_SetU2FCounter = 63 [(wire_in) = true];
-	MessageType_DECSignMessage = 64 [(wire_in) = true];
-	MessageType_DECVerifyMessage = 65 [(wire_in) = true];
-	MessageType_DECMessageSignature = 66 [(wire_out) = true];
-	MessageType_DebugLinkDecision = 100 [(wire_debug_in) = true, (wire_tiny) = true];
+	MessageType_DEWHSignMessage = 64 [(wire_in) = true];
+	MessageType_DEWHVerifyMessage = 65 [(wire_in) = true];
+	MessageType_DEWHMessageSignature = 66 [(wire_out) = true];
+	MessageType_DebugLinkDEWHision = 100 [(wire_debug_in) = true, (wire_tiny) = true];
 	MessageType_DebugLinkGetState = 101 [(wire_debug_in) = true];
 	MessageType_DebugLinkState = 102 [(wire_debug_out) = true];
 	MessageType_DebugLinkStop = 103 [(wire_debug_in) = true];
@@ -318,12 +318,12 @@ message GetAddress {
 }
 
 /**
- * Request: Ask device for DEC address corresponding to address_n path
+ * Request: Ask device for DEWH address corresponding to address_n path
  * @next PassphraseRequest
- * @next DECAddress
+ * @next DEWHAddress
  * @next Failure
  */
-message DECGetAddress {
+message DEWHGetAddress {
 	repeated uint32 address_n = 1;			// BIP-32 path to derive the key from master node
 	optional bool show_display = 2;			// optionally show on display before sending the result
 }
@@ -337,11 +337,11 @@ message Address {
 }
 
 /**
- * Response: Contains an DEC address derived from device private seed
- * @prev DECGetAddress
+ * Response: Contains an DEWH address derived from device private seed
+ * @prev DEWHGetAddress
  */
-message DECAddress {
-	required bytes address = 1;		// Coin address as an DEC 160 bit hash
+message DEWHAddress {
+	required bytes address = 1;		// Coin address as an DEWH 160 bit hash
 }
 
 /**
@@ -485,7 +485,7 @@ message MessageSignature {
 }
 
 ///////////////////////////
-// Encryption/decryption //
+// Encryption/DEWHryption //
 ///////////////////////////
 
 /**
@@ -512,28 +512,28 @@ message EncryptedMessage {
 }
 
 /**
- * Request: Ask device to decrypt message
+ * Request: Ask device to DEWHrypt message
  * @next Success
  * @next Failure
  */
-message DecryptMessage {
-	repeated uint32 address_n = 1;				// BIP-32 path to derive the decryption key from master node
+message DEWHryptMessage {
+	repeated uint32 address_n = 1;				// BIP-32 path to derive the DEWHryption key from master node
 	optional bytes nonce = 2;				// nonce used during encryption
-	optional bytes message = 3;				// message to decrypt
+	optional bytes message = 3;				// message to DEWHrypt
 	optional bytes hmac = 4;				// message hmac
 }
 
 /**
- * Response: Decrypted message
- * @prev DecryptedMessage
+ * Response: DEWHrypted message
+ * @prev DEWHryptedMessage
  */
-message DecryptedMessage {
-	optional bytes message = 1;				// decrypted message
+message DEWHryptedMessage {
+	optional bytes message = 1;				// DEWHrypted message
 	optional string address = 2;				// address used to sign the message (if used)
 }
 
 /**
- * Request: Ask device to encrypt or decrypt value of given key
+ * Request: Ask device to encrypt or DEWHrypt value of given key
  * @next CipheredKeyValue
  * @next Failure
  */
@@ -541,18 +541,18 @@ message CipherKeyValue {
 	repeated uint32 address_n = 1;		// BIP-32 path to derive the key from master node
 	optional string key = 2;		// key component of key:value
 	optional bytes value = 3;		// value component of key:value
-	optional bool encrypt = 4;		// are we encrypting (True) or decrypting (False)?
+	optional bool encrypt = 4;		// are we encrypting (True) or DEWHrypting (False)?
 	optional bool ask_on_encrypt = 5;	// should we ask on encrypt operation?
-	optional bool ask_on_decrypt = 6;	// should we ask on decrypt operation?
+	optional bool ask_on_DEWHrypt = 6;	// should we ask on DEWHrypt operation?
 	optional bytes iv = 7;			// initialization vector (will be computed if not set)
 }
 
 /**
- * Response: Return ciphered/deciphered value
+ * Response: Return ciphered/DEWHiphered value
  * @prev CipherKeyValue
  */
 message CipheredKeyValue {
-	optional bytes value = 1;		// ciphered/deciphered value
+	optional bytes value = 1;		// ciphered/DEWHiphered value
 }
 
 //////////////////////////////////
@@ -642,10 +642,10 @@ message TxAck {
  * Note: the first at most 1024 bytes of data MUST be transmitted as part of this message.
  * @next PassphraseRequest
  * @next PinMatrixRequest
- * @next DECTxRequest
+ * @next DEWHTxRequest
  * @next Failure
  */
-message DECSignTx {
+message DEWHSignTx {
 	repeated uint32 address_n = 1;			// BIP-32 path to derive the key from master node
 	optional bytes nonce = 2;			// <=256 bit unsigned big endian
 	optional bytes gas_price = 3;			// <=256 bit unsigned big endian (in wei)
@@ -661,10 +661,10 @@ message DECSignTx {
  * Response: Device asks for more data from transaction payload, or returns the signature.
  * If data_length is set, device awaits that many more bytes of payload.
  * Otherwise, the signature_* fields contain the computed transaction signature. All three fields will be present.
- * @prev DECSignTx
- * @next DECTxAck
+ * @prev DEWHSignTx
+ * @next DEWHTxAck
  */
-message DECTxRequest {
+message DEWHTxRequest {
 	optional uint32 data_length = 1;		// Number of bytes being requested (<= 1024)
 	optional uint32 signature_v = 2;		// Computed signature (recovery parameter, limited to 27 or 28)
 	optional bytes signature_r = 3;			// Computed signature R component (256 bit)
@@ -673,23 +673,23 @@ message DECTxRequest {
 
 /**
  * Request: Transaction payload data.
- * @prev DECTxRequest
- * @next DECTxRequest
+ * @prev DEWHTxRequest
+ * @next DEWHTxRequest
  */
-message DECTxAck {
+message DEWHTxAck {
 	optional bytes data_chunk = 1;			// Bytes from transaction payload (<= 1024 bytes)
 }
 
 ////////////////////////////////////////
-// DEC: Message signing messages //
+// DEWH: Message signing messages //
 ////////////////////////////////////////
 
 /**
  * Request: Ask device to sign message
- * @next DECMessageSignature
+ * @next DEWHMessageSignature
  * @next Failure
  */
-message DECSignMessage {
+message DEWHSignMessage {
 	repeated uint32 address_n = 1;				// BIP-32 path to derive the key from master node
 	required bytes message = 2;				// message to be signed
 }
@@ -699,7 +699,7 @@ message DECSignMessage {
  * @next Success
  * @next Failure
  */
-message DECVerifyMessage {
+message DEWHVerifyMessage {
 	optional bytes address = 1;				// address to verify
 	optional bytes signature = 2;				// signature to verify
 	optional bytes message = 3;				// message to verify
@@ -707,9 +707,9 @@ message DECVerifyMessage {
 
 /**
  * Response: Signed message
- * @prev DECSignMessage
+ * @prev DEWHSignMessage
  */
-message DECMessageSignature {
+message DEWHMessageSignature {
 	optional bytes address = 1;				// address used to sign the message
 	optional bytes signature = 2;				// signature of the message
 }
@@ -826,7 +826,7 @@ message SelfTest {
  * Request: "Press" the button on the device
  * @next Success
  */
-message DebugLinkDecision {
+message DebugLinkDEWHision {
 	required bool yes_no = 1;			// true for "Confirm", false for "Cancel"
 }
 

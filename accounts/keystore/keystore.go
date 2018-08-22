@@ -1,23 +1,23 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package keystore implements encrypted storage of secp256k1 private keys.
 //
 // Keys are stored as encrypted JSON files according to the Web3 Secret Storage specification.
-// See https://github.com/DEC/wiki/wiki/Web3-Secret-Storage-Definition for more information.
+// See https://github.com/DEWH/wiki/wiki/Web3-Secret-Storage-Definition for more information.
 package keystore
 
 import (
@@ -33,17 +33,17 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/accounts"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/event"
+	"github.com/DEWH/go-DEWH/accounts"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/event"
 )
 
 var (
 	ErrLocked  = accounts.NewAuthNeededError("password or unlock")
 	ErrNoMatch = errors.New("no key for given address or file")
-	ErrDecrypt = errors.New("could not decrypt key with given passphrase")
+	ErrDEWHrypt = errors.New("could not DEWHrypt key with given passphrase")
 )
 
 // KeyStoreType is the reflect type of a keystore backend.
@@ -60,7 +60,7 @@ type KeyStore struct {
 	storage  keyStore                     // Storage backend, might be cleartext or encrypted
 	cache    *accountCache                // In-memory account cache over the filesystem storage
 	changes  chan struct{}                // Channel receiving change notifications from the cache
-	unlocked map[common.Address]*unlocked // Currently unlocked account (decrypted private keys)
+	unlocked map[common.Address]*unlocked // Currently unlocked account (DEWHrypted private keys)
 
 	wallets     []accounts.Wallet       // Wallet wrappers around the individual key files
 	updateFeed  event.Feed              // Event feed to notify wallet additions/removals
@@ -231,10 +231,10 @@ func (ks *KeyStore) Accounts() []accounts.Account {
 // Delete deletes the key matched by account if the passphrase is correct.
 // If the account contains no filename, the address must match a unique key.
 func (ks *KeyStore) Delete(a accounts.Account, passphrase string) error {
-	// Decrypting the key isn't really necessary, but we do
+	// DEWHrypting the key isn't really necessary, but we do
 	// it anyway to check the password and zero out the key
 	// immediately afterwards.
-	a, key, err := ks.getDecryptedKey(a, passphrase)
+	a, key, err := ks.getDEWHryptedKey(a, passphrase)
 	if key != nil {
 		zeroKey(key.PrivateKey)
 	}
@@ -285,10 +285,10 @@ func (ks *KeyStore) SignTx(a accounts.Account, tx *types.Transaction, chainID *b
 }
 
 // SignHashWithPassphrase signs hash if the private key matching the given address
-// can be decrypted with the given passphrase. The produced signature is in the
+// can be DEWHrypted with the given passphrase. The produced signature is in the
 // [R || S || V] format where V is 0 or 1.
 func (ks *KeyStore) SignHashWithPassphrase(a accounts.Account, passphrase string, hash []byte) (signature []byte, err error) {
-	_, key, err := ks.getDecryptedKey(a, passphrase)
+	_, key, err := ks.getDEWHryptedKey(a, passphrase)
 	if err != nil {
 		return nil, err
 	}
@@ -297,9 +297,9 @@ func (ks *KeyStore) SignHashWithPassphrase(a accounts.Account, passphrase string
 }
 
 // SignTxWithPassphrase signs the transaction if the private key matching the
-// given address can be decrypted with the given passphrase.
+// given address can be DEWHrypted with the given passphrase.
 func (ks *KeyStore) SignTxWithPassphrase(a accounts.Account, passphrase string, tx *types.Transaction, chainID *big.Int) (*types.Transaction, error) {
-	_, key, err := ks.getDecryptedKey(a, passphrase)
+	_, key, err := ks.getDEWHryptedKey(a, passphrase)
 	if err != nil {
 		return nil, err
 	}
@@ -337,7 +337,7 @@ func (ks *KeyStore) Lock(addr common.Address) error {
 // shortens the active unlock timeout. If the address was previously unlocked
 // indefinitely the timeout is not altered.
 func (ks *KeyStore) TimedUnlock(a accounts.Account, passphrase string, timeout time.Duration) error {
-	a, key, err := ks.getDecryptedKey(a, passphrase)
+	a, key, err := ks.getDEWHryptedKey(a, passphrase)
 	if err != nil {
 		return err
 	}
@@ -374,7 +374,7 @@ func (ks *KeyStore) Find(a accounts.Account) (accounts.Account, error) {
 	return a, err
 }
 
-func (ks *KeyStore) getDecryptedKey(a accounts.Account, auth string) (accounts.Account, *Key, error) {
+func (ks *KeyStore) getDEWHryptedKey(a accounts.Account, auth string) (accounts.Account, *Key, error) {
 	a, err := ks.Find(a)
 	if err != nil {
 		return a, nil, err
@@ -419,7 +419,7 @@ func (ks *KeyStore) NewAccount(passphrase string) (accounts.Account, error) {
 
 // Export exports as a JSON key, encrypted with newPassphrase.
 func (ks *KeyStore) Export(a accounts.Account, passphrase, newPassphrase string) (keyJSON []byte, err error) {
-	_, key, err := ks.getDecryptedKey(a, passphrase)
+	_, key, err := ks.getDEWHryptedKey(a, passphrase)
 	if err != nil {
 		return nil, err
 	}
@@ -434,7 +434,7 @@ func (ks *KeyStore) Export(a accounts.Account, passphrase, newPassphrase string)
 
 // Import stores the given encrypted JSON key into the key directory.
 func (ks *KeyStore) Import(keyJSON []byte, passphrase, newPassphrase string) (accounts.Account, error) {
-	key, err := DecryptKey(keyJSON, passphrase)
+	key, err := DEWHryptKey(keyJSON, passphrase)
 	if key != nil && key.PrivateKey != nil {
 		defer zeroKey(key.PrivateKey)
 	}
@@ -465,14 +465,14 @@ func (ks *KeyStore) importKey(key *Key, passphrase string) (accounts.Account, er
 
 // Update changes the passphrase of an existing account.
 func (ks *KeyStore) Update(a accounts.Account, passphrase, newPassphrase string) error {
-	a, key, err := ks.getDecryptedKey(a, passphrase)
+	a, key, err := ks.getDEWHryptedKey(a, passphrase)
 	if err != nil {
 		return err
 	}
 	return ks.storage.StoreKey(a.URL.Path, key, newPassphrase)
 }
 
-// ImportPreSaleKey decrypts the given DEC presale wallet and stores
+// ImportPreSaleKey DEWHrypts the given DEWH presale wallet and stores
 // a key file in the key directory. The key file is encrypted with the same passphrase.
 func (ks *KeyStore) ImportPreSaleKey(keyJSON []byte, passphrase string) (accounts.Account, error) {
 	a, _, err := importPreSaleKey(ks.storage, keyJSON, passphrase)

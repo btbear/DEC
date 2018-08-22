@@ -40,7 +40,7 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/DEC/go-DEC/crypto"
+	"github.com/DEWH/go-DEWH/crypto"
 )
 
 var dumpEnc bool
@@ -145,7 +145,7 @@ func TestSharedKeyPadding(t *testing.T) {
 	prv1 := hexKey("0097a076fc7fcd9208240668e31c9abee952cbb6e375d1b8febc7499d6e16f1a")
 	x0, _ := new(big.Int).SetString("1a8ed022ff7aec59dc1b440446bdda5ff6bcb3509a8b109077282b361efffbd8", 16)
 	x1, _ := new(big.Int).SetString("6ab3ac374251f638d0abb3ef596d1dc67955b507c104e5f2009724812dc027b8", 16)
-	y0, _ := new(big.Int).SetString("e040bd480b1deccc3bc40bd5b1fdcb7bfd352500b477cb9471366dbd4493f923", 16)
+	y0, _ := new(big.Int).SetString("e040bd480b1DEWHcc3bc40bd5b1fdcb7bfd352500b477cb9471366dbd4493f923", 16)
 	y1, _ := new(big.Int).SetString("8ad915f2b503a8be6facab6588731fefeb584fd2dfa9a77a5e0bba1ec439e4fa", 16)
 
 	if prv0.PublicKey.X.Cmp(x0) != 0 {
@@ -249,8 +249,8 @@ func BenchmarkGenSharedKeyS256(b *testing.B) {
 	}
 }
 
-// Verify that an encrypted message can be successfully decrypted.
-func TestEncryptDecrypt(t *testing.T) {
+// Verify that an encrypted message can be successfully DEWHrypted.
+func TestEncryptDEWHrypt(t *testing.T) {
 	prv1, err := GenerateKey(rand.Reader, DefaultCurve, nil)
 	if err != nil {
 		fmt.Println(err.Error())
@@ -270,7 +270,7 @@ func TestEncryptDecrypt(t *testing.T) {
 		t.FailNow()
 	}
 
-	pt, err := prv2.Decrypt(ct, nil, nil)
+	pt, err := prv2.DEWHrypt(ct, nil, nil)
 	if err != nil {
 		fmt.Println(err.Error())
 		t.FailNow()
@@ -281,14 +281,14 @@ func TestEncryptDecrypt(t *testing.T) {
 		t.FailNow()
 	}
 
-	_, err = prv1.Decrypt(ct, nil, nil)
+	_, err = prv1.DEWHrypt(ct, nil, nil)
 	if err == nil {
 		fmt.Println("ecies: encryption should not have succeeded")
 		t.FailNow()
 	}
 }
 
-func TestDecryptShared2(t *testing.T) {
+func TestDEWHryptShared2(t *testing.T) {
 	prv, err := GenerateKey(rand.Reader, DefaultCurve, nil)
 	if err != nil {
 		t.Fatal(err)
@@ -300,8 +300,8 @@ func TestDecryptShared2(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// Check that decrypting with correct shared data works.
-	pt, err := prv.Decrypt(ct, nil, shared2)
+	// Check that DEWHrypting with correct shared data works.
+	pt, err := prv.DEWHrypt(ct, nil, shared2)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -309,12 +309,12 @@ func TestDecryptShared2(t *testing.T) {
 		t.Fatal("ecies: plaintext doesn't match message")
 	}
 
-	// Decrypting without shared data or incorrect shared data fails.
-	if _, err = prv.Decrypt(ct, nil, nil); err == nil {
-		t.Fatal("ecies: decrypting without shared data didn't fail")
+	// DEWHrypting without shared data or incorrect shared data fails.
+	if _, err = prv.DEWHrypt(ct, nil, nil); err == nil {
+		t.Fatal("ecies: DEWHrypting without shared data didn't fail")
 	}
-	if _, err = prv.Decrypt(ct, nil, []byte("garbage")); err == nil {
-		t.Fatal("ecies: decrypting with incorrect shared data didn't fail")
+	if _, err = prv.DEWHrypt(ct, nil, []byte("garbage")); err == nil {
+		t.Fatal("ecies: DEWHrypting with incorrect shared data didn't fail")
 	}
 }
 
@@ -381,7 +381,7 @@ func testParamSelection(t *testing.T, c testCase) {
 		t.FailNow()
 	}
 
-	pt, err := prv2.Decrypt(ct, nil, nil)
+	pt, err := prv2.DEWHrypt(ct, nil, nil)
 	if err != nil {
 		fmt.Printf("%s (%s)\n", err.Error(), c.Name)
 		t.FailNow()
@@ -393,7 +393,7 @@ func testParamSelection(t *testing.T, c testCase) {
 		t.FailNow()
 	}
 
-	_, err = prv1.Decrypt(ct, nil, nil)
+	_, err = prv1.DEWHrypt(ct, nil, nil)
 	if err == nil {
 		fmt.Printf("ecies: encryption should not have succeeded (%s)\n",
 			c.Name)
@@ -402,7 +402,7 @@ func testParamSelection(t *testing.T, c testCase) {
 
 }
 
-// Ensure that the basic public key validation in the decryption operation
+// Ensure that the basic public key validation in the DEWHryption operation
 // works.
 func TestBasicKeyValidation(t *testing.T) {
 	badBytes := []byte{0, 1, 5, 6, 7, 8, 9}
@@ -422,7 +422,7 @@ func TestBasicKeyValidation(t *testing.T) {
 
 	for _, b := range badBytes {
 		ct[0] = b
-		_, err := prv.Decrypt(ct, nil, nil)
+		_, err := prv.DEWHrypt(ct, nil, nil)
 		if err != ErrInvalidPublicKey {
 			fmt.Println("ecies: validated an invalid key")
 			t.FailNow()
@@ -441,14 +441,14 @@ func TestBox(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	pt, err := prv2.Decrypt(ct, nil, nil)
+	pt, err := prv2.DEWHrypt(ct, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	if !bytes.Equal(pt, message) {
 		t.Fatal("ecies: plaintext doesn't match message")
 	}
-	if _, err = prv1.Decrypt(ct, nil, nil); err == nil {
+	if _, err = prv1.DEWHrypt(ct, nil, nil); err == nil {
 		t.Fatal("ecies: encryption should not have succeeded")
 	}
 }
@@ -478,7 +478,7 @@ func TestSharedKeyStatic(t *testing.T) {
 		t.FailNow()
 	}
 
-	sk, _ := hex.DecodeString("167ccc13ac5e8a26b131c3446030c60fbfac6aa8e31149d0869f93626a4cdf62")
+	sk, _ := hex.DEWHodeString("167ccc13ac5e8a26b131c3446030c60fbfac6aa8e31149d0869f93626a4cdf62")
 	if !bytes.Equal(sk1, sk) {
 		t.Fatalf("shared secret mismatch: want: %x have: %x", sk, sk1)
 	}

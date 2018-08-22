@@ -54,16 +54,16 @@ func BenchmarkCopy1000000(b *testing.B) {
 	}
 }
 
-func BenchmarkExpDecaySample257(b *testing.B) {
-	benchmarkSample(b, NewExpDecaySample(257, 0.015))
+func BenchmarkExpDEWHaySample257(b *testing.B) {
+	benchmarkSample(b, NewExpDEWHaySample(257, 0.015))
 }
 
-func BenchmarkExpDecaySample514(b *testing.B) {
-	benchmarkSample(b, NewExpDecaySample(514, 0.015))
+func BenchmarkExpDEWHaySample514(b *testing.B) {
+	benchmarkSample(b, NewExpDEWHaySample(514, 0.015))
 }
 
-func BenchmarkExpDecaySample1028(b *testing.B) {
-	benchmarkSample(b, NewExpDecaySample(1028, 0.015))
+func BenchmarkExpDEWHaySample1028(b *testing.B) {
+	benchmarkSample(b, NewExpDEWHaySample(1028, 0.015))
 }
 
 func BenchmarkUniformSample257(b *testing.B) {
@@ -78,9 +78,9 @@ func BenchmarkUniformSample1028(b *testing.B) {
 	benchmarkSample(b, NewUniformSample(1028))
 }
 
-func TestExpDecaySample10(t *testing.T) {
+func TestExpDEWHaySample10(t *testing.T) {
 	rand.Seed(1)
-	s := NewExpDecaySample(100, 0.99)
+	s := NewExpDEWHaySample(100, 0.99)
 	for i := 0; i < 10; i++ {
 		s.Update(int64(i))
 	}
@@ -100,9 +100,9 @@ func TestExpDecaySample10(t *testing.T) {
 	}
 }
 
-func TestExpDecaySample100(t *testing.T) {
+func TestExpDEWHaySample100(t *testing.T) {
 	rand.Seed(1)
-	s := NewExpDecaySample(1000, 0.01)
+	s := NewExpDEWHaySample(1000, 0.01)
 	for i := 0; i < 100; i++ {
 		s.Update(int64(i))
 	}
@@ -122,9 +122,9 @@ func TestExpDecaySample100(t *testing.T) {
 	}
 }
 
-func TestExpDecaySample1000(t *testing.T) {
+func TestExpDEWHaySample1000(t *testing.T) {
 	rand.Seed(1)
-	s := NewExpDecaySample(100, 0.99)
+	s := NewExpDEWHaySample(100, 0.99)
 	for i := 0; i < 1000; i++ {
 		s.Update(int64(i))
 	}
@@ -148,9 +148,9 @@ func TestExpDecaySample1000(t *testing.T) {
 // nanosecond duration since start rather than second duration since start.
 // The priority becomes +Inf quickly after starting if this is done,
 // effectively freezing the set of samples until a rescale step happens.
-func TestExpDecaySampleNanosecondRegression(t *testing.T) {
+func TestExpDEWHaySampleNanosecondRegression(t *testing.T) {
 	rand.Seed(1)
-	s := NewExpDecaySample(100, 0.99)
+	s := NewExpDEWHaySample(100, 0.99)
 	for i := 0; i < 100; i++ {
 		s.Update(10)
 	}
@@ -169,8 +169,8 @@ func TestExpDecaySampleNanosecondRegression(t *testing.T) {
 	}
 }
 
-func TestExpDecaySampleRescale(t *testing.T) {
-	s := NewExpDecaySample(2, 0.001).(*ExpDecaySample)
+func TestExpDEWHaySampleRescale(t *testing.T) {
+	s := NewExpDEWHaySample(2, 0.001).(*ExpDEWHaySample)
 	s.update(time.Now(), 1)
 	s.update(time.Now().Add(time.Hour+time.Microsecond), 1)
 	for _, v := range s.values.Values() {
@@ -180,26 +180,26 @@ func TestExpDecaySampleRescale(t *testing.T) {
 	}
 }
 
-func TestExpDecaySampleSnapshot(t *testing.T) {
+func TestExpDEWHaySampleSnapshot(t *testing.T) {
 	now := time.Now()
 	rand.Seed(1)
-	s := NewExpDecaySample(100, 0.99)
+	s := NewExpDEWHaySample(100, 0.99)
 	for i := 1; i <= 10000; i++ {
-		s.(*ExpDecaySample).update(now.Add(time.Duration(i)), int64(i))
+		s.(*ExpDEWHaySample).update(now.Add(time.Duration(i)), int64(i))
 	}
 	snapshot := s.Snapshot()
 	s.Update(1)
-	testExpDecaySampleStatistics(t, snapshot)
+	testExpDEWHaySampleStatistics(t, snapshot)
 }
 
-func TestExpDecaySampleStatistics(t *testing.T) {
+func TestExpDEWHaySampleStatistics(t *testing.T) {
 	now := time.Now()
 	rand.Seed(1)
-	s := NewExpDecaySample(100, 0.99)
+	s := NewExpDEWHaySample(100, 0.99)
 	for i := 1; i <= 10000; i++ {
-		s.(*ExpDecaySample).update(now.Add(time.Duration(i)), int64(i))
+		s.(*ExpDEWHaySample).update(now.Add(time.Duration(i)), int64(i))
 	}
-	testExpDecaySampleStatistics(t, s)
+	testExpDEWHaySampleStatistics(t, s)
 }
 
 func TestUniformSample(t *testing.T) {
@@ -275,7 +275,7 @@ func benchmarkSample(b *testing.B, s Sample) {
 	b.Logf("GC cost: %d ns/op", int(memStats.PauseTotalNs-pauseTotalNs)/b.N)
 }
 
-func testExpDecaySampleStatistics(t *testing.T, s Sample) {
+func testExpDEWHaySampleStatistics(t *testing.T, s Sample) {
 	if count := s.Count(); 10000 != count {
 		t.Errorf("s.Count(): 10000 != %v\n", count)
 	}

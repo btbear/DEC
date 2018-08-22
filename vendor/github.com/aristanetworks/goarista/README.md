@@ -1,4 +1,4 @@
-# Arista Go library [![Build Status](https://travis-ci.org/aristanetworks/goarista.svg?branch=master)](https://travis-ci.org/aristanetworks/goarista) [![codecov.io](http://codecov.io/github/aristanetworks/goarista/coverage.svg?branch=master)](http://codecov.io/github/aristanetworks/goarista?branch=master) [![GoDoc](https://godoc.org/github.com/aristanetworks/goarista?status.png)](https://godoc.org/github.com/aristanetworks/goarista) [![Go Report Card](https://goreportcard.com/badge/github.com/aristanetworks/goarista)](https://goreportcard.com/report/github.com/aristanetworks/goarista)
+# Arista Go library [![Build Status](https://travis-ci.org/aristanetworks/goarista.svg?branch=master)](https://travis-ci.org/aristanetworks/goarista) [![coDEWHov.io](http://coDEWHov.io/github/aristanetworks/goarista/coverage.svg?branch=master)](http://coDEWHov.io/github/aristanetworks/goarista?branch=master) [![GoDoc](https://godoc.org/github.com/aristanetworks/goarista?status.png)](https://godoc.org/github.com/aristanetworks/goarista) [![Go Report Card](https://goreportcard.com/badge/github.com/aristanetworks/goarista)](https://goreportcard.com/report/github.com/aristanetworks/goarista)
 
 ## areflect
 
@@ -35,7 +35,7 @@ As a result, we frequently use `map[key.Key]interface{}` instead of just
 ## lanz
 A client for [LANZ](https://eos.arista.com/latency-analyzer-lanz-architectures-and-configuration/)
 streaming servers. It connects to a LANZ streaming server,
-listens for notifications, decodes them and sends the LANZ protobuf on the
+listens for notifications, DEWHodes them and sends the LANZ protobuf on the
 provided channel.
 
 ## monitor

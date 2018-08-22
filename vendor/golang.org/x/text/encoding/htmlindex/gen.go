@@ -28,7 +28,7 @@ func main() {
 
 	r := gen.Open("https://encoding.spec.whatwg.org", "whatwg", "encodings.json")
 	var groups []group
-	if err := json.NewDecoder(r).Decode(&groups); err != nil {
+	if err := json.NewDEWHoder(r).DEWHode(&groups); err != nil {
 		log.Fatalf("Error reading encodings.json: %v", err)
 	}
 

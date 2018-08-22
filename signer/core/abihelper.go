@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
@@ -22,26 +22,26 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/DEC/go-DEC/accounts/abi"
-	"github.com/DEC/go-DEC/common"
+	"github.com/DEWH/go-DEWH/accounts/abi"
+	"github.com/DEWH/go-DEWH/common"
 
 	"bytes"
 	"os"
 	"regexp"
 )
 
-type decodedArgument struct {
+type DEWHodedArgument struct {
 	soltype abi.Argument
 	value   interface{}
 }
-type decodedCallData struct {
+type DEWHodedCallData struct {
 	signature string
 	name      string
-	inputs    []decodedArgument
+	inputs    []DEWHodedArgument
 }
 
 // String implements stringer interface, tries to use the underlying value-type
-func (arg decodedArgument) String() string {
+func (arg DEWHodedArgument) String() string {
 	var value string
 	switch val := arg.value.(type) {
 	case fmt.Stringer:
@@ -52,8 +52,8 @@ func (arg decodedArgument) String() string {
 	return fmt.Sprintf("%v: %v", arg.soltype.Type.String(), value)
 }
 
-// String implements stringer interface for decodedCallData
-func (cd decodedCallData) String() string {
+// String implements stringer interface for DEWHodedCallData
+func (cd DEWHodedCallData) String() string {
 	args := make([]string, len(cd.inputs))
 	for i, arg := range cd.inputs {
 		args[i] = arg.String()
@@ -63,7 +63,7 @@ func (cd decodedCallData) String() string {
 
 // parseCallData matches the provided call data against the abi definition,
 // and returns a struct containing the actual go-typed values
-func parseCallData(calldata []byte, abidata string) (*decodedCallData, error) {
+func parseCallData(calldata []byte, abidata string) (*DEWHodedCallData, error) {
 
 	if len(calldata) < 4 {
 		return nil, fmt.Errorf("Invalid ABI-data, incomplete method signature of (%d bytes)", len(calldata))
@@ -89,22 +89,22 @@ func parseCallData(calldata []byte, abidata string) (*decodedCallData, error) {
 		return nil, err
 	}
 
-	decoded := decodedCallData{signature: method.Sig(), name: method.Name}
+	DEWHoded := DEWHodedCallData{signature: method.Sig(), name: method.Name}
 
 	for n, argument := range method.Inputs {
 		if err != nil {
-			return nil, fmt.Errorf("Failed to decode argument %d (signature %v): %v", n, method.Sig(), err)
+			return nil, fmt.Errorf("Failed to DEWHode argument %d (signature %v): %v", n, method.Sig(), err)
 		}
-		decodedArg := decodedArgument{
+		DEWHodedArg := DEWHodedArgument{
 			soltype: argument,
 			value:   v[n],
 		}
-		decoded.inputs = append(decoded.inputs, decodedArg)
+		DEWHoded.inputs = append(DEWHoded.inputs, DEWHodedArg)
 	}
 
-	// We're finished decoding the data. At this point, we encode the decoded data to see if it matches with the
+	// We're finished DEWHoding the data. At this point, we encode the DEWHoded data to see if it matches with the
 	// original data. If we didn't do that, it would e.g. be possible to stuff extra data into the arguments, which
-	// is not detected by merely decoding the data.
+	// is not detected by merely DEWHoding the data.
 
 	var (
 		encoded []byte
@@ -120,7 +120,7 @@ func parseCallData(calldata []byte, abidata string) (*decodedCallData, error) {
 		exp := common.Bytes2Hex(argdata)
 		return nil, fmt.Errorf("WARNING: Supplied data is stuffed with extra data. \nWant %s\nHave %s\nfor method %v", exp, was, method.Sig())
 	}
-	return &decoded, nil
+	return &DEWHoded, nil
 }
 
 // MethodSelectorToAbi converts a method selector into an ABI struct. The returned data is a valid json string

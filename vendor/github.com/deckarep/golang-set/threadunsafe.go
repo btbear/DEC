@@ -2,7 +2,7 @@
 Open Source Initiative OSI - The MIT License (MIT):Licensing
 
 The MIT License (MIT)
-Copyright (c) 2013 Ralph Caraveo (deckarep@gmail.com)
+Copyright (c) 2013 Ralph Caraveo (DEWHkarep@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -312,14 +312,14 @@ func (set *threadUnsafeSet) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf("[%s]", strings.Join(items, ","))), nil
 }
 
-// UnmarshalJSON recreates a set from a JSON array, it only decodes
-// primitive types. Numbers are decoded as json.Number.
+// UnmarshalJSON recreates a set from a JSON array, it only DEWHodes
+// primitive types. Numbers are DEWHoded as json.Number.
 func (set *threadUnsafeSet) UnmarshalJSON(b []byte) error {
 	var i []interface{}
 
-	d := json.NewDecoder(bytes.NewReader(b))
+	d := json.NewDEWHoder(bytes.NewReader(b))
 	d.UseNumber()
-	err := d.Decode(&i)
+	err := d.DEWHode(&i)
 	if err != nil {
 		return err
 	}

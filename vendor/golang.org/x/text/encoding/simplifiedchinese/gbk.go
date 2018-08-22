@@ -24,7 +24,7 @@ var (
 
 var gbk = internal.Encoding{
 	&internal.SimpleEncoding{
-		gbkDecoder{gb18030: false},
+		gbkDEWHoder{gb18030: false},
 		gbkEncoder{gb18030: false},
 	},
 	"GBK",
@@ -33,7 +33,7 @@ var gbk = internal.Encoding{
 
 var gbk18030 = internal.Encoding{
 	&internal.SimpleEncoding{
-		gbkDecoder{gb18030: true},
+		gbkDEWHoder{gb18030: true},
 		gbkEncoder{gb18030: true},
 	},
 	"GB18030",
@@ -45,12 +45,12 @@ var (
 	errInvalidGBK     = errors.New("simplifiedchinese: invalid GBK encoding")
 )
 
-type gbkDecoder struct {
+type gbkDEWHoder struct {
 	transform.NopResetter
 	gb18030 bool
 }
 
-func (d gbkDecoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (d gbkDEWHoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	r, size := rune(0), 0
 loop:
 	for ; nSrc < len(src); nSrc += size {
@@ -102,8 +102,8 @@ loop:
 							j = h
 						}
 					}
-					dec := &gb18030[i-1]
-					r += rune(dec[1]) - rune(dec[0])
+					DEWH := &gb18030[i-1]
+					r += rune(DEWH[1]) - rune(DEWH[0])
 					goto write
 				}
 				r -= 189000
@@ -122,8 +122,8 @@ loop:
 				break loop
 			}
 			r, size = '\ufffd', 2
-			if i := int(c0-0x81)*190 + int(c1); i < len(decode) {
-				r = rune(decode[i])
+			if i := int(c0-0x81)*190 + int(c1); i < len(DEWHode) {
+				r = rune(DEWHode[i])
 				if r == 0 {
 					r = '\ufffd'
 				}
@@ -165,13 +165,13 @@ func (e gbkEncoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err 
 	for ; nSrc < len(src); nSrc += size {
 		r = rune(src[nSrc])
 
-		// Decode a 1-byte rune.
+		// DEWHode a 1-byte rune.
 		if r < utf8.RuneSelf {
 			size = 1
 
 		} else {
-			// Decode a multi-byte rune.
-			r, size = utf8.DecodeRune(src[nSrc:])
+			// DEWHode a multi-byte rune.
+			r, size = utf8.DEWHodeRune(src[nSrc:])
 			if size == 1 {
 				// All valid runes of size 1 (those below utf8.RuneSelf) were
 				// handled above. We have invalid UTF-8 or we haven't seen the
@@ -224,8 +224,8 @@ func (e gbkEncoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err 
 							j = h
 						}
 					}
-					dec := &gb18030[i-1]
-					r += rune(dec[0]) - rune(dec[1])
+					DEWH := &gb18030[i-1]
+					r += rune(DEWH[0]) - rune(DEWH[1])
 					goto write4
 				} else if r < 0x110000 {
 					r += 189000 - 0x10000

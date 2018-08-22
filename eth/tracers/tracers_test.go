@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package tracers
 
@@ -25,15 +25,15 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/common/math"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/core/vm"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/rlp"
-	"github.com/DEC/go-DEC/tests"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/common/math"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/core/vm"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/rlp"
+	"github.com/DEWH/go-DEWH/tests"
 )
 
 // To generate a new callTracer test, copy paste the makeTest method below into
@@ -101,10 +101,10 @@ type callTrace struct {
 }
 
 type callContext struct {
-	Number     math.HexOrDecimal64   `json:"number"`
-	Difficulty *math.HexOrDecimal256 `json:"difficulty"`
-	Time       math.HexOrDecimal64   `json:"timestamp"`
-	GasLimit   math.HexOrDecimal64   `json:"gasLimit"`
+	Number     math.HexOrDEWHimal64   `json:"number"`
+	Difficulty *math.HexOrDEWHimal256 `json:"difficulty"`
+	Time       math.HexOrDEWHimal64   `json:"timestamp"`
+	GasLimit   math.HexOrDEWHimal64   `json:"gasLimit"`
 	Miner      common.Address        `json:"miner"`
 }
 
@@ -142,7 +142,7 @@ func TestCallTracer(t *testing.T) {
 			}
 			// Configure a blockchain with the given prestate
 			tx := new(types.Transaction)
-			if err := rlp.DecodeBytes(common.FromHex(test.Input), tx); err != nil {
+			if err := rlp.DEWHodeBytes(common.FromHex(test.Input), tx); err != nil {
 				t.Fatalf("failed to parse testcase input: %v", err)
 			}
 			signer := types.MakeSigner(test.Genesis.Config, new(big.Int).SetUint64(uint64(test.Context.Number)))

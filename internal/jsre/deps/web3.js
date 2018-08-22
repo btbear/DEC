@@ -641,7 +641,7 @@ var isDynamic = function (solidityType, type) {
 };
 
 /**
- * SolidityCoder prototype should be used to encode/decode solidity params of any type
+ * SolidityCoder prototype should be used to encode/DEWHode solidity params of any type
  */
 var SolidityCoder = function (types) {
     this._types = types;
@@ -799,31 +799,31 @@ SolidityCoder.prototype.encodeWithOffset = function (type, solidityType, encoded
 };
 
 /**
- * Should be used to decode bytes to plain param
+ * Should be used to DEWHode bytes to plain param
  *
- * @method decodeParam
+ * @method DEWHodeParam
  * @param {String} type
  * @param {String} bytes
  * @return {Object} plain param
  */
-SolidityCoder.prototype.decodeParam = function (type, bytes) {
-    return this.decodeParams([type], bytes)[0];
+SolidityCoder.prototype.DEWHodeParam = function (type, bytes) {
+    return this.DEWHodeParams([type], bytes)[0];
 };
 
 /**
- * Should be used to decode list of params
+ * Should be used to DEWHode list of params
  *
- * @method decodeParam
+ * @method DEWHodeParam
  * @param {Array} types
  * @param {String} bytes
  * @return {Array} array of plain params
  */
-SolidityCoder.prototype.decodeParams = function (types, bytes) {
+SolidityCoder.prototype.DEWHodeParams = function (types, bytes) {
     var solidityTypes = this.getSolidityTypes(types);
     var offsets = this.getOffsets(types, solidityTypes);
 
     return solidityTypes.map(function (solidityType, index) {
-        return solidityType.decode(bytes, offsets[index],  types[index], index);
+        return solidityType.DEWHode(bytes, offsets[index],  types[index], index);
     });
 };
 
@@ -1202,7 +1202,7 @@ var utils = require('../utils/utils');
 
 /**
  * SolidityParam object prototype.
- * Should be used when encoding, decoding solidity bytes
+ * Should be used when encoding, DEWHoding solidity bytes
  */
 var SolidityParam = function (value, offset) {
     this.value = value || '';
@@ -1390,7 +1390,7 @@ var f = require('./formatters');
 var SolidityParam = require('./param');
 
 /**
- * SolidityType prototype is used to encode/decode solidity params of certain type
+ * SolidityType prototype is used to encode/DEWHode solidity params of certain type
  */
 var SolidityType = function (config) {
     this._inputFormatter = config.inputFormatter;
@@ -1577,15 +1577,15 @@ SolidityType.prototype.encode = function (value, name) {
 };
 
 /**
- * Should be used to decode value from bytes
+ * Should be used to DEWHode value from bytes
  *
- * @method decode
+ * @method DEWHode
  * @param {String} bytes
  * @param {Number} offset in bytes
  * @param {String} name type name
- * @returns {Object} decoded value
+ * @returns {Object} DEWHoded value
  */
-SolidityType.prototype.decode = function (bytes, offset, name) {
+SolidityType.prototype.DEWHode = function (bytes, offset, name) {
     var self = this;
 
     if (this.isDynamicArray(name)) {
@@ -1601,7 +1601,7 @@ SolidityType.prototype.decode = function (bytes, offset, name) {
             var result = [];
 
             for (var i = 0; i < length * roundedNestedStaticPartLength; i += roundedNestedStaticPartLength) {
-                result.push(self.decode(bytes, arrayStart + i, nestedName));
+                result.push(self.DEWHode(bytes, arrayStart + i, nestedName));
             }
 
             return result;
@@ -1619,7 +1619,7 @@ SolidityType.prototype.decode = function (bytes, offset, name) {
             var result = [];
 
             for (var i = 0; i < length * roundedNestedStaticPartLength; i += roundedNestedStaticPartLength) {
-                result.push(self.decode(bytes, arrayStart + i, nestedName));
+                result.push(self.DEWHode(bytes, arrayStart + i, nestedName));
             }
 
             return result;
@@ -1960,7 +1960,7 @@ var toUtf8 = function(hex) {
         str += String.fromCharCode(code);
     }
 
-    return utf8.decode(str);
+    return utf8.DEWHode(str);
 };
 
 /**
@@ -2062,24 +2062,24 @@ var extractTypeName = function (name) {
 };
 
 /**
- * Converts value to it's decimal representation in string
+ * Converts value to it's DEWHimal representation in string
  *
- * @method toDecimal
+ * @method toDEWHimal
  * @param {String|Number|BigNumber}
  * @return {String}
  */
-var toDecimal = function (value) {
+var toDEWHimal = function (value) {
     return toBigNumber(value).toNumber();
 };
 
 /**
  * Converts value to it's hex representation
  *
- * @method fromDecimal
+ * @method fromDEWHimal
  * @param {String|Number|BigNumber}
  * @return {String}
  */
-var fromDecimal = function (value) {
+var fromDEWHimal = function (value) {
     var number = toBigNumber(value);
     var result = number.toString(16);
 
@@ -2099,25 +2099,25 @@ var toHex = function (val) {
     /*jshint maxcomplexity: 8 */
 
     if (isBoolean(val))
-        return fromDecimal(+val);
+        return fromDEWHimal(+val);
 
     if (isBigNumber(val))
-        return fromDecimal(val);
+        return fromDEWHimal(val);
 
     if (typeof val === 'object')
         return fromUtf8(JSON.stringify(val));
 
-    // if its a negative number, pass it through fromDecimal
+    // if its a negative number, pass it through fromDEWHimal
     if (isString(val)) {
         if (val.indexOf('-0x') === 0)
-            return fromDecimal(val);
+            return fromDEWHimal(val);
         else if(val.indexOf('0x') === 0)
             return val;
         else if (!isFinite(val))
             return fromAscii(val);
     }
 
-    return fromDecimal(val);
+    return fromDEWHimal(val);
 };
 
 /**
@@ -2154,7 +2154,7 @@ var getValueOfUnit = function (unit) {
  * - tether
  *
  * @method fromWei
- * @param {Number|String} number can be a number, number string or a HEX of a decimal
+ * @param {Number|String} number can be a number, number string or a HEX of a DEWHimal
  * @param {String} unit the unit to convert to, default ether
  * @return {String|Object} When given a BigNumber object it returns one as well, otherwise a number
 */
@@ -2182,7 +2182,7 @@ var fromWei = function(number, unit) {
  * - tether
  *
  * @method toWei
- * @param {Number|String|BigNumber} number can be a number, number string or a HEX of a decimal
+ * @param {Number|String|BigNumber} number can be a number, number string or a HEX of a DEWHimal
  * @param {String} unit the unit to convert from, default ether
  * @return {String|Object} When given a BigNumber object it returns one as well, otherwise a number
 */
@@ -2409,7 +2409,7 @@ var isJson = function (str) {
 };
 
 /**
- * Returns true if given string is a valid DEC block header bloom.
+ * Returns true if given string is a valid DEWH block header bloom.
  *
  * @method isBloom
  * @param {String} hex encoded bloom filter
@@ -2444,8 +2444,8 @@ module.exports = {
     padLeft: padLeft,
     padRight: padRight,
     toHex: toHex,
-    toDecimal: toDecimal,
-    fromDecimal: fromDecimal,
+    toDEWHimal: toDEWHimal,
+    fromDEWHimal: fromDEWHimal,
     toUtf8: toUtf8,
     toAscii: toAscii,
     fromUtf8: fromUtf8,
@@ -2572,8 +2572,8 @@ Web3.prototype.toAscii = utils.toAscii;
 Web3.prototype.toUtf8 = utils.toUtf8;
 Web3.prototype.fromAscii = utils.fromAscii;
 Web3.prototype.fromUtf8 = utils.fromUtf8;
-Web3.prototype.toDecimal = utils.toDecimal;
-Web3.prototype.fromDecimal = utils.fromDecimal;
+Web3.prototype.toDEWHimal = utils.toDEWHimal;
+Web3.prototype.fromDEWHimal = utils.fromDEWHimal;
 Web3.prototype.toBigNumber = utils.toBigNumber;
 Web3.prototype.toWei = utils.toWei;
 Web3.prototype.fromWei = utils.fromWei;
@@ -2606,17 +2606,17 @@ var properties = function () {
         new Property({
             name: 'version.network',
             getter: 'net_version',
-            inputFormatter: utils.toDecimal
+            inputFormatter: utils.toDEWHimal
         }),
         new Property({
-            name: 'version.DEC',
+            name: 'version.DEWH',
             getter: 'eth_protocolVersion',
-            inputFormatter: utils.toDecimal
+            inputFormatter: utils.toDEWHimal
         }),
         new Property({
             name: 'version.whisper',
             getter: 'shh_version',
-            inputFormatter: utils.toDecimal
+            inputFormatter: utils.toDEWHimal
         })
     ];
 };
@@ -2683,7 +2683,7 @@ AllSolidityEvents.prototype.encode = function (options) {
     return result;
 };
 
-AllSolidityEvents.prototype.decode = function (data) {
+AllSolidityEvents.prototype.DEWHode = function (data) {
     data.data = data.data || '';
     data.topics = data.topics || [];
 
@@ -2698,7 +2698,7 @@ AllSolidityEvents.prototype.decode = function (data) {
     }
 
     var event = new SolidityEvent(this._requestManager, match, this._address);
-    return event.decode(data);
+    return event.DEWHode(data);
 };
 
 AllSolidityEvents.prototype.execute = function (options, callback) {
@@ -2710,7 +2710,7 @@ AllSolidityEvents.prototype.execute = function (options, callback) {
     }
 
     var o = this.encode(options);
-    var formatter = this.decode.bind(this);
+    var formatter = this.DEWHode.bind(this);
     return new Filter(o, 'eth', this._requestManager, watches.eth(), formatter, callback);
 };
 
@@ -2822,11 +2822,11 @@ var AllEvents = require('./allevents');
 /**
  * Should be called to encode constructor params
  *
- * @method encodeConstructorParams
+ * @method encoDEWHonstructorParams
  * @param {Array} abi
  * @param {Array} constructor params
  */
-var encodeConstructorParams = function (abi, params) {
+var encoDEWHonstructorParams = function (abi, params) {
     return abi.filter(function (json) {
         return json.type === 'constructor' && json.inputs.length === params.length;
     }).map(function (json) {
@@ -2998,7 +2998,7 @@ var ContractFactory = function (eth, abi) {
             }
         }
 
-        var bytes = encodeConstructorParams(this.abi, args);
+        var bytes = encoDEWHonstructorParams(this.abi, args);
         options.data += bytes;
 
         if (callback) {
@@ -3080,7 +3080,7 @@ ContractFactory.prototype.getData = function () {
         options = args.pop();
     }
 
-    var bytes = encodeConstructorParams(this.abi, args);
+    var bytes = encoDEWHonstructorParams(this.abi, args);
     options.data += bytes;
 
     return options.data;
@@ -3192,7 +3192,7 @@ var SolidityEvent = function (requestManager, json, address) {
  * Should be used to get filtered param types
  *
  * @method types
- * @param {Bool} decide if returned typed should be indexed
+ * @param {Bool} DEWHide if returned typed should be indexed
  * @return {Array} array of types
  */
 SolidityEvent.prototype.types = function (indexed) {
@@ -3281,23 +3281,23 @@ SolidityEvent.prototype.encode = function (indexed, options) {
 };
 
 /**
- * Should be used to decode indexed params and options
+ * Should be used to DEWHode indexed params and options
  *
- * @method decode
+ * @method DEWHode
  * @param {Object} data
- * @return {Object} result object with decoded indexed && not indexed params
+ * @return {Object} result object with DEWHoded indexed && not indexed params
  */
-SolidityEvent.prototype.decode = function (data) {
+SolidityEvent.prototype.DEWHode = function (data) {
 
     data.data = data.data || '';
     data.topics = data.topics || [];
 
     var argTopics = this._anonymous ? data.topics : data.topics.slice(1);
     var indexedData = argTopics.map(function (topics) { return topics.slice(2); }).join("");
-    var indexedParams = coder.decodeParams(this.types(true), indexedData);
+    var indexedParams = coder.DEWHodeParams(this.types(true), indexedData);
 
     var notIndexedData = data.data.slice(2);
-    var notIndexedParams = coder.decodeParams(this.types(false), notIndexedData);
+    var notIndexedParams = coder.DEWHodeParams(this.types(false), notIndexedData);
 
     var result = formatters.outputLogFormatter(data);
     result.event = this.displayName();
@@ -3335,7 +3335,7 @@ SolidityEvent.prototype.execute = function (indexed, options, callback) {
     }
 
     var o = this.encode(indexed, options);
-    var formatter = this.decode.bind(this);
+    var formatter = this.DEWHode.bind(this);
     return new Filter(o, 'eth', this._requestManager, watches.eth(), formatter, callback);
 };
 
@@ -3737,7 +3737,7 @@ var inputCallFormatter = function (options){
     ['gasPrice', 'gas', 'value', 'nonce'].filter(function (key) {
         return options[key] !== undefined;
     }).forEach(function(key){
-        options[key] = utils.fromDecimal(options[key]);
+        options[key] = utils.fromDEWHimal(options[key]);
     });
 
     return options;
@@ -3762,7 +3762,7 @@ var inputTransactionFormatter = function (options){
     ['gasPrice', 'gas', 'value', 'nonce'].filter(function (key) {
         return options[key] !== undefined;
     }).forEach(function(key){
-        options[key] = utils.fromDecimal(options[key]);
+        options[key] = utils.fromDEWHimal(options[key]);
     });
 
     return options;
@@ -3777,11 +3777,11 @@ var inputTransactionFormatter = function (options){
 */
 var outputTransactionFormatter = function (tx){
     if(tx.blockNumber !== null)
-        tx.blockNumber = utils.toDecimal(tx.blockNumber);
+        tx.blockNumber = utils.toDEWHimal(tx.blockNumber);
     if(tx.transactionIndex !== null)
-        tx.transactionIndex = utils.toDecimal(tx.transactionIndex);
-    tx.nonce = utils.toDecimal(tx.nonce);
-    tx.gas = utils.toDecimal(tx.gas);
+        tx.transactionIndex = utils.toDEWHimal(tx.transactionIndex);
+    tx.nonce = utils.toDEWHimal(tx.nonce);
+    tx.gas = utils.toDEWHimal(tx.gas);
     tx.gasPrice = utils.toBigNumber(tx.gasPrice);
     tx.value = utils.toBigNumber(tx.value);
     return tx;
@@ -3796,11 +3796,11 @@ var outputTransactionFormatter = function (tx){
 */
 var outputTransactionReceiptFormatter = function (receipt){
     if(receipt.blockNumber !== null)
-        receipt.blockNumber = utils.toDecimal(receipt.blockNumber);
+        receipt.blockNumber = utils.toDEWHimal(receipt.blockNumber);
     if(receipt.transactionIndex !== null)
-        receipt.transactionIndex = utils.toDecimal(receipt.transactionIndex);
-    receipt.cumulativeGasUsed = utils.toDecimal(receipt.cumulativeGasUsed);
-    receipt.gasUsed = utils.toDecimal(receipt.gasUsed);
+        receipt.transactionIndex = utils.toDEWHimal(receipt.transactionIndex);
+    receipt.cumulativeGasUsed = utils.toDEWHimal(receipt.cumulativeGasUsed);
+    receipt.gasUsed = utils.toDEWHimal(receipt.gasUsed);
 
     if(utils.isArray(receipt.logs)) {
         receipt.logs = receipt.logs.map(function(log){
@@ -3821,12 +3821,12 @@ var outputTransactionReceiptFormatter = function (receipt){
 var outputBlockFormatter = function(block) {
 
     // transform to number
-    block.gasLimit = utils.toDecimal(block.gasLimit);
-    block.gasUsed = utils.toDecimal(block.gasUsed);
-    block.size = utils.toDecimal(block.size);
-    block.timestamp = utils.toDecimal(block.timestamp);
+    block.gasLimit = utils.toDEWHimal(block.gasLimit);
+    block.gasUsed = utils.toDEWHimal(block.gasUsed);
+    block.size = utils.toDEWHimal(block.size);
+    block.timestamp = utils.toDEWHimal(block.timestamp);
     if(block.number !== null)
-        block.number = utils.toDecimal(block.number);
+        block.number = utils.toDEWHimal(block.number);
 
     block.difficulty = utils.toBigNumber(block.difficulty);
     block.totalDifficulty = utils.toBigNumber(block.totalDifficulty);
@@ -3850,11 +3850,11 @@ var outputBlockFormatter = function(block) {
 */
 var outputLogFormatter = function(log) {
     if(log.blockNumber)
-        log.blockNumber = utils.toDecimal(log.blockNumber);
+        log.blockNumber = utils.toDEWHimal(log.blockNumber);
     if(log.transactionIndex)
-        log.transactionIndex = utils.toDecimal(log.transactionIndex);
+        log.transactionIndex = utils.toDEWHimal(log.transactionIndex);
     if(log.logIndex)
-        log.logIndex = utils.toDecimal(log.logIndex);
+        log.logIndex = utils.toDEWHimal(log.logIndex);
 
     return log;
 };
@@ -3869,9 +3869,9 @@ var outputLogFormatter = function(log) {
 var inputPostFormatter = function(post) {
 
     // post.payload = utils.toHex(post.payload);
-    post.ttl = utils.fromDecimal(post.ttl);
-    post.workToProve = utils.fromDecimal(post.workToProve);
-    post.priority = utils.fromDecimal(post.priority);
+    post.ttl = utils.fromDEWHimal(post.ttl);
+    post.workToProve = utils.fromDEWHimal(post.workToProve);
+    post.priority = utils.fromDEWHimal(post.priority);
 
     // fallback
     if (!utils.isArray(post.topics)) {
@@ -3896,10 +3896,10 @@ var inputPostFormatter = function(post) {
  */
 var outputPostFormatter = function(post){
 
-    post.expiry = utils.toDecimal(post.expiry);
-    post.sent = utils.toDecimal(post.sent);
-    post.ttl = utils.toDecimal(post.ttl);
-    post.workProved = utils.toDecimal(post.workProved);
+    post.expiry = utils.toDEWHimal(post.expiry);
+    post.sent = utils.toDEWHimal(post.sent);
+    post.ttl = utils.toDEWHimal(post.ttl);
+    post.workProved = utils.toDEWHimal(post.workProved);
     // post.payloadRaw = post.payload;
     // post.payload = utils.toAscii(post.payload);
 
@@ -3936,12 +3936,12 @@ var outputSyncingFormatter = function(result) {
         return result;
     }
 
-    result.startingBlock = utils.toDecimal(result.startingBlock);
-    result.currentBlock = utils.toDecimal(result.currentBlock);
-    result.highestBlock = utils.toDecimal(result.highestBlock);
+    result.startingBlock = utils.toDEWHimal(result.startingBlock);
+    result.currentBlock = utils.toDEWHimal(result.currentBlock);
+    result.highestBlock = utils.toDEWHimal(result.highestBlock);
     if (result.knownStates) {
-        result.knownStates = utils.toDecimal(result.knownStates);
-        result.pulledStates = utils.toDecimal(result.pulledStates);
+        result.knownStates = utils.toDEWHimal(result.knownStates);
+        result.pulledStates = utils.toDEWHimal(result.pulledStates);
     }
 
     return result;
@@ -4077,7 +4077,7 @@ SolidityFunction.prototype.unpackOutput = function (output) {
     }
 
     output = output.length >= 2 ? output.slice(2) : output;
-    var result = coder.decodeParams(this._outputTypes, output);
+    var result = coder.DEWHodeParams(this._outputTypes, output);
     return result.length === 1 ? result[0] : result;
 };
 
@@ -4496,7 +4496,7 @@ var Iban = function (iban) {
 };
 
 /**
- * This method should be used to create iban object from DEC address
+ * This method should be used to create iban object from DEWH address
  *
  * @method fromAddress
  * @param {String} address
@@ -4721,14 +4721,14 @@ IpcProvider.prototype._parseResponse = function(data) {
         returnValues = [];
     
     // DE-CHUNKER
-    var dechunkedData = data
+    var DEWHhunkedData = data
         .replace(/\}[\n\r]?\{/g,'}|--|{') // }{
         .replace(/\}\][\n\r]?\[\{/g,'}]|--|[{') // }][{
         .replace(/\}[\n\r]?\[\{/g,'}|--|[{') // }[{
         .replace(/\}\][\n\r]?\{/g,'}]|--|{') // }]{
         .split('|--|');
 
-    dechunkedData.forEach(function(data){
+    DEWHhunkedData.forEach(function(data){
 
         // prepend the last chunk
         if(_this.lastChunk)
@@ -5317,7 +5317,7 @@ var methods = function () {
         call: getBlockTransactionCountCall,
         params: 1,
         inputFormatter: [formatters.inputBlockNumberFormatter],
-        outputFormatter: utils.toDecimal
+        outputFormatter: utils.toDEWHimal
     });
 
     var getBlockUncleCount = new Method({
@@ -5325,7 +5325,7 @@ var methods = function () {
         call: uncleCountCall,
         params: 1,
         inputFormatter: [formatters.inputBlockNumberFormatter],
-        outputFormatter: utils.toDecimal
+        outputFormatter: utils.toDEWHimal
     });
 
     var getTransaction = new Method({
@@ -5355,7 +5355,7 @@ var methods = function () {
         call: 'eth_getTransactionCount',
         params: 2,
         inputFormatter: [null, formatters.inputDefaultBlockNumberFormatter],
-        outputFormatter: utils.toDecimal
+        outputFormatter: utils.toDEWHimal
     });
 
     var sendRawTransaction = new Method({
@@ -5398,7 +5398,7 @@ var methods = function () {
         call: 'eth_estimateGas',
         params: 1,
         inputFormatter: [formatters.inputCallFormatter],
-        outputFormatter: utils.toDecimal
+        outputFormatter: utils.toDEWHimal
     });
 
     var compileSolidity = new Method({
@@ -5472,7 +5472,7 @@ var properties = function () {
         new Property({
             name: 'hashrate',
             getter: 'eth_hashrate',
-            outputFormatter: utils.toDecimal
+            outputFormatter: utils.toDEWHimal
         }),
         new Property({
             name: 'syncing',
@@ -5491,7 +5491,7 @@ var properties = function () {
         new Property({
             name: 'blockNumber',
             getter: 'eth_blockNumber',
-            outputFormatter: utils.toDecimal
+            outputFormatter: utils.toDEWHimal
         }),
         new Property({
             name: 'protocolVersion',
@@ -5570,7 +5570,7 @@ var properties = function () {
         new Property({
             name: 'peerCount',
             getter: 'net_peerCount',
-            outputFormatter: utils.toDecimal
+            outputFormatter: utils.toDEWHimal
         })
     ];
 };
@@ -5713,7 +5713,7 @@ module.exports = Personal;
 */
 /** @file shh.js
  * @authors:
- *   Fabian Vogelsteller <fabian@DEC.org>
+ *   Fabian Vogelsteller <fabian@DEWH.org>
  *   Marek Kotewicz <marek@ethcore.io>
  * @date 2017
  */
@@ -5862,7 +5862,7 @@ module.exports = Shh;
  * @author Alex Beregszaszi <alex@rtfs.hu>
  * @date 2016
  *
- * Reference: https://github.com/DEC/go-DEC/blob/swarm/internal/web3ext/web3ext.go#L33
+ * Reference: https://github.com/DEWH/go-DEWH/blob/swarm/internal/web3ext/web3ext.go#L33
  */
 
 "use strict";
@@ -6317,7 +6317,7 @@ var errors = require('./errors');
 
 /**
  * It's responsible for passing messages to providers
- * It's also responsible for polling the DEC node for incoming messages
+ * It's also responsible for polling the DEWH node for incoming messages
  * Default poll timeout is 1 second
  * Singleton
  */
@@ -6912,7 +6912,7 @@ module.exports = transfer;
 	            this._doCryptBlock(M, offset, this._keySchedule, SUB_MIX_0, SUB_MIX_1, SUB_MIX_2, SUB_MIX_3, SBOX);
 	        },
 
-	        decryptBlock: function (M, offset) {
+	        DEWHryptBlock: function (M, offset) {
 	            // Swap 2nd and 4th rows
 	            var t = M[offset + 1];
 	            M[offset + 1] = M[offset + 3];
@@ -6976,7 +6976,7 @@ module.exports = transfer;
 	     * @example
 	     *
 	     *     var ciphertext = CryptoJS.AES.encrypt(message, key, cfg);
-	     *     var plaintext  = CryptoJS.AES.decrypt(ciphertext, key, cfg);
+	     *     var plaintext  = CryptoJS.AES.DEWHrypt(ciphertext, key, cfg);
 	     */
 	    C.AES = BlockCipher._createHelper(AES);
 	}());
@@ -7023,7 +7023,7 @@ module.exports = transfer;
 	     * @property {number} keySize This cipher's key size. Default: 4 (128 bits)
 	     * @property {number} ivSize This cipher's IV size. Default: 4 (128 bits)
 	     * @property {number} _ENC_XFORM_MODE A constant representing encryption mode.
-	     * @property {number} _DEC_XFORM_MODE A constant representing decryption mode.
+	     * @property {number} _DEWH_XFORM_MODE A constant representing DEWHryption mode.
 	     */
 	    var Cipher = C_lib.Cipher = BufferedBlockAlgorithm.extend({
 	        /**
@@ -7052,7 +7052,7 @@ module.exports = transfer;
 	        },
 
 	        /**
-	         * Creates this cipher in decryption mode.
+	         * Creates this cipher in DEWHryption mode.
 	         *
 	         * @param {WordArray} key The key.
 	         * @param {Object} cfg (Optional) The configuration options to use for this operation.
@@ -7063,16 +7063,16 @@ module.exports = transfer;
 	         *
 	         * @example
 	         *
-	         *     var cipher = CryptoJS.algo.AES.createDecryptor(keyWordArray, { iv: ivWordArray });
+	         *     var cipher = CryptoJS.algo.AES.createDEWHryptor(keyWordArray, { iv: ivWordArray });
 	         */
-	        createDecryptor: function (key, cfg) {
-	            return this.create(this._DEC_XFORM_MODE, key, cfg);
+	        createDEWHryptor: function (key, cfg) {
+	            return this.create(this._DEWH_XFORM_MODE, key, cfg);
 	        },
 
 	        /**
 	         * Initializes a newly created cipher.
 	         *
-	         * @param {number} xformMode Either the encryption or decryption transormation mode constant.
+	         * @param {number} xformMode Either the encryption or DEWHryption transormation mode constant.
 	         * @param {WordArray} key The key.
 	         * @param {Object} cfg (Optional) The configuration options to use for this operation.
 	         *
@@ -7108,9 +7108,9 @@ module.exports = transfer;
 	        },
 
 	        /**
-	         * Adds data to be encrypted or decrypted.
+	         * Adds data to be encrypted or DEWHrypted.
 	         *
-	         * @param {WordArray|string} dataUpdate The data to encrypt or decrypt.
+	         * @param {WordArray|string} dataUpdate The data to encrypt or DEWHrypt.
 	         *
 	         * @return {WordArray} The data after processing.
 	         *
@@ -7128,10 +7128,10 @@ module.exports = transfer;
 	        },
 
 	        /**
-	         * Finalizes the encryption or decryption process.
+	         * Finalizes the encryption or DEWHryption process.
 	         * Note that the finalize operation is effectively a destructive, read-once operation.
 	         *
-	         * @param {WordArray|string} dataUpdate The final data to encrypt or decrypt.
+	         * @param {WordArray|string} dataUpdate The final data to encrypt or DEWHrypt.
 	         *
 	         * @return {WordArray} The data after final processing.
 	         *
@@ -7159,14 +7159,14 @@ module.exports = transfer;
 
 	        _ENC_XFORM_MODE: 1,
 
-	        _DEC_XFORM_MODE: 2,
+	        _DEWH_XFORM_MODE: 2,
 
 	        /**
 	         * Creates shortcut functions to a cipher's object interface.
 	         *
 	         * @param {Cipher} cipher The cipher to create a helper for.
 	         *
-	         * @return {Object} An object with encrypt and decrypt shortcut functions.
+	         * @return {Object} An object with encrypt and DEWHrypt shortcut functions.
 	         *
 	         * @static
 	         *
@@ -7189,8 +7189,8 @@ module.exports = transfer;
 	                        return selectCipherStrategy(key).encrypt(cipher, message, key, cfg);
 	                    },
 
-	                    decrypt: function (ciphertext, key, cfg) {
-	                        return selectCipherStrategy(key).decrypt(cipher, ciphertext, key, cfg);
+	                    DEWHrypt: function (ciphertext, key, cfg) {
+	                        return selectCipherStrategy(key).DEWHrypt(cipher, ciphertext, key, cfg);
 	                    }
 	                };
 	            };
@@ -7239,7 +7239,7 @@ module.exports = transfer;
 	        },
 
 	        /**
-	         * Creates this mode for decryption.
+	         * Creates this mode for DEWHryption.
 	         *
 	         * @param {Cipher} cipher A block cipher instance.
 	         * @param {Array} iv The IV words.
@@ -7248,10 +7248,10 @@ module.exports = transfer;
 	         *
 	         * @example
 	         *
-	         *     var mode = CryptoJS.mode.CBC.createDecryptor(cipher, iv.words);
+	         *     var mode = CryptoJS.mode.CBC.createDEWHryptor(cipher, iv.words);
 	         */
-	        createDecryptor: function (cipher, iv) {
-	            return this.Decryptor.create(cipher, iv);
+	        createDEWHryptor: function (cipher, iv) {
+	            return this.DEWHryptor.create(cipher, iv);
 	        },
 
 	        /**
@@ -7308,9 +7308,9 @@ module.exports = transfer;
 	        });
 
 	        /**
-	         * CBC decryptor.
+	         * CBC DEWHryptor.
 	         */
-	        CBC.Decryptor = CBC.extend({
+	        CBC.DEWHryptor = CBC.extend({
 	            /**
 	             * Processes the data block at offset.
 	             *
@@ -7329,8 +7329,8 @@ module.exports = transfer;
 	                // Remember this block to use with next block
 	                var thisBlock = words.slice(offset, offset + blockSize);
 
-	                // Decrypt and XOR
-	                cipher.decryptBlock(words, offset);
+	                // DEWHrypt and XOR
+	                cipher.DEWHryptBlock(words, offset);
 	                xorBlock.call(this, words, offset, blockSize);
 
 	                // This block becomes the previous block
@@ -7451,14 +7451,14 @@ module.exports = transfer;
 
 	            // Reset block mode
 	            if (this._xformMode == this._ENC_XFORM_MODE) {
-	                var modeCreator = mode.createEncryptor;
-	            } else /* if (this._xformMode == this._DEC_XFORM_MODE) */ {
-	                var modeCreator = mode.createDecryptor;
+	                var moDEWHreator = mode.createEncryptor;
+	            } else /* if (this._xformMode == this._DEWH_XFORM_MODE) */ {
+	                var moDEWHreator = mode.createDEWHryptor;
 
 	                // Keep at least one block in the buffer for unpadding
 	                this._minBufferSize = 1;
 	            }
-	            this._mode = modeCreator.call(mode, this, iv && iv.words);
+	            this._mode = moDEWHreator.call(mode, this, iv && iv.words);
 	        },
 
 	        _doProcessBlock: function (words, offset) {
@@ -7476,7 +7476,7 @@ module.exports = transfer;
 
 	                // Process final blocks
 	                var finalProcessedBlocks = this._process(!!'flush');
-	            } else /* if (this._xformMode == this._DEC_XFORM_MODE) */ {
+	            } else /* if (this._xformMode == this._DEWH_XFORM_MODE) */ {
 	                // Process final blocks
 	                var finalProcessedBlocks = this._process(!!'flush');
 
@@ -7674,10 +7674,10 @@ module.exports = transfer;
 	        },
 
 	        /**
-	         * Decrypts serialized ciphertext.
+	         * DEWHrypts serialized ciphertext.
 	         *
 	         * @param {Cipher} cipher The cipher algorithm to use.
-	         * @param {CipherParams|string} ciphertext The ciphertext to decrypt.
+	         * @param {CipherParams|string} ciphertext The ciphertext to DEWHrypt.
 	         * @param {WordArray} key The key.
 	         * @param {Object} cfg (Optional) The configuration options to use for this operation.
 	         *
@@ -7687,18 +7687,18 @@ module.exports = transfer;
 	         *
 	         * @example
 	         *
-	         *     var plaintext = CryptoJS.lib.SerializableCipher.decrypt(CryptoJS.algo.AES, formattedCiphertext, key, { iv: iv, format: CryptoJS.format.OpenSSL });
-	         *     var plaintext = CryptoJS.lib.SerializableCipher.decrypt(CryptoJS.algo.AES, ciphertextParams, key, { iv: iv, format: CryptoJS.format.OpenSSL });
+	         *     var plaintext = CryptoJS.lib.SerializableCipher.DEWHrypt(CryptoJS.algo.AES, formattedCiphertext, key, { iv: iv, format: CryptoJS.format.OpenSSL });
+	         *     var plaintext = CryptoJS.lib.SerializableCipher.DEWHrypt(CryptoJS.algo.AES, ciphertextParams, key, { iv: iv, format: CryptoJS.format.OpenSSL });
 	         */
-	        decrypt: function (cipher, ciphertext, key, cfg) {
+	        DEWHrypt: function (cipher, ciphertext, key, cfg) {
 	            // Apply config defaults
 	            cfg = this.cfg.extend(cfg);
 
 	            // Convert string to CipherParams
 	            ciphertext = this._parse(ciphertext, cfg.format);
 
-	            // Decrypt
-	            var plaintext = cipher.createDecryptor(key, cfg).finalize(ciphertext.ciphertext);
+	            // DEWHrypt
+	            var plaintext = cipher.createDEWHryptor(key, cfg).finalize(ciphertext.ciphertext);
 
 	            return plaintext;
 	        },
@@ -7822,10 +7822,10 @@ module.exports = transfer;
 	        },
 
 	        /**
-	         * Decrypts serialized ciphertext using a password.
+	         * DEWHrypts serialized ciphertext using a password.
 	         *
 	         * @param {Cipher} cipher The cipher algorithm to use.
-	         * @param {CipherParams|string} ciphertext The ciphertext to decrypt.
+	         * @param {CipherParams|string} ciphertext The ciphertext to DEWHrypt.
 	         * @param {string} password The password.
 	         * @param {Object} cfg (Optional) The configuration options to use for this operation.
 	         *
@@ -7835,10 +7835,10 @@ module.exports = transfer;
 	         *
 	         * @example
 	         *
-	         *     var plaintext = CryptoJS.lib.PasswordBasedCipher.decrypt(CryptoJS.algo.AES, formattedCiphertext, 'password', { format: CryptoJS.format.OpenSSL });
-	         *     var plaintext = CryptoJS.lib.PasswordBasedCipher.decrypt(CryptoJS.algo.AES, ciphertextParams, 'password', { format: CryptoJS.format.OpenSSL });
+	         *     var plaintext = CryptoJS.lib.PasswordBasedCipher.DEWHrypt(CryptoJS.algo.AES, formattedCiphertext, 'password', { format: CryptoJS.format.OpenSSL });
+	         *     var plaintext = CryptoJS.lib.PasswordBasedCipher.DEWHrypt(CryptoJS.algo.AES, ciphertextParams, 'password', { format: CryptoJS.format.OpenSSL });
 	         */
-	        decrypt: function (cipher, ciphertext, password, cfg) {
+	        DEWHrypt: function (cipher, ciphertext, password, cfg) {
 	            // Apply config defaults
 	            cfg = this.cfg.extend(cfg);
 
@@ -7851,8 +7851,8 @@ module.exports = transfer;
 	            // Add IV to config
 	            cfg.iv = derivedParams.iv;
 
-	            // Decrypt
-	            var plaintext = SerializableCipher.decrypt.call(this, cipher, ciphertext, derivedParams.key, cfg);
+	            // DEWHrypt
+	            var plaintext = SerializableCipher.DEWHrypt.call(this, cipher, ciphertext, derivedParams.key, cfg);
 
 	            return plaintext;
 	        }
@@ -8337,7 +8337,7 @@ module.exports = transfer;
 	         */
 	        stringify: function (wordArray) {
 	            try {
-	                return decodeURIComponent(escape(Latin1.stringify(wordArray)));
+	                return DEWHodeURIComponent(escape(Latin1.stringify(wordArray)));
 	            } catch (e) {
 	                throw new Error('Malformed UTF-8 data');
 	            }
@@ -9068,11 +9068,11 @@ module.exports = transfer;
 
 	    var HexFormatter = C_format.Hex = {
 	        /**
-	         * Converts the ciphertext of a cipher params object to a hexadecimally encoded string.
+	         * Converts the ciphertext of a cipher params object to a hexaDEWHimally encoded string.
 	         *
 	         * @param {CipherParams} cipherParams The cipher params object.
 	         *
-	         * @return {string} The hexadecimally encoded string.
+	         * @return {string} The hexaDEWHimally encoded string.
 	         *
 	         * @static
 	         *
@@ -9085,9 +9085,9 @@ module.exports = transfer;
 	        },
 
 	        /**
-	         * Converts a hexadecimally encoded ciphertext string to a cipher params object.
+	         * Converts a hexaDEWHimally encoded ciphertext string to a cipher params object.
 	         *
-	         * @param {string} input The hexadecimally encoded string.
+	         * @param {string} input The hexaDEWHimally encoded string.
 	         *
 	         * @return {CipherParams} The cipher params object.
 	         *
@@ -9652,7 +9652,7 @@ module.exports = transfer;
 	        }
 	    });
 
-	    CFB.Decryptor = CFB.extend({
+	    CFB.DEWHryptor = CFB.extend({
 	        processBlock: function (words, offset) {
 	            // Shortcuts
 	            var cipher = this._cipher;
@@ -9802,7 +9802,7 @@ module.exports = transfer;
 	        }
 	    });
 
-	    CTRGladman.Decryptor = Encryptor;
+	    CTRGladman.DEWHryptor = Encryptor;
 
 	    return CTRGladman;
 	}());
@@ -9863,7 +9863,7 @@ module.exports = transfer;
 	        }
 	    });
 
-	    CTR.Decryptor = Encryptor;
+	    CTR.DEWHryptor = Encryptor;
 
 	    return CTR;
 	}());
@@ -9900,9 +9900,9 @@ module.exports = transfer;
 	        }
 	    });
 
-	    ECB.Decryptor = ECB.extend({
+	    ECB.DEWHryptor = ECB.extend({
 	        processBlock: function (words, offset) {
-	            this._cipher.decryptBlock(words, offset);
+	            this._cipher.DEWHryptBlock(words, offset);
 	        }
 	    });
 
@@ -9959,7 +9959,7 @@ module.exports = transfer;
 	        }
 	    });
 
-	    OFB.Decryptor = Encryptor;
+	    OFB.DEWHryptor = Encryptor;
 
 	    return OFB;
 	}());
@@ -10509,7 +10509,7 @@ module.exports = transfer;
 	     * @example
 	     *
 	     *     var ciphertext = CryptoJS.RabbitLegacy.encrypt(message, key, cfg);
-	     *     var plaintext  = CryptoJS.RabbitLegacy.decrypt(ciphertext, key, cfg);
+	     *     var plaintext  = CryptoJS.RabbitLegacy.DEWHrypt(ciphertext, key, cfg);
 	     */
 	    C.RabbitLegacy = StreamCipher._createHelper(RabbitLegacy);
 	}());
@@ -10702,7 +10702,7 @@ module.exports = transfer;
 	     * @example
 	     *
 	     *     var ciphertext = CryptoJS.Rabbit.encrypt(message, key, cfg);
-	     *     var plaintext  = CryptoJS.Rabbit.decrypt(ciphertext, key, cfg);
+	     *     var plaintext  = CryptoJS.Rabbit.DEWHrypt(ciphertext, key, cfg);
 	     */
 	    C.Rabbit = StreamCipher._createHelper(Rabbit);
 	}());
@@ -10809,7 +10809,7 @@ module.exports = transfer;
 	     * @example
 	     *
 	     *     var ciphertext = CryptoJS.RC4.encrypt(message, key, cfg);
-	     *     var plaintext  = CryptoJS.RC4.decrypt(ciphertext, key, cfg);
+	     *     var plaintext  = CryptoJS.RC4.DEWHrypt(ciphertext, key, cfg);
 	     */
 	    C.RC4 = StreamCipher._createHelper(RC4);
 
@@ -10842,7 +10842,7 @@ module.exports = transfer;
 	     * @example
 	     *
 	     *     var ciphertext = CryptoJS.RC4Drop.encrypt(message, key, cfg);
-	     *     var plaintext  = CryptoJS.RC4Drop.decrypt(ciphertext, key, cfg);
+	     *     var plaintext  = CryptoJS.RC4Drop.DEWHrypt(ciphertext, key, cfg);
 	     */
 	    C.RC4Drop = StreamCipher._createHelper(RC4Drop);
 	}());
@@ -12926,7 +12926,7 @@ module.exports = transfer;
 	            this._doCryptBlock(M, offset, this._subKeys);
 	        },
 
-	        decryptBlock: function (M, offset) {
+	        DEWHryptBlock: function (M, offset) {
 	            this._doCryptBlock(M, offset, this._invSubKeys);
 	        },
 
@@ -13001,7 +13001,7 @@ module.exports = transfer;
 	     * @example
 	     *
 	     *     var ciphertext = CryptoJS.DES.encrypt(message, key, cfg);
-	     *     var plaintext  = CryptoJS.DES.decrypt(ciphertext, key, cfg);
+	     *     var plaintext  = CryptoJS.DES.DEWHrypt(ciphertext, key, cfg);
 	     */
 	    C.DES = BlockCipher._createHelper(DES);
 
@@ -13022,14 +13022,14 @@ module.exports = transfer;
 
 	        encryptBlock: function (M, offset) {
 	            this._des1.encryptBlock(M, offset);
-	            this._des2.decryptBlock(M, offset);
+	            this._des2.DEWHryptBlock(M, offset);
 	            this._des3.encryptBlock(M, offset);
 	        },
 
-	        decryptBlock: function (M, offset) {
-	            this._des3.decryptBlock(M, offset);
+	        DEWHryptBlock: function (M, offset) {
+	            this._des3.DEWHryptBlock(M, offset);
 	            this._des2.encryptBlock(M, offset);
-	            this._des1.decryptBlock(M, offset);
+	            this._des1.DEWHryptBlock(M, offset);
 	        },
 
 	        keySize: 192/32,
@@ -13045,7 +13045,7 @@ module.exports = transfer;
 	     * @example
 	     *
 	     *     var ciphertext = CryptoJS.TripleDES.encrypt(message, key, cfg);
-	     *     var plaintext  = CryptoJS.TripleDES.decrypt(ciphertext, key, cfg);
+	     *     var plaintext  = CryptoJS.TripleDES.DEWHrypt(ciphertext, key, cfg);
 	     */
 	    C.TripleDES = BlockCipher._createHelper(TripleDES);
 	}());
@@ -13382,7 +13382,7 @@ module.exports = transfer;
 	var stringFromCharCode = String.fromCharCode;
 
 	// Taken from https://mths.be/punycode
-	function ucs2decode(string) {
+	function ucs2DEWHode(string) {
 		var output = [];
 		var counter = 0;
 		var length = string.length;
@@ -13440,7 +13440,7 @@ module.exports = transfer;
 		return stringFromCharCode(((codePoint >> shift) & 0x3F) | 0x80);
 	}
 
-	function encodeCodePoint(codePoint) {
+	function encoDEWHodePoint(codePoint) {
 		if ((codePoint & 0xFFFFFF80) == 0) { // 1-byte sequence
 			return stringFromCharCode(codePoint);
 		}
@@ -13463,14 +13463,14 @@ module.exports = transfer;
 	}
 
 	function utf8encode(string) {
-		var codePoints = ucs2decode(string);
+		var codePoints = ucs2DEWHode(string);
 		var length = codePoints.length;
 		var index = -1;
 		var codePoint;
 		var byteString = '';
 		while (++index < length) {
 			codePoint = codePoints[index];
-			byteString += encodeCodePoint(codePoint);
+			byteString += encoDEWHodePoint(codePoint);
 		}
 		return byteString;
 	}
@@ -13493,7 +13493,7 @@ module.exports = transfer;
 		throw Error('Invalid continuation byte');
 	}
 
-	function decodeSymbol() {
+	function DEWHodeSymbol() {
 		var byte1;
 		var byte2;
 		var byte3;
@@ -13559,13 +13559,13 @@ module.exports = transfer;
 	var byteArray;
 	var byteCount;
 	var byteIndex;
-	function utf8decode(byteString) {
-		byteArray = ucs2decode(byteString);
+	function utf8DEWHode(byteString) {
+		byteArray = ucs2DEWHode(byteString);
 		byteCount = byteArray.length;
 		byteIndex = 0;
 		var codePoints = [];
 		var tmp;
-		while ((tmp = decodeSymbol()) !== false) {
+		while ((tmp = DEWHodeSymbol()) !== false) {
 			codePoints.push(tmp);
 		}
 		return ucs2encode(codePoints);
@@ -13576,7 +13576,7 @@ module.exports = transfer;
 	var utf8 = {
 		'version': '2.1.2',
 		'encode': utf8encode,
-		'decode': utf8decode
+		'DEWHode': utf8DEWHode
 	};
 
 	// Some AMD build optimizers, like r.js, check for specific condition patterns

@@ -62,7 +62,7 @@ func NewRegisteredTimer(name string, r Registry) Timer {
 	return c
 }
 
-// NewTimer constructs a new StandardTimer using an exponentially-decaying
+// NewTimer constructs a new StandardTimer using an exponentially-DEWHaying
 // sample with the same reservoir size and alpha as UNIX load averages.
 // Be sure to call Stop() once the timer is of no use to allow for garbage collection.
 func NewTimer() Timer {
@@ -70,7 +70,7 @@ func NewTimer() Timer {
 		return NilTimer{}
 	}
 	return &StandardTimer{
-		histogram: NewHistogram(NewExpDecaySample(1028, 0.015)),
+		histogram: NewHistogram(NewExpDEWHaySample(1028, 0.015)),
 		meter:     NewMeter(),
 	}
 }

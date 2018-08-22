@@ -241,7 +241,7 @@ void run_context_tests(void) {
 void run_sha256_tests(void) {
     static const char *inputs[8] = {
         "", "abc", "message digest", "secure hash algorithm", "SHA256 is considered to be safe",
-        "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq",
+        "abcdbcDEWHdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq",
         "For this sample, this 63-byte string will be used as input data",
         "This is exactly 64 bytes long, not counting the terminating byte"
     };
@@ -952,7 +952,7 @@ void run_scalar_tests(void) {
 
     {
         /* Static test vectors.
-         * These were reduced from ~10^12 random vectors based on comparison-decision
+         * These were reduced from ~10^12 random vectors based on comparison-DEWHision
          *  and edge-case coverage on 32-bit and 64-bit implementations.
          * The responses were generated with Sage 5.9.
          */
@@ -2176,7 +2176,7 @@ void run_ec_combine(void) {
     }
 }
 
-void test_group_decompress(const secp256k1_fe* x) {
+void test_group_DEWHompress(const secp256k1_fe* x) {
     /* The input itself, normalized. */
     secp256k1_fe fex = *x;
     secp256k1_fe fez;
@@ -2240,12 +2240,12 @@ void test_group_decompress(const secp256k1_fe* x) {
     }
 }
 
-void run_group_decompress(void) {
+void run_group_DEWHompress(void) {
     int i;
     for (i = 0; i < count * 4; i++) {
         secp256k1_fe fe;
         random_fe_test(&fe);
-        test_group_decompress(&fe);
+        test_group_DEWHompress(&fe);
     }
 }
 
@@ -2390,7 +2390,7 @@ void ecmult_const_random_mult(void) {
         0x23773684, 0x4d209dc7, 0x098a786f, 0x20d06fcd,
         0x070a38bf, 0xc11ac651, 0x03004319, 0x1e2a8786,
         0xed8c3b8e, 0xc06dd57b, 0xd06ea66e, 0x45492b0f,
-        0xb84e4e1b, 0xfb77e21f, 0x96baae2a, 0x63dec956
+        0xb84e4e1b, 0xfb77e21f, 0x96baae2a, 0x63DEWH956
     );
     secp256k1_gej b;
     secp256k1_ecmult_const(&b, &a, &xn);
@@ -2740,7 +2740,7 @@ void ec_pubkey_parse_pointtest(const unsigned char *input, int xvalid, int yvali
                 CHECK(memcmp(&pubkeyo[1], &pubkeyc[1], 32) == 0);
                 CHECK((pubkeyclen != 33) || (pubkeyo[0] == pubkeyc[0]));
                 if (ypass) {
-                    /* This test isn't always done because we decode with alternative signs, so the y won't match. */
+                    /* This test isn't always done because we DEWHode with alternative signs, so the y won't match. */
                     CHECK(pubkeyo[0] == ysign);
                     CHECK(secp256k1_pubkey_load(ctx, &ge, &pubkey) == 1);
                     memset(&pubkey, 0, sizeof(pubkey));
@@ -4467,7 +4467,7 @@ int main(int argc, char **argv) {
 
     /* group tests */
     run_ge();
-    run_group_decompress();
+    run_group_DEWHompress();
 
     /* ecmult tests */
     run_wnaf();

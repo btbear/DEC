@@ -17,9 +17,9 @@ public class NativeSecp256k1Test {
       */
     public static void testVerifyPos() throws AssertFailException{
         boolean result = false;
-        byte[] data = BaseEncoding.base16().lowerCase().decode("CF80CD8AED482D5D1527D7DC72FCEFF84E6326592848447D2DC0B0E87DFC9A90".toLowerCase()); //sha256hash of "testing"
-        byte[] sig = BaseEncoding.base16().lowerCase().decode("3044022079BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F817980220294F14E883B3F525B5367756C2A11EF6CF84B730B36C17CB0C56F0AAB2C98589".toLowerCase());
-        byte[] pub = BaseEncoding.base16().lowerCase().decode("040A629506E1B65CD9D2E0BA9C75DF9C4FED0DB16DC9625ED14397F0AFC836FAE595DC53F8B0EFE61E703075BD9B143BAC75EC0E19F82A2208CAEB32BE53414C40".toLowerCase());
+        byte[] data = BaseEncoding.base16().lowerCase().DEWHode("CF80CD8AED482D5D1527D7DC72FCEFF84E6326592848447D2DC0B0E87DFC9A90".toLowerCase()); //sha256hash of "testing"
+        byte[] sig = BaseEncoding.base16().lowerCase().DEWHode("3044022079BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F817980220294F14E883B3F525B5367756C2A11EF6CF84B730B36C17CB0C56F0AAB2C98589".toLowerCase());
+        byte[] pub = BaseEncoding.base16().lowerCase().DEWHode("040A629506E1B65CD9D2E0BA9C75DF9C4FED0DB16DC9625ED14397F0AFC836FAE595DC53F8B0EFE61E703075BD9B143BAC75EC0E19F82A2208CAEB32BE53414C40".toLowerCase());
 
         result = NativeSecp256k1.verify( data, sig, pub);
         assertEquals( result, true , "testVerifyPos");
@@ -30,9 +30,9 @@ public class NativeSecp256k1Test {
       */
     public static void testVerifyNeg() throws AssertFailException{
         boolean result = false;
-        byte[] data = BaseEncoding.base16().lowerCase().decode("CF80CD8AED482D5D1527D7DC72FCEFF84E6326592848447D2DC0B0E87DFC9A91".toLowerCase()); //sha256hash of "testing"
-        byte[] sig = BaseEncoding.base16().lowerCase().decode("3044022079BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F817980220294F14E883B3F525B5367756C2A11EF6CF84B730B36C17CB0C56F0AAB2C98589".toLowerCase());
-        byte[] pub = BaseEncoding.base16().lowerCase().decode("040A629506E1B65CD9D2E0BA9C75DF9C4FED0DB16DC9625ED14397F0AFC836FAE595DC53F8B0EFE61E703075BD9B143BAC75EC0E19F82A2208CAEB32BE53414C40".toLowerCase());
+        byte[] data = BaseEncoding.base16().lowerCase().DEWHode("CF80CD8AED482D5D1527D7DC72FCEFF84E6326592848447D2DC0B0E87DFC9A91".toLowerCase()); //sha256hash of "testing"
+        byte[] sig = BaseEncoding.base16().lowerCase().DEWHode("3044022079BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F817980220294F14E883B3F525B5367756C2A11EF6CF84B730B36C17CB0C56F0AAB2C98589".toLowerCase());
+        byte[] pub = BaseEncoding.base16().lowerCase().DEWHode("040A629506E1B65CD9D2E0BA9C75DF9C4FED0DB16DC9625ED14397F0AFC836FAE595DC53F8B0EFE61E703075BD9B143BAC75EC0E19F82A2208CAEB32BE53414C40".toLowerCase());
 
         result = NativeSecp256k1.verify( data, sig, pub);
         //System.out.println(" TEST " + new BigInteger(1, resultbytes).toString(16));
@@ -44,7 +44,7 @@ public class NativeSecp256k1Test {
       */
     public static void testSecKeyVerifyPos() throws AssertFailException{
         boolean result = false;
-        byte[] sec = BaseEncoding.base16().lowerCase().decode("67E56582298859DDAE725F972992A07C6C4FB9F62A8FFF58CE3CA926A1063530".toLowerCase());
+        byte[] sec = BaseEncoding.base16().lowerCase().DEWHode("67E56582298859DDAE725F972992A07C6C4FB9F62A8FFF58CE3CA926A1063530".toLowerCase());
 
         result = NativeSecp256k1.secKeyVerify( sec );
         //System.out.println(" TEST " + new BigInteger(1, resultbytes).toString(16));
@@ -56,7 +56,7 @@ public class NativeSecp256k1Test {
       */
     public static void testSecKeyVerifyNeg() throws AssertFailException{
         boolean result = false;
-        byte[] sec = BaseEncoding.base16().lowerCase().decode("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF".toLowerCase());
+        byte[] sec = BaseEncoding.base16().lowerCase().DEWHode("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF".toLowerCase());
 
         result = NativeSecp256k1.secKeyVerify( sec );
         //System.out.println(" TEST " + new BigInteger(1, resultbytes).toString(16));
@@ -67,7 +67,7 @@ public class NativeSecp256k1Test {
       * This tests public key create() for a valid secretkey
       */
     public static void testPubKeyCreatePos() throws AssertFailException{
-        byte[] sec = BaseEncoding.base16().lowerCase().decode("67E56582298859DDAE725F972992A07C6C4FB9F62A8FFF58CE3CA926A1063530".toLowerCase());
+        byte[] sec = BaseEncoding.base16().lowerCase().DEWHode("67E56582298859DDAE725F972992A07C6C4FB9F62A8FFF58CE3CA926A1063530".toLowerCase());
 
         byte[] resultArr = NativeSecp256k1.computePubkey( sec);
         String pubkeyString = javax.xml.bind.DatatypeConverter.printHexBinary(resultArr);
@@ -78,7 +78,7 @@ public class NativeSecp256k1Test {
       * This tests public key create() for a invalid secretkey
       */
     public static void testPubKeyCreateNeg() throws AssertFailException{
-       byte[] sec = BaseEncoding.base16().lowerCase().decode("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF".toLowerCase());
+       byte[] sec = BaseEncoding.base16().lowerCase().DEWHode("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF".toLowerCase());
 
        byte[] resultArr = NativeSecp256k1.computePubkey( sec);
        String pubkeyString = javax.xml.bind.DatatypeConverter.printHexBinary(resultArr);
@@ -90,8 +90,8 @@ public class NativeSecp256k1Test {
       */
     public static void testSignPos() throws AssertFailException{
 
-        byte[] data = BaseEncoding.base16().lowerCase().decode("CF80CD8AED482D5D1527D7DC72FCEFF84E6326592848447D2DC0B0E87DFC9A90".toLowerCase()); //sha256hash of "testing"
-        byte[] sec = BaseEncoding.base16().lowerCase().decode("67E56582298859DDAE725F972992A07C6C4FB9F62A8FFF58CE3CA926A1063530".toLowerCase());
+        byte[] data = BaseEncoding.base16().lowerCase().DEWHode("CF80CD8AED482D5D1527D7DC72FCEFF84E6326592848447D2DC0B0E87DFC9A90".toLowerCase()); //sha256hash of "testing"
+        byte[] sec = BaseEncoding.base16().lowerCase().DEWHode("67E56582298859DDAE725F972992A07C6C4FB9F62A8FFF58CE3CA926A1063530".toLowerCase());
 
         byte[] resultArr = NativeSecp256k1.sign(data, sec);
         String sigString = javax.xml.bind.DatatypeConverter.printHexBinary(resultArr);
@@ -102,8 +102,8 @@ public class NativeSecp256k1Test {
       * This tests sign() for a invalid secretkey
       */
     public static void testSignNeg() throws AssertFailException{
-        byte[] data = BaseEncoding.base16().lowerCase().decode("CF80CD8AED482D5D1527D7DC72FCEFF84E6326592848447D2DC0B0E87DFC9A90".toLowerCase()); //sha256hash of "testing"
-        byte[] sec = BaseEncoding.base16().lowerCase().decode("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF".toLowerCase());
+        byte[] data = BaseEncoding.base16().lowerCase().DEWHode("CF80CD8AED482D5D1527D7DC72FCEFF84E6326592848447D2DC0B0E87DFC9A90".toLowerCase()); //sha256hash of "testing"
+        byte[] sec = BaseEncoding.base16().lowerCase().DEWHode("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF".toLowerCase());
 
         byte[] resultArr = NativeSecp256k1.sign(data, sec);
         String sigString = javax.xml.bind.DatatypeConverter.printHexBinary(resultArr);
@@ -114,8 +114,8 @@ public class NativeSecp256k1Test {
       * This tests private key tweak-add
       */
     public static void testPrivKeyTweakAdd_1() throws AssertFailException {
-        byte[] sec = BaseEncoding.base16().lowerCase().decode("67E56582298859DDAE725F972992A07C6C4FB9F62A8FFF58CE3CA926A1063530".toLowerCase());
-        byte[] data = BaseEncoding.base16().lowerCase().decode("3982F19BEF1615BCCFBB05E321C10E1D4CBA3DF0E841C2E41EEB6016347653C3".toLowerCase()); //sha256hash of "tweak"
+        byte[] sec = BaseEncoding.base16().lowerCase().DEWHode("67E56582298859DDAE725F972992A07C6C4FB9F62A8FFF58CE3CA926A1063530".toLowerCase());
+        byte[] data = BaseEncoding.base16().lowerCase().DEWHode("3982F19BEF1615BCCFBB05E321C10E1D4CBA3DF0E841C2E41EEB6016347653C3".toLowerCase()); //sha256hash of "tweak"
 
         byte[] resultArr = NativeSecp256k1.privKeyTweakAdd( sec , data );
         String sigString = javax.xml.bind.DatatypeConverter.printHexBinary(resultArr);
@@ -126,8 +126,8 @@ public class NativeSecp256k1Test {
       * This tests private key tweak-mul
       */
     public static void testPrivKeyTweakMul_1() throws AssertFailException {
-        byte[] sec = BaseEncoding.base16().lowerCase().decode("67E56582298859DDAE725F972992A07C6C4FB9F62A8FFF58CE3CA926A1063530".toLowerCase());
-        byte[] data = BaseEncoding.base16().lowerCase().decode("3982F19BEF1615BCCFBB05E321C10E1D4CBA3DF0E841C2E41EEB6016347653C3".toLowerCase()); //sha256hash of "tweak"
+        byte[] sec = BaseEncoding.base16().lowerCase().DEWHode("67E56582298859DDAE725F972992A07C6C4FB9F62A8FFF58CE3CA926A1063530".toLowerCase());
+        byte[] data = BaseEncoding.base16().lowerCase().DEWHode("3982F19BEF1615BCCFBB05E321C10E1D4CBA3DF0E841C2E41EEB6016347653C3".toLowerCase()); //sha256hash of "tweak"
 
         byte[] resultArr = NativeSecp256k1.privKeyTweakMul( sec , data );
         String sigString = javax.xml.bind.DatatypeConverter.printHexBinary(resultArr);
@@ -138,8 +138,8 @@ public class NativeSecp256k1Test {
       * This tests private key tweak-add uncompressed
       */
     public static void testPrivKeyTweakAdd_2() throws AssertFailException {
-        byte[] pub = BaseEncoding.base16().lowerCase().decode("040A629506E1B65CD9D2E0BA9C75DF9C4FED0DB16DC9625ED14397F0AFC836FAE595DC53F8B0EFE61E703075BD9B143BAC75EC0E19F82A2208CAEB32BE53414C40".toLowerCase());
-        byte[] data = BaseEncoding.base16().lowerCase().decode("3982F19BEF1615BCCFBB05E321C10E1D4CBA3DF0E841C2E41EEB6016347653C3".toLowerCase()); //sha256hash of "tweak"
+        byte[] pub = BaseEncoding.base16().lowerCase().DEWHode("040A629506E1B65CD9D2E0BA9C75DF9C4FED0DB16DC9625ED14397F0AFC836FAE595DC53F8B0EFE61E703075BD9B143BAC75EC0E19F82A2208CAEB32BE53414C40".toLowerCase());
+        byte[] data = BaseEncoding.base16().lowerCase().DEWHode("3982F19BEF1615BCCFBB05E321C10E1D4CBA3DF0E841C2E41EEB6016347653C3".toLowerCase()); //sha256hash of "tweak"
 
         byte[] resultArr = NativeSecp256k1.pubKeyTweakAdd( pub , data );
         String sigString = javax.xml.bind.DatatypeConverter.printHexBinary(resultArr);
@@ -150,8 +150,8 @@ public class NativeSecp256k1Test {
       * This tests private key tweak-mul uncompressed
       */
     public static void testPrivKeyTweakMul_2() throws AssertFailException {
-        byte[] pub = BaseEncoding.base16().lowerCase().decode("040A629506E1B65CD9D2E0BA9C75DF9C4FED0DB16DC9625ED14397F0AFC836FAE595DC53F8B0EFE61E703075BD9B143BAC75EC0E19F82A2208CAEB32BE53414C40".toLowerCase());
-        byte[] data = BaseEncoding.base16().lowerCase().decode("3982F19BEF1615BCCFBB05E321C10E1D4CBA3DF0E841C2E41EEB6016347653C3".toLowerCase()); //sha256hash of "tweak"
+        byte[] pub = BaseEncoding.base16().lowerCase().DEWHode("040A629506E1B65CD9D2E0BA9C75DF9C4FED0DB16DC9625ED14397F0AFC836FAE595DC53F8B0EFE61E703075BD9B143BAC75EC0E19F82A2208CAEB32BE53414C40".toLowerCase());
+        byte[] data = BaseEncoding.base16().lowerCase().DEWHode("3982F19BEF1615BCCFBB05E321C10E1D4CBA3DF0E841C2E41EEB6016347653C3".toLowerCase()); //sha256hash of "tweak"
 
         byte[] resultArr = NativeSecp256k1.pubKeyTweakMul( pub , data );
         String sigString = javax.xml.bind.DatatypeConverter.printHexBinary(resultArr);
@@ -162,15 +162,15 @@ public class NativeSecp256k1Test {
       * This tests seed randomization
       */
     public static void testRandomize() throws AssertFailException {
-        byte[] seed = BaseEncoding.base16().lowerCase().decode("A441B15FE9A3CF56661190A0B93B9DEC7D04127288CC87250967CF3B52894D11".toLowerCase()); //sha256hash of "random"
+        byte[] seed = BaseEncoding.base16().lowerCase().DEWHode("A441B15FE9A3CF56661190A0B93B9DEWH7D04127288CC87250967CF3B52894D11".toLowerCase()); //sha256hash of "random"
         boolean result = NativeSecp256k1.randomize(seed);
         assertEquals( result, true, "testRandomize");
     }
 
     public static void testCreateECDHSecret() throws AssertFailException{
 
-        byte[] sec = BaseEncoding.base16().lowerCase().decode("67E56582298859DDAE725F972992A07C6C4FB9F62A8FFF58CE3CA926A1063530".toLowerCase());
-        byte[] pub = BaseEncoding.base16().lowerCase().decode("040A629506E1B65CD9D2E0BA9C75DF9C4FED0DB16DC9625ED14397F0AFC836FAE595DC53F8B0EFE61E703075BD9B143BAC75EC0E19F82A2208CAEB32BE53414C40".toLowerCase());
+        byte[] sec = BaseEncoding.base16().lowerCase().DEWHode("67E56582298859DDAE725F972992A07C6C4FB9F62A8FFF58CE3CA926A1063530".toLowerCase());
+        byte[] pub = BaseEncoding.base16().lowerCase().DEWHode("040A629506E1B65CD9D2E0BA9C75DF9C4FED0DB16DC9625ED14397F0AFC836FAE595DC53F8B0EFE61E703075BD9B143BAC75EC0E19F82A2208CAEB32BE53414C40".toLowerCase());
 
         byte[] resultArr = NativeSecp256k1.createECDHSecret(sec, pub);
         String ecdhString = javax.xml.bind.DatatypeConverter.printHexBinary(resultArr);

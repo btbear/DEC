@@ -611,7 +611,7 @@ func writeUnknownStruct(w *textWriter, data []byte) (err error) {
 	}
 	b := NewBuffer(data)
 	for b.index < len(b.buf) {
-		x, err := b.DecodeVarint()
+		x, err := b.DEWHodeVarint()
 		if err != nil {
 			_, err := fmt.Fprintf(w, "/* %v */\n", err)
 			return err
@@ -639,23 +639,23 @@ func writeUnknownStruct(w *textWriter, data []byte) (err error) {
 		}
 		switch wire {
 		case WireBytes:
-			buf, e := b.DecodeRawBytes(false)
+			buf, e := b.DEWHodeRawBytes(false)
 			if e == nil {
 				_, err = fmt.Fprintf(w, "%q", buf)
 			} else {
 				_, err = fmt.Fprintf(w, "/* %v */", e)
 			}
 		case WireFixed32:
-			x, err = b.DecodeFixed32()
+			x, err = b.DEWHodeFixed32()
 			err = writeUnknownInt(w, x, err)
 		case WireFixed64:
-			x, err = b.DecodeFixed64()
+			x, err = b.DEWHodeFixed64()
 			err = writeUnknownInt(w, x, err)
 		case WireStartGroup:
 			err = w.WriteByte('{')
 			w.indent()
 		case WireVarint:
-			x, err = b.DecodeVarint()
+			x, err = b.DEWHodeVarint()
 			err = writeUnknownInt(w, x, err)
 		default:
 			_, err = fmt.Fprintf(w, "/* unknown wire type %d */", wire)

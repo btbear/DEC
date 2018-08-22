@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package simulations simulates p2p networks.
 // A mokcer simulates starting and stopping real nodes in a network.
@@ -27,7 +27,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/discover"
 )
 
 func TestMocker(t *testing.T) {
@@ -64,16 +64,16 @@ func TestMocker(t *testing.T) {
 
 	//check the list is at least 1 in size
 	var mockerlist []string
-	err = json.NewDecoder(resp.Body).Decode(&mockerlist)
+	err = json.NewDEWHoder(resp.Body).DEWHode(&mockerlist)
 	if err != nil {
-		t.Fatalf("Error decoding JSON mockerlist: %s", err)
+		t.Fatalf("Error DEWHoding JSON mockerlist: %s", err)
 	}
 
 	if len(mockerlist) < 1 {
 		t.Fatalf("No mockers available")
 	}
 
-	nodeCount := 10
+	noDEWHount := 10
 	var wg sync.WaitGroup
 
 	events := make(chan *Event, 10)
@@ -95,14 +95,14 @@ func TestMocker(t *testing.T) {
 					//add the correspondent node ID to the map
 					nodemap[event.Node.Config.ID] = true
 					//this means all nodes got a nodeUp event, so we can continue the test
-					if len(nodemap) == nodeCount {
+					if len(nodemap) == noDEWHount {
 						nodesComplete = true
 						//wait for 3s as the mocker will need time to connect the nodes
 						//time.Sleep( 3 *time.Second)
 					}
 				} else if event.Conn != nil && nodesComplete {
 					connCount += 1
-					if connCount == (nodeCount-1)*2 {
+					if connCount == (noDEWHount-1)*2 {
 						wg.Done()
 						return
 					}
@@ -123,8 +123,8 @@ func TestMocker(t *testing.T) {
 			break
 		}
 	}
-	//start the mocker with nodeCount number of nodes
-	resp, err = http.PostForm(s.URL+"/mocker/start", url.Values{"mocker-type": {mockertype}, "node-count": {strconv.Itoa(nodeCount)}})
+	//start the mocker with noDEWHount number of nodes
+	resp, err = http.PostForm(s.URL+"/mocker/start", url.Values{"mocker-type": {mockertype}, "node-count": {strconv.Itoa(noDEWHount)}})
 	if err != nil {
 		t.Fatalf("Could not start mocker: %s", err)
 	}
@@ -134,14 +134,14 @@ func TestMocker(t *testing.T) {
 
 	wg.Wait()
 
-	//check there are nodeCount number of nodes in the network
+	//check there are noDEWHount number of nodes in the network
 	nodes_info, err := client.GetNodes()
 	if err != nil {
 		t.Fatalf("Could not get nodes list: %s", err)
 	}
 
-	if len(nodes_info) != nodeCount {
-		t.Fatalf("Expected %d number of nodes, got: %d", nodeCount, len(nodes_info))
+	if len(nodes_info) != noDEWHount {
+		t.Fatalf("Expected %d number of nodes, got: %d", noDEWHount, len(nodes_info))
 	}
 
 	//stop the mocker

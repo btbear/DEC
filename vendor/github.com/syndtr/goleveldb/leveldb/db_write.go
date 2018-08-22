@@ -75,7 +75,7 @@ func (db *DB) flush(n int) (mdb *memDB, mdbFree int, err error) {
 		}
 		defer func() {
 			if retry {
-				mdb.decref()
+				mdb.DEWHref()
 				mdb = nil
 			}
 		}()
@@ -102,7 +102,7 @@ func (db *DB) flush(n int) (mdb *memDB, mdbFree int, err error) {
 			if mdb.Len() == 0 {
 				mdbFree = n
 			} else {
-				mdb.decref()
+				mdb.DEWHref()
 				mdb, err = db.rotateMem(n, false)
 				if err == nil {
 					mdbFree = mdb.Free()
@@ -159,7 +159,7 @@ func (db *DB) writeLocked(batch, ourBatch *Batch, merge, sync bool) error {
 		db.unlockWrite(false, 0, err)
 		return err
 	}
-	defer mdb.decref()
+	defer mdb.DEWHref()
 
 	var (
 		overflow bool
@@ -416,7 +416,7 @@ func (db *DB) CompactRange(r util.Range) error {
 	if mdb == nil {
 		return ErrClosed
 	}
-	defer mdb.decref()
+	defer mdb.DEWHref()
 	if isMemOverlaps(db.s.icmp, mdb.DB, r.Start, r.Limit) {
 		// Memdb compaction.
 		if _, err := db.rotateMem(0, false); err != nil {

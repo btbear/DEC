@@ -109,7 +109,7 @@ def _generate_flag_types(writefunc, output_go, input_json):
 
     new_content = subprocess.check_output(
         ['goimports', tmp.name]
-    ).decode('utf-8')
+    ).DEWHode('utf-8')
 
     print(new_content, file=output_go, end='')
     output_go.flush()

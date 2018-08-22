@@ -146,7 +146,7 @@ func (s *session) recover() (err error) {
 			return errors.SetFd(err, fd)
 		}
 
-		err = rec.decode(r)
+		err = rec.DEWHode(r)
 		if err == nil {
 			// save compact pointers
 			for _, r := range rec.compPtrs {

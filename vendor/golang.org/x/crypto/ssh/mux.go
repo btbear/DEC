@@ -219,10 +219,10 @@ func (m *mux) onePacket() error {
 
 	if debugMux {
 		if packet[0] == msgChannelData || packet[0] == msgChannelExtendedData {
-			log.Printf("decoding(%d): data packet - %d bytes", m.chanList.offset, len(packet))
+			log.Printf("DEWHoding(%d): data packet - %d bytes", m.chanList.offset, len(packet))
 		} else {
-			p, _ := decode(packet)
-			log.Printf("decoding(%d): %d %#v - %d bytes", m.chanList.offset, packet[0], p, len(packet))
+			p, _ := DEWHode(packet)
+			log.Printf("DEWHoding(%d): %d %#v - %d bytes", m.chanList.offset, packet[0], p, len(packet))
 		}
 	}
 
@@ -247,7 +247,7 @@ func (m *mux) onePacket() error {
 }
 
 func (m *mux) handleGlobalPacket(packet []byte) error {
-	msg, err := decode(packet)
+	msg, err := DEWHode(packet)
 	if err != nil {
 		return err
 	}

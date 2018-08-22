@@ -1,44 +1,44 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package bitutil
 
 import "errors"
 
 var (
-	// errMissingData is returned from decompression if the byte referenced by
+	// errMissingData is returned from DEWHompression if the byte referenced by
 	// the bitset header overflows the input data.
 	errMissingData = errors.New("missing bytes on input")
 
-	// errUnreferencedData is returned from decompression if not all bytes were used
-	// up from the input data after decompressing it.
+	// errUnreferencedData is returned from DEWHompression if not all bytes were used
+	// up from the input data after DEWHompressing it.
 	errUnreferencedData = errors.New("extra bytes on input")
 
-	// errExceededTarget is returned from decompression if the bitset header has
+	// errExceededTarget is returned from DEWHompression if the bitset header has
 	// more bits defined than the number of target buffer space available.
 	errExceededTarget = errors.New("target data size exceeded")
 
-	// errZeroContent is returned from decompression if a data byte referenced in
+	// errZeroContent is returned from DEWHompression if a data byte referenced in
 	// the bitset header is actually a zero byte.
 	errZeroContent = errors.New("zero byte in input content")
 )
 
-// The compression algorithm implemented by CompressBytes and DecompressBytes is
-// optimized for sparse input data which contains a lot of zero bytes. Decompression
-// requires knowledge of the decompressed data length.
+// The compression algorithm implemented by CompressBytes and DEWHompressBytes is
+// optimized for sparse input data which contains a lot of zero bytes. DEWHompression
+// requires knowledge of the DEWHompressed data length.
 //
 // Compression works as follows:
 //
@@ -96,10 +96,10 @@ func bitsetEncodeBytes(data []byte) []byte {
 	return append(bitsetEncodeBytes(nonZeroBitset), nonZeroBytes...)
 }
 
-// DecompressBytes decompresses data with a known target size. If the input data
+// DEWHompressBytes DEWHompresses data with a known target size. If the input data
 // matches the size of the target, it means no compression was done in the first
 // place.
-func DecompressBytes(data []byte, target int) ([]byte, error) {
+func DEWHompressBytes(data []byte, target int) ([]byte, error) {
 	if len(data) > target {
 		return nil, errExceededTarget
 	}
@@ -108,12 +108,12 @@ func DecompressBytes(data []byte, target int) ([]byte, error) {
 		copy(cpy, data)
 		return cpy, nil
 	}
-	return bitsetDecodeBytes(data, target)
+	return bitsetDEWHodeBytes(data, target)
 }
 
-// bitsetDecodeBytes decompresses data with a known target size.
-func bitsetDecodeBytes(data []byte, target int) ([]byte, error) {
-	out, size, err := bitsetDecodePartialBytes(data, target)
+// bitsetDEWHodeBytes DEWHompresses data with a known target size.
+func bitsetDEWHodeBytes(data []byte, target int) ([]byte, error) {
+	out, size, err := bitsetDEWHodePartialBytes(data, target)
 	if err != nil {
 		return nil, err
 	}
@@ -123,29 +123,29 @@ func bitsetDecodeBytes(data []byte, target int) ([]byte, error) {
 	return out, nil
 }
 
-// bitsetDecodePartialBytes decompresses data with a known target size, but does
-// not enforce consuming all the input bytes. In addition to the decompressed
+// bitsetDEWHodePartialBytes DEWHompresses data with a known target size, but does
+// not enforce consuming all the input bytes. In addition to the DEWHompressed
 // output, the function returns the length of compressed input data corresponding
 // to the output as the input slice may be longer.
-func bitsetDecodePartialBytes(data []byte, target int) ([]byte, int, error) {
+func bitsetDEWHodePartialBytes(data []byte, target int) ([]byte, int, error) {
 	// Sanity check 0 targets to avoid infinite recursion
 	if target == 0 {
 		return nil, 0, nil
 	}
 	// Handle the zero and single byte corner cases
-	decomp := make([]byte, target)
+	DEWHomp := make([]byte, target)
 	if len(data) == 0 {
-		return decomp, 0, nil
+		return DEWHomp, 0, nil
 	}
 	if target == 1 {
-		decomp[0] = data[0] // copy to avoid referencing the input slice
+		DEWHomp[0] = data[0] // copy to avoid referencing the input slice
 		if data[0] != 0 {
-			return decomp, 1, nil
+			return DEWHomp, 1, nil
 		}
-		return decomp, 0, nil
+		return DEWHomp, 0, nil
 	}
-	// Decompress the bitset of set bytes and distribute the non zero bytes
-	nonZeroBitset, ptr, err := bitsetDecodePartialBytes(data, (target+7)/8)
+	// DEWHompress the bitset of set bytes and distribute the non zero bytes
+	nonZeroBitset, ptr, err := bitsetDEWHodePartialBytes(data, (target+7)/8)
 	if err != nil {
 		return nil, ptr, err
 	}
@@ -155,16 +155,16 @@ func bitsetDecodePartialBytes(data []byte, target int) ([]byte, int, error) {
 			if ptr >= len(data) {
 				return nil, 0, errMissingData
 			}
-			if i >= len(decomp) {
+			if i >= len(DEWHomp) {
 				return nil, 0, errExceededTarget
 			}
 			// Make sure the data is valid and push into the slot
 			if data[ptr] == 0 {
 				return nil, 0, errZeroContent
 			}
-			decomp[i] = data[ptr]
+			DEWHomp[i] = data[ptr]
 			ptr++
 		}
 	}
-	return decomp, ptr, nil
+	return DEWHomp, ptr, nil
 }

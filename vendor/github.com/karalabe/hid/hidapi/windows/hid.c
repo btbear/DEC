@@ -894,7 +894,7 @@ HID_API_EXPORT const wchar_t * HID_API_CALL  hid_error(hid_device *dev)
 
 
 #if 0
-int __cdecl main(int argc, char* argv[])
+int __cDEWHl main(int argc, char* argv[])
 {
 	int res;
 	unsigned char buf[65];

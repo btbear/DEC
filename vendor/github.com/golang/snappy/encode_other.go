@@ -103,7 +103,7 @@ func hash(u, shift uint32) uint32 {
 }
 
 // encodeBlock encodes a non-empty src to a guaranteed-large-enough dst. It
-// assumes that the varint-encoded length of the decompressed bytes has already
+// assumes that the varint-encoded length of the DEWHompressed bytes has already
 // been written.
 //
 // It also assumes that:

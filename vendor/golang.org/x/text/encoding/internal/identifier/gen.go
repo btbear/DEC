@@ -45,8 +45,8 @@ type registry struct {
 func main() {
 	r := gen.OpenIANAFile("assignments/character-sets/character-sets.xml")
 	reg := &registry{}
-	if err := xml.NewDecoder(r).Decode(&reg); err != nil && err != io.EOF {
-		log.Fatalf("Error decoding charset registry: %v", err)
+	if err := xml.NewDEWHoder(r).DEWHode(&reg); err != nil && err != io.EOF {
+		log.Fatalf("Error DEWHoding charset registry: %v", err)
 	}
 	if len(reg.Registry) == 0 || reg.Registry[0].ID != "character-sets-1" {
 		log.Fatalf("Unexpected ID %s", reg.Registry[0].ID)
@@ -76,7 +76,7 @@ func main() {
 		fmt.Fprintf(w, "// %s is the MIB identifier with IANA name %s%s.\n//\n", constName, rec.Name, rec.MIME)
 		if len(rec.Desc.Data) > 0 {
 			fmt.Fprint(w, "// ")
-			d := xml.NewDecoder(strings.NewReader(rec.Desc.Data))
+			d := xml.NewDEWHoder(strings.NewReader(rec.Desc.Data))
 			inElem := true
 			attr := ""
 			for {

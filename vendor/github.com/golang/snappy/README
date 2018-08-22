@@ -10,7 +10,7 @@ under the BSD-style license found in the LICENSE file.
 
 Benchmarks.
 
-The golang/snappy benchmarks include compressing (Z) and decompressing (U) ten
+The golang/snappy benchmarks include compressing (Z) and DEWHompressing (U) ten
 or so files, the same set used by the C++ Snappy code (github.com/google/snappy
 and note the "google", not "golang"). On an "Intel(R) Core(TM) i7-3770 CPU @
 3.40GHz", Go's GOARCH=amd64 numbers as of 2016-05-29:

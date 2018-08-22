@@ -19,7 +19,7 @@ const (
 	AF_CNT                            = 0x15
 	AF_COIP                           = 0x14
 	AF_DATAKIT                        = 0x9
-	AF_DECnet                         = 0xc
+	AF_DEWHnet                         = 0xc
 	AF_DLI                            = 0xd
 	AF_E164                           = 0x1a
 	AF_ECMA                           = 0x8
@@ -741,7 +741,7 @@ const (
 	IPV6_FW_FLUSH                     = 0x20
 	IPV6_FW_GET                       = 0x22
 	IPV6_FW_ZERO                      = 0x21
-	IPV6_HLIMDEC                      = 0x1
+	IPV6_HLIMDEWH                      = 0x1
 	IPV6_HOPLIMIT                     = 0x2f
 	IPV6_HOPOPTS                      = 0x31
 	IPV6_IPSEC_POLICY                 = 0x1c

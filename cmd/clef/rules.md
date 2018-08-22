@@ -107,7 +107,7 @@ It's unclear whether any other DSL could be more secure; since there's always th
 
 ## Credential management
 
-The ability to auto-approve transaction means that the signer needs to have necessary credentials to decrypt keyfiles. These passwords are hereafter called `ksp` (keystore pass).
+The ability to auto-approve transaction means that the signer needs to have necessary credentials to DEWHrypt keyfiles. These passwords are hereafter called `ksp` (keystore pass).
 
 ### Example implementation
 

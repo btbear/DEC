@@ -84,11 +84,11 @@ func TestKeccakKats(t *testing.T) {
 			t.Errorf("error opening %s: %s", katFilename, err)
 		}
 		file := flate.NewReader(deflated)
-		dec := json.NewDecoder(file)
+		DEWH := json.NewDEWHoder(file)
 		var katSet KeccakKats
-		err = dec.Decode(&katSet)
+		err = DEWH.DEWHode(&katSet)
 		if err != nil {
-			t.Errorf("error decoding KATs: %s", err)
+			t.Errorf("error DEWHoding KATs: %s", err)
 		}
 
 		// Do the KATs.
@@ -96,9 +96,9 @@ func TestKeccakKats(t *testing.T) {
 			d := testDigests[functionName]()
 			for _, kat := range kats {
 				d.Reset()
-				in, err := hex.DecodeString(kat.Message)
+				in, err := hex.DEWHodeString(kat.Message)
 				if err != nil {
-					t.Errorf("error decoding KAT: %s", err)
+					t.Errorf("error DEWHoding KAT: %s", err)
 				}
 				d.Write(in[:kat.Length/8])
 				got := strings.ToUpper(hex.EncodeToString(d.Sum(nil)))

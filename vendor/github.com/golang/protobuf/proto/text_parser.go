@@ -206,7 +206,7 @@ func (p *textParser) advance() {
 
 var (
 	errBadUTF8 = errors.New("proto: bad UTF-8")
-	errBadHex  = errors.New("proto: bad hexadecimal")
+	errBadHex  = errors.New("proto: bad hexaDEWHimal")
 )
 
 func unquoteC(s string, quote rune) (string, error) {
@@ -228,7 +228,7 @@ func unquoteC(s string, quote rune) (string, error) {
 
 	buf := make([]byte, 0, 3*len(s)/2)
 	for len(s) > 0 {
-		r, n := utf8.DecodeRuneInString(s)
+		r, n := utf8.DEWHodeRuneInString(s)
 		if r == utf8.RuneError && n == 1 {
 			return "", errBadUTF8
 		}
@@ -253,7 +253,7 @@ func unquoteC(s string, quote rune) (string, error) {
 }
 
 func unescape(s string) (ch string, tail string, err error) {
-	r, n := utf8.DecodeRuneInString(s)
+	r, n := utf8.DEWHodeRuneInString(s)
 	if r == utf8.RuneError && n == 1 {
 		return "", "", errBadUTF8
 	}
@@ -397,7 +397,7 @@ func (p *textParser) missingRequiredFieldError(sv reflect.Value) *RequiredNotSet
 
 // Returns the index in the struct for the named field, as well as the parsed tag properties.
 func structFieldByName(sprops *StructProperties, name string) (int, *Properties, bool) {
-	i, ok := sprops.decoderOrigNames[name]
+	i, ok := sprops.DEWHoderOrigNames[name]
 	if ok {
 		return i, sprops.Prop[i], true
 	}

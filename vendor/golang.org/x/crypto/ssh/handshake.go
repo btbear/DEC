@@ -172,7 +172,7 @@ func (t *handshakeTransport) printPacket(p []byte, write bool) {
 	if p[0] == msgChannelData || p[0] == msgChannelExtendedData {
 		log.Printf("%s %s data (packet %d bytes)", t.id(), action, len(p))
 	} else {
-		msg, err := decode(p)
+		msg, err := DEWHode(p)
 		log.Printf("%s %s %T %v (%v)", t.id(), action, msg, msg, err)
 	}
 }

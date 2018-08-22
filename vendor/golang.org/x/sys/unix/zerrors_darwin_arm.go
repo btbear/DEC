@@ -17,7 +17,7 @@ const (
 	AF_CNT                            = 0x15
 	AF_COIP                           = 0x14
 	AF_DATAKIT                        = 0x9
-	AF_DECnet                         = 0xc
+	AF_DEWHnet                         = 0xc
 	AF_DLI                            = 0xd
 	AF_E164                           = 0x1c
 	AF_ECMA                           = 0x8
@@ -274,7 +274,7 @@ const (
 	DLT_C_HDLC                        = 0x68
 	DLT_C_HDLC_WITH_DIR               = 0xcd
 	DLT_DBUS                          = 0xe7
-	DLT_DECT                          = 0xdd
+	DLT_DEWHT                          = 0xdd
 	DLT_DOCSIS                        = 0x8f
 	DLT_DVB_CI                        = 0xeb
 	DLT_ECONET                        = 0x73
@@ -775,7 +775,7 @@ const (
 	IPV6_FW_FLUSH                     = 0x20
 	IPV6_FW_GET                       = 0x22
 	IPV6_FW_ZERO                      = 0x21
-	IPV6_HLIMDEC                      = 0x1
+	IPV6_HLIMDEWH                      = 0x1
 	IPV6_IPSEC_POLICY                 = 0x1c
 	IPV6_JOIN_GROUP                   = 0xc
 	IPV6_LEAVE_GROUP                  = 0xd
@@ -990,7 +990,7 @@ const (
 	NOTE_EXIT                         = 0x80000000
 	NOTE_EXITSTATUS                   = 0x4000000
 	NOTE_EXIT_CSERROR                 = 0x40000
-	NOTE_EXIT_DECRYPTFAIL             = 0x10000
+	NOTE_EXIT_DEWHRYPTFAIL             = 0x10000
 	NOTE_EXIT_DETAIL                  = 0x2000000
 	NOTE_EXIT_DETAIL_MASK             = 0x70000
 	NOTE_EXIT_MEMORY                  = 0x20000

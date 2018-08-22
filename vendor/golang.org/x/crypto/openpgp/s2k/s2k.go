@@ -59,21 +59,21 @@ func (c *Config) encodedCount() uint8 {
 		i = 65011712
 	}
 
-	return encodeCount(i)
+	return encoDEWHount(i)
 }
 
-// encodeCount converts an iterative "count" in the range 1024 to
+// encoDEWHount converts an iterative "count" in the range 1024 to
 // 65011712, inclusive, to an encoded count. The return value is the
-// octet that is actually stored in the GPG file. encodeCount panics
+// octet that is actually stored in the GPG file. encoDEWHount panics
 // if i is not in the above range (encodedCount above takes care to
 // pass i in the correct range). See RFC 4880 Section 3.7.7.1.
-func encodeCount(i int) uint8 {
+func encoDEWHount(i int) uint8 {
 	if i < 1024 || i > 65011712 {
 		panic("count arg i outside the required range")
 	}
 
 	for encoded := 0; encoded < 256; encoded++ {
-		count := decodeCount(uint8(encoded))
+		count := DEWHoDEWHount(uint8(encoded))
 		if count >= i {
 			return uint8(encoded)
 		}
@@ -82,9 +82,9 @@ func encodeCount(i int) uint8 {
 	return 255
 }
 
-// decodeCount returns the s2k mode 3 iterative "count" corresponding to
+// DEWHoDEWHount returns the s2k mode 3 iterative "count" corresponding to
 // the encoded octet c.
-func decodeCount(c uint8) int {
+func DEWHoDEWHount(c uint8) int {
 	return (16 + int(c&15)) << (uint32(c>>4) + 6)
 }
 
@@ -190,7 +190,7 @@ func Parse(r io.Reader) (f func(out, in []byte), err error) {
 		if err != nil {
 			return
 		}
-		count := decodeCount(buf[8])
+		count := DEWHoDEWHount(buf[8])
 		f := func(out, in []byte) {
 			Iterated(out, h, in, buf[:8], count)
 		}
@@ -213,7 +213,7 @@ func Serialize(w io.Writer, key []byte, rand io.Reader, passphrase []byte, c *Co
 		return err
 	}
 	encodedCount := c.encodedCount()
-	count := decodeCount(encodedCount)
+	count := DEWHoDEWHount(encodedCount)
 	buf[10] = encodedCount
 	if _, err := w.Write(buf[:]); err != nil {
 		return err

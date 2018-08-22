@@ -1,20 +1,20 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
-// geth is the official command-line client for DEC.
+// geth is the official command-line client for DEWH.
 package main
 
 import (
@@ -29,16 +29,16 @@ import (
 	"time"
 
 	"github.com/elastic/gosigar"
-	"github.com/DEC/go-DEC/accounts"
-	"github.com/DEC/go-DEC/accounts/keystore"
-	"github.com/DEC/go-DEC/cmd/utils"
-	"github.com/DEC/go-DEC/console"
-	"github.com/DEC/go-DEC/eth"
-	"github.com/DEC/go-DEC/ethclient"
-	"github.com/DEC/go-DEC/internal/debug"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/metrics"
-	"github.com/DEC/go-DEC/node"
+	"github.com/DEWH/go-DEWH/accounts"
+	"github.com/DEWH/go-DEWH/accounts/keystore"
+	"github.com/DEWH/go-DEWH/cmd/utils"
+	"github.com/DEWH/go-DEWH/console"
+	"github.com/DEWH/go-DEWH/eth"
+	"github.com/DEWH/go-DEWH/ethclient"
+	"github.com/DEWH/go-DEWH/internal/debug"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/metrics"
+	"github.com/DEWH/go-DEWH/node"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -50,7 +50,7 @@ var (
 	// Git SHA1 commit hash of the release (set via linker flags)
 	gitCommit = ""
 	// The app that holds all commands and flags.
-	app = utils.NewApp(gitCommit, "the go-DEC command line interface")
+	app = utils.NewApp(gitCommit, "the go-DEWH command line interface")
 	// flags that configure the node
 	nodeFlags = []cli.Flag{
 		utils.IdentityFlag,
@@ -159,7 +159,7 @@ func init() {
 	// Initialize the CLI app and start Geth
 	app.Action = geth
 	app.HideVersion = true // we have a command to print the version
-	app.Copyright = "Copyright 2013-2018 The go-DEC Authors"
+	app.Copyright = "Copyright 2013-2018 The go-DEWH Authors"
 	app.Commands = []cli.Command{
 		// See chaincmd.go:
 		initCommand,
@@ -322,26 +322,26 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 	}()
 	// Start auxiliary services if enabled
 	if ctx.GlobalBool(utils.MiningEnabledFlag.Name) || ctx.GlobalBool(utils.DeveloperFlag.Name) {
-		// Mining only makes sense if a full DEC node is running
+		// Mining only makes sense if a full DEWH node is running
 		if ctx.GlobalBool(utils.LightModeFlag.Name) || ctx.GlobalString(utils.SyncModeFlag.Name) == "light" {
 			utils.Fatalf("Light clients do not support mining")
 		}
-		var DEC *eth.DEC
-		if err := stack.Service(&DEC); err != nil {
-			utils.Fatalf("DEC service not running: %v", err)
+		var DEWH *eth.DEWH
+		if err := stack.Service(&DEWH); err != nil {
+			utils.Fatalf("DEWH service not running: %v", err)
 		}
 		// Use a reduced number of threads if requested
 		if threads := ctx.GlobalInt(utils.MinerThreadsFlag.Name); threads > 0 {
 			type threaded interface {
 				SetThreads(threads int)
 			}
-			if th, ok := DEC.Engine().(threaded); ok {
+			if th, ok := DEWH.Engine().(threaded); ok {
 				th.SetThreads(threads)
 			}
 		}
 		// Set the gas price to the limits from the CLI and start mining
-		DEC.TxPool().SetGasPrice(utils.GlobalBig(ctx, utils.GasPriceFlag.Name))
-		if err := DEC.StartMining(true); err != nil {
+		DEWH.TxPool().SetGasPrice(utils.GlobalBig(ctx, utils.GasPriceFlag.Name))
+		if err := DEWH.StartMining(true); err != nil {
 			utils.Fatalf("Failed to start mining: %v", err)
 		}
 	}

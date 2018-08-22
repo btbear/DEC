@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package tests
 
@@ -22,19 +22,19 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/common/math"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/core/state"
-	"github.com/DEC/go-DEC/core/vm"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/params"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/common/math"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/core/state"
+	"github.com/DEWH/go-DEWH/core/vm"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/params"
 )
 
 // VMTest checks EVM execution without block or transaction context.
-// See https://github.com/DEC/tests/wiki/VM-Tests for the test format specification.
+// See https://github.com/DEWH/tests/wiki/VM-Tests for the test format specification.
 type VMTest struct {
 	json vmJSON
 }
@@ -47,24 +47,24 @@ type vmJSON struct {
 	Env           stEnv                 `json:"env"`
 	Exec          vmExec                `json:"exec"`
 	Logs          common.UnprefixedHash `json:"logs"`
-	GasRemaining  *math.HexOrDecimal64  `json:"gas"`
+	GasRemaining  *math.HexOrDEWHimal64  `json:"gas"`
 	Out           hexutil.Bytes         `json:"out"`
 	Pre           core.GenesisAlloc     `json:"pre"`
 	Post          core.GenesisAlloc     `json:"post"`
 	PostStateRoot common.Hash           `json:"postStateRoot"`
 }
 
-//go:generate gencodec -type vmExec -field-override vmExecMarshaling -out gen_vmexec.go
+//go:generate gencoDEWH -type vmExec -field-override vmExecMarshaling -out gen_vmexec.go
 
 type vmExec struct {
-	Address  common.Address `json:"address"  gencodec:"required"`
-	Caller   common.Address `json:"caller"   gencodec:"required"`
-	Origin   common.Address `json:"origin"   gencodec:"required"`
-	Code     []byte         `json:"code"     gencodec:"required"`
-	Data     []byte         `json:"data"     gencodec:"required"`
-	Value    *big.Int       `json:"value"    gencodec:"required"`
-	GasLimit uint64         `json:"gas"      gencodec:"required"`
-	GasPrice *big.Int       `json:"gasPrice" gencodec:"required"`
+	Address  common.Address `json:"address"  gencoDEWH:"required"`
+	Caller   common.Address `json:"caller"   gencoDEWH:"required"`
+	Origin   common.Address `json:"origin"   gencoDEWH:"required"`
+	Code     []byte         `json:"code"     gencoDEWH:"required"`
+	Data     []byte         `json:"data"     gencoDEWH:"required"`
+	Value    *big.Int       `json:"value"    gencoDEWH:"required"`
+	GasLimit uint64         `json:"gas"      gencoDEWH:"required"`
+	GasPrice *big.Int       `json:"gasPrice" gencoDEWH:"required"`
 }
 
 type vmExecMarshaling struct {
@@ -73,9 +73,9 @@ type vmExecMarshaling struct {
 	Origin   common.UnprefixedAddress
 	Code     hexutil.Bytes
 	Data     hexutil.Bytes
-	Value    *math.HexOrDecimal256
-	GasLimit math.HexOrDecimal64
-	GasPrice *math.HexOrDecimal256
+	Value    *math.HexOrDEWHimal256
+	GasLimit math.HexOrDEWHimal64
+	GasPrice *math.HexOrDEWHimal256
 }
 
 func (t *VMTest) Run(vmconfig vm.Config) error {
@@ -91,7 +91,7 @@ func (t *VMTest) Run(vmconfig vm.Config) error {
 		}
 		return nil
 	}
-	// Test declares gas, expecting outputs to match.
+	// Test DEWHlares gas, expecting outputs to match.
 	if !bytes.Equal(ret, t.json.Out) {
 		return fmt.Errorf("return data mismatch: got %x, want %x", ret, t.json.Out)
 	}

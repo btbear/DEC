@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package mailserver
 
@@ -20,11 +20,11 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/rlp"
-	whisper "github.com/DEC/go-DEC/whisper/whisperv6"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/rlp"
+	whisper "github.com/DEWH/go-DEWH/whisper/whisperv6"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/util"
 )
@@ -124,9 +124,9 @@ func (s *WMailServer) processRequest(peer *whisper.Peer, lower, upper uint32, bl
 
 	for i.Next() {
 		var envelope whisper.Envelope
-		err = rlp.DecodeBytes(i.Value(), &envelope)
+		err = rlp.DEWHodeBytes(i.Value(), &envelope)
 		if err != nil {
-			log.Error(fmt.Sprintf("RLP decoding failed: %s", err))
+			log.Error(fmt.Sprintf("RLP DEWHoding failed: %s", err))
 		}
 
 		if whisper.BloomFilterMatch(bloom, envelope.Bloom()) {
@@ -157,13 +157,13 @@ func (s *WMailServer) validateRequest(peerID []byte, request *whisper.Envelope) 
 	}
 
 	f := whisper.Filter{KeySym: s.key}
-	decrypted := request.Open(&f)
-	if decrypted == nil {
-		log.Warn(fmt.Sprintf("Failed to decrypt p2p request"))
+	DEWHrypted := request.Open(&f)
+	if DEWHrypted == nil {
+		log.Warn(fmt.Sprintf("Failed to DEWHrypt p2p request"))
 		return false, 0, 0, nil
 	}
 
-	src := crypto.FromECDSAPub(decrypted.Src)
+	src := crypto.FromECDSAPub(DEWHrypted.Src)
 	if len(src)-len(peerID) == 1 {
 		src = src[1:]
 	}
@@ -176,7 +176,7 @@ func (s *WMailServer) validateRequest(peerID []byte, request *whisper.Envelope) 
 	}
 
 	var bloom []byte
-	payloadSize := len(decrypted.Payload)
+	payloadSize := len(DEWHrypted.Payload)
 	if payloadSize < 8 {
 		log.Warn(fmt.Sprintf("Undersized p2p request"))
 		return false, 0, 0, nil
@@ -186,10 +186,10 @@ func (s *WMailServer) validateRequest(peerID []byte, request *whisper.Envelope) 
 		log.Warn(fmt.Sprintf("Undersized bloom filter in p2p request"))
 		return false, 0, 0, nil
 	} else {
-		bloom = decrypted.Payload[8 : 8+whisper.BloomFilterSize]
+		bloom = DEWHrypted.Payload[8 : 8+whisper.BloomFilterSize]
 	}
 
-	lower := binary.BigEndian.Uint32(decrypted.Payload[:4])
-	upper := binary.BigEndian.Uint32(decrypted.Payload[4:8])
+	lower := binary.BigEndian.Uint32(DEWHrypted.Payload[:4])
+	upper := binary.BigEndian.Uint32(DEWHrypted.Payload[4:8])
 	return true, lower, upper, bloom
 }

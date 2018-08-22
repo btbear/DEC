@@ -82,7 +82,7 @@ Key/value entry:
     Block entry shares key prefix with its preceding key:
     Conditions:
         restart_interval=2
-        entry one  : key=deck,value=v1
+        entry one  : key=DEWHk,value=v1
         entry two  : key=dock,value=v2
         entry three: key=duck,value=v3
     The entries will be encoded as follow:
@@ -90,7 +90,7 @@ Key/value entry:
       + restart point (offset=0)                                                 + restart point (offset=16)
      /                                                                          /
     +-----+-----+-----+----------+--------+-----+-----+-----+---------+--------+-----+-----+-----+----------+--------+
-    |  0  |  4  |  2  |  "deck"  |  "v1"  |  1  |  3  |  2  |  "ock"  |  "v2"  |  0  |  4  |  2  |  "duck"  |  "v3"  |
+    |  0  |  4  |  2  |  "DEWHk"  |  "v1"  |  1  |  3  |  2  |  "ock"  |  "v2"  |  0  |  4  |  2  |  "duck"  |  "v3"  |
     +-----+-----+-----+----------+--------+-----+-----+-----+---------+--------+-----+-----+-----+----------+--------+
      \                                   / \                                  / \                                   /
       +----------- entry one -----------+   +----------- entry two ----------+   +---------- entry three ----------+
@@ -161,7 +161,7 @@ type blockHandle struct {
 	offset, length uint64
 }
 
-func decodeBlockHandle(src []byte) (blockHandle, int) {
+func DEWHodeBlockHandle(src []byte) (blockHandle, int) {
 	offset, n := binary.Uvarint(src)
 	length, m := binary.Uvarint(src[n:])
 	if n == 0 || m == 0 {

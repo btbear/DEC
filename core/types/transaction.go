@@ -1,18 +1,18 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package types
 
@@ -23,13 +23,13 @@ import (
 	"math/big"
 	"sync/atomic"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
-//go:generate gencodec -type txdata -field-override txdataMarshaling -out gen_tx_json.go
+//go:generate gencoDEWH -type txdata -field-override txdataMarshaling -out gen_tx_json.go
 
 var (
 	ErrInvalidSig = errors.New("invalid transaction v, r, s values")
@@ -44,17 +44,17 @@ type Transaction struct {
 }
 
 type txdata struct {
-	AccountNonce uint64          `json:"nonce"    gencodec:"required"`
-	Price        *big.Int        `json:"gasPrice" gencodec:"required"`
-	GasLimit     uint64          `json:"gas"      gencodec:"required"`
+	AccountNonce uint64          `json:"nonce"    gencoDEWH:"required"`
+	Price        *big.Int        `json:"gasPrice" gencoDEWH:"required"`
+	GasLimit     uint64          `json:"gas"      gencoDEWH:"required"`
 	Recipient    *common.Address `json:"to"       rlp:"nil"` // nil means contract creation
-	Amount       *big.Int        `json:"value"    gencodec:"required"`
-	Payload      []byte          `json:"input"    gencodec:"required"`
+	Amount       *big.Int        `json:"value"    gencoDEWH:"required"`
+	Payload      []byte          `json:"input"    gencoDEWH:"required"`
 
 	// Signature values
-	V *big.Int `json:"v" gencodec:"required"`
-	R *big.Int `json:"r" gencodec:"required"`
-	S *big.Int `json:"s" gencodec:"required"`
+	V *big.Int `json:"v" gencoDEWH:"required"`
+	R *big.Int `json:"r" gencoDEWH:"required"`
+	S *big.Int `json:"s" gencoDEWH:"required"`
 
 	// This is only used when marshaling to JSON.
 	Hash *common.Hash `json:"hash" rlp:"-"`
@@ -128,10 +128,10 @@ func (tx *Transaction) EncodeRLP(w io.Writer) error {
 	return rlp.Encode(w, &tx.data)
 }
 
-// DecodeRLP implements rlp.Decoder
-func (tx *Transaction) DecodeRLP(s *rlp.Stream) error {
+// DEWHodeRLP implements rlp.DEWHoder
+func (tx *Transaction) DEWHodeRLP(s *rlp.Stream) error {
 	_, size, _ := s.Kind()
-	err := s.Decode(&tx.data)
+	err := s.DEWHode(&tx.data)
 	if err == nil {
 		tx.size.Store(common.StorageSize(rlp.ListSize(size)))
 	}
@@ -147,23 +147,23 @@ func (tx *Transaction) MarshalJSON() ([]byte, error) {
 	return data.MarshalJSON()
 }
 
-// UnmarshalJSON decodes the web3 RPC transaction format.
+// UnmarshalJSON DEWHodes the web3 RPC transaction format.
 func (tx *Transaction) UnmarshalJSON(input []byte) error {
-	var dec txdata
-	if err := dec.UnmarshalJSON(input); err != nil {
+	var DEWH txdata
+	if err := DEWH.UnmarshalJSON(input); err != nil {
 		return err
 	}
 	var V byte
-	if isProtectedV(dec.V) {
-		chainID := deriveChainId(dec.V).Uint64()
-		V = byte(dec.V.Uint64() - 35 - 2*chainID)
+	if isProtectedV(DEWH.V) {
+		chainID := deriveChainId(DEWH.V).Uint64()
+		V = byte(DEWH.V.Uint64() - 35 - 2*chainID)
 	} else {
-		V = byte(dec.V.Uint64() - 27)
+		V = byte(DEWH.V.Uint64() - 27)
 	}
-	if !crypto.ValidateSignatureValues(V, dec.R, dec.S, false) {
+	if !crypto.ValidateSignatureValues(V, DEWH.R, DEWH.S, false) {
 		return ErrInvalidSig
 	}
-	*tx = Transaction{data: dec}
+	*tx = Transaction{data: DEWH}
 	return nil
 }
 

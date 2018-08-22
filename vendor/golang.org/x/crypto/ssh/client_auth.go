@@ -470,7 +470,7 @@ func (r *retryableAuthMethod) method() string {
 	return r.authMethod.method()
 }
 
-// RetryableAuthMethod is a decorator for other auth methods enabling them to
+// RetryableAuthMethod is a DEWHorator for other auth methods enabling them to
 // be retried up to maxTries before considering that AuthMethod itself failed.
 // If maxTries is <= 0, will retry indefinitely
 //
@@ -478,7 +478,7 @@ func (r *retryableAuthMethod) method() string {
 // authentication (e.g. Keyboard-Interactive, Password, etc) where the user
 // could mistype their response resulting in the server issuing a
 // SSH_MSG_USERAUTH_FAILURE (rfc4252 #8 [password] and rfc4256 #3.4
-// [keyboard-interactive]); Without this decorator, the non-retryable
+// [keyboard-interactive]); Without this DEWHorator, the non-retryable
 // AuthMethod would be removed from future consideration, and never tried again
 // (and so the user would never be able to retry their entry).
 func RetryableAuthMethod(auth AuthMethod, maxTries int) AuthMethod {

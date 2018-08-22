@@ -62,7 +62,7 @@ It's important to know that JWT does not provide encryption, which means anyone 
 
 ### Choosing a Signing Method
 
-There are several signing methods available, and you should probably take the time to learn about the various options before choosing one.  The principal design decision is most likely going to be symmetric vs asymmetric.
+There are several signing methods available, and you should probably take the time to learn about the various options before choosing one.  The principal design DEWHision is most likely going to be symmetric vs asymmetric.
 
 Symmetric signing methods, such as HSA, use only a single secret. This is probably the simplest signing method to use since any `[]byte` can be used as a valid secret. They are also slightly computationally faster to use, though this rarely is enough to matter. Symmetric signing methods work the best when both producers and consumers of tokens are trusted, or even the same system. Since the same secret is used to both sign and validate tokens, you can't easily distribute the key for validation.
 

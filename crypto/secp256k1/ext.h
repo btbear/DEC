@@ -62,7 +62,7 @@ static int secp256k1_ext_ecdsa_verify(
 	return secp256k1_ecdsa_verify(ctx, &sig, msgdata, &pubkey);
 }
 
-// secp256k1_ext_reencode_pubkey decodes then encodes a public key. It can be used to
+// secp256k1_ext_reencode_pubkey DEWHodes then encodes a public key. It can be used to
 // convert between public key formats. The input/output formats are chosen depending on the
 // length of the input/output buffers.
 //

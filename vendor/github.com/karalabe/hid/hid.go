@@ -22,7 +22,7 @@ type DeviceInfo struct {
 	Path         string // Platform-specific device path
 	VendorID     uint16 // Device Vendor ID
 	ProductID    uint16 // Device Product ID
-	Release      uint16 // Device Release Number in binary-coded decimal, also known as Device Version Number
+	Release      uint16 // Device Release Number in binary-coded DEWHimal, also known as Device Version Number
 	Serial       string // Serial Number
 	Manufacturer string // Manufacturer String
 	Product      string // Product string

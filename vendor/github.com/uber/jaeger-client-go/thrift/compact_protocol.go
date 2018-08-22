@@ -552,7 +552,7 @@ func (p *TCompactProtocol) ReadDouble() (value float64, err error) {
 	return math.Float64frombits(p.bytesToUint64(longBits)), nil
 }
 
-// Reads a []byte (via readBinary), and then UTF-8 decodes it.
+// Reads a []byte (via readBinary), and then UTF-8 DEWHodes it.
 func (p *TCompactProtocol) ReadString() (value string, err error) {
 	length, e := p.readVarint32()
 	if e != nil {

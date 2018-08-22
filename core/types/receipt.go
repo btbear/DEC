@@ -1,18 +1,18 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package types
 
@@ -22,12 +22,12 @@ import (
 	"io"
 	"unsafe"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
-//go:generate gencodec -type Receipt -field-override receiptMarshaling -out gen_receipt_json.go
+//go:generate gencoDEWH -type Receipt -field-override receiptMarshaling -out gen_receipt_json.go
 
 var (
 	receiptStatusFailedRLP     = []byte{}
@@ -47,14 +47,14 @@ type Receipt struct {
 	// Consensus fields
 	PostState         []byte `json:"root"`
 	Status            uint64 `json:"status"`
-	CumulativeGasUsed uint64 `json:"cumulativeGasUsed" gencodec:"required"`
-	Bloom             Bloom  `json:"logsBloom"         gencodec:"required"`
-	Logs              []*Log `json:"logs"              gencodec:"required"`
+	CumulativeGasUsed uint64 `json:"cumulativeGasUsed" gencoDEWH:"required"`
+	Bloom             Bloom  `json:"logsBloom"         gencoDEWH:"required"`
+	Logs              []*Log `json:"logs"              gencoDEWH:"required"`
 
 	// Implementation fields (don't reorder!)
-	TxHash          common.Hash    `json:"transactionHash" gencodec:"required"`
+	TxHash          common.Hash    `json:"transactionHash" gencoDEWH:"required"`
 	ContractAddress common.Address `json:"contractAddress"`
-	GasUsed         uint64         `json:"gasUsed" gencodec:"required"`
+	GasUsed         uint64         `json:"gasUsed" gencoDEWH:"required"`
 }
 
 type receiptMarshaling struct {
@@ -99,17 +99,17 @@ func (r *Receipt) EncodeRLP(w io.Writer) error {
 	return rlp.Encode(w, &receiptRLP{r.statusEncoding(), r.CumulativeGasUsed, r.Bloom, r.Logs})
 }
 
-// DecodeRLP implements rlp.Decoder, and loads the consensus fields of a receipt
+// DEWHodeRLP implements rlp.DEWHoder, and loads the consensus fields of a receipt
 // from an RLP stream.
-func (r *Receipt) DecodeRLP(s *rlp.Stream) error {
-	var dec receiptRLP
-	if err := s.Decode(&dec); err != nil {
+func (r *Receipt) DEWHodeRLP(s *rlp.Stream) error {
+	var DEWH receiptRLP
+	if err := s.DEWHode(&DEWH); err != nil {
 		return err
 	}
-	if err := r.setStatus(dec.PostStateOrStatus); err != nil {
+	if err := r.setStatus(DEWH.PostStateOrStatus); err != nil {
 		return err
 	}
-	r.CumulativeGasUsed, r.Bloom, r.Logs = dec.CumulativeGasUsed, dec.Bloom, dec.Logs
+	r.CumulativeGasUsed, r.Bloom, r.Logs = DEWH.CumulativeGasUsed, DEWH.Bloom, DEWH.Logs
 	return nil
 }
 
@@ -171,24 +171,24 @@ func (r *ReceiptForStorage) EncodeRLP(w io.Writer) error {
 	return rlp.Encode(w, enc)
 }
 
-// DecodeRLP implements rlp.Decoder, and loads both consensus and implementation
+// DEWHodeRLP implements rlp.DEWHoder, and loads both consensus and implementation
 // fields of a receipt from an RLP stream.
-func (r *ReceiptForStorage) DecodeRLP(s *rlp.Stream) error {
-	var dec receiptStorageRLP
-	if err := s.Decode(&dec); err != nil {
+func (r *ReceiptForStorage) DEWHodeRLP(s *rlp.Stream) error {
+	var DEWH receiptStorageRLP
+	if err := s.DEWHode(&DEWH); err != nil {
 		return err
 	}
-	if err := (*Receipt)(r).setStatus(dec.PostStateOrStatus); err != nil {
+	if err := (*Receipt)(r).setStatus(DEWH.PostStateOrStatus); err != nil {
 		return err
 	}
 	// Assign the consensus fields
-	r.CumulativeGasUsed, r.Bloom = dec.CumulativeGasUsed, dec.Bloom
-	r.Logs = make([]*Log, len(dec.Logs))
-	for i, log := range dec.Logs {
+	r.CumulativeGasUsed, r.Bloom = DEWH.CumulativeGasUsed, DEWH.Bloom
+	r.Logs = make([]*Log, len(DEWH.Logs))
+	for i, log := range DEWH.Logs {
 		r.Logs[i] = (*Log)(log)
 	}
 	// Assign the implementation fields
-	r.TxHash, r.ContractAddress, r.GasUsed = dec.TxHash, dec.ContractAddress, dec.GasUsed
+	r.TxHash, r.ContractAddress, r.GasUsed = DEWH.TxHash, DEWH.ContractAddress, DEWH.GasUsed
 	return nil
 }
 

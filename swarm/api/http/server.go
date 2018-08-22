@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 /*
 A simple http server interface to Swarm
@@ -37,13 +37,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/metrics"
-	"github.com/DEC/go-DEC/swarm/api"
-	"github.com/DEC/go-DEC/swarm/log"
-	"github.com/DEC/go-DEC/swarm/spancontext"
-	"github.com/DEC/go-DEC/swarm/storage"
-	"github.com/DEC/go-DEC/swarm/storage/mru"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/metrics"
+	"github.com/DEWH/go-DEWH/swarm/api"
+	"github.com/DEWH/go-DEWH/swarm/log"
+	"github.com/DEWH/go-DEWH/swarm/spancontext"
+	"github.com/DEWH/go-DEWH/swarm/storage"
+	"github.com/DEWH/go-DEWH/swarm/storage/mru"
 	opentracing "github.com/opentracing/opentracing-go"
 
 	"github.com/pborman/uuid"
@@ -538,7 +538,7 @@ func (s *Server) HandlePostResource(w http.ResponseWriter, r *Request) {
 		return
 	}
 	var updateRequest mru.Request
-	if err := updateRequest.UnmarshalJSON(body); err != nil { // decodes request JSON
+	if err := updateRequest.UnmarshalJSON(body); err != nil { // DEWHodes request JSON
 		Respond(w, r, err.Error(), http.StatusBadRequest) //TODO: send different status response depending on error
 		return
 	}
@@ -809,7 +809,7 @@ func (s *Server) HandleGet(w http.ResponseWriter, r *Request) {
 		return
 	}
 
-	w.Header().Set("X-Decrypted", fmt.Sprintf("%v", isEncrypted))
+	w.Header().Set("X-DEWHrypted", fmt.Sprintf("%v", isEncrypted))
 
 	switch {
 	case r.uri.Raw():

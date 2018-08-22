@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -28,7 +28,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/DEC/go-DEC/log"
+	"github.com/DEWH/go-DEWH/log"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/crypto/ssh/terminal"
 )
@@ -77,7 +77,7 @@ func dial(server string, pubkey []byte) (*sshClient, error) {
 	} else {
 		key, err := ssh.ParsePrivateKey(buf)
 		if err != nil {
-			fmt.Printf("What's the decryption password for %s? (won't be echoed)\n>", path)
+			fmt.Printf("What's the DEWHryption password for %s? (won't be echoed)\n>", path)
 			blob, err := terminal.ReadPassword(int(os.Stdin.Fd()))
 			fmt.Println()
 			if err != nil {
@@ -85,7 +85,7 @@ func dial(server string, pubkey []byte) (*sshClient, error) {
 			}
 			key, err := ssh.ParsePrivateKeyWithPassphrase(buf, blob)
 			if err != nil {
-				log.Warn("Failed to decrypt SSH key, falling back to passwords", "path", path, "err", err)
+				log.Warn("Failed to DEWHrypt SSH key, falling back to passwords", "path", path, "err", err)
 			} else {
 				auths = append(auths, ssh.PublicKeys(key))
 			}

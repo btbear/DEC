@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package client
 
@@ -27,18 +27,18 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/simulations"
-	"github.com/DEC/go-DEC/p2p/simulations/adapters"
-	"github.com/DEC/go-DEC/rpc"
-	"github.com/DEC/go-DEC/swarm/network"
-	"github.com/DEC/go-DEC/swarm/pss"
-	"github.com/DEC/go-DEC/swarm/state"
-	whisper "github.com/DEC/go-DEC/whisper/whisperv5"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/simulations"
+	"github.com/DEWH/go-DEWH/p2p/simulations/adapters"
+	"github.com/DEWH/go-DEWH/rpc"
+	"github.com/DEWH/go-DEWH/swarm/network"
+	"github.com/DEWH/go-DEWH/swarm/pss"
+	"github.com/DEWH/go-DEWH/swarm/state"
+	whisper "github.com/DEWH/go-DEWH/whisper/whisperv5"
 )
 
 type protoCtrl struct {
@@ -160,7 +160,7 @@ func TestClientHandshake(t *testing.T) {
 
 	time.Sleep(time.Second)
 
-	roaddrbytes, err := hexutil.Decode(roaddr)
+	roaddrbytes, err := hexutil.DEWHode(roaddr)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -200,9 +200,9 @@ func setupNetwork(numnodes int) (clients []*rpc.Client, err error) {
 		DefaultService: "bzz",
 	})
 	for i := 0; i < numnodes; i++ {
-		nodeconf := adapters.RandomNodeConfig()
-		nodeconf.Services = []string{"bzz", "pss"}
-		nodes[i], err = net.NewNodeWithConfig(nodeconf)
+		noDEWHonf := adapters.RandomNoDEWHonfig()
+		noDEWHonf.Services = []string{"bzz", "pss"}
+		nodes[i], err = net.NewNodeWithConfig(noDEWHonf)
 		if err != nil {
 			return nil, fmt.Errorf("error creating node 1: %v", err)
 		}

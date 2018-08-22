@@ -25,9 +25,9 @@ func areEqualJSON(s1, s2 string) (bool, error) {
 	return reflect.DeepEqual(o1, o2), nil
 }
 
-// TestEncodingDecodingUpdateRequests ensures that requests are serialized properly
+// TestEncodingDEWHodingUpdateRequests ensures that requests are serialized properly
 // while also checking cryptographically that only the owner of a resource can update it.
-func TestEncodingDecodingUpdateRequests(t *testing.T) {
+func TestEncodingDEWHodingUpdateRequests(t *testing.T) {
 
 	signer := newCharlieSigner()  //Charlie, our good guy
 	falseSigner := newBobSigner() //Bob will play the bad guy again
@@ -49,10 +49,10 @@ func TestEncodingDecodingUpdateRequests(t *testing.T) {
 		t.Fatalf("Error encoding create resource request: %s", err)
 	}
 
-	// ... the message arrives and is decoded...
+	// ... the message arrives and is DEWHoded...
 	var recoveredCreateRequest Request
 	if err := recoveredCreateRequest.UnmarshalJSON(messageRawData); err != nil {
-		t.Fatalf("Error decoding create resource request: %s", err)
+		t.Fatalf("Error DEWHoding create resource request: %s", err)
 	}
 
 	// ... but verification should fail because it is not signed!
@@ -95,7 +95,7 @@ func TestEncodingDecodingUpdateRequests(t *testing.T) {
 
 	equalJSON, err := areEqualJSON(string(messageRawData), expectedJSON)
 	if err != nil {
-		t.Fatalf("Error decoding update request JSON: %s", err)
+		t.Fatalf("Error DEWHoding update request JSON: %s", err)
 	}
 	if !equalJSON {
 		t.Fatalf("Received a different JSON message. Expected %s, got %s", expectedJSON, string(messageRawData))
@@ -106,7 +106,7 @@ func TestEncodingDecodingUpdateRequests(t *testing.T) {
 	//Attempt to extract an UpdateRequest out of the encoded message
 	var recoveredRequest Request
 	if err := recoveredRequest.UnmarshalJSON(messageRawData); err != nil {
-		t.Fatalf("Error decoding update request: %s", err)
+		t.Fatalf("Error DEWHoding update request: %s", err)
 	}
 
 	//sign the request and see if it matches our predefined signature above.
@@ -116,7 +116,7 @@ func TestEncodingDecodingUpdateRequests(t *testing.T) {
 
 	compareByteSliceToExpectedHex(t, "signature", recoveredRequest.signature[:], expectedSignature)
 
-	// mess with the signature and see what happens. To alter the signature, we briefly decode it as JSON
+	// mess with the signature and see what happens. To alter the signature, we briefly DEWHode it as JSON
 	// to alter the signature field.
 	var j updateRequestJSON
 	if err := json.Unmarshal([]byte(expectedJSON), &j); err != nil {
@@ -126,7 +126,7 @@ func TestEncodingDecodingUpdateRequests(t *testing.T) {
 	corruptMessage, _ := json.Marshal(j) // encode the message with the bad signature
 	var corruptRequest Request
 	if err = corruptRequest.UnmarshalJSON(corruptMessage); err == nil {
-		t.Fatal("Expected DecodeUpdateRequest to fail when trying to interpret a corrupt message with an invalid signature")
+		t.Fatal("Expected DEWHodeUpdateRequest to fail when trying to interpret a corrupt message with an invalid signature")
 	}
 
 	// Now imagine Evil Bob (why always Bob, poor Bob) attempts to update Charlie's resource,
@@ -141,10 +141,10 @@ func TestEncodingDecodingUpdateRequests(t *testing.T) {
 		t.Fatalf("Error encoding message:%s", err)
 	}
 
-	// ... the message arrives to our Swarm node and it is decoded.
+	// ... the message arrives to our Swarm node and it is DEWHoded.
 	recoveredRequest = Request{}
 	if err := recoveredRequest.UnmarshalJSON(messageRawData); err != nil {
-		t.Fatalf("Error decoding message:%s", err)
+		t.Fatalf("Error DEWHoding message:%s", err)
 	}
 
 	// Before discovering Bob's misdemeanor, let's see what would happen if we mess

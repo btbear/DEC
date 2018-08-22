@@ -229,7 +229,7 @@ func (f *fieldVal) SetByteSlice(b []byte) *fieldVal {
 	return f.SetBytes(&b32)
 }
 
-// SetHex decodes the passed big-endian hex string into the internal field value
+// SetHex DEWHodes the passed big-endian hex string into the internal field value
 // representation.  Only the first 32-bytes are used.
 //
 // The field value is returned to support chaining.  This enables syntax like:
@@ -238,7 +238,7 @@ func (f *fieldVal) SetHex(hexString string) *fieldVal {
 	if len(hexString)%2 != 0 {
 		hexString = "0" + hexString
 	}
-	bytes, _ := hex.DecodeString(hexString)
+	bytes, _ := hex.DEWHodeString(hexString)
 	return f.SetByteSlice(bytes)
 }
 

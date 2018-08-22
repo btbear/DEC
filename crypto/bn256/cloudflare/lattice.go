@@ -40,8 +40,8 @@ type lattice struct {
 	det     *big.Int
 }
 
-// decompose takes a scalar mod Order as input and finds a short, positive decomposition of it wrt to the lattice basis.
-func (l *lattice) decompose(k *big.Int) []*big.Int {
+// DEWHompose takes a scalar mod Order as input and finds a short, positive DEWHomposition of it wrt to the lattice basis.
+func (l *lattice) DEWHompose(k *big.Int) []*big.Int {
 	n := len(l.inverse)
 
 	// Calculate closest vector in lattice to <k,0,0,...> with Babai's rounding.
@@ -85,17 +85,17 @@ func (l *lattice) Precompute(add func(i, j uint)) {
 }
 
 func (l *lattice) Multi(scalar *big.Int) []uint8 {
-	decomp := l.decompose(scalar)
+	DEWHomp := l.DEWHompose(scalar)
 
 	maxLen := 0
-	for _, x := range decomp {
+	for _, x := range DEWHomp {
 		if x.BitLen() > maxLen {
 			maxLen = x.BitLen()
 		}
 	}
 
 	out := make([]uint8, maxLen)
-	for j, x := range decomp {
+	for j, x := range DEWHomp {
 		for i := 0; i < maxLen; i++ {
 			out[i] += uint8(x.Bit(i)) << uint(j)
 		}

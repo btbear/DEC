@@ -9,17 +9,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/simulations"
-	"github.com/DEC/go-DEC/p2p/simulations/adapters"
-	"github.com/DEC/go-DEC/swarm/network"
-	"github.com/DEC/go-DEC/swarm/pss"
-	"github.com/DEC/go-DEC/swarm/state"
-	whisper "github.com/DEC/go-DEC/whisper/whisperv5"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/simulations"
+	"github.com/DEWH/go-DEWH/p2p/simulations/adapters"
+	"github.com/DEWH/go-DEWH/swarm/network"
+	"github.com/DEWH/go-DEWH/swarm/pss"
+	"github.com/DEWH/go-DEWH/swarm/state"
+	whisper "github.com/DEWH/go-DEWH/whisper/whisperv5"
 )
 
 var (
@@ -51,9 +51,9 @@ func TestStart(t *testing.T) {
 		ID:             "0",
 		DefaultService: "bzz",
 	})
-	leftNodeConf := adapters.RandomNodeConfig()
-	leftNodeConf.Services = []string{"bzz", "pss"}
-	leftNode, err := net.NewNodeWithConfig(leftNodeConf)
+	leftNoDEWHonf := adapters.RandomNoDEWHonfig()
+	leftNoDEWHonf.Services = []string{"bzz", "pss"}
+	leftNode, err := net.NewNodeWithConfig(leftNoDEWHonf)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -62,9 +62,9 @@ func TestStart(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	rightNodeConf := adapters.RandomNodeConfig()
-	rightNodeConf.Services = []string{"bzz", "pss"}
-	rightNode, err := net.NewNodeWithConfig(rightNodeConf)
+	rightNoDEWHonf := adapters.RandomNoDEWHonfig()
+	rightNoDEWHonf.Services = []string{"bzz", "pss"}
+	rightNode, err := net.NewNodeWithConfig(rightNoDEWHonf)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -133,7 +133,7 @@ func TestStart(t *testing.T) {
 	ctrlNotifier := NewController(psses[leftPub])
 	ctrlNotifier.NewNotifier("foo.eth", 2, updateC)
 
-	pubkeybytes, err := hexutil.Decode(leftPub)
+	pubkeybytes, err := hexutil.DEWHode(leftPub)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -141,7 +141,7 @@ func TestStart(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	addrbytes, err := hexutil.Decode(leftAddr)
+	addrbytes, err := hexutil.DEWHode(leftAddr)
 	if err != nil {
 		t.Fatal(err)
 	}

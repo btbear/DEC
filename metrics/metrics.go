@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/DEC/go-DEC/log"
+	"github.com/DEWH/go-DEWH/log"
 )
 
 // Enabled is checked by the constructor functions for all of the

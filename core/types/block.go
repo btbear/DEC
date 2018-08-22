@@ -1,20 +1,20 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package types contains data types related to DEC consensus.
+// Package types contains data types related to DEWH consensus.
 package types
 
 import (
@@ -26,10 +26,10 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/crypto/sha3"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/crypto/sha3"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 var (
@@ -64,28 +64,28 @@ func (n *BlockNonce) UnmarshalText(input []byte) error {
 	return hexutil.UnmarshalFixedText("BlockNonce", input, n[:])
 }
 
-//go:generate gencodec -type Header -field-override headerMarshaling -out gen_header_json.go
+//go:generate gencoDEWH -type Header -field-override headerMarshaling -out gen_header_json.go
 
-// Header represents a block header in the DEC blockchain.
+// Header represents a block header in the DEWH blockchain.
 type Header struct {
-	ParentHash  common.Hash    `json:"parentHash"       gencodec:"required"`
-	UncleHash   common.Hash    `json:"sha3Uncles"       gencodec:"required"`
-	Coinbase    common.Address `json:"miner"            gencodec:"required"`
-	Root        common.Hash    `json:"stateRoot"        gencodec:"required"`
-	TxHash      common.Hash    `json:"transactionsRoot" gencodec:"required"`
-	ReceiptHash common.Hash    `json:"receiptsRoot"     gencodec:"required"`
-	Bloom       Bloom          `json:"logsBloom"        gencodec:"required"`
-	Difficulty  *big.Int       `json:"difficulty"       gencodec:"required"`
-	Number      *big.Int       `json:"number"           gencodec:"required"`
-	GasLimit    uint64         `json:"gasLimit"         gencodec:"required"`
-	GasUsed     uint64         `json:"gasUsed"          gencodec:"required"`
-	Time        *big.Int       `json:"timestamp"        gencodec:"required"`
-	Extra       []byte         `json:"extraData"        gencodec:"required"`
-	MixDigest   common.Hash    `json:"mixHash"          gencodec:"required"`
-	Nonce       BlockNonce     `json:"nonce"            gencodec:"required"`
+	ParentHash  common.Hash    `json:"parentHash"       gencoDEWH:"required"`
+	UncleHash   common.Hash    `json:"sha3Uncles"       gencoDEWH:"required"`
+	Coinbase    common.Address `json:"miner"            gencoDEWH:"required"`
+	Root        common.Hash    `json:"stateRoot"        gencoDEWH:"required"`
+	TxHash      common.Hash    `json:"transactionsRoot" gencoDEWH:"required"`
+	ReceiptHash common.Hash    `json:"receiptsRoot"     gencoDEWH:"required"`
+	Bloom       Bloom          `json:"logsBloom"        gencoDEWH:"required"`
+	Difficulty  *big.Int       `json:"difficulty"       gencoDEWH:"required"`
+	Number      *big.Int       `json:"number"           gencoDEWH:"required"`
+	GasLimit    uint64         `json:"gasLimit"         gencoDEWH:"required"`
+	GasUsed     uint64         `json:"gasUsed"          gencoDEWH:"required"`
+	Time        *big.Int       `json:"timestamp"        gencoDEWH:"required"`
+	Extra       []byte         `json:"extraData"        gencoDEWH:"required"`
+	MixDigest   common.Hash    `json:"mixHash"          gencoDEWH:"required"`
+	Nonce       BlockNonce     `json:"nonce"            gencoDEWH:"required"`
 }
 
-// field type overrides for gencodec
+// field type overrides for gencoDEWH
 type headerMarshaling struct {
 	Difficulty *hexutil.Big
 	Number     *hexutil.Big
@@ -141,7 +141,7 @@ type Body struct {
 	Uncles       []*Header
 }
 
-// Block represents an entire block in the DEC blockchain.
+// Block represents an entire block in the DEWH blockchain.
 type Block struct {
 	header       *Header
 	uncles       []*Header
@@ -256,11 +256,11 @@ func CopyHeader(h *Header) *Header {
 	return &cpy
 }
 
-// DecodeRLP decodes the DEC
-func (b *Block) DecodeRLP(s *rlp.Stream) error {
+// DEWHodeRLP DEWHodes the DEWH
+func (b *Block) DEWHodeRLP(s *rlp.Stream) error {
 	var eb extblock
 	_, size, _ := s.Kind()
-	if err := s.Decode(&eb); err != nil {
+	if err := s.DEWHode(&eb); err != nil {
 		return err
 	}
 	b.header, b.uncles, b.transactions = eb.Header, eb.Uncles, eb.Txs
@@ -268,7 +268,7 @@ func (b *Block) DecodeRLP(s *rlp.Stream) error {
 	return nil
 }
 
-// EncodeRLP serializes b into the DEC RLP block format.
+// EncodeRLP serializes b into the DEWH RLP block format.
 func (b *Block) EncodeRLP(w io.Writer) error {
 	return rlp.Encode(w, extblock{
 		Header: b.header,
@@ -278,9 +278,9 @@ func (b *Block) EncodeRLP(w io.Writer) error {
 }
 
 // [deprecated by eth/63]
-func (b *StorageBlock) DecodeRLP(s *rlp.Stream) error {
+func (b *StorageBlock) DEWHodeRLP(s *rlp.Stream) error {
 	var sb storageblock
-	if err := s.Decode(&sb); err != nil {
+	if err := s.DEWHode(&sb); err != nil {
 		return err
 	}
 	b.header, b.uncles, b.transactions, b.td = sb.Header, sb.Uncles, sb.Txs, sb.TD

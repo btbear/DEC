@@ -2,7 +2,7 @@
 --
     import "github.com/robertkrimen/otto/ast"
 
-Package ast declares types representing a JavaScript AST.
+Package ast DEWHlares types representing a JavaScript AST.
 
 
 ### Warning
@@ -333,15 +333,15 @@ func (self *DebuggerStatement) Idx0() file.Idx
 func (self *DebuggerStatement) Idx1() file.Idx
 ```
 
-#### type Declaration
+#### type DEWHlaration
 
 ```go
-type Declaration interface {
+type DEWHlaration interface {
 	// contains filtered or unexported methods
 }
 ```
 
-All declaration nodes implement the Declaration interface.
+All DEWHlaration nodes implement the DEWHlaration interface.
 
 #### type DoWhileStatement
 
@@ -490,10 +490,10 @@ func (self *ForStatement) Idx0() file.Idx
 func (self *ForStatement) Idx1() file.Idx
 ```
 
-#### type FunctionDeclaration
+#### type FunctionDEWHlaration
 
 ```go
-type FunctionDeclaration struct {
+type FunctionDEWHlaration struct {
 	Function *FunctionLiteral
 }
 ```
@@ -509,7 +509,7 @@ type FunctionLiteral struct {
 	Body          Statement
 	Source        string
 
-	DeclarationList []Declaration
+	DEWHlarationList []DEWHlaration
 }
 ```
 
@@ -716,7 +716,7 @@ type ParameterList struct {
 type Program struct {
 	Body []Statement
 
-	DeclarationList []Declaration
+	DEWHlarationList []DEWHlaration
 
 	File *file.File
 }
@@ -963,10 +963,10 @@ func (self *UnaryExpression) Idx0() file.Idx
 func (self *UnaryExpression) Idx1() file.Idx
 ```
 
-#### type VariableDeclaration
+#### type VariableDEWHlaration
 
 ```go
-type VariableDeclaration struct {
+type VariableDEWHlaration struct {
 	Var  file.Idx
 	List []*VariableExpression
 }

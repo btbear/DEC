@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package simulations
 
@@ -27,12 +27,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/event"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/simulations/adapters"
-	"github.com/DEC/go-DEC/rpc"
+	"github.com/DEWH/go-DEWH/event"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/simulations/adapters"
+	"github.com/DEWH/go-DEWH/rpc"
 )
 
 // testService implements the node.Service interface and provides protocols
@@ -345,10 +345,10 @@ func TestHTTPNetwork(t *testing.T) {
 
 func startTestNetwork(t *testing.T, client *Client) []string {
 	// create two nodes
-	nodeCount := 2
-	nodeIDs := make([]string, nodeCount)
-	for i := 0; i < nodeCount; i++ {
-		config := adapters.RandomNodeConfig()
+	noDEWHount := 2
+	nodeIDs := make([]string, noDEWHount)
+	for i := 0; i < noDEWHount; i++ {
+		config := adapters.RandomNoDEWHonfig()
 		node, err := client.CreateNode(config)
 		if err != nil {
 			t.Fatalf("error creating node: %s", err)
@@ -361,8 +361,8 @@ func startTestNetwork(t *testing.T, client *Client) []string {
 	if err != nil {
 		t.Fatalf("error getting nodes: %s", err)
 	}
-	if len(nodes) != nodeCount {
-		t.Fatalf("expected %d nodes, got %d", nodeCount, len(nodes))
+	if len(nodes) != noDEWHount {
+		t.Fatalf("expected %d nodes, got %d", noDEWHount, len(nodes))
 	}
 	for i, nodeID := range nodeIDs {
 		if nodes[i].ID != nodeID {
@@ -385,9 +385,9 @@ func startTestNetwork(t *testing.T, client *Client) []string {
 	}
 
 	// connect the nodes
-	for i := 0; i < nodeCount-1; i++ {
+	for i := 0; i < noDEWHount-1; i++ {
 		peerId := i + 1
-		if i == nodeCount-1 {
+		if i == noDEWHount-1 {
 			peerId = 0
 		}
 		if err := client.ConnectNode(nodeIDs[i], nodeIDs[peerId]); err != nil {
@@ -409,7 +409,7 @@ func (t *expectEvents) nodeEvent(id string, up bool) *Event {
 	return &Event{
 		Type: EventTypeNode,
 		Node: &Node{
-			Config: &adapters.NodeConfig{
+			Config: &adapters.NoDEWHonfig{
 				ID: discover.MustHexID(id),
 			},
 			Up: up,
@@ -529,7 +529,7 @@ func TestHTTPNodeRPC(t *testing.T) {
 	// start a node in the network
 	client := NewClient(s.URL)
 
-	config := adapters.RandomNodeConfig()
+	config := adapters.RandomNoDEWHonfig()
 	node, err := client.CreateNode(config)
 	if err != nil {
 		t.Fatalf("error creating node: %s", err)
@@ -589,10 +589,10 @@ func TestHTTPSnapshot(t *testing.T) {
 
 	// create a two-node network
 	client := NewClient(s.URL)
-	nodeCount := 2
-	nodes := make([]*p2p.NodeInfo, nodeCount)
-	for i := 0; i < nodeCount; i++ {
-		config := adapters.RandomNodeConfig()
+	noDEWHount := 2
+	nodes := make([]*p2p.NodeInfo, noDEWHount)
+	for i := 0; i < noDEWHount; i++ {
+		config := adapters.RandomNoDEWHonfig()
 		node, err := client.CreateNode(config)
 		if err != nil {
 			t.Fatalf("error creating node: %s", err)
@@ -607,7 +607,7 @@ func TestHTTPSnapshot(t *testing.T) {
 	}
 
 	// store some state in the test services
-	states := make([]string, nodeCount)
+	states := make([]string, noDEWHount)
 	for i, node := range nodes {
 		rpc, err := client.RPCClient(context.Background(), node.ID)
 		if err != nil {
@@ -657,8 +657,8 @@ func TestHTTPSnapshot(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error getting network: %s", err)
 	}
-	if len(net.Nodes) != nodeCount {
-		t.Fatalf("expected network to have %d nodes, got %d", nodeCount, len(net.Nodes))
+	if len(net.Nodes) != noDEWHount {
+		t.Fatalf("expected network to have %d nodes, got %d", noDEWHount, len(net.Nodes))
 	}
 	for i, node := range nodes {
 		id := net.Nodes[i].ID().String()

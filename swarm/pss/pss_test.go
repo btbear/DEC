@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package pss
 
@@ -34,22 +34,22 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/metrics"
-	"github.com/DEC/go-DEC/metrics/influxdb"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/protocols"
-	"github.com/DEC/go-DEC/p2p/simulations"
-	"github.com/DEC/go-DEC/p2p/simulations/adapters"
-	"github.com/DEC/go-DEC/rpc"
-	"github.com/DEC/go-DEC/swarm/network"
-	"github.com/DEC/go-DEC/swarm/state"
-	whisper "github.com/DEC/go-DEC/whisper/whisperv5"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/metrics"
+	"github.com/DEWH/go-DEWH/metrics/influxdb"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/protocols"
+	"github.com/DEWH/go-DEWH/p2p/simulations"
+	"github.com/DEWH/go-DEWH/p2p/simulations/adapters"
+	"github.com/DEWH/go-DEWH/rpc"
+	"github.com/DEWH/go-DEWH/swarm/network"
+	"github.com/DEWH/go-DEWH/swarm/state"
+	whisper "github.com/DEWH/go-DEWH/whisper/whisperv5"
 )
 
 var (
@@ -165,7 +165,7 @@ func TestMsgParams(t *testing.T) {
 // test if we can insert into cache, match items with cache and cache expiry
 func TestCache(t *testing.T) {
 	var err error
-	to, _ := hex.DecodeString("08090a0b0c0d0e0f1011121314150001020304050607161718191a1b1c1d1e1f")
+	to, _ := hex.DEWHodeString("08090a0b0c0d0e0f1011121314150001020304050607161718191a1b1c1d1e1f")
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	keys, err := wapi.NewKeyPair(ctx)
@@ -999,21 +999,21 @@ func testNetwork(t *testing.T) {
 	}
 
 	paramstring := strings.Split(t.Name(), "/")
-	nodecount, _ := strconv.ParseInt(paramstring[1], 10, 0)
+	noDEWHount, _ := strconv.ParseInt(paramstring[1], 10, 0)
 	msgcount, _ := strconv.ParseInt(paramstring[2], 10, 0)
 	addrsize, _ := strconv.ParseInt(paramstring[3], 10, 0)
 	adapter := paramstring[4]
 
-	log.Info("network test", "nodecount", nodecount, "msgcount", msgcount, "addrhintsize", addrsize)
+	log.Info("network test", "noDEWHount", noDEWHount, "msgcount", msgcount, "addrhintsize", addrsize)
 
-	nodes := make([]discover.NodeID, nodecount)
-	bzzaddrs := make(map[discover.NodeID]string, nodecount)
-	rpcs := make(map[discover.NodeID]*rpc.Client, nodecount)
-	pubkeys := make(map[discover.NodeID]string, nodecount)
+	nodes := make([]discover.NodeID, noDEWHount)
+	bzzaddrs := make(map[discover.NodeID]string, noDEWHount)
+	rpcs := make(map[discover.NodeID]*rpc.Client, noDEWHount)
+	pubkeys := make(map[discover.NodeID]string, noDEWHount)
 
 	sentmsgs := make([][]byte, msgcount)
 	recvmsgs := make([]bool, msgcount)
-	nodemsgcount := make(map[discover.NodeID]int, nodecount)
+	nodemsgcount := make(map[discover.NodeID]int, noDEWHount)
 
 	trigger := make(chan discover.NodeID)
 
@@ -1034,7 +1034,7 @@ func testNetwork(t *testing.T) {
 	})
 	defer net.Shutdown()
 
-	f, err := os.Open(fmt.Sprintf("testdata/snapshot_%d.json", nodecount))
+	f, err := os.Open(fmt.Sprintf("testdata/snapshot_%d.json", noDEWHount))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1124,8 +1124,8 @@ func testNetwork(t *testing.T) {
 	time.Sleep(1 * time.Second)
 
 	for i := 0; i < int(msgcount); i++ {
-		sendnodeidx := rand.Intn(int(nodecount))
-		recvnodeidx := rand.Intn(int(nodecount - 1))
+		sendnodeidx := rand.Intn(int(noDEWHount))
+		recvnodeidx := rand.Intn(int(noDEWHount - 1))
 		if recvnodeidx >= sendnodeidx {
 			recvnodeidx++
 		}
@@ -1355,8 +1355,8 @@ func BenchmarkSymkeyBruteforceChangeaddr(b *testing.B) {
 	}
 }
 
-// decrypt performance using symkey cache, worst case
-// (decrypt key always last in cache)
+// DEWHrypt performance using symkey cache, worst case
+// (DEWHrypt key always last in cache)
 func benchmarkSymkeyBruteforceChangeaddr(b *testing.B) {
 	keycountstring := strings.Split(b.Name(), "/")
 	cachesize := int64(0)
@@ -1438,8 +1438,8 @@ func BenchmarkSymkeyBruteforceSameaddr(b *testing.B) {
 	}
 }
 
-// decrypt performance using symkey cache, best case
-// (decrypt key always first in cache)
+// DEWHrypt performance using symkey cache, best case
+// (DEWHrypt key always first in cache)
 func benchmarkSymkeyBruteforceSameaddr(b *testing.B) {
 	var keyid string
 	var ps *Pss
@@ -1527,9 +1527,9 @@ func setupNetwork(numnodes int, allowRaw bool) (clients []*rpc.Client, err error
 		DefaultService: "bzz",
 	})
 	for i := 0; i < numnodes; i++ {
-		nodeconf := adapters.RandomNodeConfig()
-		nodeconf.Services = []string{"bzz", pssProtocolName}
-		nodes[i], err = net.NewNodeWithConfig(nodeconf)
+		noDEWHonf := adapters.RandomNoDEWHonfig()
+		noDEWHonf.Services = []string{"bzz", pssProtocolName}
+		nodes[i], err = net.NewNodeWithConfig(noDEWHonf)
 		if err != nil {
 			return nil, fmt.Errorf("error creating node 1: %v", err)
 		}

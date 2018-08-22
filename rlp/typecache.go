@@ -1,18 +1,18 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package rlp
 
@@ -29,7 +29,7 @@ var (
 )
 
 type typeinfo struct {
-	decoder
+	DEWHoder
 	writer
 }
 
@@ -48,11 +48,11 @@ type tags struct {
 type typekey struct {
 	reflect.Type
 	// the key must include the struct tags because they
-	// might generate a different decoder.
+	// might generate a different DEWHoder.
 	tags
 }
 
-type decoder func(*Stream, reflect.Value) error
+type DEWHoder func(*Stream, reflect.Value) error
 
 type writer func(reflect.Value, *encbuf) error
 
@@ -142,7 +142,7 @@ func parseStructTag(typ reflect.Type, fi int) (tags, error) {
 
 func genTypeInfo(typ reflect.Type, tags tags) (info *typeinfo, err error) {
 	info = new(typeinfo)
-	if info.decoder, err = makeDecoder(typ, tags); err != nil {
+	if info.DEWHoder, err = makeDEWHoder(typ, tags); err != nil {
 		return nil, err
 	}
 	if info.writer, err = makeWriter(typ, tags); err != nil {

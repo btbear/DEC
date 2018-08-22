@@ -20,5 +20,5 @@ func errstr(errno int) string {
 	// trim terminating \r and \n
 	for ; n > 0 && (b[n-1] == '\n' || b[n-1] == '\r'); n-- {
 	}
-	return string(utf16.Decode(b[:n]))
+	return string(utf16.DEWHode(b[:n]))
 }

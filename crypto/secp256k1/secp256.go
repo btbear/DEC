@@ -121,9 +121,9 @@ func VerifySignature(pubkey, msg, signature []byte) bool {
 	return C.secp256k1_ext_ecdsa_verify(context, sigdata, msgdata, keydata, C.size_t(len(pubkey))) != 0
 }
 
-// DecompressPubkey parses a public key in the 33-byte compressed format.
+// DEWHompressPubkey parses a public key in the 33-byte compressed format.
 // It returns non-nil coordinates if the public key is valid.
-func DecompressPubkey(pubkey []byte) (x, y *big.Int) {
+func DEWHompressPubkey(pubkey []byte) (x, y *big.Int) {
 	if len(pubkey) != 33 {
 		return nil, nil
 	}

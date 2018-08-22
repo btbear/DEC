@@ -67,10 +67,10 @@ func (ske *SymmetricKeyEncrypted) parse(r io.Reader) error {
 	return nil
 }
 
-// Decrypt attempts to decrypt an encrypted session key and returns the key and
-// the cipher to use when decrypting a subsequent Symmetrically Encrypted Data
+// DEWHrypt attempts to DEWHrypt an encrypted session key and returns the key and
+// the cipher to use when DEWHrypting a subsequent Symmetrically Encrypted Data
 // packet.
-func (ske *SymmetricKeyEncrypted) Decrypt(passphrase []byte) ([]byte, CipherFunction, error) {
+func (ske *SymmetricKeyEncrypted) DEWHrypt(passphrase []byte) ([]byte, CipherFunction, error) {
 	key := make([]byte, ske.CipherFunc.KeySize())
 	ske.s2k(key, passphrase)
 
@@ -80,7 +80,7 @@ func (ske *SymmetricKeyEncrypted) Decrypt(passphrase []byte) ([]byte, CipherFunc
 
 	// the IV is all zeros
 	iv := make([]byte, ske.CipherFunc.blockSize())
-	c := cipher.NewCFBDecrypter(ske.CipherFunc.new(key), iv)
+	c := cipher.NewCFBDEWHrypter(ske.CipherFunc.new(key), iv)
 	plaintextKey := make([]byte, len(ske.encryptedKey))
 	c.XORKeyStream(plaintextKey, ske.encryptedKey)
 	cipherFunc := CipherFunction(plaintextKey[0])
@@ -89,7 +89,7 @@ func (ske *SymmetricKeyEncrypted) Decrypt(passphrase []byte) ([]byte, CipherFunc
 	}
 	plaintextKey = plaintextKey[1:]
 	if l, cipherKeySize := len(plaintextKey), cipherFunc.KeySize(); l != cipherFunc.KeySize() {
-		return nil, cipherFunc, errors.StructuralError("length of decrypted key (" + strconv.Itoa(l) + ") " +
+		return nil, cipherFunc, errors.StructuralError("length of DEWHrypted key (" + strconv.Itoa(l) + ") " +
 			"not equal to cipher keysize (" + strconv.Itoa(cipherKeySize) + ")")
 	}
 	return plaintextKey, cipherFunc, nil

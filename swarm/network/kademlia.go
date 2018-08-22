@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package network
 
@@ -24,9 +24,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/swarm/log"
-	"github.com/DEC/go-DEC/swarm/pot"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/swarm/log"
+	"github.com/DEWH/go-DEWH/swarm/pot"
 )
 
 /*
@@ -43,7 +43,7 @@ most half as distant from each other as they are from x.
 
 If we think of random sample of items in the bins as connections in a network of
 interconnected nodes then relative proximity can serve as the basis for local
-decisions for graph traversal where the task is to find a route between two
+DEWHisions for graph traversal where the task is to find a route between two
 points. Since in every hop, the finite distance halves, there is
 a guaranteed constant maximum limit on the number of hops needed to reach one
 node from the other.
@@ -150,7 +150,7 @@ func Label(e *entry) string {
 	return fmt.Sprintf("%s (%d)", e.Hex()[:4], e.retries)
 }
 
-// Hex is the hexadecimal serialisation of the entry address
+// Hex is the hexaDEWHimal serialisation of the entry address
 func (e *entry) Hex() string {
 	return fmt.Sprintf("%x", e.addr().Address())
 }
@@ -595,7 +595,7 @@ type PeerPot struct {
 }
 
 // NewPeerPotMap creates a map of pot record of OverlayAddr with keys
-// as hexadecimal representations of the address.
+// as hexaDEWHimal representations of the address.
 func NewPeerPotMap(kadMinProxSize int, addrs [][]byte) map[string]*PeerPot {
 	// create a table of all nodes for health check
 	np := pot.NewPot(nil, 0)

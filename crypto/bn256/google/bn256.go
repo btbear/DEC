@@ -5,7 +5,7 @@
 // Package bn256 implements a particular bilinear group at the 128-bit security level.
 //
 // Bilinear groups are the basis of many of the new cryptographic protocols
-// that have been proposed over the past decade. They consist of a triplet of
+// that have been proposed over the past DEWHade. They consist of a triplet of
 // groups (G₁, G₂ and GT) such that there exists a function e(g₁ˣ,g₂ʸ)=gTˣʸ
 // (where gₓ is a generator of the respective group). That function is called
 // a pairing function.

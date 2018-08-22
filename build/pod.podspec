@@ -2,12 +2,12 @@ Pod::Spec.new do |spec|
   spec.name         = 'Geth'
   spec.version      = '{{.Version}}'
   spec.license      = { :type => 'GNU Lesser General Public License, Version 3.0' }
-  spec.homepage     = 'https://github.com/DEC/go-DEC'
+  spec.homepage     = 'https://github.com/DEWH/go-DEWH'
   spec.authors      = { {{range .Contributors}}
 		'{{.Name}}' => '{{.Email}}',{{end}}
 	}
-  spec.summary      = 'iOS DEC Client'
-  spec.source       = { :git => 'https://github.com/DEC/go-DEC.git', :commit => '{{.Commit}}' }
+  spec.summary      = 'iOS DEWH Client'
+  spec.source       = { :git => 'https://github.com/DEWH/go-DEWH.git', :commit => '{{.Commit}}' }
 
 	spec.platform = :ios
   spec.ios.deployment_target  = '9.0'

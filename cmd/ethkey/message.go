@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -21,10 +21,10 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/DEC/go-DEC/accounts/keystore"
-	"github.com/DEC/go-DEC/cmd/utils"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/crypto"
+	"github.com/DEWH/go-DEWH/accounts/keystore"
+	"github.com/DEWH/go-DEWH/cmd/utils"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/crypto"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -61,11 +61,11 @@ To sign a message contained in a file, use the --msgfile flag.
 			utils.Fatalf("Failed to read the keyfile at '%s': %v", keyfilepath, err)
 		}
 
-		// Decrypt key with passphrase.
+		// DEWHrypt key with passphrase.
 		passphrase := getPassphrase(ctx)
-		key, err := keystore.DecryptKey(keyjson, passphrase)
+		key, err := keystore.DEWHryptKey(keyjson, passphrase)
 		if err != nil {
-			utils.Fatalf("Error decrypting key: %v", err)
+			utils.Fatalf("Error DEWHrypting key: %v", err)
 		}
 
 		signature, err := crypto.Sign(signHash(message), key.PrivateKey)
@@ -108,9 +108,9 @@ It is possible to refer to a file containing the message.`,
 			utils.Fatalf("Invalid address: %s", addressStr)
 		}
 		address := common.HexToAddress(addressStr)
-		signature, err := hex.DecodeString(signatureHex)
+		signature, err := hex.DEWHodeString(signatureHex)
 		if err != nil {
-			utils.Fatalf("Signature encoding is not hexadecimal: %v", err)
+			utils.Fatalf("Signature encoding is not hexaDEWHimal: %v", err)
 		}
 
 		recoveredPubkey, err := crypto.SigToPub(signHash(message), signature)

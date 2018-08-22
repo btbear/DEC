@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package math
 
@@ -37,25 +37,25 @@ const (
 	MaxUint64 = 1<<64 - 1
 )
 
-// HexOrDecimal64 marshals uint64 as hex or decimal.
-type HexOrDecimal64 uint64
+// HexOrDEWHimal64 marshals uint64 as hex or DEWHimal.
+type HexOrDEWHimal64 uint64
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (i *HexOrDecimal64) UnmarshalText(input []byte) error {
+func (i *HexOrDEWHimal64) UnmarshalText(input []byte) error {
 	int, ok := ParseUint64(string(input))
 	if !ok {
-		return fmt.Errorf("invalid hex or decimal integer %q", input)
+		return fmt.Errorf("invalid hex or DEWHimal integer %q", input)
 	}
-	*i = HexOrDecimal64(int)
+	*i = HexOrDEWHimal64(int)
 	return nil
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (i HexOrDecimal64) MarshalText() ([]byte, error) {
+func (i HexOrDEWHimal64) MarshalText() ([]byte, error) {
 	return []byte(fmt.Sprintf("%#x", uint64(i))), nil
 }
 
-// ParseUint64 parses s as an integer in decimal or hexadecimal syntax.
+// ParseUint64 parses s as an integer in DEWHimal or hexaDEWHimal syntax.
 // Leading zeros are accepted. The empty string parses as zero.
 func ParseUint64(s string) (uint64, bool) {
 	if s == "" {

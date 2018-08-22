@@ -1,18 +1,18 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package eth
 
@@ -21,11 +21,11 @@ import (
 	"io"
 	"math/big"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/event"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/event"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 // Constants to match up protocol versions and messages
@@ -68,7 +68,7 @@ type errCode int
 
 const (
 	ErrMsgTooLarge = iota
-	ErrDecode
+	ErrDEWHode
 	ErrInvalidMsgCode
 	ErrProtocolVersionMismatch
 	ErrNetworkIdMismatch
@@ -85,7 +85,7 @@ func (e errCode) String() string {
 // XXX change once legacy code is out
 var errorToString = map[int]string{
 	ErrMsgTooLarge:             "Message too long",
-	ErrDecode:                  "Invalid message",
+	ErrDEWHode:                  "Invalid message",
 	ErrInvalidMsgCode:          "Invalid message code",
 	ErrProtocolVersionMismatch: "Protocol version mismatch",
 	ErrNetworkIdMismatch:       "NetworkId mismatch",
@@ -149,17 +149,17 @@ func (hn *hashOrNumber) EncodeRLP(w io.Writer) error {
 	return rlp.Encode(w, hn.Hash)
 }
 
-// DecodeRLP is a specialized decoder for hashOrNumber to decode the contents
+// DEWHodeRLP is a specialized DEWHoder for hashOrNumber to DEWHode the contents
 // into either a block hash or a block number.
-func (hn *hashOrNumber) DecodeRLP(s *rlp.Stream) error {
+func (hn *hashOrNumber) DEWHodeRLP(s *rlp.Stream) error {
 	_, size, _ := s.Kind()
 	origin, err := s.Raw()
 	if err == nil {
 		switch {
 		case size == 32:
-			err = rlp.DecodeBytes(origin, &hn.Hash)
+			err = rlp.DEWHodeBytes(origin, &hn.Hash)
 		case size <= 8:
-			err = rlp.DecodeBytes(origin, &hn.Number)
+			err = rlp.DEWHodeBytes(origin, &hn.Number)
 		default:
 			err = fmt.Errorf("invalid input size %d for origin", size)
 		}

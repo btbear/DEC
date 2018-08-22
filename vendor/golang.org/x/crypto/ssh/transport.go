@@ -12,7 +12,7 @@ import (
 )
 
 // debugTransport if set, will print packet types as they go over the
-// wire. No message decoding is done, to minimize the impact on timing.
+// wire. No message DEWHoding is done, to minimize the impact on timing.
 const debugTransport = false
 
 const (
@@ -56,7 +56,7 @@ type packetCipher interface {
 	// contents of the packet are generally scrambled.
 	writePacket(seqnum uint32, w io.Writer, rand io.Reader, packet []byte) error
 
-	// readPacket reads and decrypts a packet of data. The
+	// readPacket reads and DEWHrypts a packet of data. The
 	// returned packet may be overwritten by future calls of
 	// readPacket.
 	readPacket(seqnum uint32, r io.Reader) ([]byte, error)
@@ -107,7 +107,7 @@ func (t *transport) printPacket(p []byte, write bool) {
 	log.Println(what, who, p[0])
 }
 
-// Read and decrypt next packet.
+// Read and DEWHrypt next packet.
 func (t *transport) readPacket() (p []byte, err error) {
 	for {
 		p, err = t.reader.readPacket(t.bufReader)

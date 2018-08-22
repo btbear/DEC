@@ -166,7 +166,7 @@ func bytesToKey(b []byte, pasteActive bool) (rune, []byte) {
 		if !utf8.FullRune(b) {
 			return utf8.RuneError, b
 		}
-		r, l := utf8.DecodeRune(b)
+		r, l := utf8.DEWHodeRune(b)
 		return r, b[l:]
 	}
 

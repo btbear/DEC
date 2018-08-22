@@ -1,20 +1,20 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package les implements the Light DEC Subprotocol.
+// Package les implements the Light DEWH Subprotocol.
 package les
 
 import (
@@ -22,31 +22,31 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/accounts"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/consensus"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/core/bloombits"
-	"github.com/DEC/go-DEC/core/rawdb"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/eth"
-	"github.com/DEC/go-DEC/eth/downloader"
-	"github.com/DEC/go-DEC/eth/filters"
-	"github.com/DEC/go-DEC/eth/gasprice"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/event"
-	"github.com/DEC/go-DEC/internal/ethapi"
-	"github.com/DEC/go-DEC/light"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discv5"
-	"github.com/DEC/go-DEC/params"
-	rpc "github.com/DEC/go-DEC/rpc"
+	"github.com/DEWH/go-DEWH/accounts"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/consensus"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/core/bloombits"
+	"github.com/DEWH/go-DEWH/core/rawdb"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/eth"
+	"github.com/DEWH/go-DEWH/eth/downloader"
+	"github.com/DEWH/go-DEWH/eth/filters"
+	"github.com/DEWH/go-DEWH/eth/gasprice"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/event"
+	"github.com/DEWH/go-DEWH/internal/ethapi"
+	"github.com/DEWH/go-DEWH/light"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discv5"
+	"github.com/DEWH/go-DEWH/params"
+	rpc "github.com/DEWH/go-DEWH/rpc"
 )
 
-type LightDEC struct {
+type LightDEWH struct {
 	config *eth.Config
 
 	odr         *LesOdr
@@ -80,7 +80,7 @@ type LightDEC struct {
 	wg sync.WaitGroup
 }
 
-func New(ctx *node.ServiceContext, config *eth.Config) (*LightDEC, error) {
+func New(ctx *node.ServiceContext, config *eth.Config) (*LightDEWH, error) {
 	chainDb, err := eth.CreateDB(ctx, config, "lightchaindata")
 	if err != nil {
 		return nil, err
@@ -94,7 +94,7 @@ func New(ctx *node.ServiceContext, config *eth.Config) (*LightDEC, error) {
 	peers := newPeerSet()
 	quitSync := make(chan struct{})
 
-	leth := &LightDEC{
+	leth := &LightDEWH{
 		config:           config,
 		chainConfig:      chainConfig,
 		chainDb:          chainDb,
@@ -174,9 +174,9 @@ func (s *LightDummyAPI) Mining() bool {
 	return false
 }
 
-// APIs returns the collection of RPC services the DEC package offers.
+// APIs returns the collection of RPC services the DEWH package offers.
 // NOTE, some of these services probably need to be moved to somewhere else.
-func (s *LightDEC) APIs() []rpc.API {
+func (s *LightDEWH) APIs() []rpc.API {
 	return append(ethapi.GetAPIs(s.ApiBackend), []rpc.API{
 		{
 			Namespace: "eth",
@@ -202,26 +202,26 @@ func (s *LightDEC) APIs() []rpc.API {
 	}...)
 }
 
-func (s *LightDEC) ResetWithGenesisBlock(gb *types.Block) {
+func (s *LightDEWH) ResetWithGenesisBlock(gb *types.Block) {
 	s.blockchain.ResetWithGenesisBlock(gb)
 }
 
-func (s *LightDEC) BlockChain() *light.LightChain      { return s.blockchain }
-func (s *LightDEC) TxPool() *light.TxPool              { return s.txPool }
-func (s *LightDEC) Engine() consensus.Engine           { return s.engine }
-func (s *LightDEC) LesVersion() int                    { return int(s.protocolManager.SubProtocols[0].Version) }
-func (s *LightDEC) Downloader() *downloader.Downloader { return s.protocolManager.downloader }
-func (s *LightDEC) EventMux() *event.TypeMux           { return s.eventMux }
+func (s *LightDEWH) BlockChain() *light.LightChain      { return s.blockchain }
+func (s *LightDEWH) TxPool() *light.TxPool              { return s.txPool }
+func (s *LightDEWH) Engine() consensus.Engine           { return s.engine }
+func (s *LightDEWH) LesVersion() int                    { return int(s.protocolManager.SubProtocols[0].Version) }
+func (s *LightDEWH) Downloader() *downloader.Downloader { return s.protocolManager.downloader }
+func (s *LightDEWH) EventMux() *event.TypeMux           { return s.eventMux }
 
 // Protocols implements node.Service, returning all the currently configured
 // network protocols to start.
-func (s *LightDEC) Protocols() []p2p.Protocol {
+func (s *LightDEWH) Protocols() []p2p.Protocol {
 	return s.protocolManager.SubProtocols
 }
 
 // Start implements node.Service, starting all internal goroutines needed by the
-// DEC protocol implementation.
-func (s *LightDEC) Start(srvr *p2p.Server) error {
+// DEWH protocol implementation.
+func (s *LightDEWH) Start(srvr *p2p.Server) error {
 	s.startBloomHandlers()
 	log.Warn("Light client mode is an experimental feature")
 	s.netRPCService = ethapi.NewPublicNetAPI(srvr, s.networkId)
@@ -233,8 +233,8 @@ func (s *LightDEC) Start(srvr *p2p.Server) error {
 }
 
 // Stop implements node.Service, terminating all internal goroutines used by the
-// DEC protocol.
-func (s *LightDEC) Stop() error {
+// DEWH protocol.
+func (s *LightDEWH) Stop() error {
 	s.odr.Stop()
 	if s.bloomIndexer != nil {
 		s.bloomIndexer.Close()

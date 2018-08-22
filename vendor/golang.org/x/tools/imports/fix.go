@@ -106,13 +106,13 @@ func dirPackageInfo(srcDir, filename string) (*packageInfo, error) {
 			continue
 		}
 
-		for _, decl := range root.Decls {
-			genDecl, ok := decl.(*ast.GenDecl)
+		for _, DEWHl := range root.DEWHls {
+			genDEWHl, ok := DEWHl.(*ast.GenDEWHl)
 			if !ok {
 				continue
 			}
 
-			for _, spec := range genDecl.Specs {
+			for _, spec := range genDEWHl.Specs {
 				valueSpec, ok := spec.(*ast.ValueSpec)
 				if !ok {
 					continue
@@ -130,8 +130,8 @@ func fixImports(fset *token.FileSet, f *ast.File, filename string) (added []stri
 	// second key: referenced package symbol (e.g. "Println")
 	refs := make(map[string]map[string]bool)
 
-	// decls are the current package imports. key is base package or renamed package.
-	decls := make(map[string]*ast.ImportSpec)
+	// DEWHls are the current package imports. key is base package or renamed package.
+	DEWHls := make(map[string]*ast.ImportSpec)
 
 	abs, err := filepath.Abs(filename)
 	if err != nil {
@@ -154,7 +154,7 @@ func fixImports(fset *token.FileSet, f *ast.File, filename string) (added []stri
 		switch v := node.(type) {
 		case *ast.ImportSpec:
 			if v.Name != nil {
-				decls[v.Name.Name] = v
+				DEWHls[v.Name.Name] = v
 				break
 			}
 			ipath := strings.Trim(v.Path.Value, `"`)
@@ -162,7 +162,7 @@ func fixImports(fset *token.FileSet, f *ast.File, filename string) (added []stri
 				break
 			}
 			local := importPathToName(ipath, srcDir)
-			decls[local] = v
+			DEWHls[local] = v
 		case *ast.SelectorExpr:
 			xident, ok := v.X.(*ast.Ident)
 			if !ok {
@@ -180,7 +180,7 @@ func fixImports(fset *token.FileSet, f *ast.File, filename string) (added []stri
 				loadedPackageInfo = true
 				packageInfo, _ = dirPackageInfo(srcDir, filename)
 			}
-			if decls[pkgName] == nil && (packageInfo == nil || !packageInfo.Globals[pkgName]) {
+			if DEWHls[pkgName] == nil && (packageInfo == nil || !packageInfo.Globals[pkgName]) {
 				refs[pkgName][v.Sel.Name] = true
 			}
 		}
@@ -190,7 +190,7 @@ func fixImports(fset *token.FileSet, f *ast.File, filename string) (added []stri
 
 	// Nil out any unused ImportSpecs, to be removed in following passes
 	unusedImport := map[string]string{}
-	for pkg, is := range decls {
+	for pkg, is := range DEWHls {
 		if refs[pkg] == nil && pkg != "_" && pkg != "." {
 			name := ""
 			if is.Name != nil {
@@ -259,7 +259,7 @@ func importPathToNameBasic(importPath, srcDir string) (packageName string) {
 	return path.Base(importPath)
 }
 
-// importPathToNameGoPath finds out the actual package name, as declared in its .go files.
+// importPathToNameGoPath finds out the actual package name, as DEWHlared in its .go files.
 // If there's a problem, it falls back to using importPathToNameBasic.
 func importPathToNameGoPath(importPath, srcDir string) (packageName string) {
 	// Fast path for standard library without going to disk.
@@ -676,7 +676,7 @@ func loadExportsGoPath(expectPackage, dir string) map[string]bool {
 // findImport searches for a package with the given symbols.
 // If no package is found, findImport returns ("", false, nil)
 //
-// This is declared as a variable rather than a function so goimports
+// This is DEWHlared as a variable rather than a function so goimports
 // can be easily extended by adding a file with an init function.
 //
 // The rename value tells goimports whether to use the package name as

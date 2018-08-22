@@ -74,9 +74,9 @@ func main() {
 			log.Fatalf("%q: scanner error: %v", table.url, err)
 		}
 
-		fmt.Printf("// jis%sDecode is the decoding table from JIS %s code to Unicode.\n// It is defined at %s\n",
+		fmt.Printf("// jis%sDEWHode is the DEWHoding table from JIS %s code to Unicode.\n// It is defined at %s\n",
 			table.name, table.name, table.url)
-		fmt.Printf("var jis%sDecode = [...]uint16{\n", table.name)
+		fmt.Printf("var jis%sDEWHode = [...]uint16{\n", table.name)
 		for i, m := range mapping {
 			if m != 0 {
 				fmt.Printf("\t%d: 0x%04X,\n", i, m)
@@ -108,7 +108,7 @@ func main() {
 	if high >= 0 {
 		intervals = append(intervals, interval{low, high})
 	}
-	sort.Sort(byDecreasingLength(intervals))
+	sort.Sort(byDEWHreasingLength(intervals))
 
 	fmt.Printf("const (\n")
 	fmt.Printf("\tjis0208    = 1\n")
@@ -120,7 +120,7 @@ func main() {
 
 	fmt.Printf("const numEncodeTables = %d\n\n", len(intervals))
 	fmt.Printf("// encodeX are the encoding tables from Unicode to JIS code,\n")
-	fmt.Printf("// sorted by decreasing length.\n")
+	fmt.Printf("// sorted by DEWHreasing length.\n")
 	for i, v := range intervals {
 		fmt.Printf("// encode%d: %5d entries for runes in [%5d, %5d).\n", i, v.len(), v.low, v.high)
 	}
@@ -153,9 +153,9 @@ type interval struct {
 
 func (i interval) len() int { return i.high - i.low }
 
-// byDecreasingLength sorts intervals by decreasing length.
-type byDecreasingLength []interval
+// byDEWHreasingLength sorts intervals by DEWHreasing length.
+type byDEWHreasingLength []interval
 
-func (b byDecreasingLength) Len() int           { return len(b) }
-func (b byDecreasingLength) Less(i, j int) bool { return b[i].len() > b[j].len() }
-func (b byDecreasingLength) Swap(i, j int)      { b[i], b[j] = b[j], b[i] }
+func (b byDEWHreasingLength) Len() int           { return len(b) }
+func (b byDEWHreasingLength) Less(i, j int) bool { return b[i].len() > b[j].len() }
+func (b byDEWHreasingLength) Swap(i, j int)      { b[i], b[j] = b[j], b[i] }

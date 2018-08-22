@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 // rlpdump is a pretty-printer for RLP data.
 package main
@@ -26,7 +26,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 var (
@@ -51,7 +51,7 @@ func main() {
 	var r io.Reader
 	switch {
 	case *hexMode != "":
-		data, err := hex.DecodeString(strings.TrimPrefix(*hexMode, "0x"))
+		data, err := hex.DEWHodeString(strings.TrimPrefix(*hexMode, "0x"))
 		if err != nil {
 			die(err)
 		}

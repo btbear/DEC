@@ -270,7 +270,7 @@ func (self *_parser) parseFunctionStatement() *ast.FunctionStatement {
 	return function
 }
 
-func (self *_parser) parseFunction(declaration bool) *ast.FunctionLiteral {
+func (self *_parser) parseFunction(DEWHlaration bool) *ast.FunctionLiteral {
 
 	node := &ast.FunctionLiteral{
 		Function: self.expect(token.FUNCTION),
@@ -279,12 +279,12 @@ func (self *_parser) parseFunction(declaration bool) *ast.FunctionLiteral {
 	var name *ast.Identifier
 	if self.token == token.IDENTIFIER {
 		name = self.parseIdentifier()
-		if declaration {
-			self.scope.declare(&ast.FunctionDeclaration{
+		if DEWHlaration {
+			self.scope.DEWHlare(&ast.FunctionDEWHlaration{
 				Function: node,
 			})
 		}
-	} else if declaration {
+	} else if DEWHlaration {
 		// Use expect error handling
 		self.expect(token.IDENTIFIER)
 	}
@@ -309,7 +309,7 @@ func (self *_parser) parseFunctionBlock(node *ast.FunctionLiteral) {
 			self.closeScope()
 		}()
 		node.Body = self.parseBlockStatement()
-		node.DeclarationList = self.scope.declarationList
+		node.DEWHlarationList = self.scope.DEWHlarationList
 	}
 }
 
@@ -589,14 +589,14 @@ func (self *_parser) parseForOrForInStatement() ast.Statement {
 				self.comments.Unset()
 			}
 			self.next()
-			list := self.parseVariableDeclarationList(var_)
+			list := self.parseVariableDEWHlarationList(var_)
 			if len(list) == 1 && self.token == token.IN {
 				if self.mode&StoreComments != 0 {
 					self.comments.Unset()
 				}
 				self.next() // in
 				forIn = true
-				left = []ast.Expression{list[0]} // There is only one declaration
+				left = []ast.Expression{list[0]} // There is only one DEWHlaration
 			} else {
 				left = list
 			}
@@ -651,7 +651,7 @@ func (self *_parser) parseVariableStatement() *ast.VariableStatement {
 	}
 	idx := self.expect(token.VAR)
 
-	list := self.parseVariableDeclarationList(idx)
+	list := self.parseVariableDEWHlarationList(idx)
 
 	statement := &ast.VariableStatement{
 		Var:  idx,
@@ -798,7 +798,7 @@ func (self *_parser) parseProgram() *ast.Program {
 	defer self.closeScope()
 	return &ast.Program{
 		Body:            self.parseSourceElements(),
-		DeclarationList: self.scope.declarationList,
+		DEWHlarationList: self.scope.DEWHlarationList,
 		File:            self.file,
 	}
 }

@@ -1,20 +1,20 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package les implements the Light DEC Subprotocol.
+// Package les implements the Light DEWH Subprotocol.
 package les
 
 import (
@@ -22,7 +22,7 @@ import (
 )
 
 // wrsItem interface should be implemented by any entries that are to be selected from
-// a weightedRandomSelect set. Note that recalculating monotonously decreasing item
+// a weightedRandomSelect set. Note that recalculating monotonously DEWHreasing item
 // weights on-demand (without constantly calling update) is allowed
 type wrsItem interface {
 	Weight() int64
@@ -40,7 +40,7 @@ func newWeightedRandomSelect() *weightedRandomSelect {
 }
 
 // update updates an item's weight, adds it if it was non-existent or removes it if
-// the new weight is zero. Note that explicitly updating decreasing weights is not necessary.
+// the new weight is zero. Note that explicitly updating DEWHreasing weights is not necessary.
 func (w *weightedRandomSelect) update(item wrsItem) {
 	w.setWeight(item, item.Weight())
 }
@@ -73,7 +73,7 @@ func (w *weightedRandomSelect) setWeight(item wrsItem, weight int64) {
 }
 
 // choose randomly selects an item from the set, with a chance proportional to its
-// current weight. If the weight of the chosen element has been decreased since the
+// current weight. If the weight of the chosen element has been DEWHreased since the
 // last stored value, returns it with a newWeight/oldWeight chance, otherwise just
 // updates its weight and selects another one
 func (w *weightedRandomSelect) choose() wrsItem {

@@ -133,7 +133,7 @@ func UnmarshalChar(s string) (rune, error) {
 	if len(s) == 0 {
 		return 0, errors.New("soap char: got empty string")
 	}
-	r, n := utf8.DecodeRune([]byte(s))
+	r, n := utf8.DEWHodeRune([]byte(s))
 	if n != len(s) {
 		return 0, fmt.Errorf("soap char: value %q is not a single rune", s)
 	}
@@ -495,7 +495,7 @@ func MarshalBinBase64(v []byte) (string, error) {
 
 // UnmarshalBinBase64 unmarshals []byte from the SOAP "bin.base64" type.
 func UnmarshalBinBase64(s string) ([]byte, error) {
-	return base64.StdEncoding.DecodeString(s)
+	return base64.StdEncoding.DEWHodeString(s)
 }
 
 // MarshalBinHex marshals []byte to SOAP "bin.hex" type.
@@ -505,7 +505,7 @@ func MarshalBinHex(v []byte) (string, error) {
 
 // UnmarshalBinHex unmarshals []byte from the SOAP "bin.hex" type.
 func UnmarshalBinHex(s string) ([]byte, error) {
-	return hex.DecodeString(s)
+	return hex.DEWHodeString(s)
 }
 
 // MarshalURI marshals *url.URL to SOAP "uri" type.

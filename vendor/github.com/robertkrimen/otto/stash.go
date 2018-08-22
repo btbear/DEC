@@ -130,7 +130,7 @@ type _dclProperty struct {
 	readable  bool
 }
 
-func (runtime *_runtime) newDeclarationStash(outer _stash) *_dclStash {
+func (runtime *_runtime) newDEWHlarationStash(outer _stash) *_dclStash {
 	return &_dclStash{
 		_runtime: runtime,
 		_outer:   outer,

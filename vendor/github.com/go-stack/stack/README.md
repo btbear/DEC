@@ -20,7 +20,7 @@ release. The develop branch contains unreleased commits.
 ## Formatting
 
 Package stack's types implement fmt.Formatter, which provides a simple and
-flexible way to declaratively configure formatting when used with logging or
+flexible way to DEWHlaratively configure formatting when used with logging or
 error tracking packages.
 
 ```go

@@ -856,8 +856,8 @@ func scanNumber(buf []byte, i int) (int, error) {
 		}
 	}
 
-	// how many decimal points we've see
-	decimal := false
+	// how many DEWHimal points we've see
+	DEWHimal := false
 
 	// indicates the number is float in scientific notation
 	scientific := false
@@ -882,11 +882,11 @@ func scanNumber(buf []byte, i int) (int, error) {
 		}
 
 		if buf[i] == '.' {
-			// Can't have more than 1 decimal (e.g. 1.1.1 should fail)
-			if decimal {
+			// Can't have more than 1 DEWHimal (e.g. 1.1.1 should fail)
+			if DEWHimal {
 				return i, ErrInvalidNumber
 			}
-			decimal = true
+			DEWHimal = true
 		}
 
 		// `e` is valid for floats but not as the first char
@@ -913,7 +913,7 @@ func scanNumber(buf []byte, i int) (int, error) {
 		i++
 	}
 
-	if (isInt || isUnsigned) && (decimal || scientific) {
+	if (isInt || isUnsigned) && (DEWHimal || scientific) {
 		return i, ErrInvalidNumber
 	}
 
@@ -921,7 +921,7 @@ func scanNumber(buf []byte, i int) (int, error) {
 	if isInt {
 		numericDigits--
 	}
-	if decimal {
+	if DEWHimal {
 		numericDigits--
 	}
 	if buf[start] == '-' {
@@ -933,7 +933,7 @@ func scanNumber(buf []byte, i int) (int, error) {
 	}
 
 	// It's more common that numbers will be within min/max range for their type but we need to prevent
-	// out or range numbers from being parsed successfully.  This uses some simple heuristics to decide
+	// out or range numbers from being parsed successfully.  This uses some simple heuristics to DEWHide
 	// if we should parse the number to the actual type.  It does not do it all the time because it incurs
 	// extra allocations and we end up converting the type again when writing points to disk.
 	if isInt {
@@ -1663,7 +1663,7 @@ func (p *point) MarshalBinary() ([]byte, error) {
 	return b, nil
 }
 
-// UnmarshalBinary decodes a binary representation of the point into a point struct.
+// UnmarshalBinary DEWHodes a binary representation of the point into a point struct.
 func (p *point) UnmarshalBinary(b []byte) error {
 	var n int
 
@@ -2243,7 +2243,7 @@ func (p *point) Reset() {
 
 // MarshalBinary encodes all the fields to their proper type and returns the binary
 // represenation
-// NOTE: uint64 is specifically not supported due to potential overflow when we decode
+// NOTE: uint64 is specifically not supported due to potential overflow when we DEWHode
 // again later to an int64
 // NOTE2: uint is accepted, and may be 64 bits, and is for some reason accepted...
 func (p Fields) MarshalBinary() []byte {

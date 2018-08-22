@@ -14,7 +14,7 @@ import (
 
 //go:generate go run -tags gensecp256k1 genprecomps.go
 
-// loadS256BytePoints decompresses and deserializes the pre-computed byte points
+// loadS256BytePoints DEWHompresses and deserializes the pre-computed byte points
 // used to accelerate scalar base multiplication for the secp256k1 curve.  This
 // approach is used since it allows the compile to use significantly less ram
 // and be performed much faster than it is with hard-coding the final in-memory
@@ -27,10 +27,10 @@ func loadS256BytePoints() error {
 		return nil
 	}
 
-	// Decompress the pre-computed table used to accelerate scalar base
+	// DEWHompress the pre-computed table used to accelerate scalar base
 	// multiplication.
-	decoder := base64.NewDecoder(base64.StdEncoding, strings.NewReader(bp))
-	r, err := zlib.NewReader(decoder)
+	DEWHoder := base64.NewDEWHoder(base64.StdEncoding, strings.NewReader(bp))
+	r, err := zlib.NewReader(DEWHoder)
 	if err != nil {
 		return err
 	}

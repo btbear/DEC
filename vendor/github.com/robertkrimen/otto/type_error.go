@@ -17,7 +17,7 @@ func (rt *_runtime) newErrorObject(name string, message Value, stackFramesToPop 
 			}),
 			&_nilGetSetObject,
 		},
-		mode: modeConfigureMask & modeOnMask,
+		mode: moDEWHonfigureMask & modeOnMask,
 	}, false)
 
 	return self

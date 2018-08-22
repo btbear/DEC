@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package abi
 
@@ -25,8 +25,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/crypto"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/crypto"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -313,7 +313,7 @@ func TestEventTupleUnpack(t *testing.T) {
 }
 
 func unpackTestEventData(dest interface{}, hexData string, jsonEvent []byte, assert *assert.Assertions) error {
-	data, err := hex.DecodeString(hexData)
+	data, err := hex.DEWHodeString(hexData)
 	assert.NoError(err, "Hex data should be a correct hex-string")
 	var e Event
 	assert.NoError(json.Unmarshal(jsonEvent, &e), "Should be able to unmarshal event ABI")
@@ -323,7 +323,7 @@ func unpackTestEventData(dest interface{}, hexData string, jsonEvent []byte, ass
 
 /*
 Taken from
-https://github.com/DEC/go-DEC/pull/15568
+https://github.com/DEWH/go-DEWH/pull/15568
 */
 
 type testResult struct {
@@ -355,7 +355,7 @@ func (tc testCase) encoded(intType, arrayType Type) []byte {
 	return b.Bytes()
 }
 
-// TestEventUnpackIndexed verifies that indexed field will be skipped by event decoder.
+// TestEventUnpackIndexed verifies that indexed field will be skipped by event DEWHoder.
 func TestEventUnpackIndexed(t *testing.T) {
 	definition := `[{"name": "test", "type": "event", "inputs": [{"indexed": true, "name":"value1", "type":"uint8"},{"indexed": false, "name":"value2", "type":"uint8"}]}]`
 	type testStruct struct {
@@ -372,7 +372,7 @@ func TestEventUnpackIndexed(t *testing.T) {
 	require.Equal(t, uint8(8), rst.Value2)
 }
 
-// TestEventIndexedWithArrayUnpack verifies that decoder will not overlow when static array is indexed input.
+// TestEventIndexedWithArrayUnpack verifies that DEWHoder will not overlow when static array is indexed input.
 func TestEventIndexedWithArrayUnpack(t *testing.T) {
 	definition := `[{"name": "test", "type": "event", "inputs": [{"indexed": true, "name":"value1", "type":"uint8[2]"},{"indexed": false, "name":"value2", "type":"string"}]}]`
 	type testStruct struct {

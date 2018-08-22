@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // +build none
 
@@ -58,9 +58,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/DEC/go-DEC/internal/build"
-	"github.com/DEC/go-DEC/params"
-	sv "github.com/DEC/go-DEC/swarm/version"
+	"github.com/DEWH/go-DEWH/internal/build"
+	"github.com/DEWH/go-DEWH/params"
+	sv "github.com/DEWH/go-DEWH/swarm/version"
 )
 
 var (
@@ -92,23 +92,23 @@ var (
 	debExecutables = []debExecutable{
 		{
 			BinaryName:  "abigen",
-			Description: "Source code generator to convert DEC contract definitions into easy to use, compile-time type-safe Go packages.",
+			Description: "Source code generator to convert DEWH contract definitions into easy to use, compile-time type-safe Go packages.",
 		},
 		{
 			BinaryName:  "bootnode",
-			Description: "DEC bootnode.",
+			Description: "DEWH bootnode.",
 		},
 		{
 			BinaryName:  "evm",
-			Description: "Developer utility version of the EVM (DEC Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode.",
+			Description: "Developer utility version of the EVM (DEWH Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode.",
 		},
 		{
 			BinaryName:  "geth",
-			Description: "DEC CLI client.",
+			Description: "DEWH CLI client.",
 		},
 		{
 			BinaryName:  "puppeth",
-			Description: "DEC private network manager.",
+			Description: "DEWH private network manager.",
 		},
 		{
 			BinaryName:  "rlpdump",
@@ -116,7 +116,7 @@ var (
 		},
 		{
 			BinaryName:  "wnode",
-			Description: "DEC Whisper diagnostic tool",
+			Description: "DEWH Whisper diagnostic tool",
 		},
 	}
 
@@ -124,19 +124,19 @@ var (
 	debSwarmExecutables = []debExecutable{
 		{
 			BinaryName:  "swarm",
-			PackageName: "DEC-swarm",
-			Description: "DEC Swarm daemon and tools",
+			PackageName: "DEWH-swarm",
+			Description: "DEWH Swarm daemon and tools",
 		},
 	}
 
-	debDEC = debPackage{
-		Name:        "DEC",
+	debDEWH = debPackage{
+		Name:        "DEWH",
 		Version:     params.Version,
 		Executables: debExecutables,
 	}
 
 	debSwarm = debPackage{
-		Name:        "DEC-swarm",
+		Name:        "DEWH-swarm",
 		Version:     sv.Version,
 		Executables: debSwarmExecutables,
 	}
@@ -144,7 +144,7 @@ var (
 	// Debian meta packages to build and push to Ubuntu PPA
 	debPackages = []debPackage{
 		debSwarm,
-		debDEC,
+		debDEWH,
 	}
 
 	// Packages to be cross-compiled by the xgo command
@@ -222,7 +222,7 @@ func doInstall(cmdline []string) {
 
 		if minor < 9 {
 			log.Println("You have Go version", runtime.Version())
-			log.Println("go-DEC requires at least Go version 1.9 and cannot")
+			log.Println("go-DEWH requires at least Go version 1.9 and cannot")
 			log.Println("be compiled with an earlier version. Please upgrade your Go installation.")
 			os.Exit(1)
 		}
@@ -446,7 +446,7 @@ func archiveBasename(arch string, archiveVersion string) string {
 func archiveUpload(archive string, blobstore string, signer string) error {
 	// If signing was requested, generate the signature files
 	if signer != "" {
-		pgpkey, err := base64.StdEncoding.DecodeString(os.Getenv(signer))
+		pgpkey, err := base64.StdEncoding.DEWHodeString(os.Getenv(signer))
 		if err != nil {
 			return fmt.Errorf("invalid base64 %s", signer)
 		}
@@ -493,7 +493,7 @@ func maybeSkipArchive(env build.Environment) {
 func doDebianSource(cmdline []string) {
 	var (
 		signer  = flag.String("signer", "", `Signing key name, also used as package author`)
-		upload  = flag.String("upload", "", `Where to upload the source package (usually "ppa:DEC/DEC")`)
+		upload  = flag.String("upload", "", `Where to upload the source package (usually "ppa:DEWH/DEWH")`)
 		workdir = flag.String("workdir", "", `Output directory for packages (uses temp dir if unset)`)
 		now     = time.Now()
 	)
@@ -504,7 +504,7 @@ func doDebianSource(cmdline []string) {
 
 	// Import the signing key.
 	if b64key := os.Getenv("PPA_SIGNING_KEY"); b64key != "" {
-		key, err := base64.StdEncoding.DecodeString(b64key)
+		key, err := base64.StdEncoding.DEWHodeString(b64key)
 		if err != nil {
 			log.Fatal("invalid base64 PPA_SIGNING_KEY")
 		}
@@ -555,7 +555,7 @@ func isUnstableBuild(env build.Environment) bool {
 }
 
 type debPackage struct {
-	Name        string          // the name of the Debian package to produce, e.g. "DEC", or "DEC-swarm"
+	Name        string          // the name of the Debian package to produce, e.g. "DEWH", or "DEWH-swarm"
 	Version     string          // the clean version of the debPackage, e.g. 1.8.12 or 0.3.0, without any metadata
 	Executables []debExecutable // executables to be included in the package
 }
@@ -565,7 +565,7 @@ type debMetadata struct {
 
 	PackageName string
 
-	// go-DEC version being built. Note that this
+	// go-DEWH version being built. Note that this
 	// is not the debian package version. The package version
 	// is constructed by VersionString.
 	Version string
@@ -593,7 +593,7 @@ func (d debExecutable) Package() string {
 func newDebMetadata(distro, author string, env build.Environment, t time.Time, name string, version string, exes []debExecutable) debMetadata {
 	if author == "" {
 		// No signing key, use default author.
-		author = "DEC Builds <fjl@DEC.org>"
+		author = "DEWH Builds <fjl@DEWH.org>"
 	}
 	return debMetadata{
 		PackageName: name,
@@ -644,11 +644,11 @@ func (meta debMetadata) ExeName(exe debExecutable) string {
 	return exe.Package()
 }
 
-// DECSwarmPackageName returns the name of the swarm package based on
-// environment, e.g. "DEC-swarm-unstable", or "DEC-swarm".
-// This is needed so that we make sure that "DEC" package,
-// depends on and installs "DEC-swarm"
-func (meta debMetadata) DECSwarmPackageName() string {
+// DEWHSwarmPackageName returns the name of the swarm package based on
+// environment, e.g. "DEWH-swarm-unstable", or "DEWH-swarm".
+// This is needed so that we make sure that "DEWH" package,
+// depends on and installs "DEWH-swarm"
+func (meta debMetadata) DEWHSwarmPackageName() string {
 	if isUnstableBuild(meta.Env) {
 		return debSwarm.Name + "-unstable"
 	}
@@ -667,7 +667,7 @@ func (meta debMetadata) ExeConflicts(exe debExecutable) string {
 		// be preferred and the conflicting files should be handled via
 		// alternates. We might do this eventually but using a conflict is
 		// easier now.
-		return "DEC, " + exe.Package()
+		return "DEWH, " + exe.Package()
 	}
 	return ""
 }
@@ -792,7 +792,7 @@ func doAndroidArchive(cmdline []string) {
 	// Build the Android archive and Maven resources
 	build.MustRun(goTool("get", "golang.org/x/mobile/cmd/gomobile", "golang.org/x/mobile/cmd/gobind"))
 	build.MustRun(gomobileTool("init", "--ndk", os.Getenv("ANDROID_NDK")))
-	build.MustRun(gomobileTool("bind", "-ldflags", "-s -w", "--target", "android", "--javapkg", "org.DEC", "-v", "github.com/DEC/go-DEC/mobile"))
+	build.MustRun(gomobileTool("bind", "-ldflags", "-s -w", "--target", "android", "--javapkg", "org.DEWH", "-v", "github.com/DEWH/go-DEWH/mobile"))
 
 	if *local {
 		// If we're building locally, copy bundle to build dir and skip Maven
@@ -817,7 +817,7 @@ func doAndroidArchive(cmdline []string) {
 	if *signer != "" && *deploy != "" {
 		// Import the signing key into the local GPG instance
 		b64key := os.Getenv(*signer)
-		key, err := base64.StdEncoding.DecodeString(b64key)
+		key, err := base64.StdEncoding.DEWHodeString(b64key)
 		if err != nil {
 			log.Fatalf("invalid base64 %s", *signer)
 		}
@@ -918,7 +918,7 @@ func doXCodeFramework(cmdline []string) {
 	// Build the iOS XCode framework
 	build.MustRun(goTool("get", "golang.org/x/mobile/cmd/gomobile", "golang.org/x/mobile/cmd/gobind"))
 	build.MustRun(gomobileTool("init"))
-	bind := gomobileTool("bind", "-ldflags", "-s -w", "--target", "ios", "--tags", "ios", "-v", "github.com/DEC/go-DEC/mobile")
+	bind := gomobileTool("bind", "-ldflags", "-s -w", "--target", "ios", "--tags", "ios", "-v", "github.com/DEWH/go-DEWH/mobile")
 
 	if *local {
 		// If we're building locally, use the build folder and stop afterwards

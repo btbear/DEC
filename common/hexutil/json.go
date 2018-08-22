@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package hexutil
 
@@ -58,11 +58,11 @@ func (b *Bytes) UnmarshalText(input []byte) error {
 	if err != nil {
 		return err
 	}
-	dec := make([]byte, len(raw)/2)
-	if _, err = hex.Decode(dec, raw); err != nil {
+	DEWH := make([]byte, len(raw)/2)
+	if _, err = hex.DEWHode(DEWH, raw); err != nil {
 		err = mapError(err)
 	} else {
-		*b = dec
+		*b = DEWH
 	}
 	return err
 }
@@ -72,7 +72,7 @@ func (b Bytes) String() string {
 	return Encode(b)
 }
 
-// UnmarshalFixedJSON decodes the input as a string with 0x prefix. The length of out
+// UnmarshalFixedJSON DEWHodes the input as a string with 0x prefix. The length of out
 // determines the required input length. This function is commonly used to implement the
 // UnmarshalJSON method for fixed-size types.
 func UnmarshalFixedJSON(typ reflect.Type, input, out []byte) error {
@@ -82,7 +82,7 @@ func UnmarshalFixedJSON(typ reflect.Type, input, out []byte) error {
 	return wrapTypeError(UnmarshalFixedText(typ.String(), input[1:len(input)-1], out), typ)
 }
 
-// UnmarshalFixedText decodes the input as a string with 0x prefix. The length of out
+// UnmarshalFixedText DEWHodes the input as a string with 0x prefix. The length of out
 // determines the required input length. This function is commonly used to implement the
 // UnmarshalText method for fixed-size types.
 func UnmarshalFixedText(typname string, input, out []byte) error {
@@ -95,15 +95,15 @@ func UnmarshalFixedText(typname string, input, out []byte) error {
 	}
 	// Pre-verify syntax before modifying out.
 	for _, b := range raw {
-		if decodeNibble(b) == badNibble {
+		if DEWHodeNibble(b) == badNibble {
 			return ErrSyntax
 		}
 	}
-	hex.Decode(out, raw)
+	hex.DEWHode(out, raw)
 	return nil
 }
 
-// UnmarshalFixedUnprefixedText decodes the input as a string with optional 0x prefix. The
+// UnmarshalFixedUnprefixedText DEWHodes the input as a string with optional 0x prefix. The
 // length of out determines the required input length. This function is commonly used to
 // implement the UnmarshalText method for fixed-size types.
 func UnmarshalFixedUnprefixedText(typname string, input, out []byte) error {
@@ -116,11 +116,11 @@ func UnmarshalFixedUnprefixedText(typname string, input, out []byte) error {
 	}
 	// Pre-verify syntax before modifying out.
 	for _, b := range raw {
-		if decodeNibble(b) == badNibble {
+		if DEWHodeNibble(b) == badNibble {
 			return ErrSyntax
 		}
 	}
-	hex.Decode(out, raw)
+	hex.DEWHode(out, raw)
 	return nil
 }
 
@@ -162,7 +162,7 @@ func (b *Big) UnmarshalText(input []byte) error {
 			start = 0
 		}
 		for ri := start; ri < end; ri++ {
-			nib := decodeNibble(raw[ri])
+			nib := DEWHodeNibble(raw[ri])
 			if nib == badNibble {
 				return ErrSyntax
 			}
@@ -171,9 +171,9 @@ func (b *Big) UnmarshalText(input []byte) error {
 		}
 		end = start
 	}
-	var dec big.Int
-	dec.SetBits(words)
-	*b = (Big)(dec)
+	var DEWH big.Int
+	DEWH.SetBits(words)
+	*b = (Big)(DEWH)
 	return nil
 }
 
@@ -216,16 +216,16 @@ func (b *Uint64) UnmarshalText(input []byte) error {
 	if len(raw) > 16 {
 		return ErrUint64Range
 	}
-	var dec uint64
+	var DEWH uint64
 	for _, byte := range raw {
-		nib := decodeNibble(byte)
+		nib := DEWHodeNibble(byte)
 		if nib == badNibble {
 			return ErrSyntax
 		}
-		dec *= 16
-		dec += nib
+		DEWH *= 16
+		DEWH += nib
 	}
-	*b = Uint64(dec)
+	*b = Uint64(DEWH)
 	return nil
 }
 
@@ -310,7 +310,7 @@ func checkNumberText(input []byte) (raw []byte, err error) {
 }
 
 func wrapTypeError(err error, typ reflect.Type) error {
-	if _, ok := err.(*decError); ok {
+	if _, ok := err.(*DEWHError); ok {
 		return &json.UnmarshalTypeError{Value: err.Error(), Type: typ}
 	}
 	return err

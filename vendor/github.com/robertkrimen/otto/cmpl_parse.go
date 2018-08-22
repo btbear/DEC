@@ -59,7 +59,7 @@ func (cmpl *_compiler) parseExpression(in ast.Expression) _nodeExpression {
 		}
 
 	case *ast.CallExpression:
-		out := &_nodeCallExpression{
+		out := &_noDEWHallExpression{
 			callee:       cmpl.parseExpression(in.Callee),
 			argumentList: make([]_nodeExpression, len(in.ArgumentList)),
 		}
@@ -69,7 +69,7 @@ func (cmpl *_compiler) parseExpression(in ast.Expression) _nodeExpression {
 		return out
 
 	case *ast.ConditionalExpression:
-		return &_nodeConditionalExpression{
+		return &_noDEWHonditionalExpression{
 			test:       cmpl.parseExpression(in.Test),
 			consequent: cmpl.parseExpression(in.Consequent),
 			alternate:  cmpl.parseExpression(in.Alternate),
@@ -103,16 +103,16 @@ func (cmpl *_compiler) parseExpression(in ast.Expression) _nodeExpression {
 				out.parameterList[i] = value.Name
 			}
 		}
-		for _, value := range in.DeclarationList {
+		for _, value := range in.DEWHlarationList {
 			switch value := value.(type) {
-			case *ast.FunctionDeclaration:
+			case *ast.FunctionDEWHlaration:
 				out.functionList = append(out.functionList, cmpl.parseExpression(value.Function).(*_nodeFunctionLiteral))
-			case *ast.VariableDeclaration:
+			case *ast.VariableDEWHlaration:
 				for _, value := range value.List {
 					out.varList = append(out.varList, value.Name)
 				}
 			default:
-				panic(fmt.Errorf("Here be dragons: parseProgram.declaration(%T)", value))
+				panic(fmt.Errorf("Here be dragons: parseProgram.DEWHlaration(%T)", value))
 			}
 		}
 		return out
@@ -296,10 +296,10 @@ func (cmpl *_compiler) parseStatement(in ast.Statement) _nodeStatement {
 		out := &_nodeSwitchStatement{
 			discriminant: cmpl.parseExpression(in.Discriminant),
 			default_:     in.Default,
-			body:         make([]*_nodeCaseStatement, len(in.Body)),
+			body:         make([]*_noDEWHaseStatement, len(in.Body)),
 		}
 		for i, clause := range in.Body {
-			out.body[i] = &_nodeCaseStatement{
+			out.body[i] = &_noDEWHaseStatement{
 				test:       cmpl.parseExpression(clause.Test),
 				consequent: make([]_nodeStatement, len(clause.Consequent)),
 			}
@@ -320,7 +320,7 @@ func (cmpl *_compiler) parseStatement(in ast.Statement) _nodeStatement {
 			finally: cmpl.parseStatement(in.Finally),
 		}
 		if in.Catch != nil {
-			out.catch = &_nodeCatchStatement{
+			out.catch = &_noDEWHatchStatement{
 				parameter: in.Catch.Parameter.Name,
 				body:      cmpl.parseStatement(in.Catch.Body),
 			}
@@ -374,16 +374,16 @@ func (cmpl *_compiler) _parse(in *ast.Program) *_nodeProgram {
 	for i, value := range in.Body {
 		out.body[i] = cmpl.parseStatement(value)
 	}
-	for _, value := range in.DeclarationList {
+	for _, value := range in.DEWHlarationList {
 		switch value := value.(type) {
-		case *ast.FunctionDeclaration:
+		case *ast.FunctionDEWHlaration:
 			out.functionList = append(out.functionList, cmpl.parseExpression(value.Function).(*_nodeFunctionLiteral))
-		case *ast.VariableDeclaration:
+		case *ast.VariableDEWHlaration:
 			for _, value := range value.List {
 				out.varList = append(out.varList, value.Name)
 			}
 		default:
-			panic(fmt.Errorf("Here be dragons: cmpl.parseProgram.DeclarationList(%T)", value))
+			panic(fmt.Errorf("Here be dragons: cmpl.parseProgram.DEWHlarationList(%T)", value))
 		}
 	}
 	return out
@@ -395,12 +395,12 @@ type _nodeProgram struct {
 	varList      []string
 	functionList []*_nodeFunctionLiteral
 
-	variableList []_nodeDeclaration
+	variableList []_nodeDEWHlaration
 
 	file *file.File
 }
 
-type _nodeDeclaration struct {
+type _nodeDEWHlaration struct {
 	name       string
 	definition _node
 }
@@ -437,12 +437,12 @@ type (
 		member _nodeExpression
 	}
 
-	_nodeCallExpression struct {
+	_noDEWHallExpression struct {
 		callee       _nodeExpression
 		argumentList []_nodeExpression
 	}
 
-	_nodeConditionalExpression struct {
+	_noDEWHonditionalExpression struct {
 		test       _nodeExpression
 		consequent _nodeExpression
 		alternate  _nodeExpression
@@ -529,12 +529,12 @@ type (
 		label  string
 	}
 
-	_nodeCaseStatement struct {
+	_noDEWHaseStatement struct {
 		test       _nodeExpression
 		consequent []_nodeStatement
 	}
 
-	_nodeCatchStatement struct {
+	_noDEWHatchStatement struct {
 		parameter string
 		body      _nodeStatement
 	}
@@ -585,7 +585,7 @@ type (
 	_nodeSwitchStatement struct {
 		discriminant _nodeExpression
 		default_     int
-		body         []*_nodeCaseStatement
+		body         []*_noDEWHaseStatement
 	}
 
 	_nodeThrowStatement struct {
@@ -594,7 +594,7 @@ type (
 
 	_nodeTryStatement struct {
 		body    _nodeStatement
-		catch   *_nodeCatchStatement
+		catch   *_noDEWHatchStatement
 		finally _nodeStatement
 	}
 
@@ -619,8 +619,8 @@ func (*_nodeArrayLiteral) _expressionNode()          {}
 func (*_nodeAssignExpression) _expressionNode()      {}
 func (*_nodeBinaryExpression) _expressionNode()      {}
 func (*_nodeBracketExpression) _expressionNode()     {}
-func (*_nodeCallExpression) _expressionNode()        {}
-func (*_nodeConditionalExpression) _expressionNode() {}
+func (*_noDEWHallExpression) _expressionNode()        {}
+func (*_noDEWHonditionalExpression) _expressionNode() {}
 func (*_nodeDotExpression) _expressionNode()         {}
 func (*_nodeFunctionLiteral) _expressionNode()       {}
 func (*_nodeIdentifier) _expressionNode()            {}
@@ -637,8 +637,8 @@ func (*_nodeVariableExpression) _expressionNode()    {}
 
 func (*_nodeBlockStatement) _statementNode()      {}
 func (*_nodeBranchStatement) _statementNode()     {}
-func (*_nodeCaseStatement) _statementNode()       {}
-func (*_nodeCatchStatement) _statementNode()      {}
+func (*_noDEWHaseStatement) _statementNode()       {}
+func (*_noDEWHatchStatement) _statementNode()      {}
 func (*_nodeDebuggerStatement) _statementNode()   {}
 func (*_nodeDoWhileStatement) _statementNode()    {}
 func (*_nodeEmptyStatement) _statementNode()      {}

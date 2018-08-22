@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package http
 
@@ -20,17 +20,17 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/DEC/go-DEC/swarm/log"
+	"github.com/DEWH/go-DEWH/swarm/log"
 )
 
 /*
 http roundtripper to register for bzz url scheme
-see https://github.com/DEC/go-DEC/issues/2040
+see https://github.com/DEWH/go-DEWH/issues/2040
 Usage:
 
 import (
- "github.com/DEC/go-DEC/common/httpclient"
- "github.com/DEC/go-DEC/swarm/api/http"
+ "github.com/DEWH/go-DEWH/common/httpclient"
+ "github.com/DEWH/go-DEWH/swarm/api/http"
 )
 client := httpclient.New()
 // for (private) swarm proxy running locally

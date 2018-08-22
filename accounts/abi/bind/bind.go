@@ -1,23 +1,23 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package bind generates DEC contract Go bindings.
+// Package bind generates DEWH contract Go bindings.
 //
-// Detailed usage document and tutorial available on the go-DEC Wiki page:
-// https://github.com/DEC/go-DEC/wiki/Native-DApps:-Go-bindings-to-DEC-contracts
+// Detailed usage document and tutorial available on the go-DEWH Wiki page:
+// https://github.com/DEWH/go-DEWH/wiki/Native-DApps:-Go-bindings-to-DEWH-contracts
 package bind
 
 import (
@@ -28,7 +28,7 @@ import (
 	"text/template"
 	"unicode"
 
-	"github.com/DEC/go-DEC/accounts/abi"
+	"github.com/DEWH/go-DEWH/accounts/abi"
 	"golang.org/x/tools/imports"
 )
 
@@ -139,7 +139,7 @@ func Bind(types []string, abis []string, bytecodes []string, pkg string, lang La
 		"bindtopictype": bindTopicType[lang],
 		"namedtype":     namedType[lang],
 		"capitalise":    capitalise,
-		"decapitalise":  decapitalise,
+		"DEWHapitalise":  DEWHapitalise,
 	}
 	tmpl := template.Must(template.New("").Funcs(funcs).Parse(tmplSource[lang]))
 	if err := tmpl.Execute(buffer, data); err != nil {
@@ -166,7 +166,7 @@ var bindType = map[Lang]func(kind abi.Type) string{
 
 // Helper function for the binding generators.
 // It reads the unmatched characters after the inner type-match,
-//  (since the inner type is a prefix of the total type declaration),
+//  (since the inner type is a prefix of the total type DEWHlaration),
 //  looks for valid arrays (possibly a dynamic one) wrapping the inner type,
 //  and returns the sizes of these arrays.
 //
@@ -184,7 +184,7 @@ func wrapArray(stringKind string, innerLen int, innerMapping string) (string, []
 	return innerMapping, parts
 }
 
-// Translates the array sizes to a Go-lang declaration of a (nested) array of the inner type.
+// Translates the array sizes to a Go-lang DEWHlaration of a (nested) array of the inner type.
 // Simply returns the inner type if arraySizes is empty.
 func arrayBindingGo(inner string, arraySizes []string) string {
 	out := ""
@@ -237,16 +237,16 @@ func bindUnnestedTypeGo(stringKind string) (int, string) {
 	}
 }
 
-// Translates the array sizes to a Java declaration of a (nested) array of the inner type.
+// Translates the array sizes to a Java DEWHlaration of a (nested) array of the inner type.
 // Simply returns the inner type if arraySizes is empty.
 func arrayBindingJava(inner string, arraySizes []string) string {
-	// Java array type declarations do not include the length.
+	// Java array type DEWHlarations do not include the length.
 	return inner + strings.Repeat("[]", len(arraySizes))
 }
 
 // bindTypeJava converts a Solidity type to a Java one. Since there is no clear mapping
 // from all Solidity types to Java ones (e.g. uint17), those that cannot be exactly
-// mapped will use an upscaled type (e.g. BigDecimal).
+// mapped will use an upscaled type (e.g. BigDEWHimal).
 func bindTypeJava(kind abi.Type) string {
 	stringKind := kind.String()
 	innerLen, innerMapping := bindUnnestedTypeJava(stringKind)
@@ -382,7 +382,7 @@ func namedTypeJava(javaKind string, solKind abi.Type) string {
 // conform to target language naming concentions.
 var methodNormalizer = map[Lang]func(string) string{
 	LangGo:   capitalise,
-	LangJava: decapitalise,
+	LangJava: DEWHapitalise,
 }
 
 // capitalise makes a camel-case string which starts with an upper case character.
@@ -396,8 +396,8 @@ func capitalise(input string) string {
 	return toCamelCase(strings.ToUpper(input[:1]) + input[1:])
 }
 
-// decapitalise makes a camel-case string which starts with a lower case character.
-func decapitalise(input string) string {
+// DEWHapitalise makes a camel-case string which starts with a lower case character.
+func DEWHapitalise(input string) string {
 	for len(input) > 0 && input[0] == '_' {
 		input = input[1:]
 	}

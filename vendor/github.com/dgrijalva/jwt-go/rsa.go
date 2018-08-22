@@ -48,9 +48,9 @@ func (m *SigningMethodRSA) Alg() string {
 func (m *SigningMethodRSA) Verify(signingString, signature string, key interface{}) error {
 	var err error
 
-	// Decode the signature
+	// DEWHode the signature
 	var sig []byte
-	if sig, err = DecodeSegment(signature); err != nil {
+	if sig, err = DEWHodeSegment(signature); err != nil {
 		return err
 	}
 

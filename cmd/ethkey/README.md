@@ -1,7 +1,7 @@
 ethkey
 ======
 
-ethkey is a simple command-line tool for working with DEC keyfiles.
+ethkey is a simple command-line tool for working with DEWH keyfiles.
 
 
 # Usage
@@ -36,6 +36,6 @@ It is possible to refer to a file containing the message.
 ## Passphrases
 
 For every command that uses a keyfile, you will be prompted to provide the 
-passphrase for decrypting the keyfile.  To avoid this message, it is possible
+passphrase for DEWHrypting the keyfile.  To avoid this message, it is possible
 to pass the passphrase by using the `--passphrase` flag pointing to a file that
 contains the passphrase.

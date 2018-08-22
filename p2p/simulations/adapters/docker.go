@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package adapters
 
@@ -28,8 +28,8 @@ import (
 	"strings"
 
 	"github.com/docker/docker/pkg/reexec"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p/discover"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p/discover"
 )
 
 var (
@@ -75,7 +75,7 @@ func (d *DockerAdapter) Name() string {
 }
 
 // NewNode returns a new DockerNode using the given config
-func (d *DockerAdapter) NewNode(config *NodeConfig) (Node, error) {
+func (d *DockerAdapter) NewNode(config *NoDEWHonfig) (Node, error) {
 	if len(config.Services) == 0 {
 		return nil, errors.New("node must have at least one service")
 	}
@@ -86,7 +86,7 @@ func (d *DockerAdapter) NewNode(config *NodeConfig) (Node, error) {
 	}
 
 	// generate the config
-	conf := &execNodeConfig{
+	conf := &execNoDEWHonfig{
 		Stack: node.DefaultConfig,
 		Node:  config,
 	}
@@ -100,7 +100,7 @@ func (d *DockerAdapter) NewNode(config *NodeConfig) (Node, error) {
 	conf.Stack.NoUSB = true
 
 	// listen on all interfaces on a given port, which we set when we
-	// initialise NodeConfig (usually a random port)
+	// initialise NoDEWHonfig (usually a random port)
 	conf.Stack.P2P.ListenAddr = fmt.Sprintf(":%d", config.Port)
 
 	node := &DockerNode{

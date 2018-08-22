@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -29,13 +29,13 @@ import (
 
 	cli "gopkg.in/urfave/cli.v1"
 
-	"github.com/DEC/go-DEC/cmd/utils"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/node"
+	"github.com/DEWH/go-DEWH/cmd/utils"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/node"
 	"github.com/naoina/toml"
 
-	bzzapi "github.com/DEC/go-DEC/swarm/api"
+	bzzapi "github.com/DEWH/go-DEWH/swarm/api"
 )
 
 var (
@@ -91,7 +91,7 @@ var tomlSettings = toml.Config{
 	MissingField: func(rt reflect.Type, field string) error {
 		link := ""
 		if unicode.IsUpper(rune(rt.Name()[0])) && rt.PkgPath() != "main" {
-			link = fmt.Sprintf(", check github.com/DEC/go-DEC/swarm/api/config.go for available fields")
+			link = fmt.Sprintf(", check github.com/DEWH/go-DEWH/swarm/api/config.go for available fields")
 		}
 		return fmt.Errorf("field '%s' is not defined in %s%s", field, rt.String(), link)
 	},
@@ -147,10 +147,10 @@ func configFileOverride(config *bzzapi.Config, ctx *cli.Context) (*bzzapi.Config
 		}
 		defer f.Close()
 
-		//decode the TOML file into a Config struct
-		//note that we are decoding into the existing defaultConfig;
+		//DEWHode the TOML file into a Config struct
+		//note that we are DEWHoding into the existing defaultConfig;
 		//if an entry is not present in the file, the default entry is kept
-		err = tomlSettings.NewDecoder(f).Decode(&config)
+		err = tomlSettings.NewDEWHoder(f).DEWHode(&config)
 		// Add file name to errors that have a line number.
 		if _, ok := err.(*toml.LineError); ok {
 			err = errors.New(filepath + ", " + err.Error())

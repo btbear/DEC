@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -23,10 +23,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/core/rawdb"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/params"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/core/rawdb"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/params"
 )
 
 // Genesis block for nodes which don't care about the DAO fork (i.e. not configured)

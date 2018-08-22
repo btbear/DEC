@@ -41,10 +41,10 @@ func (se *SymmetricallyEncrypted) parse(r io.Reader) error {
 	return nil
 }
 
-// Decrypt returns a ReadCloser, from which the decrypted contents of the
+// DEWHrypt returns a ReadCloser, from which the DEWHrypted contents of the
 // packet can be read. An incorrect key can, with high probability, be detected
 // immediately and this will result in a KeyIncorrect error being returned.
-func (se *SymmetricallyEncrypted) Decrypt(c CipherFunction, key []byte) (io.ReadCloser, error) {
+func (se *SymmetricallyEncrypted) DEWHrypt(c CipherFunction, key []byte) (io.ReadCloser, error) {
 	keySize := c.KeySize()
 	if keySize == 0 {
 		return nil, errors.UnsupportedError("unknown cipher: " + strconv.Itoa(int(c)))
@@ -69,7 +69,7 @@ func (se *SymmetricallyEncrypted) Decrypt(c CipherFunction, key []byte) (io.Read
 		ocfbResync = OCFBNoResync
 	}
 
-	s := NewOCFBDecrypter(c.new(key), se.prefix, ocfbResync)
+	s := NewOCFBDEWHrypter(c.new(key), se.prefix, ocfbResync)
 	if s == nil {
 		return nil, errors.ErrKeyIncorrect
 	}

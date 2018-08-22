@@ -89,7 +89,7 @@ sub newConsoleObject {
     return
         $self->block(sub {
             my $class = "Console";
-            my @got = $self->functionDeclare(
+            my @got = $self->functionDEWHlare(
                 $class,
                 "log", 0,
                 "debug:log", 0,
@@ -140,7 +140,7 @@ sub newContext {
         # ObjectPrototype
         $self->block(sub {
             my $class = "Object";
-            my @got = $self->functionDeclare(
+            my @got = $self->functionDEWHlare(
                 $class,
                 "valueOf", 0,
                 "toString", 0,
@@ -163,7 +163,7 @@ sub newContext {
         # FunctionPrototype
         $self->block(sub {
             my $class = "Function";
-            my @got = $self->functionDeclare(
+            my @got = $self->functionDEWHlare(
                 $class,
                 "toString", 0,
                 "apply", 2,
@@ -190,7 +190,7 @@ sub newContext {
             $self->globalFunction(
                 $class,
                 1,
-                $self->functionDeclare(
+                $self->functionDEWHlare(
                     $class,
                     "getPrototypeOf", 1,
                     "getOwnPropertyDescriptor", 2,
@@ -224,7 +224,7 @@ sub newContext {
         # Array
         $self->block(sub {
             my $class = "Array";
-            my @got = $self->functionDeclare(
+            my @got = $self->functionDEWHlare(
                 $class,
                 "toString", 0,
                 "toLocaleString", 0,
@@ -262,7 +262,7 @@ sub newContext {
             $self->globalFunction(
                 $class,
                 1,
-                $self->functionDeclare(
+                $self->functionDEWHlare(
                     $class,
                     "isArray", 1,
                 ),
@@ -272,7 +272,7 @@ sub newContext {
         # String
         $self->block(sub {
             my $class = "String";
-            my @got = $self->functionDeclare(
+            my @got = $self->functionDEWHlare(
                 $class,
                 "toString", 0,
                 "valueOf", 0,
@@ -311,7 +311,7 @@ sub newContext {
             $self->globalFunction(
                 $class,
                 1,
-                $self->functionDeclare(
+                $self->functionDEWHlare(
                     $class,
 		            "fromCharCode", 1,
                 ),
@@ -321,7 +321,7 @@ sub newContext {
         # Boolean
         $self->block(sub {
             my $class = "Boolean";
-            my @got = $self->functionDeclare(
+            my @got = $self->functionDEWHlare(
                 $class,
                 "toString", 0,
                 "valueOf", 0,
@@ -339,7 +339,7 @@ sub newContext {
             $self->globalFunction(
                 $class,
                 1,
-                $self->functionDeclare(
+                $self->functionDEWHlare(
                     $class,
                 ),
             ),
@@ -348,7 +348,7 @@ sub newContext {
         # Number
         $self->block(sub {
             my $class = "Number";
-            my @got = $self->functionDeclare(
+            my @got = $self->functionDEWHlare(
                 $class,
                 "toString", 0,
                 "valueOf", 0,
@@ -370,10 +370,10 @@ sub newContext {
             $self->globalFunction(
                 $class,
                 1,
-                $self->functionDeclare(
+                $self->functionDEWHlare(
                     $class,
                 ),
-                $self->numberConstantDeclare(
+                $self->numberConstantDEWHlare(
                     "MAX_VALUE", "math.MaxFloat64",
                     "MIN_VALUE", "math.SmallestNonzeroFloat64",
                     "NaN", "math.NaN()",
@@ -390,7 +390,7 @@ sub newContext {
             ".$class =",
             $self->globalObject(
                 $class,
-                $self->functionDeclare(
+                $self->functionDEWHlare(
                     $class,
                     "abs", 1,
                     "acos", 1,
@@ -411,7 +411,7 @@ sub newContext {
                     "sqrt", 1,
                     "tan", 1,
                 ),
-                $self->numberConstantDeclare(
+                $self->numberConstantDEWHlare(
                     "E", "math.E",
                     "LN10", "math.Ln10",
                     "LN2", "math.Ln2",
@@ -427,7 +427,7 @@ sub newContext {
         # Date
         $self->block(sub {
             my $class = "Date";
-            my @got = $self->functionDeclare(
+            my @got = $self->functionDEWHlare(
                 $class,
                 "toString", 0,
                 "toDateString", 0,
@@ -489,7 +489,7 @@ sub newContext {
             $self->globalFunction(
                 $class,
                 7,
-                $self->functionDeclare(
+                $self->functionDEWHlare(
                     $class,
                     "parse", 1,
                     "UTC", 7,
@@ -501,7 +501,7 @@ sub newContext {
         # RegExp
         $self->block(sub {
             my $class = "RegExp";
-            my @got = $self->functionDeclare(
+            my @got = $self->functionDEWHlare(
                 $class,
                 "toString", 0,
                 "exec", 1,
@@ -521,7 +521,7 @@ sub newContext {
             $self->globalFunction(
                 $class,
                 2,
-                $self->functionDeclare(
+                $self->functionDEWHlare(
                     $class,
                 ),
             ),
@@ -530,7 +530,7 @@ sub newContext {
         # Error
         $self->block(sub {
             my $class = "Error";
-            my @got = $self->functionDeclare(
+            my @got = $self->functionDEWHlare(
                 $class,
                 "toString", 0,
             );
@@ -549,7 +549,7 @@ sub newContext {
             $self->globalFunction(
                 $class,
                 1,
-                $self->functionDeclare(
+                $self->functionDEWHlare(
                     $class,
                 ),
             ),
@@ -558,7 +558,7 @@ sub newContext {
         (map {
             my $class = "${_}Error";
             $self->block(sub {
-                my @got = $self->functionDeclare(
+                my @got = $self->functionDEWHlare(
                     $class,
                 );
                 return
@@ -575,7 +575,7 @@ sub newContext {
                 $self->globalFunction(
                     $class,
                     1,
-                    $self->functionDeclare(
+                    $self->functionDEWHlare(
                         $class,
                     ),
                 ),
@@ -589,7 +589,7 @@ sub newContext {
             ".$class =",
             $self->globalObject(
                 $class,
-                $self->functionDeclare(
+                $self->functionDEWHlare(
                     $class,
                     "parse", 2,
                     "stringify", 3,
@@ -600,15 +600,15 @@ sub newContext {
         # Global
         $self->block(sub {
             my $class = "Global";
-            my @got = $self->functionDeclare(
+            my @got = $self->functionDEWHlare(
                 $class,
                 "eval", 1,
                 "parseInt", 2,
                 "parseFloat", 1,
                 "isNaN", 1,
                 "isFinite", 1,
-                "decodeURI", 1,
-                "decodeURIComponent", 1,
+                "DEWHodeURI", 1,
+                "DEWHodeURIComponent", 1,
                 "encodeURI", 1,
                 "encodeURIComponent", 1,
                 "escape", 1,
@@ -616,7 +616,7 @@ sub newContext {
             );
             my @propertyMap = $self->propertyMap(
                 @got,
-                $self->globalDeclare(
+                $self->globalDEWHlare(
                     "Object",
                     "Function",
                     "Array",
@@ -682,7 +682,7 @@ sub block {
     ;
 }
 
-sub numberConstantDeclare {
+sub numberConstantDEWHlare {
     my $self = shift;
     my @got;
     while (@_) {
@@ -693,7 +693,7 @@ sub numberConstantDeclare {
     return @got;
 }
 
-sub functionDeclare {
+sub functionDEWHlare {
     my $self = shift;
     my $class = shift;
     my $builtin = "builtin${class}";
@@ -707,7 +707,7 @@ sub functionDeclare {
     return @got;
 }
 
-sub globalDeclare {
+sub globalDEWHlare {
     my $self = shift;
     my @got;
     while (@_) {

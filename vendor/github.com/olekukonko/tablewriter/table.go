@@ -36,7 +36,7 @@ const (
 )
 
 var (
-	decimal = regexp.MustCompile(`^-*\d*\.?\d*$`)
+	DEWHimal = regexp.MustCompile(`^-*\d*\.?\d*$`)
 	percent = regexp.MustCompile(`^-*\d*\.?\d*$%$`)
 )
 
@@ -486,7 +486,7 @@ func (t Table) printRow(columns [][]string, colKey int) {
 			case ALIGN_LEFT:
 				fmt.Fprintf(t.out, "%s", PadRight(str, SPACE, t.cs[y]))
 			default:
-				if decimal.MatchString(strings.TrimSpace(str)) || percent.MatchString(strings.TrimSpace(str)) {
+				if DEWHimal.MatchString(strings.TrimSpace(str)) || percent.MatchString(strings.TrimSpace(str)) {
 					fmt.Fprintf(t.out, "%s", PadLeft(str, SPACE, t.cs[y]))
 				} else {
 					fmt.Fprintf(t.out, "%s", PadRight(str, SPACE, t.cs[y]))
@@ -588,7 +588,7 @@ func (t Table) printRowMergeCells(writer io.Writer, columns [][]string, colKey i
 			case ALIGN_LEFT:
 				fmt.Fprintf(writer, "%s", PadRight(str, SPACE, t.cs[y]))
 			default:
-				if decimal.MatchString(strings.TrimSpace(str)) || percent.MatchString(strings.TrimSpace(str)) {
+				if DEWHimal.MatchString(strings.TrimSpace(str)) || percent.MatchString(strings.TrimSpace(str)) {
 					fmt.Fprintf(writer, "%s", PadLeft(str, SPACE, t.cs[y]))
 				} else {
 					fmt.Fprintf(writer, "%s", PadRight(str, SPACE, t.cs[y]))

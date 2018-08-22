@@ -96,7 +96,7 @@ func (tr *Transaction) flush() error {
 		if tr.mem.getref() == 1 {
 			tr.mem.Reset()
 		} else {
-			tr.mem.decref()
+			tr.mem.DEWHref()
 			tr.mem = tr.db.mpoolGet(0)
 			tr.mem.incref()
 		}
@@ -175,7 +175,7 @@ func (tr *Transaction) Write(b *Batch, wo *opt.WriteOptions) error {
 func (tr *Transaction) setDone() {
 	tr.closed = true
 	tr.db.tr = nil
-	tr.mem.decref()
+	tr.mem.DEWHref()
 	<-tr.db.writeLockC
 }
 
@@ -194,7 +194,7 @@ func (tr *Transaction) Commit() error {
 		return errTransactionDone
 	}
 	if err := tr.flush(); err != nil {
-		// Return error, lets user decide either to retry or discard
+		// Return error, lets user DEWHide either to retry or discard
 		// transaction.
 		return err
 	}
@@ -223,7 +223,7 @@ func (tr *Transaction) Commit() error {
 		}
 		tr.stats.stopTimer()
 		if cerr != nil {
-			// Return error, lets user decide either to retry or discard
+			// Return error, lets user DEWHide either to retry or discard
 			// transaction.
 			return cerr
 		}

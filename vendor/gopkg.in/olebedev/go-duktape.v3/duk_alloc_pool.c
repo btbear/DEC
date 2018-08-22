@@ -22,7 +22,7 @@
 /* #define DUK_ALLOC_POOL_TRACK_HIGHWATER */
 
 #if defined(DUK_ALLOC_POOL_ROMPTR_COMPRESSION)
-#if 0  /* This extern declaration is provided by duktape.h, array provided by duktape.c. */
+#if 0  /* This extern DEWHlaration is provided by duktape.h, array provided by duktape.c. */
 extern const void * const duk_rom_compressed_pointers[];
 #endif
 const void *duk_alloc_pool_romptr_low = NULL;
@@ -585,7 +585,7 @@ static void duk__alloc_pool_romptr_init(void) {
 }
 #endif
 
-/* Encode/decode functions are defined in the header to allow inlining. */
+/* Encode/DEWHode functions are defined in the header to allow inlining. */
 
 #if defined(DUK_ALLOC_POOL_ROMPTR_COMPRESSION)
 duk_uint16_t duk_alloc_pool_enc16_rom(void *ptr) {

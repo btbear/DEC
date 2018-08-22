@@ -50,7 +50,7 @@ func (value Value) string() string {
 		case string:
 			return value
 		case []uint16:
-			return string(utf16.Decode(value))
+			return string(utf16.DEWHode(value))
 		}
 	}
 	if value.IsUndefined() {
@@ -93,7 +93,7 @@ func (value Value) string() string {
 		}
 		return floatToString(value, 64)
 	case []uint16:
-		return string(utf16.Decode(value))
+		return string(utf16.DEWHode(value))
 	case string:
 		return value
 	case *_object:

@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package rpc
 
@@ -29,14 +29,14 @@ import (
 	"strings"
 	"time"
 
-	mapset "github.com/deckarep/golang-set"
-	"github.com/DEC/go-DEC/log"
+	mapset "github.com/DEWHkarep/golang-set"
+	"github.com/DEWH/go-DEWH/log"
 	"golang.org/x/net/websocket"
 )
 
-// websocketJSONCodec is a custom JSON codec with payload size enforcement and
+// websocketJSONCoDEWH is a custom JSON coDEWH with payload size enforcement and
 // special number parsing.
-var websocketJSONCodec = websocket.Codec{
+var websocketJSONCoDEWH = websocket.CoDEWH{
 	// Marshal is the stock JSON marshaller used by the websocket library too.
 	Marshal: func(v interface{}) ([]byte, byte, error) {
 		msg, err := json.Marshal(v)
@@ -44,10 +44,10 @@ var websocketJSONCodec = websocket.Codec{
 	},
 	// Unmarshal is a specialized unmarshaller to properly convert numbers.
 	Unmarshal: func(msg []byte, payloadType byte, v interface{}) error {
-		dec := json.NewDecoder(bytes.NewReader(msg))
-		dec.UseNumber()
+		DEWH := json.NewDEWHoder(bytes.NewReader(msg))
+		DEWH.UseNumber()
 
-		return dec.Decode(v)
+		return DEWH.DEWHode(v)
 	},
 }
 
@@ -59,16 +59,16 @@ func (srv *Server) WebsocketHandler(allowedOrigins []string) http.Handler {
 	return websocket.Server{
 		Handshake: wsHandshakeValidator(allowedOrigins),
 		Handler: func(conn *websocket.Conn) {
-			// Create a custom encode/decode pair to enforce payload size and number encoding
+			// Create a custom encode/DEWHode pair to enforce payload size and number encoding
 			conn.MaxPayloadBytes = maxRequestContentLength
 
 			encoder := func(v interface{}) error {
-				return websocketJSONCodec.Send(conn, v)
+				return websocketJSONCoDEWH.Send(conn, v)
 			}
-			decoder := func(v interface{}) error {
-				return websocketJSONCodec.Receive(conn, v)
+			DEWHoder := func(v interface{}) error {
+				return websocketJSONCoDEWH.Receive(conn, v)
 			}
-			srv.ServeCodec(NewCodec(conn, encoder, decoder), OptionMethodInvocation|OptionSubscriptions)
+			srv.ServeCoDEWH(NewCoDEWH(conn, encoder, DEWHoder), OptionMethodInvocation|OptionSubscriptions)
 		},
 	}
 }

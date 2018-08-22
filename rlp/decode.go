@@ -1,18 +1,18 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package rlp
 
@@ -46,71 +46,71 @@ var (
 	errNotInList     = errors.New("rlp: call of ListEnd outside of any list")
 	errNotAtEOL      = errors.New("rlp: call of ListEnd not positioned at EOL")
 	errUintOverflow  = errors.New("rlp: uint overflow")
-	errNoPointer     = errors.New("rlp: interface given to Decode must be a pointer")
-	errDecodeIntoNil = errors.New("rlp: pointer given to Decode must not be nil")
+	errNoPointer     = errors.New("rlp: interface given to DEWHode must be a pointer")
+	errDEWHodeIntoNil = errors.New("rlp: pointer given to DEWHode must not be nil")
 )
 
-// Decoder is implemented by types that require custom RLP
-// decoding rules or need to decode into private fields.
+// DEWHoder is implemented by types that require custom RLP
+// DEWHoding rules or need to DEWHode into private fields.
 //
-// The DecodeRLP method should read one value from the given
+// The DEWHodeRLP method should read one value from the given
 // Stream. It is not forbidden to read less or more, but it might
 // be confusing.
-type Decoder interface {
-	DecodeRLP(*Stream) error
+type DEWHoder interface {
+	DEWHodeRLP(*Stream) error
 }
 
-// Decode parses RLP-encoded data from r and stores the result in the
+// DEWHode parses RLP-encoded data from r and stores the result in the
 // value pointed to by val. Val must be a non-nil pointer. If r does
-// not implement ByteReader, Decode will do its own buffering.
+// not implement ByteReader, DEWHode will do its own buffering.
 //
-// Decode uses the following type-dependent decoding rules:
+// DEWHode uses the following type-dependent DEWHoding rules:
 //
-// If the type implements the Decoder interface, decode calls
-// DecodeRLP.
+// If the type implements the DEWHoder interface, DEWHode calls
+// DEWHodeRLP.
 //
-// To decode into a pointer, Decode will decode into the value pointed
+// To DEWHode into a pointer, DEWHode will DEWHode into the value pointed
 // to. If the pointer is nil, a new value of the pointer's element
 // type is allocated. If the pointer is non-nil, the existing value
 // will be reused.
 //
-// To decode into a struct, Decode expects the input to be an RLP
-// list. The decoded elements of the list are assigned to each public
+// To DEWHode into a struct, DEWHode expects the input to be an RLP
+// list. The DEWHoded elements of the list are assigned to each public
 // field in the order given by the struct's definition. The input list
-// must contain an element for each decoded field. Decode returns an
+// must contain an element for each DEWHoded field. DEWHode returns an
 // error if there are too few or too many elements.
 //
-// The decoding of struct fields honours certain struct tags, "tail",
+// The DEWHoding of struct fields honours certain struct tags, "tail",
 // "nil" and "-".
 //
 // The "-" tag ignores fields.
 //
 // For an explanation of "tail", see the example.
 //
-// The "nil" tag applies to pointer-typed fields and changes the decoding
-// rules for the field such that input values of size zero decode as a nil
-// pointer. This tag can be useful when decoding recursive types.
+// The "nil" tag applies to pointer-typed fields and changes the DEWHoding
+// rules for the field such that input values of size zero DEWHode as a nil
+// pointer. This tag can be useful when DEWHoding recursive types.
 //
 //     type StructWithEmptyOK struct {
 //         Foo *[20]byte `rlp:"nil"`
 //     }
 //
-// To decode into a slice, the input must be a list and the resulting
+// To DEWHode into a slice, the input must be a list and the resulting
 // slice will contain the input elements in order. For byte slices,
-// the input must be an RLP string. Array types decode similarly, with
+// the input must be an RLP string. Array types DEWHode similarly, with
 // the additional restriction that the number of input elements (or
 // bytes) must match the array's length.
 //
-// To decode into a Go string, the input must be an RLP string. The
+// To DEWHode into a Go string, the input must be an RLP string. The
 // input bytes are taken as-is and will not necessarily be valid UTF-8.
 //
-// To decode into an unsigned integer type, the input must also be an RLP
+// To DEWHode into an unsigned integer type, the input must also be an RLP
 // string. The bytes are interpreted as a big endian representation of
 // the integer. If the RLP string is larger than the bit size of the
-// type, Decode will return an error. Decode also supports *big.Int.
+// type, DEWHode will return an error. DEWHode also supports *big.Int.
 // There is no size limit for big integers.
 //
-// To decode into an interface value, Decode stores one of these
+// To DEWHode into an interface value, DEWHode stores one of these
 // in the value:
 //
 //	  []interface{}, for RLP lists
@@ -120,23 +120,23 @@ type Decoder interface {
 // signed integers, floating point numbers, maps, channels and
 // functions.
 //
-// Note that Decode does not set an input limit for all readers
+// Note that DEWHode does not set an input limit for all readers
 // and may be vulnerable to panics cause by huge value sizes. If
 // you need an input limit, use
 //
-//     NewStream(r, limit).Decode(val)
-func Decode(r io.Reader, val interface{}) error {
+//     NewStream(r, limit).DEWHode(val)
+func DEWHode(r io.Reader, val interface{}) error {
 	// TODO: this could use a Stream from a pool.
-	return NewStream(r, 0).Decode(val)
+	return NewStream(r, 0).DEWHode(val)
 }
 
-// DecodeBytes parses RLP data from b into val.
-// Please see the documentation of Decode for the decoding rules.
+// DEWHodeBytes parses RLP data from b into val.
+// Please see the documentation of DEWHode for the DEWHoding rules.
 // The input must contain exactly one value and no trailing data.
-func DecodeBytes(b []byte, val interface{}) error {
+func DEWHodeBytes(b []byte, val interface{}) error {
 	// TODO: this could use a Stream from a pool.
 	r := bytes.NewReader(b)
-	if err := NewStream(r, uint64(len(b))).Decode(val); err != nil {
+	if err := NewStream(r, uint64(len(b))).DEWHode(val); err != nil {
 		return err
 	}
 	if r.Len() > 0 {
@@ -145,16 +145,16 @@ func DecodeBytes(b []byte, val interface{}) error {
 	return nil
 }
 
-type decodeError struct {
+type DEWHodeError struct {
 	msg string
 	typ reflect.Type
 	ctx []string
 }
 
-func (err *decodeError) Error() string {
+func (err *DEWHodeError) Error() string {
 	ctx := ""
 	if len(err.ctx) > 0 {
-		ctx = ", decoding into "
+		ctx = ", DEWHoding into "
 		for i := len(err.ctx) - 1; i >= 0; i-- {
 			ctx += err.ctx[i]
 		}
@@ -165,69 +165,69 @@ func (err *decodeError) Error() string {
 func wrapStreamError(err error, typ reflect.Type) error {
 	switch err {
 	case ErrCanonInt:
-		return &decodeError{msg: "non-canonical integer (leading zero bytes)", typ: typ}
+		return &DEWHodeError{msg: "non-canonical integer (leading zero bytes)", typ: typ}
 	case ErrCanonSize:
-		return &decodeError{msg: "non-canonical size information", typ: typ}
+		return &DEWHodeError{msg: "non-canonical size information", typ: typ}
 	case ErrExpectedList:
-		return &decodeError{msg: "expected input list", typ: typ}
+		return &DEWHodeError{msg: "expected input list", typ: typ}
 	case ErrExpectedString:
-		return &decodeError{msg: "expected input string or byte", typ: typ}
+		return &DEWHodeError{msg: "expected input string or byte", typ: typ}
 	case errUintOverflow:
-		return &decodeError{msg: "input string too long", typ: typ}
+		return &DEWHodeError{msg: "input string too long", typ: typ}
 	case errNotAtEOL:
-		return &decodeError{msg: "input list has too many elements", typ: typ}
+		return &DEWHodeError{msg: "input list has too many elements", typ: typ}
 	}
 	return err
 }
 
 func addErrorContext(err error, ctx string) error {
-	if decErr, ok := err.(*decodeError); ok {
-		decErr.ctx = append(decErr.ctx, ctx)
+	if DEWHErr, ok := err.(*DEWHodeError); ok {
+		DEWHErr.ctx = append(DEWHErr.ctx, ctx)
 	}
 	return err
 }
 
 var (
-	decoderInterface = reflect.TypeOf(new(Decoder)).Elem()
+	DEWHoderInterface = reflect.TypeOf(new(DEWHoder)).Elem()
 	bigInt           = reflect.TypeOf(big.Int{})
 )
 
-func makeDecoder(typ reflect.Type, tags tags) (dec decoder, err error) {
+func makeDEWHoder(typ reflect.Type, tags tags) (DEWH DEWHoder, err error) {
 	kind := typ.Kind()
 	switch {
 	case typ == rawValueType:
-		return decodeRawValue, nil
-	case typ.Implements(decoderInterface):
-		return decodeDecoder, nil
-	case kind != reflect.Ptr && reflect.PtrTo(typ).Implements(decoderInterface):
-		return decodeDecoderNoPtr, nil
+		return DEWHodeRawValue, nil
+	case typ.Implements(DEWHoderInterface):
+		return DEWHodeDEWHoder, nil
+	case kind != reflect.Ptr && reflect.PtrTo(typ).Implements(DEWHoderInterface):
+		return DEWHodeDEWHoderNoPtr, nil
 	case typ.AssignableTo(reflect.PtrTo(bigInt)):
-		return decodeBigInt, nil
+		return DEWHodeBigInt, nil
 	case typ.AssignableTo(bigInt):
-		return decodeBigIntNoPtr, nil
+		return DEWHodeBigIntNoPtr, nil
 	case isUint(kind):
-		return decodeUint, nil
+		return DEWHodeUint, nil
 	case kind == reflect.Bool:
-		return decodeBool, nil
+		return DEWHodeBool, nil
 	case kind == reflect.String:
-		return decodeString, nil
+		return DEWHodeString, nil
 	case kind == reflect.Slice || kind == reflect.Array:
-		return makeListDecoder(typ, tags)
+		return makeListDEWHoder(typ, tags)
 	case kind == reflect.Struct:
-		return makeStructDecoder(typ)
+		return makeStructDEWHoder(typ)
 	case kind == reflect.Ptr:
 		if tags.nilOK {
-			return makeOptionalPtrDecoder(typ)
+			return makeOptionalPtrDEWHoder(typ)
 		}
-		return makePtrDecoder(typ)
+		return makePtrDEWHoder(typ)
 	case kind == reflect.Interface:
-		return decodeInterface, nil
+		return DEWHodeInterface, nil
 	default:
 		return nil, fmt.Errorf("rlp: type %v is not RLP-serializable", typ)
 	}
 }
 
-func decodeRawValue(s *Stream, val reflect.Value) error {
+func DEWHodeRawValue(s *Stream, val reflect.Value) error {
 	r, err := s.Raw()
 	if err != nil {
 		return err
@@ -236,7 +236,7 @@ func decodeRawValue(s *Stream, val reflect.Value) error {
 	return nil
 }
 
-func decodeUint(s *Stream, val reflect.Value) error {
+func DEWHodeUint(s *Stream, val reflect.Value) error {
 	typ := val.Type()
 	num, err := s.uint(typ.Bits())
 	if err != nil {
@@ -246,7 +246,7 @@ func decodeUint(s *Stream, val reflect.Value) error {
 	return nil
 }
 
-func decodeBool(s *Stream, val reflect.Value) error {
+func DEWHodeBool(s *Stream, val reflect.Value) error {
 	b, err := s.Bool()
 	if err != nil {
 		return wrapStreamError(err, val.Type())
@@ -255,7 +255,7 @@ func decodeBool(s *Stream, val reflect.Value) error {
 	return nil
 }
 
-func decodeString(s *Stream, val reflect.Value) error {
+func DEWHodeString(s *Stream, val reflect.Value) error {
 	b, err := s.Bytes()
 	if err != nil {
 		return wrapStreamError(err, val.Type())
@@ -264,11 +264,11 @@ func decodeString(s *Stream, val reflect.Value) error {
 	return nil
 }
 
-func decodeBigIntNoPtr(s *Stream, val reflect.Value) error {
-	return decodeBigInt(s, val.Addr())
+func DEWHodeBigIntNoPtr(s *Stream, val reflect.Value) error {
+	return DEWHodeBigInt(s, val.Addr())
 }
 
-func decodeBigInt(s *Stream, val reflect.Value) error {
+func DEWHodeBigInt(s *Stream, val reflect.Value) error {
 	b, err := s.Bytes()
 	if err != nil {
 		return wrapStreamError(err, val.Type())
@@ -286,41 +286,41 @@ func decodeBigInt(s *Stream, val reflect.Value) error {
 	return nil
 }
 
-func makeListDecoder(typ reflect.Type, tag tags) (decoder, error) {
+func makeListDEWHoder(typ reflect.Type, tag tags) (DEWHoder, error) {
 	etype := typ.Elem()
-	if etype.Kind() == reflect.Uint8 && !reflect.PtrTo(etype).Implements(decoderInterface) {
+	if etype.Kind() == reflect.Uint8 && !reflect.PtrTo(etype).Implements(DEWHoderInterface) {
 		if typ.Kind() == reflect.Array {
-			return decodeByteArray, nil
+			return DEWHodeByteArray, nil
 		}
-		return decodeByteSlice, nil
+		return DEWHodeByteSlice, nil
 	}
 	etypeinfo, err := cachedTypeInfo1(etype, tags{})
 	if err != nil {
 		return nil, err
 	}
-	var dec decoder
+	var DEWH DEWHoder
 	switch {
 	case typ.Kind() == reflect.Array:
-		dec = func(s *Stream, val reflect.Value) error {
-			return decodeListArray(s, val, etypeinfo.decoder)
+		DEWH = func(s *Stream, val reflect.Value) error {
+			return DEWHodeListArray(s, val, etypeinfo.DEWHoder)
 		}
 	case tag.tail:
 		// A slice with "tail" tag can occur as the last field
 		// of a struct and is supposed to swallow all remaining
-		// list elements. The struct decoder already called s.List,
-		// proceed directly to decoding the elements.
-		dec = func(s *Stream, val reflect.Value) error {
-			return decodeSliceElems(s, val, etypeinfo.decoder)
+		// list elements. The struct DEWHoder already called s.List,
+		// proceed directly to DEWHoding the elements.
+		DEWH = func(s *Stream, val reflect.Value) error {
+			return DEWHodeSliceElems(s, val, etypeinfo.DEWHoder)
 		}
 	default:
-		dec = func(s *Stream, val reflect.Value) error {
-			return decodeListSlice(s, val, etypeinfo.decoder)
+		DEWH = func(s *Stream, val reflect.Value) error {
+			return DEWHodeListSlice(s, val, etypeinfo.DEWHoder)
 		}
 	}
-	return dec, nil
+	return DEWH, nil
 }
 
-func decodeListSlice(s *Stream, val reflect.Value, elemdec decoder) error {
+func DEWHodeListSlice(s *Stream, val reflect.Value, elemDEWH DEWHoder) error {
 	size, err := s.List()
 	if err != nil {
 		return wrapStreamError(err, val.Type())
@@ -329,13 +329,13 @@ func decodeListSlice(s *Stream, val reflect.Value, elemdec decoder) error {
 		val.Set(reflect.MakeSlice(val.Type(), 0, 0))
 		return s.ListEnd()
 	}
-	if err := decodeSliceElems(s, val, elemdec); err != nil {
+	if err := DEWHodeSliceElems(s, val, elemDEWH); err != nil {
 		return err
 	}
 	return s.ListEnd()
 }
 
-func decodeSliceElems(s *Stream, val reflect.Value, elemdec decoder) error {
+func DEWHodeSliceElems(s *Stream, val reflect.Value, elemDEWH DEWHoder) error {
 	i := 0
 	for ; ; i++ {
 		// grow slice if necessary
@@ -351,8 +351,8 @@ func decodeSliceElems(s *Stream, val reflect.Value, elemdec decoder) error {
 		if i >= val.Len() {
 			val.SetLen(i + 1)
 		}
-		// decode into element
-		if err := elemdec(s, val.Index(i)); err == EOL {
+		// DEWHode into element
+		if err := elemDEWH(s, val.Index(i)); err == EOL {
 			break
 		} else if err != nil {
 			return addErrorContext(err, fmt.Sprint("[", i, "]"))
@@ -364,26 +364,26 @@ func decodeSliceElems(s *Stream, val reflect.Value, elemdec decoder) error {
 	return nil
 }
 
-func decodeListArray(s *Stream, val reflect.Value, elemdec decoder) error {
+func DEWHodeListArray(s *Stream, val reflect.Value, elemDEWH DEWHoder) error {
 	if _, err := s.List(); err != nil {
 		return wrapStreamError(err, val.Type())
 	}
 	vlen := val.Len()
 	i := 0
 	for ; i < vlen; i++ {
-		if err := elemdec(s, val.Index(i)); err == EOL {
+		if err := elemDEWH(s, val.Index(i)); err == EOL {
 			break
 		} else if err != nil {
 			return addErrorContext(err, fmt.Sprint("[", i, "]"))
 		}
 	}
 	if i < vlen {
-		return &decodeError{msg: "input list has too few elements", typ: val.Type()}
+		return &DEWHodeError{msg: "input list has too few elements", typ: val.Type()}
 	}
 	return wrapStreamError(s.ListEnd(), val.Type())
 }
 
-func decodeByteSlice(s *Stream, val reflect.Value) error {
+func DEWHodeByteSlice(s *Stream, val reflect.Value) error {
 	b, err := s.Bytes()
 	if err != nil {
 		return wrapStreamError(err, val.Type())
@@ -392,7 +392,7 @@ func decodeByteSlice(s *Stream, val reflect.Value) error {
 	return nil
 }
 
-func decodeByteArray(s *Stream, val reflect.Value) error {
+func DEWHodeByteArray(s *Stream, val reflect.Value) error {
 	kind, size, err := s.Kind()
 	if err != nil {
 		return err
@@ -401,19 +401,19 @@ func decodeByteArray(s *Stream, val reflect.Value) error {
 	switch kind {
 	case Byte:
 		if vlen == 0 {
-			return &decodeError{msg: "input string too long", typ: val.Type()}
+			return &DEWHodeError{msg: "input string too long", typ: val.Type()}
 		}
 		if vlen > 1 {
-			return &decodeError{msg: "input string too short", typ: val.Type()}
+			return &DEWHodeError{msg: "input string too short", typ: val.Type()}
 		}
 		bv, _ := s.Uint()
 		val.Index(0).SetUint(bv)
 	case String:
 		if uint64(vlen) < size {
-			return &decodeError{msg: "input string too long", typ: val.Type()}
+			return &DEWHodeError{msg: "input string too long", typ: val.Type()}
 		}
 		if uint64(vlen) > size {
-			return &decodeError{msg: "input string too short", typ: val.Type()}
+			return &DEWHodeError{msg: "input string too short", typ: val.Type()}
 		}
 		slice := val.Slice(0, vlen).Interface().([]byte)
 		if err := s.readFull(slice); err != nil {
@@ -429,61 +429,61 @@ func decodeByteArray(s *Stream, val reflect.Value) error {
 	return nil
 }
 
-func makeStructDecoder(typ reflect.Type) (decoder, error) {
+func makeStructDEWHoder(typ reflect.Type) (DEWHoder, error) {
 	fields, err := structFields(typ)
 	if err != nil {
 		return nil, err
 	}
-	dec := func(s *Stream, val reflect.Value) (err error) {
+	DEWH := func(s *Stream, val reflect.Value) (err error) {
 		if _, err := s.List(); err != nil {
 			return wrapStreamError(err, typ)
 		}
 		for _, f := range fields {
-			err := f.info.decoder(s, val.Field(f.index))
+			err := f.info.DEWHoder(s, val.Field(f.index))
 			if err == EOL {
-				return &decodeError{msg: "too few elements", typ: typ}
+				return &DEWHodeError{msg: "too few elements", typ: typ}
 			} else if err != nil {
 				return addErrorContext(err, "."+typ.Field(f.index).Name)
 			}
 		}
 		return wrapStreamError(s.ListEnd(), typ)
 	}
-	return dec, nil
+	return DEWH, nil
 }
 
-// makePtrDecoder creates a decoder that decodes into
+// makePtrDEWHoder creates a DEWHoder that DEWHodes into
 // the pointer's element type.
-func makePtrDecoder(typ reflect.Type) (decoder, error) {
+func makePtrDEWHoder(typ reflect.Type) (DEWHoder, error) {
 	etype := typ.Elem()
 	etypeinfo, err := cachedTypeInfo1(etype, tags{})
 	if err != nil {
 		return nil, err
 	}
-	dec := func(s *Stream, val reflect.Value) (err error) {
+	DEWH := func(s *Stream, val reflect.Value) (err error) {
 		newval := val
 		if val.IsNil() {
 			newval = reflect.New(etype)
 		}
-		if err = etypeinfo.decoder(s, newval.Elem()); err == nil {
+		if err = etypeinfo.DEWHoder(s, newval.Elem()); err == nil {
 			val.Set(newval)
 		}
 		return err
 	}
-	return dec, nil
+	return DEWH, nil
 }
 
-// makeOptionalPtrDecoder creates a decoder that decodes empty values
-// as nil. Non-empty values are decoded into a value of the element type,
-// just like makePtrDecoder does.
+// makeOptionalPtrDEWHoder creates a DEWHoder that DEWHodes empty values
+// as nil. Non-empty values are DEWHoded into a value of the element type,
+// just like makePtrDEWHoder does.
 //
-// This decoder is used for pointer-typed struct fields with struct tag "nil".
-func makeOptionalPtrDecoder(typ reflect.Type) (decoder, error) {
+// This DEWHoder is used for pointer-typed struct fields with struct tag "nil".
+func makeOptionalPtrDEWHoder(typ reflect.Type) (DEWHoder, error) {
 	etype := typ.Elem()
 	etypeinfo, err := cachedTypeInfo1(etype, tags{})
 	if err != nil {
 		return nil, err
 	}
-	dec := func(s *Stream, val reflect.Value) (err error) {
+	DEWH := func(s *Stream, val reflect.Value) (err error) {
 		kind, size, err := s.Kind()
 		if err != nil || size == 0 && kind != Byte {
 			// rearm s.Kind. This is important because the input
@@ -498,17 +498,17 @@ func makeOptionalPtrDecoder(typ reflect.Type) (decoder, error) {
 		if val.IsNil() {
 			newval = reflect.New(etype)
 		}
-		if err = etypeinfo.decoder(s, newval.Elem()); err == nil {
+		if err = etypeinfo.DEWHoder(s, newval.Elem()); err == nil {
 			val.Set(newval)
 		}
 		return err
 	}
-	return dec, nil
+	return DEWH, nil
 }
 
 var ifsliceType = reflect.TypeOf([]interface{}{})
 
-func decodeInterface(s *Stream, val reflect.Value) error {
+func DEWHodeInterface(s *Stream, val reflect.Value) error {
 	if val.Type().NumMethod() != 0 {
 		return fmt.Errorf("rlp: type %v is not RLP-serializable", val.Type())
 	}
@@ -518,7 +518,7 @@ func decodeInterface(s *Stream, val reflect.Value) error {
 	}
 	if kind == List {
 		slice := reflect.New(ifsliceType).Elem()
-		if err := decodeListSlice(s, slice, decodeInterface); err != nil {
+		if err := DEWHodeListSlice(s, slice, DEWHodeInterface); err != nil {
 			return err
 		}
 		val.Set(slice)
@@ -532,21 +532,21 @@ func decodeInterface(s *Stream, val reflect.Value) error {
 	return nil
 }
 
-// This decoder is used for non-pointer values of types
-// that implement the Decoder interface using a pointer receiver.
-func decodeDecoderNoPtr(s *Stream, val reflect.Value) error {
-	return val.Addr().Interface().(Decoder).DecodeRLP(s)
+// This DEWHoder is used for non-pointer values of types
+// that implement the DEWHoder interface using a pointer receiver.
+func DEWHodeDEWHoderNoPtr(s *Stream, val reflect.Value) error {
+	return val.Addr().Interface().(DEWHoder).DEWHodeRLP(s)
 }
 
-func decodeDecoder(s *Stream, val reflect.Value) error {
-	// Decoder instances are not handled using the pointer rule if the type
-	// implements Decoder with pointer receiver (i.e. always)
+func DEWHodeDEWHoder(s *Stream, val reflect.Value) error {
+	// DEWHoder instances are not handled using the pointer rule if the type
+	// implements DEWHoder with pointer receiver (i.e. always)
 	// because it might handle empty values specially.
-	// We need to allocate one here in this case, like makePtrDecoder does.
+	// We need to allocate one here in this case, like makePtrDEWHoder does.
 	if val.Kind() == reflect.Ptr && val.IsNil() {
 		val.Set(reflect.New(val.Type().Elem()))
 	}
-	return val.Interface().(Decoder).DecodeRLP(s)
+	return val.Interface().(DEWHoder).DEWHodeRLP(s)
 }
 
 // Kind represents the kind of value contained in an RLP stream.
@@ -578,13 +578,13 @@ type ByteReader interface {
 	io.ByteReader
 }
 
-// Stream can be used for piecemeal decoding of an input stream. This
-// is useful if the input is very large or if the decoding rules for a
+// Stream can be used for piecemeal DEWHoding of an input stream. This
+// is useful if the input is very large or if the DEWHoding rules for a
 // type depend on the input structure. Stream does not keep an
-// internal buffer. After decoding a value, the input reader will be
+// internal buffer. After DEWHoding a value, the input reader will be
 // positioned just before the type information for the next value.
 //
-// When decoding a list and the input position reaches the declared
+// When DEWHoding a list and the input position reaches the DEWHlared
 // length of the list, all operations will return error EOL.
 // The end of the list must be acknowledged using ListEnd to continue
 // reading the enclosing list.
@@ -597,7 +597,7 @@ type Stream struct {
 	remaining uint64
 	limited   bool
 
-	// auxiliary buffer for integer decoding
+	// auxiliary buffer for integer DEWHoding
 	uintbuf []byte
 
 	kind    Kind   // kind of value ahead
@@ -609,7 +609,7 @@ type Stream struct {
 
 type listpos struct{ pos, size uint64 }
 
-// NewStream creates a new decoding stream reading from r.
+// NewStream creates a new DEWHoding stream reading from r.
 //
 // If r implements the ByteReader interface, Stream will
 // not introduce any buffering.
@@ -751,7 +751,7 @@ func (s *Stream) Bool() (bool, error) {
 	}
 }
 
-// List starts decoding an RLP list. If the input does not contain a
+// List starts DEWHoding an RLP list. If the input does not contain a
 // list, the returned error will be ErrExpectedList. When the list's
 // end has been reached, any Stream operation will return EOL.
 func (s *Stream) List() (size uint64, err error) {
@@ -787,12 +787,12 @@ func (s *Stream) ListEnd() error {
 	return nil
 }
 
-// Decode decodes a value and stores the result in the value pointed
-// to by val. Please see the documentation for the Decode function
-// to learn about the decoding rules.
-func (s *Stream) Decode(val interface{}) error {
+// DEWHode DEWHodes a value and stores the result in the value pointed
+// to by val. Please see the documentation for the DEWHode function
+// to learn about the DEWHoding rules.
+func (s *Stream) DEWHode(val interface{}) error {
 	if val == nil {
-		return errDecodeIntoNil
+		return errDEWHodeIntoNil
 	}
 	rval := reflect.ValueOf(val)
 	rtyp := rval.Type()
@@ -800,24 +800,24 @@ func (s *Stream) Decode(val interface{}) error {
 		return errNoPointer
 	}
 	if rval.IsNil() {
-		return errDecodeIntoNil
+		return errDEWHodeIntoNil
 	}
 	info, err := cachedTypeInfo(rtyp.Elem(), tags{})
 	if err != nil {
 		return err
 	}
 
-	err = info.decoder(s, rval.Elem())
-	if decErr, ok := err.(*decodeError); ok && len(decErr.ctx) > 0 {
-		// add decode target type to error so context has more meaning
-		decErr.ctx = append(decErr.ctx, fmt.Sprint("(", rtyp.Elem(), ")"))
+	err = info.DEWHoder(s, rval.Elem())
+	if DEWHErr, ok := err.(*DEWHodeError); ok && len(DEWHErr.ctx) > 0 {
+		// add DEWHode target type to error so context has more meaning
+		DEWHErr.ctx = append(DEWHErr.ctx, fmt.Sprint("(", rtyp.Elem(), ")"))
 	}
 	return err
 }
 
-// Reset discards any information about the current decoding context
+// Reset discards any information about the current DEWHoding context
 // and starts reading from r. This method is meant to facilitate reuse
-// of a preallocated Stream across many decoding operations.
+// of a preallocated Stream across many DEWHoding operations.
 //
 // If r does not also implement ByteReader, Stream will do its own
 // buffering.
@@ -845,7 +845,7 @@ func (s *Stream) Reset(r io.Reader, inputLimit uint64) {
 		bufr = bufio.NewReader(r)
 	}
 	s.r = bufr
-	// Reset the decoding context.
+	// Reset the DEWHoding context.
 	s.stack = s.stack[:0]
 	s.size = 0
 	s.kind = -1
@@ -864,7 +864,7 @@ func (s *Stream) Reset(r io.Reader, inputLimit uint64) {
 //
 // The first call to Kind will read size information from the input
 // reader and leave it positioned at the start of the actual bytes of
-// the value. Subsequent calls to Kind (until the value is decoded)
+// the value. Subsequent calls to Kind (until the value is DEWHoded)
 // will not advance the input reader and return cached information.
 func (s *Stream) Kind() (kind Kind, size uint64, err error) {
 	var tos *listpos
@@ -904,7 +904,7 @@ func (s *Stream) readKind() (kind Kind, size uint64, err error) {
 	if err != nil {
 		if len(s.stack) == 0 {
 			// At toplevel, Adjust the error to actual EOF. io.EOF is
-			// used by callers to determine when to stop decoding.
+			// used by callers to determine when to stop DEWHoding.
 			switch err {
 			case io.ErrUnexpectedEOF:
 				err = io.EOF
@@ -978,7 +978,7 @@ func (s *Stream) readUint(size byte) (uint64, error) {
 			return 0, err
 		}
 		if s.uintbuf[start] == 0 {
-			// Note: readUint is also used to decode integer
+			// Note: readUint is also used to DEWHode integer
 			// values. The error needs to be adjusted to become
 			// ErrCanonInt in this case.
 			return 0, ErrCanonSize

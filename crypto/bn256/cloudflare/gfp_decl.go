@@ -2,7 +2,7 @@
 
 package bn256
 
-// This file contains forward declarations for the architecture-specific
+// This file contains forward DEWHlarations for the architecture-specific
 // assembly implementations of these functions, provided that they exist.
 
 // go:noescape

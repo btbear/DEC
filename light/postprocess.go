@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package light
 
@@ -22,16 +22,16 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/bitutil"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/core/rawdb"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/params"
-	"github.com/DEC/go-DEC/rlp"
-	"github.com/DEC/go-DEC/trie"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/bitutil"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/core/rawdb"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/params"
+	"github.com/DEWH/go-DEWH/rlp"
+	"github.com/DEWH/go-DEWH/trie"
 )
 
 const (
@@ -265,27 +265,27 @@ func (b *BloomTrieIndexerBackend) Process(header *types.Header) {
 
 // Commit implements core.ChainIndexerBackend
 func (b *BloomTrieIndexerBackend) Commit() error {
-	var compSize, decompSize uint64
+	var compSize, DEWHompSize uint64
 
 	for i := uint(0); i < types.BloomBitLength; i++ {
 		var encKey [10]byte
 		binary.BigEndian.PutUint16(encKey[0:2], uint16(i))
 		binary.BigEndian.PutUint64(encKey[2:10], b.section)
-		var decomp []byte
+		var DEWHomp []byte
 		for j := uint64(0); j < b.bloomTrieRatio; j++ {
 			data, err := rawdb.ReadBloomBits(b.diskdb, i, b.section*b.bloomTrieRatio+j, b.sectionHeads[j])
 			if err != nil {
 				return err
 			}
-			decompData, err2 := bitutil.DecompressBytes(data, int(b.parentSectionSize/8))
+			DEWHompData, err2 := bitutil.DEWHompressBytes(data, int(b.parentSectionSize/8))
 			if err2 != nil {
 				return err2
 			}
-			decomp = append(decomp, decompData...)
+			DEWHomp = append(DEWHomp, DEWHompData...)
 		}
-		comp := bitutil.CompressBytes(decomp)
+		comp := bitutil.CompressBytes(DEWHomp)
 
-		decompSize += uint64(len(decomp))
+		DEWHompSize += uint64(len(DEWHomp))
 		compSize += uint64(len(comp))
 		if len(comp) > 0 {
 			b.trie.Update(encKey[:], comp)
@@ -300,7 +300,7 @@ func (b *BloomTrieIndexerBackend) Commit() error {
 	b.triedb.Commit(root, false)
 
 	sectionHead := b.sectionHeads[b.bloomTrieRatio-1]
-	log.Info("Storing bloom trie", "section", b.section, "head", sectionHead, "root", root, "compression", float64(compSize)/float64(decompSize))
+	log.Info("Storing bloom trie", "section", b.section, "head", sectionHead, "root", root, "compression", float64(compSize)/float64(DEWHompSize))
 	StoreBloomTrieRoot(b.diskdb, b.section, sectionHead, root)
 
 	return nil

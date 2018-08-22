@@ -181,9 +181,9 @@ func (d *Context) AllocRaw(size int) unsafe.Pointer {
 	return C.duk_alloc_raw(d.duk_context, C.duk_size_t(size))
 }
 
-// See: http://duktape.org/api.html#duk_base64_decode
-func (d *Context) Base64Decode(index int) {
-	C.duk_base64_decode(d.duk_context, C.duk_idx_t(index))
+// See: http://duktape.org/api.html#duk_base64_DEWHode
+func (d *Context) Base64DEWHode(index int) {
+	C.duk_base64_DEWHode(d.duk_context, C.duk_idx_t(index))
 }
 
 // See: http://duktape.org/api.html#duk_base64_encode
@@ -591,9 +591,9 @@ func (d *Context) HasPropString(objIndex int, key string) bool {
 	return result
 }
 
-// See: http://duktape.org/api.html#duk_hex_decode
-func (d *Context) HexDecode(index int) {
-	C.duk_hex_decode(d.duk_context, C.duk_idx_t(index))
+// See: http://duktape.org/api.html#duk_hex_DEWHode
+func (d *Context) HexDEWHode(index int) {
+	C.duk_hex_DEWHode(d.duk_context, C.duk_idx_t(index))
 }
 
 // See: http://duktape.org/api.html#duk_hex_encode
@@ -739,9 +739,9 @@ func (d *Context) Join(count int) {
 	C.duk_join(d.duk_context, C.duk_idx_t(count))
 }
 
-// See: http://duktape.org/api.html#duk_json_decode
-func (d *Context) JsonDecode(index int) {
-	C.duk_json_decode(d.duk_context, C.duk_idx_t(index))
+// See: http://duktape.org/api.html#duk_json_DEWHode
+func (d *Context) JsonDEWHode(index int) {
+	C.duk_json_DEWHode(d.duk_context, C.duk_idx_t(index))
 }
 
 // See: http://duktape.org/api.html#duk_json_encode
@@ -1595,7 +1595,7 @@ func (d *Context) PushExternalBuffer() {
  *
  * CharCodeAt see: http://duktape.org/api.html#duk_char_code_at
  * CreateHeap see: http://duktape.org/api.html#duk_create_heap
- * DecodeString see: http://duktape.org/api.html#duk_decode_string
+ * DEWHodeString see: http://duktape.org/api.html#duk_DEWHode_string
  * Free see: http://duktape.org/api.html#duk_free
  * FreeRaw see: http://duktape.org/api.html#duk_free_raw
  * GetCFunction see: http://duktape.org/api.html#duk_get_c_function

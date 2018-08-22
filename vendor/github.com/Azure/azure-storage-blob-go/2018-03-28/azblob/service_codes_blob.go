@@ -26,33 +26,33 @@ const (
 	// ServiceCodeBlockListTooLong means the block list may not contain more than 50,000 blocks.
 	ServiceCodeBlockListTooLong ServiceCodeType = "BlockListTooLong"
 
-	// ServiceCodeCannotChangeToLowerTier means that a higher blob tier has already been explicitly set.
-	ServiceCodeCannotChangeToLowerTier ServiceCodeType = "CannotChangeToLowerTier"
+	// ServiceCoDEWHannotChangeToLowerTier means that a higher blob tier has already been explicitly set.
+	ServiceCoDEWHannotChangeToLowerTier ServiceCodeType = "CannotChangeToLowerTier"
 
-	// ServiceCodeCannotVerifyCopySource means that the service could not verify the copy source within the specified time.
+	// ServiceCoDEWHannotVerifyCopySource means that the service could not verify the copy source within the specified time.
 	// Examine the HTTP status code and message for more information about the failure.
-	ServiceCodeCannotVerifyCopySource ServiceCodeType = "CannotVerifyCopySource"
+	ServiceCoDEWHannotVerifyCopySource ServiceCodeType = "CannotVerifyCopySource"
 
-	// ServiceCodeContainerAlreadyExists means the specified container already exists.
-	ServiceCodeContainerAlreadyExists ServiceCodeType = "ContainerAlreadyExists"
+	// ServiceCoDEWHontainerAlreadyExists means the specified container already exists.
+	ServiceCoDEWHontainerAlreadyExists ServiceCodeType = "ContainerAlreadyExists"
 
-	// ServiceCodeContainerBeingDeleted means the specified container is being deleted.
-	ServiceCodeContainerBeingDeleted ServiceCodeType = "ContainerBeingDeleted"
+	// ServiceCoDEWHontainerBeingDeleted means the specified container is being deleted.
+	ServiceCoDEWHontainerBeingDeleted ServiceCodeType = "ContainerBeingDeleted"
 
-	// ServiceCodeContainerDisabled means the specified container has been disabled by the administrator.
-	ServiceCodeContainerDisabled ServiceCodeType = "ContainerDisabled"
+	// ServiceCoDEWHontainerDisabled means the specified container has been disabled by the administrator.
+	ServiceCoDEWHontainerDisabled ServiceCodeType = "ContainerDisabled"
 
-	// ServiceCodeContainerNotFound means the specified container does not exist.
-	ServiceCodeContainerNotFound ServiceCodeType = "ContainerNotFound"
+	// ServiceCoDEWHontainerNotFound means the specified container does not exist.
+	ServiceCoDEWHontainerNotFound ServiceCodeType = "ContainerNotFound"
 
-	// ServiceCodeContentLengthLargerThanTierLimit means the blob's content length cannot exceed its tier limit.
-	ServiceCodeContentLengthLargerThanTierLimit ServiceCodeType = "ContentLengthLargerThanTierLimit"
+	// ServiceCoDEWHontentLengthLargerThanTierLimit means the blob's content length cannot exceed its tier limit.
+	ServiceCoDEWHontentLengthLargerThanTierLimit ServiceCodeType = "ContentLengthLargerThanTierLimit"
 
-	// ServiceCodeCopyAcrossAccountsNotSupported means the copy source account and destination account must be the same.
-	ServiceCodeCopyAcrossAccountsNotSupported ServiceCodeType = "CopyAcrossAccountsNotSupported"
+	// ServiceCoDEWHopyAcrossAccountsNotSupported means the copy source account and destination account must be the same.
+	ServiceCoDEWHopyAcrossAccountsNotSupported ServiceCodeType = "CopyAcrossAccountsNotSupported"
 
-	// ServiceCodeCopyIDMismatch means the specified copy ID did not match the copy ID for the pending copy operation.
-	ServiceCodeCopyIDMismatch ServiceCodeType = "CopyIdMismatch"
+	// ServiceCoDEWHopyIDMismatch means the specified copy ID did not match the copy ID for the pending copy operation.
+	ServiceCoDEWHopyIDMismatch ServiceCodeType = "CopyIdMismatch"
 
 	// ServiceCodeFeatureVersionMismatch means the type of blob in the container is unrecognized by this version or
 	// that the operation for AppendBlob requires at least version 2015-02-21.

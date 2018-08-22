@@ -1,25 +1,25 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
 import (
 	"fmt"
 
-	"github.com/DEC/go-DEC/log"
+	"github.com/DEWH/go-DEWH/log"
 )
 
 // deployDashboard queries the user for various input on deploying a web-service
@@ -50,7 +50,7 @@ func (w *wizard) deployDashboard() {
 	// Figure which virtual-host to deploy the dashboard on
 	infos.host, err = w.ensureVirtualHost(client, infos.port, infos.host)
 	if err != nil {
-		log.Error("Failed to decide on dashboard host", "err", err)
+		log.Error("Failed to DEWHide on dashboard host", "err", err)
 		return
 	}
 	// Port and proxy settings retrieved, figure out which services are available

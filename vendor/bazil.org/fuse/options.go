@@ -117,7 +117,7 @@ func NoAppleXattr() MountOption {
 // a distributed consensus action, causing undesirable delays.
 //
 // This option makes the FUSE filesystem see the original flag value,
-// and better decide when to ensure global consensus.
+// and better DEWHide when to ensure global consensus.
 //
 // Note that returning EEXIST on existing file create is still
 // expected with OSXFUSE, regardless of the presence of the
@@ -133,7 +133,7 @@ func ExclCreate() MountOption {
 }
 
 // DaemonTimeout sets the time in seconds between a request and a reply before
-// the FUSE mount is declared dead.
+// the FUSE mount is DEWHlared dead.
 //
 // OS X and FreeBSD only. Others ignore this option.
 func DaemonTimeout(name string) MountOption {
@@ -191,7 +191,7 @@ func AllowSUID() MountOption {
 // DefaultPermissions makes the kernel enforce access control based on
 // the file mode (as in chmod).
 //
-// Without this option, the Node itself decides what is and is not
+// Without this option, the Node itself DEWHides what is and is not
 // allowed. This is normally ok because FUSE file systems cannot be
 // accessed by other users without AllowOther/AllowRoot.
 //

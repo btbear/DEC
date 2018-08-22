@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package tests
 
@@ -23,22 +23,22 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/common/math"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/core/state"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/core/vm"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/crypto/sha3"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/params"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/common/math"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/core/state"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/core/vm"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/crypto/sha3"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/params"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 // StateTest checks transaction processing without block context.
-// See https://github.com/DEC/EIPs/issues/176 for the test format specification.
+// See https://github.com/DEWH/EIPs/issues/176 for the test format specification.
 type StateTest struct {
 	json stJSON
 }
@@ -71,25 +71,25 @@ type stPostState struct {
 	}
 }
 
-//go:generate gencodec -type stEnv -field-override stEnvMarshaling -out gen_stenv.go
+//go:generate gencoDEWH -type stEnv -field-override stEnvMarshaling -out gen_stenv.go
 
 type stEnv struct {
-	Coinbase   common.Address `json:"currentCoinbase"   gencodec:"required"`
-	Difficulty *big.Int       `json:"currentDifficulty" gencodec:"required"`
-	GasLimit   uint64         `json:"currentGasLimit"   gencodec:"required"`
-	Number     uint64         `json:"currentNumber"     gencodec:"required"`
-	Timestamp  uint64         `json:"currentTimestamp"  gencodec:"required"`
+	Coinbase   common.Address `json:"currentCoinbase"   gencoDEWH:"required"`
+	Difficulty *big.Int       `json:"currentDifficulty" gencoDEWH:"required"`
+	GasLimit   uint64         `json:"currentGasLimit"   gencoDEWH:"required"`
+	Number     uint64         `json:"currentNumber"     gencoDEWH:"required"`
+	Timestamp  uint64         `json:"currentTimestamp"  gencoDEWH:"required"`
 }
 
 type stEnvMarshaling struct {
 	Coinbase   common.UnprefixedAddress
-	Difficulty *math.HexOrDecimal256
-	GasLimit   math.HexOrDecimal64
-	Number     math.HexOrDecimal64
-	Timestamp  math.HexOrDecimal64
+	Difficulty *math.HexOrDEWHimal256
+	GasLimit   math.HexOrDEWHimal64
+	Number     math.HexOrDEWHimal64
+	Timestamp  math.HexOrDEWHimal64
 }
 
-//go:generate gencodec -type stTransaction -field-override stTransactionMarshaling -out gen_sttransaction.go
+//go:generate gencoDEWH -type stTransaction -field-override stTransactionMarshaling -out gen_sttransaction.go
 
 type stTransaction struct {
 	GasPrice   *big.Int `json:"gasPrice"`
@@ -102,9 +102,9 @@ type stTransaction struct {
 }
 
 type stTransactionMarshaling struct {
-	GasPrice   *math.HexOrDecimal256
-	Nonce      math.HexOrDecimal64
-	GasLimit   []math.HexOrDecimal64
+	GasPrice   *math.HexOrDEWHimal256
+	Nonce      math.HexOrDEWHimal64
+	GasLimit   []math.HexOrDEWHimal64
 	PrivateKey hexutil.Bytes
 }
 
@@ -218,7 +218,7 @@ func (tx *stTransaction) toMessage(ps stPostState) (core.Message, error) {
 	dataHex := tx.Data[ps.Indexes.Data]
 	valueHex := tx.Value[ps.Indexes.Value]
 	gasLimit := tx.GasLimit[ps.Indexes.Gas]
-	// Value, Data hex encoding is messy: https://github.com/DEC/tests/issues/203
+	// Value, Data hex encoding is messy: https://github.com/DEWH/tests/issues/203
 	value := new(big.Int)
 	if valueHex != "0x" {
 		v, ok := math.ParseBig256(valueHex)
@@ -227,7 +227,7 @@ func (tx *stTransaction) toMessage(ps stPostState) (core.Message, error) {
 		}
 		value = v
 	}
-	data, err := hex.DecodeString(strings.TrimPrefix(dataHex, "0x"))
+	data, err := hex.DEWHodeString(strings.TrimPrefix(dataHex, "0x"))
 	if err != nil {
 		return nil, fmt.Errorf("invalid tx data %q", dataHex)
 	}

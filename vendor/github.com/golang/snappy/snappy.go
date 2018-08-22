@@ -13,7 +13,7 @@ import (
 )
 
 /*
-Each encoded block begins with the varint-encoded length of the decoded data,
+Each encoded block begins with the varint-encoded length of the DEWHoded data,
 followed by a sequence of chunks. Chunks begin and end on byte boundaries. The
 first byte of each chunk is broken into its 2 least and 6 most significant bits
 called l and m: l ranges in [0, 4) and m ranges in [0, 64). l is the chunk tag.

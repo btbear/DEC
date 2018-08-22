@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package console
 
@@ -26,12 +26,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/consensus/ethash"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/eth"
-	"github.com/DEC/go-DEC/internal/jsre"
-	"github.com/DEC/go-DEC/node"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/consensus/ethash"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/eth"
+	"github.com/DEWH/go-DEWH/internal/jsre"
+	"github.com/DEWH/go-DEWH/node"
 )
 
 const (
@@ -75,7 +75,7 @@ func (p *hookedPrompter) SetWordCompleter(completer WordCompleter) {}
 type tester struct {
 	workspace string
 	stack     *node.Node
-	DEC  *eth.DEC
+	DEWH  *eth.DEWH
 	console   *Console
 	input     *hookedPrompter
 	output    *bytes.Buffer
@@ -90,7 +90,7 @@ func newTester(t *testing.T, confOverride func(*eth.Config)) *tester {
 		t.Fatalf("failed to create temporary keystore: %v", err)
 	}
 
-	// Create a networkless protocol stack and start an DEC service within
+	// Create a networkless protocol stack and start an DEWH service within
 	stack, err := node.New(&node.Config{DataDir: workspace, UseLightweightKDF: true, Name: testInstance})
 	if err != nil {
 		t.Fatalf("failed to create node: %v", err)
@@ -106,7 +106,7 @@ func newTester(t *testing.T, confOverride func(*eth.Config)) *tester {
 		confOverride(ethConf)
 	}
 	if err = stack.Register(func(ctx *node.ServiceContext) (node.Service, error) { return eth.New(ctx, ethConf) }); err != nil {
-		t.Fatalf("failed to register DEC protocol: %v", err)
+		t.Fatalf("failed to register DEWH protocol: %v", err)
 	}
 	// Start the node and assemble the JavaScript console around it
 	if err = stack.Start(); err != nil {
@@ -131,13 +131,13 @@ func newTester(t *testing.T, confOverride func(*eth.Config)) *tester {
 		t.Fatalf("failed to create JavaScript console: %v", err)
 	}
 	// Create the final tester and return
-	var DEC *eth.DEC
-	stack.Service(&DEC)
+	var DEWH *eth.DEWH
+	stack.Service(&DEWH)
 
 	return &tester{
 		workspace: workspace,
 		stack:     stack,
-		DEC:  DEC,
+		DEWH:  DEWH,
 		console:   console,
 		input:     prompter,
 		output:    printer,

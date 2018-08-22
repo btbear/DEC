@@ -1,20 +1,20 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package les implements the Light DEC Subprotocol.
+// Package les implements the Light DEWH Subprotocol.
 package les
 
 import (
@@ -23,18 +23,18 @@ import (
 	"math"
 	"sync"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/core/rawdb"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/eth"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/les/flowcontrol"
-	"github.com/DEC/go-DEC/light"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discv5"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/core/rawdb"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/eth"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/les/flowcontrol"
+	"github.com/DEWH/go-DEWH/light"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discv5"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 type LesServer struct {
@@ -50,7 +50,7 @@ type LesServer struct {
 	chtIndexer, bloomTrieIndexer *core.ChainIndexer
 }
 
-func NewLesServer(eth *eth.DEC, config *eth.Config) (*LesServer, error) {
+func NewLesServer(eth *eth.DEWH, config *eth.Config) (*LesServer, error) {
 	quitSync := make(chan struct{})
 	pm, err := NewProtocolManager(eth.BlockChain().Config(), false, ServerProtocolVersions, config.NetworkId, eth.EventMux(), eth.Engine(), newPeerSet(), eth.BlockChain(), eth.TxPool(), eth.ChainDb(), nil, nil, nil, quitSync, new(sync.WaitGroup))
 	if err != nil {
@@ -152,7 +152,7 @@ type RequestCostList []struct {
 	MsgCode, BaseCost, ReqCost uint64
 }
 
-func (list RequestCostList) decode() requestCostTable {
+func (list RequestCostList) DEWHode() requestCostTable {
 	table := make(requestCostTable)
 	for _, e := range list {
 		table[e.MsgCode] = &requestCosts{
@@ -246,7 +246,7 @@ func newCostStats(db ethdb.Database) *requestCostStats {
 		data, err := db.Get(rcStatsKey)
 		var statsRlp requestCostStatsRlp
 		if err == nil {
-			err = rlp.DecodeBytes(data, &statsRlp)
+			err = rlp.DEWHodeBytes(data, &statsRlp)
 		}
 		if err == nil {
 			for _, r := range statsRlp {

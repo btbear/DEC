@@ -42,9 +42,9 @@ It has these top-level messages:
 	GetPublicKey
 	PublicKey
 	GetAddress
-	DECGetAddress
+	DEWHGetAddress
 	Address
-	DECAddress
+	DEWHAddress
 	WipeDevice
 	LoadDevice
 	ResetDevice
@@ -59,8 +59,8 @@ It has these top-level messages:
 	MessageSignature
 	EncryptMessage
 	EncryptedMessage
-	DecryptMessage
-	DecryptedMessage
+	DEWHryptMessage
+	DEWHryptedMessage
 	CipherKeyValue
 	CipheredKeyValue
 	EstimateTxSize
@@ -69,12 +69,12 @@ It has these top-level messages:
 	SimpleSignTx
 	TxRequest
 	TxAck
-	DECSignTx
-	DECTxRequest
-	DECTxAck
-	DECSignMessage
-	DECVerifyMessage
-	DECMessageSignature
+	DEWHSignTx
+	DEWHTxRequest
+	DEWHTxAck
+	DEWHSignMessage
+	DEWHVerifyMessage
+	DEWHMessageSignature
 	SignIdentity
 	SignedIdentity
 	GetECDHSessionKey
@@ -84,7 +84,7 @@ It has these top-level messages:
 	FirmwareRequest
 	FirmwareUpload
 	SelfTest
-	DebugLinkDecision
+	DebugLinkDEWHision
 	DebugLinkGetState
 	DebugLinkState
 	DebugLinkStop

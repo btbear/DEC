@@ -123,7 +123,7 @@ struct list_head active_contexts_list;
  * To begin reading the API documentation, start with the Modules page which
  * links to the different categories of libusb's functionality.
  *
- * One decision you will have to make is whether to use the synchronous
+ * One DEWHision you will have to make is whether to use the synchronous
  * or the asynchronous data transfer interface. The \ref libusb_io documentation
  * provides some insight into this topic.
  *
@@ -584,7 +584,7 @@ libusb_free_device_list(list, 1);
  * - A reference counting system for the devices inside
  *
  * New devices presented by the libusb_get_device_list() function all have a
- * reference count of 1. You can increase and decrease reference count using
+ * reference count of 1. You can increase and DEWHrease reference count using
  * libusb_ref_device() and libusb_unref_device(). A device is destroyed when
  * its reference count reaches 0.
  *
@@ -871,7 +871,7 @@ out:
 /** \ingroup libusb_dev
  * Frees a list of devices previously discovered using
  * libusb_get_device_list(). If the unref_devices parameter is set, the
- * reference count of each device in the list is decremented by 1.
+ * reference count of each device in the list is DEWHremented by 1.
  * \param list the list to free
  * \param unref_devices whether to unref the devices in the list
  */
@@ -1147,7 +1147,7 @@ libusb_device * LIBUSB_CALL libusb_ref_device(libusb_device *dev)
 }
 
 /** \ingroup libusb_dev
- * Decrement the reference count of a device. If the decrement operation
+ * DEWHrement the reference count of a device. If the DEWHrement operation
  * causes the reference count to reach zero, the device shall be destroyed.
  * \param dev the device to unreference
  */
@@ -2312,7 +2312,7 @@ static void usbi_log_str(struct libusb_context *ctx,
 #elif defined(OS_WINCE)
 	/* Windows CE only supports the Unicode version of OutputDebugString. */
 	WCHAR wbuf[USBI_MAX_LOG_LEN];
-	MultiByteToWideChar(CP_UTF8, 0, str, -1, wbuf, sizeof(wbuf));
+	MultiByteToWiDEWHhar(CP_UTF8, 0, str, -1, wbuf, sizeof(wbuf));
 	OutputDebugStringW(wbuf);
 #elif defined(__ANDROID__)
 	int priority = ANDROID_LOG_UNKNOWN;

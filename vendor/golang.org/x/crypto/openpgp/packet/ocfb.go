@@ -76,26 +76,26 @@ func (x *ocfbEncrypter) XORKeyStream(dst, src []byte) {
 	}
 }
 
-type ocfbDecrypter struct {
+type ocfbDEWHrypter struct {
 	b       cipher.Block
 	fre     []byte
 	outUsed int
 }
 
-// NewOCFBDecrypter returns a cipher.Stream which decrypts data with OpenPGP's
+// NewOCFBDEWHrypter returns a cipher.Stream which DEWHrypts data with OpenPGP's
 // cipher feedback mode using the given cipher.Block. Prefix must be the first
 // blockSize + 2 bytes of the ciphertext, where blockSize is the cipher.Block's
 // block size. If an incorrect key is detected then nil is returned. On
-// successful exit, blockSize+2 bytes of decrypted data are written into
+// successful exit, blockSize+2 bytes of DEWHrypted data are written into
 // prefix. Resync determines if the "resynchronization step" from RFC 4880,
 // 13.9 step 7 is performed. Different parts of OpenPGP vary on this point.
-func NewOCFBDecrypter(block cipher.Block, prefix []byte, resync OCFBResyncOption) cipher.Stream {
+func NewOCFBDEWHrypter(block cipher.Block, prefix []byte, resync OCFBResyncOption) cipher.Stream {
 	blockSize := block.BlockSize()
 	if len(prefix) != blockSize+2 {
 		return nil
 	}
 
-	x := &ocfbDecrypter{
+	x := &ocfbDEWHrypter{
 		b:       block,
 		fre:     make([]byte, blockSize),
 		outUsed: 0,
@@ -128,7 +128,7 @@ func NewOCFBDecrypter(block cipher.Block, prefix []byte, resync OCFBResyncOption
 	return x
 }
 
-func (x *ocfbDecrypter) XORKeyStream(dst, src []byte) {
+func (x *ocfbDEWHrypter) XORKeyStream(dst, src []byte) {
 	for i := 0; i < len(src); i++ {
 		if x.outUsed == len(x.fre) {
 			x.b.Encrypt(x.fre, x.fre)

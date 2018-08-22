@@ -67,14 +67,14 @@ func Encrypt(random io.Reader, pub *PublicKey, msg []byte) (c1, c2 *big.Int, err
 	return
 }
 
-// Decrypt takes two integers, resulting from an ElGamal encryption, and
+// DEWHrypt takes two integers, resulting from an ElGamal encryption, and
 // returns the plaintext of the message. An error can result only if the
 // ciphertext is invalid. Users should keep in mind that this is a padding
 // oracle and thus, if exposed to an adaptive chosen ciphertext attack, can
 // be used to break the cryptosystem.  See ``Chosen Ciphertext Attacks
 // Against Protocols Based on the RSA Encryption Standard PKCS #1'', Daniel
 // Bleichenbacher, Advances in Cryptology (Crypto '98),
-func Decrypt(priv *PrivateKey, c1, c2 *big.Int) (msg []byte, err error) {
+func DEWHrypt(priv *PrivateKey, c1, c2 *big.Int) (msg []byte, err error) {
 	s := new(big.Int).Exp(c1, priv.X, priv.P)
 	s.ModInverse(s, priv.P)
 	s.Mul(s, c2)
@@ -97,7 +97,7 @@ func Decrypt(priv *PrivateKey, c1, c2 *big.Int) (msg []byte, err error) {
 	}
 
 	if firstByteIsTwo != 1 || lookingForIndex != 0 || index < 9 {
-		return nil, errors.New("elgamal: decryption error")
+		return nil, errors.New("elgamal: DEWHryption error")
 	}
 	return em[index+1:], nil
 }

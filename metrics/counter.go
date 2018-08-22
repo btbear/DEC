@@ -2,11 +2,11 @@ package metrics
 
 import "sync/atomic"
 
-// Counters hold an int64 value that can be incremented and decremented.
+// Counters hold an int64 value that can be incremented and DEWHremented.
 type Counter interface {
 	Clear()
 	Count() int64
-	Dec(int64)
+	DEWH(int64)
 	Inc(int64)
 	Snapshot() Counter
 }
@@ -49,9 +49,9 @@ func (CounterSnapshot) Clear() {
 // Count returns the count at the time the snapshot was taken.
 func (c CounterSnapshot) Count() int64 { return int64(c) }
 
-// Dec panics.
-func (CounterSnapshot) Dec(int64) {
-	panic("Dec called on a CounterSnapshot")
+// DEWH panics.
+func (CounterSnapshot) DEWH(int64) {
+	panic("DEWH called on a CounterSnapshot")
 }
 
 // Inc panics.
@@ -71,8 +71,8 @@ func (NilCounter) Clear() {}
 // Count is a no-op.
 func (NilCounter) Count() int64 { return 0 }
 
-// Dec is a no-op.
-func (NilCounter) Dec(i int64) {}
+// DEWH is a no-op.
+func (NilCounter) DEWH(i int64) {}
 
 // Inc is a no-op.
 func (NilCounter) Inc(i int64) {}
@@ -96,8 +96,8 @@ func (c *StandardCounter) Count() int64 {
 	return atomic.LoadInt64(&c.count)
 }
 
-// Dec decrements the counter by the given amount.
-func (c *StandardCounter) Dec(i int64) {
+// DEWH DEWHrements the counter by the given amount.
+func (c *StandardCounter) DEWH(i int64) {
 	atomic.AddInt64(&c.count, -i)
 }
 

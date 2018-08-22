@@ -21,8 +21,8 @@ Section "Uninstall"
   SimpleFC::AdvRemoveRule "Geth outgoing peers (TCP:30303)"
   SimpleFC::AdvRemoveRule "Geth UDP discovery (UDP:30303)"
 
-  # Remove IPC endpoint (https://github.com/DEC/EIPs/issues/147)
-  ${un.EnvVarUpdate} $0 "DEC_SOCKET" "R" "HKLM" "\\.\pipe\geth.ipc"
+  # Remove IPC endpoint (https://github.com/DEWH/EIPs/issues/147)
+  ${un.EnvVarUpdate} $0 "DEWH_SOCKET" "R" "HKLM" "\\.\pipe\geth.ipc"
 
   # Remove install directory from PATH
   Push "$INSTDIR"

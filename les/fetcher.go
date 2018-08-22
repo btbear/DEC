@@ -1,20 +1,20 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package les implements the Light DEC Subprotocol.
+// Package les implements the Light DEWH Subprotocol.
 package les
 
 import (
@@ -22,18 +22,18 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/mclock"
-	"github.com/DEC/go-DEC/consensus"
-	"github.com/DEC/go-DEC/core/rawdb"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/light"
-	"github.com/DEC/go-DEC/log"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/mclock"
+	"github.com/DEWH/go-DEWH/consensus"
+	"github.com/DEWH/go-DEWH/core/rawdb"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/light"
+	"github.com/DEWH/go-DEWH/log"
 )
 
 const (
 	blockDelayTimeout = time.Second * 10 // timeout for a peer to announce a head that has already been confirmed by others
-	maxNodeCount      = 20               // maximum number of fetcherTreeNode entries remembered for each peer
+	maxNoDEWHount      = 20               // maximum number of fetcherTreeNode entries remembered for each peer
 )
 
 // lightFetcher implements retrieval of newly announced headers. It also provides a peerHasBlock function for the
@@ -61,7 +61,7 @@ type lightFetcher struct {
 // fetcherPeerInfo holds fetcher-specific information about each active peer
 type fetcherPeerInfo struct {
 	root, lastAnnounced *fetcherTreeNode
-	nodeCnt             int
+	noDEWHnt             int
 	confirmedTd         *big.Int
 	bestConfirmed       *fetcherTreeNode
 	nodeByHash          map[common.Hash]*fetcherTreeNode
@@ -268,17 +268,17 @@ func (f *lightFetcher) announce(p *peer, head *announceData) {
 		n = n.parent
 	}
 	// n is now the reorg common ancestor, add a new branch of nodes
-	if n != nil && (head.Number >= n.number+maxNodeCount || head.Number <= n.number) {
+	if n != nil && (head.Number >= n.number+maxNoDEWHount || head.Number <= n.number) {
 		// if announced head block height is lower or same as n or too far from it to add
 		// intermediate nodes then discard previous announcement info and trigger a resync
 		n = nil
-		fp.nodeCnt = 0
+		fp.noDEWHnt = 0
 		fp.nodeByHash = make(map[common.Hash]*fetcherTreeNode)
 	}
 	if n != nil {
 		// check if the node count is too high to add new nodes, discard oldest ones if necessary
 		locked := false
-		for uint64(fp.nodeCnt)+head.Number-n.number > maxNodeCount && fp.root != nil {
+		for uint64(fp.noDEWHnt)+head.Number-n.number > maxNoDEWHount && fp.root != nil {
 			if !locked {
 				f.chain.LockChain()
 				defer f.chain.UnlockChain()
@@ -313,7 +313,7 @@ func (f *lightFetcher) announce(p *peer, head *announceData) {
 				nn := &fetcherTreeNode{number: n.number + 1, parent: n}
 				n.children = append(n.children, nn)
 				n = nn
-				fp.nodeCnt++
+				fp.noDEWHnt++
 			}
 			n.hash = head.Hash
 			n.td = head.Td
@@ -327,7 +327,7 @@ func (f *lightFetcher) announce(p *peer, head *announceData) {
 		}
 		n = &fetcherTreeNode{hash: head.Hash, number: head.Number, td: head.Td}
 		fp.root = n
-		fp.nodeCnt++
+		fp.noDEWHnt++
 		fp.nodeByHash[n.hash] = n
 		fp.bestConfirmed = nil
 		fp.confirmedTd = nil
@@ -695,7 +695,7 @@ func (fp *fetcherPeerInfo) deleteNode(n *fetcherTreeNode) {
 		if n.td != nil {
 			delete(fp.nodeByHash, n.hash)
 		}
-		fp.nodeCnt--
+		fp.noDEWHnt--
 		if len(n.children) == 0 {
 			return
 		}

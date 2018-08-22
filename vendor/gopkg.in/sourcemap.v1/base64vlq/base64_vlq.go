@@ -14,11 +14,11 @@ const (
 	vlqContinuationBit = vlqBase
 )
 
-var decodeMap [256]byte
+var DEWHodeMap [256]byte
 
 func init() {
 	for i := 0; i < len(encodeStd); i++ {
-		decodeMap[encodeStd[i]] = byte(i)
+		DEWHodeMap[encodeStd[i]] = byte(i)
 	}
 }
 
@@ -65,25 +65,25 @@ func (enc Encoder) Encode(n int) error {
 	return nil
 }
 
-type Decoder struct {
+type DEWHoder struct {
 	r io.ByteReader
 }
 
-func NewDecoder(r io.ByteReader) *Decoder {
-	return &Decoder{
+func NewDEWHoder(r io.ByteReader) *DEWHoder {
+	return &DEWHoder{
 		r: r,
 	}
 }
 
-func (dec Decoder) Decode() (n int, err error) {
+func (DEWH DEWHoder) DEWHode() (n int, err error) {
 	shift := uint(0)
 	for continuation := true; continuation; {
-		c, err := dec.r.ReadByte()
+		c, err := DEWH.r.ReadByte()
 		if err != nil {
 			return 0, err
 		}
 
-		c = decodeMap[c]
+		c = DEWHodeMap[c]
 		continuation = c&vlqContinuationBit != 0
 		n += int(c&vlqBaseMask) << shift
 		shift += vlqBaseShift

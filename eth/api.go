@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package eth
 
@@ -26,56 +26,56 @@ import (
 	"os"
 	"strings"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/core/rawdb"
-	"github.com/DEC/go-DEC/core/state"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/internal/ethapi"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/miner"
-	"github.com/DEC/go-DEC/params"
-	"github.com/DEC/go-DEC/rlp"
-	"github.com/DEC/go-DEC/rpc"
-	"github.com/DEC/go-DEC/trie"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/core/rawdb"
+	"github.com/DEWH/go-DEWH/core/state"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/internal/ethapi"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/miner"
+	"github.com/DEWH/go-DEWH/params"
+	"github.com/DEWH/go-DEWH/rlp"
+	"github.com/DEWH/go-DEWH/rpc"
+	"github.com/DEWH/go-DEWH/trie"
 )
 
-// PublicDECAPI provides an API to access DEC full node-related
+// PublicDEWHAPI provides an API to access DEWH full node-related
 // information.
-type PublicDECAPI struct {
-	e *DEC
+type PublicDEWHAPI struct {
+	e *DEWH
 }
 
-// NewPublicDECAPI creates a new DEC protocol API for full nodes.
-func NewPublicDECAPI(e *DEC) *PublicDECAPI {
-	return &PublicDECAPI{e}
+// NewPublicDEWHAPI creates a new DEWH protocol API for full nodes.
+func NewPublicDEWHAPI(e *DEWH) *PublicDEWHAPI {
+	return &PublicDEWHAPI{e}
 }
 
 // Etherbase is the address that mining rewards will be send to
-func (api *PublicDECAPI) Etherbase() (common.Address, error) {
+func (api *PublicDEWHAPI) Etherbase() (common.Address, error) {
 	return api.e.Etherbase()
 }
 
 // Coinbase is the address that mining rewards will be send to (alias for Etherbase)
-func (api *PublicDECAPI) Coinbase() (common.Address, error) {
+func (api *PublicDEWHAPI) Coinbase() (common.Address, error) {
 	return api.Etherbase()
 }
 
 // Hashrate returns the POW hashrate
-func (api *PublicDECAPI) Hashrate() hexutil.Uint64 {
+func (api *PublicDEWHAPI) Hashrate() hexutil.Uint64 {
 	return hexutil.Uint64(api.e.Miner().HashRate())
 }
 
 // PublicMinerAPI provides an API to control the miner.
 // It offers only methods that operate on data that pose no security risk when it is publicly accessible.
 type PublicMinerAPI struct {
-	e     *DEC
+	e     *DEWH
 	agent *miner.RemoteAgent
 }
 
 // NewPublicMinerAPI create a new PublicMinerAPI instance.
-func NewPublicMinerAPI(e *DEC) *PublicMinerAPI {
+func NewPublicMinerAPI(e *DEWH) *PublicMinerAPI {
 	agent := miner.NewRemoteAgent(e.BlockChain(), e.Engine())
 	e.Miner().Register(agent)
 
@@ -121,11 +121,11 @@ func (api *PublicMinerAPI) SubmitHashrate(hashrate hexutil.Uint64, id common.Has
 // PrivateMinerAPI provides private RPC methods to control the miner.
 // These methods can be abused by external users and must be considered insecure for use by untrusted users.
 type PrivateMinerAPI struct {
-	e *DEC
+	e *DEWH
 }
 
 // NewPrivateMinerAPI create a new RPC service which controls the miner of this node.
-func NewPrivateMinerAPI(e *DEC) *PrivateMinerAPI {
+func NewPrivateMinerAPI(e *DEWH) *PrivateMinerAPI {
 	return &PrivateMinerAPI{e: e}
 }
 
@@ -201,15 +201,15 @@ func (api *PrivateMinerAPI) GetHashrate() uint64 {
 	return uint64(api.e.miner.HashRate())
 }
 
-// PrivateAdminAPI is the collection of DEC full node-related APIs
+// PrivateAdminAPI is the collection of DEWH full node-related APIs
 // exposed over the private admin endpoint.
 type PrivateAdminAPI struct {
-	eth *DEC
+	eth *DEWH
 }
 
 // NewPrivateAdminAPI creates a new API definition for the full node private
-// admin methods of the DEC service.
-func NewPrivateAdminAPI(eth *DEC) *PrivateAdminAPI {
+// admin methods of the DEWH service.
+func NewPrivateAdminAPI(eth *DEWH) *PrivateAdminAPI {
 	return &PrivateAdminAPI{eth: eth}
 }
 
@@ -269,7 +269,7 @@ func (api *PrivateAdminAPI) ImportChain(file string) (bool, error) {
 		// Load a batch of blocks from the input file
 		for len(blocks) < cap(blocks) {
 			block := new(types.Block)
-			if err := stream.Decode(block); err == io.EOF {
+			if err := stream.DEWHode(block); err == io.EOF {
 				break
 			} else if err != nil {
 				return false, fmt.Errorf("block %d: failed to parse: %v", index, err)
@@ -294,15 +294,15 @@ func (api *PrivateAdminAPI) ImportChain(file string) (bool, error) {
 	return true, nil
 }
 
-// PublicDebugAPI is the collection of DEC full node APIs exposed
+// PublicDebugAPI is the collection of DEWH full node APIs exposed
 // over the public debugging endpoint.
 type PublicDebugAPI struct {
-	eth *DEC
+	eth *DEWH
 }
 
 // NewPublicDebugAPI creates a new API definition for the full node-
-// related public debug methods of the DEC service.
-func NewPublicDebugAPI(eth *DEC) *PublicDebugAPI {
+// related public debug methods of the DEWH service.
+func NewPublicDebugAPI(eth *DEWH) *PublicDebugAPI {
 	return &PublicDebugAPI{eth: eth}
 }
 
@@ -331,16 +331,16 @@ func (api *PublicDebugAPI) DumpBlock(blockNr rpc.BlockNumber) (state.Dump, error
 	return stateDb.RawDump(), nil
 }
 
-// PrivateDebugAPI is the collection of DEC full node APIs exposed over
+// PrivateDebugAPI is the collection of DEWH full node APIs exposed over
 // the private debugging endpoint.
 type PrivateDebugAPI struct {
 	config *params.ChainConfig
-	eth    *DEC
+	eth    *DEWH
 }
 
 // NewPrivateDebugAPI creates a new API definition for the full node-related
-// private debug methods of the DEC service.
-func NewPrivateDebugAPI(config *params.ChainConfig, eth *DEC) *PrivateDebugAPI {
+// private debug methods of the DEWH service.
+func NewPrivateDebugAPI(config *params.ChainConfig, eth *DEWH) *PrivateDebugAPI {
 	return &PrivateDebugAPI{config: config, eth: eth}
 }
 

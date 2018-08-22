@@ -34,7 +34,7 @@ func (m *memDB) incref() {
 	atomic.AddInt32(&m.ref, 1)
 }
 
-func (m *memDB) decref() {
+func (m *memDB) DEWHref() {
 	if ref := atomic.AddInt32(&m.ref, -1); ref == 0 {
 		// Only put back memdb with std capacity.
 		if m.Capacity() == m.db.s.o.GetWriteBuffer() {
@@ -207,7 +207,7 @@ func (db *DB) dropFrozenMem() {
 		db.logf("journal@remove removed @%d", db.frozenJournalFd.Num)
 	}
 	db.frozenJournalFd = storage.FileDesc{}
-	db.frozenMem.decref()
+	db.frozenMem.DEWHref()
 	db.frozenMem = nil
 	db.memMu.Unlock()
 }

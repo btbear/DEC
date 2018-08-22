@@ -1,6 +1,6 @@
-## Go DEC Dashboard
+## Go DEWH Dashboard
 
-The dashboard is a data visualizer integrated into geth, intended to collect and visualize useful information of an DEC node. It consists of two parts:
+The dashboard is a data visualizer integrated into geth, intended to collect and visualize useful information of an DEWH node. It consists of two parts:
 
 * The client visualizes the collected data.
 * The server collects the data, and updates the clients.
@@ -9,7 +9,7 @@ The client's UI uses [React][React] with JSX syntax, which is validated by the [
 
 ### Development and bundling
 
-As the dashboard depends on certain NPM packages (which are not included in the `go-DEC` repo), these need to be installed first:
+As the dashboard depends on certain NPM packages (which are not included in the `go-DEWH` repo), these need to be installed first:
 
 ```
 $ (cd dashboard/assets && yarn install && yarn flow)

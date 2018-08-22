@@ -155,18 +155,18 @@ of process. Currently the supported transports include:
 
 The tracer does not record all spans, but only those that have the
 sampling bit set in the `flags`. When a new trace is started and a new
-unique ID is generated, a sampling decision is made whether this trace
-should be sampled. The sampling decision is propagated to all downstream
+unique ID is generated, a sampling DEWHision is made whether this trace
+should be sampled. The sampling DEWHision is propagated to all downstream
 calls via the `flags` field of the trace context. The following samplers
 are available:
   1. `RemotelyControlledSampler` uses one of the other simpler samplers
      and periodically updates it by polling an external server. This
      allows dynamic control of the sampling strategies.
-  1. `ConstSampler` always makes the same sampling decision for all
+  1. `ConstSampler` always makes the same sampling DEWHision for all
      trace IDs. it can be configured to either sample all traces, or
      to sample none.
   1. `ProbabilisticSampler` uses a fixed sampling rate as a probability
-     for a given trace to be sampled. The actual decision is made by
+     for a given trace to be sampled. The actual DEWHision is made by
      comparing the trace ID with a random number multiplied by the
      sampling rate.
   1. `RateLimitingSampler` can be used to allow only a certain fixed
@@ -253,8 +253,8 @@ However it is not the default propagation format, see [here](zipkin/README.md#Ne
 [doc]: https://godoc.org/github.com/uber/jaeger-client-go
 [ci-img]: https://travis-ci.org/jaegertracing/jaeger-client-go.svg?branch=master
 [ci]: https://travis-ci.org/jaegertracing/jaeger-client-go
-[cov-img]: https://codecov.io/gh/jaegertracing/jaeger-client-go/branch/master/graph/badge.svg
-[cov]: https://codecov.io/gh/jaegertracing/jaeger-client-go
+[cov-img]: https://coDEWHov.io/gh/jaegertracing/jaeger-client-go/branch/master/graph/badge.svg
+[cov]: https://coDEWHov.io/gh/jaegertracing/jaeger-client-go
 [ot-img]: https://img.shields.io/badge/OpenTracing--1.0-enabled-blue.svg
 [ot-url]: http://opentracing.io
 [baggage]: https://github.com/opentracing/specification/blob/master/specification.md#set-a-baggage-item

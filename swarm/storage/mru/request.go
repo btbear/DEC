@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package mru
 
@@ -20,9 +20,9 @@ import (
 	"bytes"
 	"encoding/json"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/swarm/storage"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/swarm/storage"
 )
 
 // updateRequestJSON represents a JSON-serialized UpdateRequest
@@ -167,26 +167,26 @@ func (r *Request) fromJSON(j *updateRequestJSON) error {
 	r.metadata.Frequency = j.Frequency
 	r.metadata.StartTime.Time = j.StartTime
 
-	if err := decodeHexArray(r.metadata.Owner[:], j.Owner, "ownerAddr"); err != nil {
+	if err := DEWHodeHexArray(r.metadata.Owner[:], j.Owner, "ownerAddr"); err != nil {
 		return err
 	}
 
 	var err error
 	if j.Data != "" {
-		r.data, err = hexutil.Decode(j.Data)
+		r.data, err = hexutil.DEWHode(j.Data)
 		if err != nil {
-			return NewError(ErrInvalidValue, "Cannot decode data")
+			return NewError(ErrInvalidValue, "Cannot DEWHode data")
 		}
 	}
 
-	var declaredRootAddr storage.Address
-	var declaredMetaHash []byte
+	var DEWHlaredRootAddr storage.Address
+	var DEWHlaredMetaHash []byte
 
-	declaredRootAddr, err = decodeHexSlice(j.RootAddr, storage.KeyLength, "rootAddr")
+	DEWHlaredRootAddr, err = DEWHodeHexSlice(j.RootAddr, storage.KeyLength, "rootAddr")
 	if err != nil {
 		return err
 	}
-	declaredMetaHash, err = decodeHexSlice(j.MetaHash, 32, "metaHash")
+	DEWHlaredMetaHash, err = DEWHodeHexSlice(j.MetaHash, 32, "metaHash")
 	if err != nil {
 		return err
 	}
@@ -200,23 +200,23 @@ func (r *Request) fromJSON(j *updateRequestJSON) error {
 		if err != nil {
 			return err
 		}
-		if j.RootAddr != "" && !bytes.Equal(declaredRootAddr, r.rootAddr) {
+		if j.RootAddr != "" && !bytes.Equal(DEWHlaredRootAddr, r.rootAddr) {
 			return NewError(ErrInvalidValue, "rootAddr does not match resource metadata")
 		}
-		if j.MetaHash != "" && !bytes.Equal(declaredMetaHash, r.metaHash) {
+		if j.MetaHash != "" && !bytes.Equal(DEWHlaredMetaHash, r.metaHash) {
 			return NewError(ErrInvalidValue, "metaHash does not match resource metadata")
 		}
 
 	} else {
 		//Update message
-		r.rootAddr = declaredRootAddr
-		r.metaHash = declaredMetaHash
+		r.rootAddr = DEWHlaredRootAddr
+		r.metaHash = DEWHlaredMetaHash
 	}
 
 	if j.Signature != "" {
-		sigBytes, err := hexutil.Decode(j.Signature)
+		sigBytes, err := hexutil.DEWHode(j.Signature)
 		if err != nil || len(sigBytes) != signatureLength {
-			return NewError(ErrInvalidSignature, "Cannot decode signature")
+			return NewError(ErrInvalidSignature, "Cannot DEWHode signature")
 		}
 		r.signature = new(Signature)
 		r.updateAddr = r.UpdateAddr()
@@ -225,8 +225,8 @@ func (r *Request) fromJSON(j *updateRequestJSON) error {
 	return nil
 }
 
-func decodeHexArray(dst []byte, src, name string) error {
-	bytes, err := decodeHexSlice(src, len(dst), name)
+func DEWHodeHexArray(dst []byte, src, name string) error {
+	bytes, err := DEWHodeHexSlice(src, len(dst), name)
 	if err != nil {
 		return err
 	}
@@ -236,11 +236,11 @@ func decodeHexArray(dst []byte, src, name string) error {
 	return nil
 }
 
-func decodeHexSlice(src string, expectedLength int, name string) (bytes []byte, err error) {
+func DEWHodeHexSlice(src string, expectedLength int, name string) (bytes []byte, err error) {
 	if src != "" {
-		bytes, err = hexutil.Decode(src)
+		bytes, err = hexutil.DEWHode(src)
 		if err != nil || len(bytes) != expectedLength {
-			return nil, NewErrorf(ErrInvalidValue, "Cannot decode %s", name)
+			return nil, NewErrorf(ErrInvalidValue, "Cannot DEWHode %s", name)
 		}
 	}
 	return bytes, nil

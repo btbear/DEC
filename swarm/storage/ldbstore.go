@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // disk storage layer for the package bzz
 // DbStore implements the ChunkStore interface and is used by the FileStore as
@@ -34,10 +34,10 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/DEC/go-DEC/metrics"
-	"github.com/DEC/go-DEC/rlp"
-	"github.com/DEC/go-DEC/swarm/log"
-	"github.com/DEC/go-DEC/swarm/storage/mock"
+	"github.com/DEWH/go-DEWH/metrics"
+	"github.com/DEWH/go-DEWH/rlp"
+	"github.com/DEWH/go-DEWH/swarm/log"
+	"github.com/DEWH/go-DEWH/swarm/storage/mock"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/opt"
 )
@@ -230,17 +230,17 @@ func encodeData(chunk *Chunk) []byte {
 	return append(append([]byte{}, chunk.Addr[:]...), chunk.SData...)
 }
 
-func decodeIndex(data []byte, index *dpaDBIndex) error {
-	dec := rlp.NewStream(bytes.NewReader(data), 0)
-	return dec.Decode(index)
+func DEWHodeIndex(data []byte, index *dpaDBIndex) error {
+	DEWH := rlp.NewStream(bytes.NewReader(data), 0)
+	return DEWH.DEWHode(index)
 }
 
-func decodeData(data []byte, chunk *Chunk) {
+func DEWHodeData(data []byte, chunk *Chunk) {
 	chunk.SData = data[32:]
 	chunk.Size = int64(binary.BigEndian.Uint64(data[32:40]))
 }
 
-func decodeOldData(data []byte, chunk *Chunk) {
+func DEWHodeOldData(data []byte, chunk *Chunk) {
 	chunk.SData = data
 	chunk.Size = int64(binary.BigEndian.Uint64(data[0:8]))
 }
@@ -270,7 +270,7 @@ func (s *LDBStore) collectGarbage(ratio float32) {
 		var index dpaDBIndex
 
 		hash := key[1:]
-		decodeIndex(val, &index)
+		DEWHodeIndex(val, &index)
 		po := s.po(hash)
 
 		gci := &gcItem{
@@ -312,7 +312,7 @@ func (s *LDBStore) Export(out io.Writer) (int64, error) {
 		var index dpaDBIndex
 
 		hash := key[1:]
-		decodeIndex(it.Value(), &index)
+		DEWHodeIndex(it.Value(), &index)
 		po := s.po(hash)
 		datakey := getDataKey(index.Idx, po)
 		log.Trace("store.export", "dkey", fmt.Sprintf("%x", datakey), "dataidx", index.Idx, "po", po)
@@ -358,7 +358,7 @@ func (s *LDBStore) Import(in io.Reader) (int64, error) {
 			continue
 		}
 
-		keybytes, err := hex.DecodeString(hdr.Name)
+		keybytes, err := hex.DEWHodeString(hdr.Name)
 		if err != nil {
 			log.Warn("ignoring invalid chunk file", "name", hdr.Name, "err", err)
 			continue
@@ -397,7 +397,7 @@ func (s *LDBStore) Cleanup() {
 		}
 		total++
 		var index dpaDBIndex
-		err := decodeIndex(it.Value(), &index)
+		err := DEWHodeIndex(it.Value(), &index)
 		if err != nil {
 			it.Next()
 			continue
@@ -522,7 +522,7 @@ func (s *LDBStore) Put(ctx context.Context, chunk *Chunk) {
 		}()
 	} else {
 		log.Trace("ldbstore.put: chunk already exists, only update access", "key", chunk.Addr)
-		decodeIndex(idata, &index)
+		DEWHodeIndex(idata, &index)
 		chunk.markAsStored()
 	}
 	index.Access = s.accessCnt
@@ -627,7 +627,7 @@ func (s *LDBStore) tryAccessIdx(ikey []byte, index *dpaDBIndex) bool {
 	if err != nil {
 		return false
 	}
-	decodeIndex(idata, index)
+	DEWHodeIndex(idata, index)
 	s.batch.Put(keyAccessCnt, U64ToBytes(s.accessCnt))
 	s.accessCnt++
 	index.Access = s.accessCnt
@@ -676,7 +676,7 @@ func (s *LDBStore) get(addr Address) (chunk *Chunk, err error) {
 
 		chunk = NewChunk(addr, nil)
 		chunk.markAsStored()
-		decodeData(data, chunk)
+		DEWHodeData(data, chunk)
 	} else {
 		err = ErrChunkNotFound
 	}

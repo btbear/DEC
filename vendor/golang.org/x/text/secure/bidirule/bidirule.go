@@ -243,7 +243,7 @@ func (t *Transformer) Span(src []byte, atEOF bool) (n int, err error) {
 	return n, err
 }
 
-// Precomputing the ASCII values decreases running time for the ASCII fast path
+// Precomputing the ASCII values DEWHreases running time for the ASCII fast path
 // by about 30%.
 var asciiTable [128]bidi.Properties
 

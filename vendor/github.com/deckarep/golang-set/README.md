@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/deckarep/golang-set.svg?branch=master)](https://travis-ci.org/deckarep/golang-set)
-[![Go Report Card](https://goreportcard.com/badge/github.com/deckarep/golang-set)](https://goreportcard.com/report/github.com/deckarep/golang-set)
-[![GoDoc](https://godoc.org/github.com/deckarep/golang-set?status.svg)](http://godoc.org/github.com/deckarep/golang-set)
+[![Build Status](https://travis-ci.org/DEWHkarep/golang-set.svg?branch=master)](https://travis-ci.org/DEWHkarep/golang-set)
+[![Go Report Card](https://goreportcard.com/badge/github.com/DEWHkarep/golang-set)](https://goreportcard.com/report/github.com/DEWHkarep/golang-set)
+[![GoDoc](https://godoc.org/github.com/DEWHkarep/golang-set?status.svg)](http://godoc.org/github.com/DEWHkarep/golang-set)
 
 ## golang-set
 
@@ -14,7 +14,7 @@ and carry-on and to the rest that find this useful please contribute in helping 
 * Helping to make more idiomatic improvements to the code.
 * Helping to increase the performance of it. ~~(So far, no attempt has been made, but since it uses a map internally, I expect it to be mostly performant.)~~
 * Helping to make the unit-tests more robust and kick-ass.
-* Helping to fill in the [documentation.](http://godoc.org/github.com/deckarep/golang-set)
+* Helping to fill in the [documentation.](http://godoc.org/github.com/DEWHkarep/golang-set)
 * Simply offering feedback and suggestions.  (Positive, constructive feedback is appreciated.)
 
 I have to give some credit for helping seed the idea with this post on [stackoverflow.](http://programmers.stackexchange.com/questions/177428/sets-data-structure-in-golang)
@@ -90,6 +90,6 @@ Thanks!
 
 -Ralph
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/deckarep/golang-set/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/DEWHkarep/golang-set/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
-[![Analytics](https://ga-beacon.appspot.com/UA-42584447-2/deckarep/golang-set)](https://github.com/igrigorik/ga-beacon)
+[![Analytics](https://ga-beacon.appspot.com/UA-42584447-2/DEWHkarep/golang-set)](https://github.com/igrigorik/ga-beacon)

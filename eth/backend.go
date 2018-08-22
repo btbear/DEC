@@ -1,20 +1,20 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package eth implements the DEC protocol.
+// Package eth implements the DEWH protocol.
 package eth
 
 import (
@@ -25,30 +25,30 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/DEC/go-DEC/accounts"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/consensus"
-	"github.com/DEC/go-DEC/consensus/clique"
-	"github.com/DEC/go-DEC/consensus/ethash"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/core/bloombits"
-	"github.com/DEC/go-DEC/core/rawdb"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/core/vm"
-	"github.com/DEC/go-DEC/eth/downloader"
-	"github.com/DEC/go-DEC/eth/filters"
-	"github.com/DEC/go-DEC/eth/gasprice"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/event"
-	"github.com/DEC/go-DEC/internal/ethapi"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/miner"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/params"
-	"github.com/DEC/go-DEC/rlp"
-	"github.com/DEC/go-DEC/rpc"
+	"github.com/DEWH/go-DEWH/accounts"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/consensus"
+	"github.com/DEWH/go-DEWH/consensus/clique"
+	"github.com/DEWH/go-DEWH/consensus/ethash"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/core/bloombits"
+	"github.com/DEWH/go-DEWH/core/rawdb"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/core/vm"
+	"github.com/DEWH/go-DEWH/eth/downloader"
+	"github.com/DEWH/go-DEWH/eth/filters"
+	"github.com/DEWH/go-DEWH/eth/gasprice"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/event"
+	"github.com/DEWH/go-DEWH/internal/ethapi"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/miner"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/params"
+	"github.com/DEWH/go-DEWH/rlp"
+	"github.com/DEWH/go-DEWH/rpc"
 )
 
 type LesServer interface {
@@ -58,13 +58,13 @@ type LesServer interface {
 	SetBloomBitsIndexer(bbIndexer *core.ChainIndexer)
 }
 
-// DEC implements the DEC full node service.
-type DEC struct {
+// DEWH implements the DEWH full node service.
+type DEWH struct {
 	config      *Config
 	chainConfig *params.ChainConfig
 
 	// Channel for shutting down the service
-	shutdownChan chan bool // Channel for shutting down the DEC
+	shutdownChan chan bool // Channel for shutting down the DEWH
 
 	// Handlers
 	txPool          *core.TxPool
@@ -94,16 +94,16 @@ type DEC struct {
 	lock sync.RWMutex // Protects the variadic fields (e.g. gas price and etherbase)
 }
 
-func (s *DEC) AddLesServer(ls LesServer) {
+func (s *DEWH) AddLesServer(ls LesServer) {
 	s.lesServer = ls
 	ls.SetBloomBitsIndexer(s.bloomIndexer)
 }
 
-// New creates a new DEC object (including the
-// initialisation of the common DEC object)
-func New(ctx *node.ServiceContext, config *Config) (*DEC, error) {
+// New creates a new DEWH object (including the
+// initialisation of the common DEWH object)
+func New(ctx *node.ServiceContext, config *Config) (*DEWH, error) {
 	if config.SyncMode == downloader.LightSync {
-		return nil, errors.New("can't run eth.DEC in light sync mode, use les.LightDEC")
+		return nil, errors.New("can't run eth.DEWH in light sync mode, use les.LightDEWH")
 	}
 	if !config.SyncMode.IsValid() {
 		return nil, fmt.Errorf("invalid sync mode %d", config.SyncMode)
@@ -118,7 +118,7 @@ func New(ctx *node.ServiceContext, config *Config) (*DEC, error) {
 	}
 	log.Info("Initialised chain configuration", "config", chainConfig)
 
-	eth := &DEC{
+	eth := &DEWH{
 		config:         config,
 		chainDb:        chainDb,
 		chainConfig:    chainConfig,
@@ -133,7 +133,7 @@ func New(ctx *node.ServiceContext, config *Config) (*DEC, error) {
 		bloomIndexer:   NewBloomIndexer(chainDb, params.BloomBitsBlocks),
 	}
 
-	log.Info("Initialising DEC protocol", "versions", ProtocolVersions, "network", config.NetworkId)
+	log.Info("Initialising DEWH protocol", "versions", ProtocolVersions, "network", config.NetworkId)
 
 	if !config.SkipBcVersionCheck {
 		bcVersion := rawdb.ReadDatabaseVersion(chainDb)
@@ -208,7 +208,7 @@ func CreateDB(ctx *node.ServiceContext, config *Config, name string) (ethdb.Data
 	return db, nil
 }
 
-// CreateConsensusEngine creates the required type of consensus engine instance for an DEC service
+// CreateConsensusEngine creates the required type of consensus engine instance for an DEWH service
 func CreateConsensusEngine(ctx *node.ServiceContext, config *ethash.Config, chainConfig *params.ChainConfig, db ethdb.Database) consensus.Engine {
 	// If proof-of-authority is requested, set it up
 	if chainConfig.Clique != nil {
@@ -239,9 +239,9 @@ func CreateConsensusEngine(ctx *node.ServiceContext, config *ethash.Config, chai
 	}
 }
 
-// APIs return the collection of RPC services the DEC package offers.
+// APIs return the collection of RPC services the DEWH package offers.
 // NOTE, some of these services probably need to be moved to somewhere else.
-func (s *DEC) APIs() []rpc.API {
+func (s *DEWH) APIs() []rpc.API {
 	apis := ethapi.GetAPIs(s.APIBackend)
 
 	// Append any APIs exposed explicitly by the consensus engine
@@ -252,7 +252,7 @@ func (s *DEC) APIs() []rpc.API {
 		{
 			Namespace: "eth",
 			Version:   "1.0",
-			Service:   NewPublicDECAPI(s),
+			Service:   NewPublicDEWHAPI(s),
 			Public:    true,
 		}, {
 			Namespace: "eth",
@@ -296,11 +296,11 @@ func (s *DEC) APIs() []rpc.API {
 	}...)
 }
 
-func (s *DEC) ResetWithGenesisBlock(gb *types.Block) {
+func (s *DEWH) ResetWithGenesisBlock(gb *types.Block) {
 	s.blockchain.ResetWithGenesisBlock(gb)
 }
 
-func (s *DEC) Etherbase() (eb common.Address, err error) {
+func (s *DEWH) Etherbase() (eb common.Address, err error) {
 	s.lock.RLock()
 	etherbase := s.etherbase
 	s.lock.RUnlock()
@@ -324,7 +324,7 @@ func (s *DEC) Etherbase() (eb common.Address, err error) {
 }
 
 // SetEtherbase sets the mining reward address.
-func (s *DEC) SetEtherbase(etherbase common.Address) {
+func (s *DEWH) SetEtherbase(etherbase common.Address) {
 	s.lock.Lock()
 	s.etherbase = etherbase
 	s.lock.Unlock()
@@ -332,7 +332,7 @@ func (s *DEC) SetEtherbase(etherbase common.Address) {
 	s.miner.SetEtherbase(etherbase)
 }
 
-func (s *DEC) StartMining(local bool) error {
+func (s *DEWH) StartMining(local bool) error {
 	eb, err := s.Etherbase()
 	if err != nil {
 		log.Error("Cannot start mining without etherbase", "err", err)
@@ -357,24 +357,24 @@ func (s *DEC) StartMining(local bool) error {
 	return nil
 }
 
-func (s *DEC) StopMining()         { s.miner.Stop() }
-func (s *DEC) IsMining() bool      { return s.miner.Mining() }
-func (s *DEC) Miner() *miner.Miner { return s.miner }
+func (s *DEWH) StopMining()         { s.miner.Stop() }
+func (s *DEWH) IsMining() bool      { return s.miner.Mining() }
+func (s *DEWH) Miner() *miner.Miner { return s.miner }
 
-func (s *DEC) AccountManager() *accounts.Manager  { return s.accountManager }
-func (s *DEC) BlockChain() *core.BlockChain       { return s.blockchain }
-func (s *DEC) TxPool() *core.TxPool               { return s.txPool }
-func (s *DEC) EventMux() *event.TypeMux           { return s.eventMux }
-func (s *DEC) Engine() consensus.Engine           { return s.engine }
-func (s *DEC) ChainDb() ethdb.Database            { return s.chainDb }
-func (s *DEC) IsListening() bool                  { return true } // Always listening
-func (s *DEC) EthVersion() int                    { return int(s.protocolManager.SubProtocols[0].Version) }
-func (s *DEC) NetVersion() uint64                 { return s.networkID }
-func (s *DEC) Downloader() *downloader.Downloader { return s.protocolManager.downloader }
+func (s *DEWH) AccountManager() *accounts.Manager  { return s.accountManager }
+func (s *DEWH) BlockChain() *core.BlockChain       { return s.blockchain }
+func (s *DEWH) TxPool() *core.TxPool               { return s.txPool }
+func (s *DEWH) EventMux() *event.TypeMux           { return s.eventMux }
+func (s *DEWH) Engine() consensus.Engine           { return s.engine }
+func (s *DEWH) ChainDb() ethdb.Database            { return s.chainDb }
+func (s *DEWH) IsListening() bool                  { return true } // Always listening
+func (s *DEWH) EthVersion() int                    { return int(s.protocolManager.SubProtocols[0].Version) }
+func (s *DEWH) NetVersion() uint64                 { return s.networkID }
+func (s *DEWH) Downloader() *downloader.Downloader { return s.protocolManager.downloader }
 
 // Protocols implements node.Service, returning all the currently configured
 // network protocols to start.
-func (s *DEC) Protocols() []p2p.Protocol {
+func (s *DEWH) Protocols() []p2p.Protocol {
 	if s.lesServer == nil {
 		return s.protocolManager.SubProtocols
 	}
@@ -382,8 +382,8 @@ func (s *DEC) Protocols() []p2p.Protocol {
 }
 
 // Start implements node.Service, starting all internal goroutines needed by the
-// DEC protocol implementation.
-func (s *DEC) Start(srvr *p2p.Server) error {
+// DEWH protocol implementation.
+func (s *DEWH) Start(srvr *p2p.Server) error {
 	// Start the bloom bits servicing goroutines
 	s.startBloomHandlers()
 
@@ -407,8 +407,8 @@ func (s *DEC) Start(srvr *p2p.Server) error {
 }
 
 // Stop implements node.Service, terminating all internal goroutines used by the
-// DEC protocol.
-func (s *DEC) Stop() error {
+// DEWH protocol.
+func (s *DEWH) Stop() error {
 	s.bloomIndexer.Close()
 	s.blockchain.Stop()
 	s.protocolManager.Stop()

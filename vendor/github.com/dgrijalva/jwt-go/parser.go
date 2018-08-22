@@ -9,7 +9,7 @@ import (
 
 type Parser struct {
 	ValidMethods         []string // If populated, only these methods will be considered valid
-	UseJSONNumber        bool     // Use JSON Number format in JSON decoder
+	UseJSONNumber        bool     // Use JSON Number format in JSON DEWHoder
 	SkipClaimsValidation bool     // Skip claims validation during token parsing
 }
 
@@ -31,7 +31,7 @@ func (p *Parser) ParseWithClaims(tokenString string, claims Claims, keyFunc Keyf
 
 	// parse Header
 	var headerBytes []byte
-	if headerBytes, err = DecodeSegment(parts[0]); err != nil {
+	if headerBytes, err = DEWHodeSegment(parts[0]); err != nil {
 		if strings.HasPrefix(strings.ToLower(tokenString), "bearer ") {
 			return token, NewValidationError("tokenstring should not contain 'bearer '", ValidationErrorMalformed)
 		}
@@ -45,20 +45,20 @@ func (p *Parser) ParseWithClaims(tokenString string, claims Claims, keyFunc Keyf
 	var claimBytes []byte
 	token.Claims = claims
 
-	if claimBytes, err = DecodeSegment(parts[1]); err != nil {
+	if claimBytes, err = DEWHodeSegment(parts[1]); err != nil {
 		return token, &ValidationError{Inner: err, Errors: ValidationErrorMalformed}
 	}
-	dec := json.NewDecoder(bytes.NewBuffer(claimBytes))
+	DEWH := json.NewDEWHoder(bytes.NewBuffer(claimBytes))
 	if p.UseJSONNumber {
-		dec.UseNumber()
+		DEWH.UseNumber()
 	}
-	// JSON Decode.  Special case for map type to avoid weird pointer behavior
+	// JSON DEWHode.  Special case for map type to avoid weird pointer behavior
 	if c, ok := token.Claims.(MapClaims); ok {
-		err = dec.Decode(&c)
+		err = DEWH.DEWHode(&c)
 	} else {
-		err = dec.Decode(&claims)
+		err = DEWH.DEWHode(&claims)
 	}
-	// Handle decode error
+	// Handle DEWHode error
 	if err != nil {
 		return token, &ValidationError{Inner: err, Errors: ValidationErrorMalformed}
 	}

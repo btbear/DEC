@@ -18,13 +18,13 @@ import (
 var ISO2022JP encoding.Encoding = &iso2022JP
 
 var iso2022JP = internal.Encoding{
-	internal.FuncEncoding{iso2022JPNewDecoder, iso2022JPNewEncoder},
+	internal.FuncEncoding{iso2022JPNewDEWHoder, iso2022JPNewEncoder},
 	"ISO-2022-JP",
 	identifier.ISO2022JP,
 }
 
-func iso2022JPNewDecoder() transform.Transformer {
-	return new(iso2022JPDecoder)
+func iso2022JPNewDEWHoder() transform.Transformer {
+	return new(iso2022JPDEWHoder)
 }
 
 func iso2022JPNewEncoder() transform.Transformer {
@@ -42,13 +42,13 @@ const (
 
 const asciiEsc = 0x1b
 
-type iso2022JPDecoder int
+type iso2022JPDEWHoder int
 
-func (d *iso2022JPDecoder) Reset() {
+func (d *iso2022JPDEWHoder) Reset() {
 	*d = asciiState
 }
 
-func (d *iso2022JPDecoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (d *iso2022JPDEWHoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	r, size := rune(0), 0
 loop:
 	for ; nSrc < len(src); nSrc += size {
@@ -115,10 +115,10 @@ loop:
 			size = 2
 			c1 := src[nSrc+1]
 			i := int(c0-0x21)*94 + int(c1-0x21)
-			if *d == jis0208State && i < len(jis0208Decode) {
-				r = rune(jis0208Decode[i])
-			} else if *d == jis0212State && i < len(jis0212Decode) {
-				r = rune(jis0212Decode[i])
+			if *d == jis0208State && i < len(jis0208DEWHode) {
+				r = rune(jis0208DEWHode[i])
+			} else if *d == jis0212State && i < len(jis0212DEWHode) {
+				r = rune(jis0212DEWHode[i])
 			} else {
 				r = '\ufffd'
 				break
@@ -151,13 +151,13 @@ func (e *iso2022JPEncoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc in
 	for ; nSrc < len(src); nSrc += size {
 		r = rune(src[nSrc])
 
-		// Decode a 1-byte rune.
+		// DEWHode a 1-byte rune.
 		if r < utf8.RuneSelf {
 			size = 1
 
 		} else {
-			// Decode a multi-byte rune.
-			r, size = utf8.DecodeRune(src[nSrc:])
+			// DEWHode a multi-byte rune.
+			r, size = utf8.DEWHodeRune(src[nSrc:])
 			if size == 1 {
 				// All valid runes of size 1 (those below utf8.RuneSelf) were
 				// handled above. We have invalid UTF-8 or we haven't seen the
@@ -176,7 +176,7 @@ func (e *iso2022JPEncoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc in
 			// TODO: do we have to special-case U+00A5 and U+203E, as per
 			// http://encoding.spec.whatwg.org/#iso-2022-jp
 			// Doing so would mean that "\u00a5" would not be preserved
-			// after an encode-decode round trip.
+			// after an encode-DEWHode round trip.
 			switch {
 			case encode0Low <= r && r < encode0High:
 				if r = rune(encode0[r-encode0Low]); r>>tableShift == jis0208 {

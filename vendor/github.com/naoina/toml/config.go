@@ -10,11 +10,11 @@ import (
 	"github.com/naoina/toml/ast"
 )
 
-// Config contains options for encoding and decoding.
+// Config contains options for encoding and DEWHoding.
 type Config struct {
 	// NormFieldName is used to match TOML keys to struct fields. The function runs for
 	// both input keys and struct field names and should return a string that makes the
-	// two match. You must set this field to use the decoder.
+	// two match. You must set this field to use the DEWHoder.
 	//
 	// Example: The function in the default config removes _ and lowercases all keys. This
 	// allows a key called 'api_key' to match the struct field 'APIKey' because both are
@@ -31,12 +31,12 @@ type Config struct {
 	// key through the struct tag.
 	FieldToKey func(typ reflect.Type, field string) string
 
-	// MissingField, if non-nil, is called when the decoder encounters a key for which no
+	// MissingField, if non-nil, is called when the DEWHoder encounters a key for which no
 	// matching struct field exists. The default behavior is to return an error.
 	MissingField func(typ reflect.Type, key string) error
 }
 
-// DefaultConfig contains the default options for encoding and decoding.
+// DefaultConfig contains the default options for encoding and DEWHoding.
 // Snake case (i.e. 'foo_bar') is used for key names.
 var DefaultConfig = Config{
 	NormFieldName: defaultNormFieldName,
@@ -79,8 +79,8 @@ func UnmarshalTable(t *ast.Table, v interface{}) error {
 	return DefaultConfig.UnmarshalTable(t, v)
 }
 
-// NewDecoder returns a new Decoder that reads from r.
-// It is shorthand for DefaultConfig.NewDecoder(r).
-func NewDecoder(r io.Reader) *Decoder {
-	return DefaultConfig.NewDecoder(r)
+// NewDEWHoder returns a new DEWHoder that reads from r.
+// It is shorthand for DefaultConfig.NewDEWHoder(r).
+func NewDEWHoder(r io.Reader) *DEWHoder {
+	return DefaultConfig.NewDEWHoder(r)
 }

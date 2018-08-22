@@ -1,25 +1,25 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 /*
 Package protocols is an extension to p2p. It offers a user friendly simple way to define
 devp2p subprotocols by abstracting away code standardly shared by protocols.
 
 * automate assigments of code indexes to messages
-* automate RLP decoding/encoding based on reflecting
+* automate RLP DEWHoding/encoding based on reflecting
 * provide the forever loop to read incoming messages
 * standardise error handling related to communication
 * standardised	handshake negotiation
@@ -38,19 +38,19 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/metrics"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/rlp"
-	"github.com/DEC/go-DEC/swarm/spancontext"
-	"github.com/DEC/go-DEC/swarm/tracing"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/metrics"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/rlp"
+	"github.com/DEWH/go-DEWH/swarm/spancontext"
+	"github.com/DEWH/go-DEWH/swarm/tracing"
 	opentracing "github.com/opentracing/opentracing-go"
 )
 
 // error codes used by this  protocol scheme
 const (
 	ErrMsgTooLong = iota
-	ErrDecode
+	ErrDEWHode
 	ErrWrite
 	ErrInvalidMsgCode
 	ErrInvalidMsgType
@@ -62,7 +62,7 @@ const (
 // error description strings associated with the codes
 var errorToString = map[int]string{
 	ErrMsgTooLong:     "Message too long",
-	ErrDecode:         "Invalid message (RLP error)",
+	ErrDEWHode:         "Invalid message (RLP error)",
 	ErrWrite:          "Error sending message",
 	ErrInvalidMsgCode: "Invalid message code",
 	ErrInvalidMsgType: "Invalid message type",
@@ -287,7 +287,7 @@ func (p *Peer) Send(ctx context.Context, msg interface{}) error {
 // this generic handler
 // * checks message size,
 // * checks for out-of-range message codes,
-// * handles decoding with reflection,
+// * handles DEWHoding with reflection,
 // * call handlers as callbacks
 func (p *Peer) handleIncoming(handle func(ctx context.Context, msg interface{}) error) error {
 	msg, err := p.rw.ReadMsg()
@@ -303,7 +303,7 @@ func (p *Peer) handleIncoming(handle func(ctx context.Context, msg interface{}) 
 
 	// unmarshal wrapped msg, which might contain context
 	var wmsg WrappedMsg
-	err = msg.Decode(&wmsg)
+	err = msg.DEWHode(&wmsg)
 	if err != nil {
 		log.Error(err.Error())
 		return err
@@ -332,12 +332,12 @@ func (p *Peer) handleIncoming(handle func(ctx context.Context, msg interface{}) 
 	if !ok {
 		return errorf(ErrInvalidMsgCode, "%v", msg.Code)
 	}
-	if err := rlp.DecodeBytes(wmsg.Payload, val); err != nil {
-		return errorf(ErrDecode, "<= %v: %v", msg, err)
+	if err := rlp.DEWHodeBytes(wmsg.Payload, val); err != nil {
+		return errorf(ErrDEWHode, "<= %v: %v", msg, err)
 	}
 
 	// call the registered handler callbacks
-	// a registered callback take the decoded message as argument as an interface
+	// a registered callback take the DEWHoded message as argument as an interface
 	// which the handler is supposed to cast to the appropriate type
 	// it is entirely safe not to check the cast in the handler since the handler is
 	// chosen based on the proper type in the first place

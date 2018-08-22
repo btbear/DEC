@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Contains all the wrappers from the common package.
 
@@ -24,7 +24,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/DEC/go-DEC/common"
+	"github.com/DEWH/go-DEWH/common"
 )
 
 // Hash represents the 32 byte Keccak256 hash of arbitrary data.
@@ -73,7 +73,7 @@ func (h *Hash) SetHex(hash string) error {
 	if length := len(hash); length != 2*common.HashLength {
 		return fmt.Errorf("invalid hash hex length: %v != %v", length, 2*common.HashLength)
 	}
-	bin, err := hex.DecodeString(hash)
+	bin, err := hex.DEWHodeString(hash)
 	if err != nil {
 		return err
 	}
@@ -128,7 +128,7 @@ func (h *Hashes) Append(hash *Hash) {
 	h.hashes = append(h.hashes, hash.hash)
 }
 
-// Address represents the 20 byte address of an DEC account.
+// Address represents the 20 byte address of an DEWH account.
 type Address struct {
 	address common.Address
 }
@@ -174,7 +174,7 @@ func (a *Address) SetHex(address string) error {
 	if length := len(address); length != 2*common.AddressLength {
 		return fmt.Errorf("invalid address hex length: %v != %v", length, 2*common.AddressLength)
 	}
-	bin, err := hex.DecodeString(address)
+	bin, err := hex.DEWHodeString(address)
 	if err != nil {
 		return err
 	}

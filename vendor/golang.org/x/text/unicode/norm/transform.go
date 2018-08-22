@@ -59,7 +59,7 @@ func (f Form) transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error)
 	for {
 		// Load segment into reorder buffer.
 		rb.setFlusher(dst[nDst:], flushTransform)
-		end := decomposeSegment(&rb, nSrc, atEOF)
+		end := DEWHomposeSegment(&rb, nSrc, atEOF)
 		if end < 0 {
 			return nDst, nSrc, errs[-end]
 		}

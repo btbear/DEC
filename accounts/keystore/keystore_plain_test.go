@@ -1,18 +1,18 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package keystore
 
@@ -27,8 +27,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/crypto"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/crypto"
 )
 
 func tmpKeyStoreIface(t *testing.T, encrypted bool) (dir string, ks keyStore) {
@@ -86,7 +86,7 @@ func TestKeyStorePassphrase(t *testing.T) {
 	}
 }
 
-func TestKeyStorePassphraseDecryptionFail(t *testing.T) {
+func TestKeyStorePassphraseDEWHryptionFail(t *testing.T) {
 	dir, ks := tmpKeyStoreIface(t, true)
 	defer os.RemoveAll(dir)
 
@@ -95,8 +95,8 @@ func TestKeyStorePassphraseDecryptionFail(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if _, err = ks.GetKey(k1.Address, account.URL.Path, "bar"); err != ErrDecrypt {
-		t.Fatalf("wrong error for invalid passphrase\ngot %q\nwant %q", err, ErrDecrypt)
+	if _, err = ks.GetKey(k1.Address, account.URL.Path, "bar"); err != ErrDEWHrypt {
+		t.Fatalf("wrong error for invalid passphrase\ngot %q\nwant %q", err, ErrDEWHrypt)
 	}
 }
 
@@ -121,7 +121,7 @@ func TestImportPreSaleKey(t *testing.T) {
 	}
 }
 
-// Test and utils for the key store tests in the DEC JSON tests;
+// Test and utils for the key store tests in the DEWH JSON tests;
 // testdataKeyStoreTests/basic_tests.json
 type KeyStoreTestV3 struct {
 	Json     encryptedKeyJSONV3
@@ -138,7 +138,7 @@ type KeyStoreTestV1 struct {
 func TestV3_PBKDF2_1(t *testing.T) {
 	t.Parallel()
 	tests := loadKeyStoreTestV3("testdata/v3_test_vector.json", t)
-	testDecryptV3(tests["wikipage_test_vector_pbkdf2"], t)
+	testDEWHryptV3(tests["wikipage_test_vector_pbkdf2"], t)
 }
 
 var testsSubmodule = filepath.Join("..", "..", "tests", "testdata", "KeyStoreTests")
@@ -153,40 +153,40 @@ func TestV3_PBKDF2_2(t *testing.T) {
 	skipIfSubmoduleMissing(t)
 	t.Parallel()
 	tests := loadKeyStoreTestV3(filepath.Join(testsSubmodule, "basic_tests.json"), t)
-	testDecryptV3(tests["test1"], t)
+	testDEWHryptV3(tests["test1"], t)
 }
 
 func TestV3_PBKDF2_3(t *testing.T) {
 	skipIfSubmoduleMissing(t)
 	t.Parallel()
 	tests := loadKeyStoreTestV3(filepath.Join(testsSubmodule, "basic_tests.json"), t)
-	testDecryptV3(tests["python_generated_test_with_odd_iv"], t)
+	testDEWHryptV3(tests["python_generated_test_with_odd_iv"], t)
 }
 
 func TestV3_PBKDF2_4(t *testing.T) {
 	skipIfSubmoduleMissing(t)
 	t.Parallel()
 	tests := loadKeyStoreTestV3(filepath.Join(testsSubmodule, "basic_tests.json"), t)
-	testDecryptV3(tests["evilnonce"], t)
+	testDEWHryptV3(tests["evilnonce"], t)
 }
 
 func TestV3_Scrypt_1(t *testing.T) {
 	t.Parallel()
 	tests := loadKeyStoreTestV3("testdata/v3_test_vector.json", t)
-	testDecryptV3(tests["wikipage_test_vector_scrypt"], t)
+	testDEWHryptV3(tests["wikipage_test_vector_scrypt"], t)
 }
 
 func TestV3_Scrypt_2(t *testing.T) {
 	skipIfSubmoduleMissing(t)
 	t.Parallel()
 	tests := loadKeyStoreTestV3(filepath.Join(testsSubmodule, "basic_tests.json"), t)
-	testDecryptV3(tests["test2"], t)
+	testDEWHryptV3(tests["test2"], t)
 }
 
 func TestV1_1(t *testing.T) {
 	t.Parallel()
 	tests := loadKeyStoreTestV1("testdata/v1_test_vector.json", t)
-	testDecryptV1(tests["test1"], t)
+	testDEWHryptV1(tests["test1"], t)
 }
 
 func TestV1_2(t *testing.T) {
@@ -205,25 +205,25 @@ func TestV1_2(t *testing.T) {
 	}
 }
 
-func testDecryptV3(test KeyStoreTestV3, t *testing.T) {
-	privBytes, _, err := decryptKeyV3(&test.Json, test.Password)
+func testDEWHryptV3(test KeyStoreTestV3, t *testing.T) {
+	privBytes, _, err := DEWHryptKeyV3(&test.Json, test.Password)
 	if err != nil {
 		t.Fatal(err)
 	}
 	privHex := hex.EncodeToString(privBytes)
 	if test.Priv != privHex {
-		t.Fatal(fmt.Errorf("Decrypted bytes not equal to test, expected %v have %v", test.Priv, privHex))
+		t.Fatal(fmt.Errorf("DEWHrypted bytes not equal to test, expected %v have %v", test.Priv, privHex))
 	}
 }
 
-func testDecryptV1(test KeyStoreTestV1, t *testing.T) {
-	privBytes, _, err := decryptKeyV1(&test.Json, test.Password)
+func testDEWHryptV1(test KeyStoreTestV1, t *testing.T) {
+	privBytes, _, err := DEWHryptKeyV1(&test.Json, test.Password)
 	if err != nil {
 		t.Fatal(err)
 	}
 	privHex := hex.EncodeToString(privBytes)
 	if test.Priv != privHex {
-		t.Fatal(fmt.Errorf("Decrypted bytes not equal to test, expected %v have %v", test.Priv, privHex))
+		t.Fatal(fmt.Errorf("DEWHrypted bytes not equal to test, expected %v have %v", test.Priv, privHex))
 	}
 }
 
@@ -256,11 +256,11 @@ func TestKeyForDirectICAP(t *testing.T) {
 func TestV3_31_Byte_Key(t *testing.T) {
 	t.Parallel()
 	tests := loadKeyStoreTestV3("testdata/v3_test_vector.json", t)
-	testDecryptV3(tests["31_byte_key"], t)
+	testDEWHryptV3(tests["31_byte_key"], t)
 }
 
 func TestV3_30_Byte_Key(t *testing.T) {
 	t.Parallel()
 	tests := loadKeyStoreTestV3("testdata/v3_test_vector.json", t)
-	testDecryptV3(tests["30_byte_key"], t)
+	testDEWHryptV3(tests["30_byte_key"], t)
 }

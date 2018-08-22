@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package pss
 
@@ -26,18 +26,18 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/metrics"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/protocols"
-	"github.com/DEC/go-DEC/rpc"
-	"github.com/DEC/go-DEC/swarm/log"
-	"github.com/DEC/go-DEC/swarm/network"
-	"github.com/DEC/go-DEC/swarm/pot"
-	"github.com/DEC/go-DEC/swarm/storage"
-	whisper "github.com/DEC/go-DEC/whisper/whisperv5"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/metrics"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/protocols"
+	"github.com/DEWH/go-DEWH/rpc"
+	"github.com/DEWH/go-DEWH/swarm/log"
+	"github.com/DEWH/go-DEWH/swarm/network"
+	"github.com/DEWH/go-DEWH/swarm/pot"
+	"github.com/DEWH/go-DEWH/swarm/storage"
+	whisper "github.com/DEWH/go-DEWH/whisper/whisperv5"
 )
 
 const (
@@ -106,7 +106,7 @@ func (params *PssParams) WithPrivateKey(privatekey *ecdsa.PrivateKey) *PssParams
 	return params
 }
 
-// Toplevel pss object, takes care of message sending, receiving, decryption and encryption, message handler dispatchers and message forwarding.
+// Toplevel pss object, takes care of message sending, receiving, DEWHryption and encryption, message handler dispatchers and message forwarding.
 //
 // Implements node.Service
 type Pss struct {
@@ -131,9 +131,9 @@ type Pss struct {
 	pubKeyPoolMu               sync.RWMutex
 	symKeyPool                 map[string]map[Topic]*pssPeer // mapping of symkeyids to peer address by topic.
 	symKeyPoolMu               sync.RWMutex
-	symKeyDecryptCache         []*string // fast lookup of symkeys recently used for decryption; last used is on top of stack
-	symKeyDecryptCacheCursor   int       // modular cursor pointing to last used, wraps on symKeyDecryptCache array
-	symKeyDecryptCacheCapacity int       // max amount of symkeys to keep.
+	symKeyDEWHryptCache         []*string // fast lookup of symkeys recently used for DEWHryption; last used is on top of stack
+	symKeyDEWHryptCacheCursor   int       // modular cursor pointing to last used, wraps on symKeyDEWHryptCache array
+	symKeyDEWHryptCacheCapacity int       // max amount of symkeys to keep.
 
 	// message handling
 	handlers   map[Topic]map[*Handler]bool // topic and version based pss payload handlers. See pss.Handle()
@@ -177,8 +177,8 @@ func NewPss(k network.Overlay, params *PssParams) (*Pss, error) {
 
 		pubKeyPool:                 make(map[string]map[Topic]*pssPeer),
 		symKeyPool:                 make(map[string]map[Topic]*pssPeer),
-		symKeyDecryptCache:         make([]*string, params.SymKeyCacheCapacity),
-		symKeyDecryptCacheCapacity: params.SymKeyCacheCapacity,
+		symKeyDEWHryptCache:         make([]*string, params.SymKeyCacheCapacity),
+		symKeyDEWHryptCacheCapacity: params.SymKeyCacheCapacity,
 
 		handlers: make(map[Topic]map[*Handler]bool),
 		allowRaw: params.AllowRaw,
@@ -381,7 +381,7 @@ func (p *Pss) handlePssMsg(ctx context.Context, msg interface{}) error {
 }
 
 // Entry point to processing a message for which the current node can be the intended recipient.
-// Attempts symmetric and asymmetric decryption with stored keys.
+// Attempts symmetric and asymmetric DEWHryption with stored keys.
 // Dispatches message to all handlers matching the message topic
 func (p *Pss) process(pssmsg *PssMsg) error {
 	metrics.GetOrRegisterCounter("pss.process", nil).Inc(1)
@@ -411,7 +411,7 @@ func (p *Pss) process(pssmsg *PssMsg) error {
 
 		recvmsg, keyid, from, err = keyFunc(envelope)
 		if err != nil {
-			return errors.New("Decryption failed")
+			return errors.New("DEWHryption failed")
 		}
 		payload = recvmsg.Payload
 	}
@@ -498,7 +498,7 @@ func (p *Pss) GenerateSymmetricKey(topic Topic, address *PssAddress, addToCache 
 // The key is stored in the whisper backend.
 //
 // If addtocache is set to true, the key will be added to the cache of keys
-// used to attempt symmetric decryption of incoming messages.
+// used to attempt symmetric DEWHryption of incoming messages.
 //
 // Returns a string id that can be used to retrieve the key bytes
 // from the whisper backend (see pss.GetSymmetricKey())
@@ -516,7 +516,7 @@ func (p *Pss) setSymmetricKey(key []byte, topic Topic, address *PssAddress, addt
 }
 
 // adds a symmetric key to the pss key pool, and optionally adds the key
-// to the collection of keys used to attempt symmetric decryption of
+// to the collection of keys used to attempt symmetric DEWHryption of
 // incoming messages
 func (p *Pss) addSymmetricKeyToPool(keyid string, topic Topic, address *PssAddress, addtocache bool, protected bool) {
 	psp := &pssPeer{
@@ -530,8 +530,8 @@ func (p *Pss) addSymmetricKeyToPool(keyid string, topic Topic, address *PssAddre
 	p.symKeyPool[keyid][topic] = psp
 	p.symKeyPoolMu.Unlock()
 	if addtocache {
-		p.symKeyDecryptCacheCursor++
-		p.symKeyDecryptCache[p.symKeyDecryptCacheCursor%cap(p.symKeyDecryptCache)] = &keyid
+		p.symKeyDEWHryptCacheCursor++
+		p.symKeyDEWHryptCache[p.symKeyDEWHryptCacheCursor%cap(p.symKeyDEWHryptCache)] = &keyid
 	}
 	key, _ := p.GetSymmetricKey(keyid)
 	log.Trace("added symkey", "symkeyid", keyid, "symkey", common.ToHex(key), "topic", topic, "address", fmt.Sprintf("%p", address), "cache", addtocache)
@@ -572,17 +572,17 @@ func (p *Pss) getPeerAddress(keyid string, topic Topic) (PssAddress, error) {
 	return nil, fmt.Errorf("peer with pubkey %s, topic %x not found", keyid, topic)
 }
 
-// Attempt to decrypt, validate and unpack a
+// Attempt to DEWHrypt, validate and unpack a
 // symmetrically encrypted message
 // If successful, returns the unpacked whisper ReceivedMessage struct
-// encapsulating the decrypted message, and the whisper backend id
-// of the symmetric key used to decrypt the message.
-// It fails if decryption of the message fails or if the message is corrupted
+// encapsulating the DEWHrypted message, and the whisper backend id
+// of the symmetric key used to DEWHrypt the message.
+// It fails if DEWHryption of the message fails or if the message is corrupted
 func (p *Pss) processSym(envelope *whisper.Envelope) (*whisper.ReceivedMessage, string, *PssAddress, error) {
 	metrics.GetOrRegisterCounter("pss.process.sym", nil).Inc(1)
 
-	for i := p.symKeyDecryptCacheCursor; i > p.symKeyDecryptCacheCursor-cap(p.symKeyDecryptCache) && i > 0; i-- {
-		symkeyid := p.symKeyDecryptCache[i%cap(p.symKeyDecryptCache)]
+	for i := p.symKeyDEWHryptCacheCursor; i > p.symKeyDEWHryptCacheCursor-cap(p.symKeyDEWHryptCache) && i > 0; i-- {
+		symkeyid := p.symKeyDEWHryptCache[i%cap(p.symKeyDEWHryptCache)]
 		symkey, err := p.w.GetSymKey(*symkeyid)
 		if err != nil {
 			continue
@@ -597,25 +597,25 @@ func (p *Pss) processSym(envelope *whisper.Envelope) (*whisper.ReceivedMessage, 
 		p.symKeyPoolMu.Lock()
 		from := p.symKeyPool[*symkeyid][Topic(envelope.Topic)].address
 		p.symKeyPoolMu.Unlock()
-		p.symKeyDecryptCacheCursor++
-		p.symKeyDecryptCache[p.symKeyDecryptCacheCursor%cap(p.symKeyDecryptCache)] = symkeyid
+		p.symKeyDEWHryptCacheCursor++
+		p.symKeyDEWHryptCache[p.symKeyDEWHryptCacheCursor%cap(p.symKeyDEWHryptCache)] = symkeyid
 		return recvmsg, *symkeyid, from, nil
 	}
-	return nil, "", nil, fmt.Errorf("could not decrypt message")
+	return nil, "", nil, fmt.Errorf("could not DEWHrypt message")
 }
 
-// Attempt to decrypt, validate and unpack an
+// Attempt to DEWHrypt, validate and unpack an
 // asymmetrically encrypted message
 // If successful, returns the unpacked whisper ReceivedMessage struct
-// encapsulating the decrypted message, and the byte representation of
-// the public key used to decrypt the message.
-// It fails if decryption of message fails, or if the message is corrupted
+// encapsulating the DEWHrypted message, and the byte representation of
+// the public key used to DEWHrypt the message.
+// It fails if DEWHryption of message fails, or if the message is corrupted
 func (p *Pss) processAsym(envelope *whisper.Envelope) (*whisper.ReceivedMessage, string, *PssAddress, error) {
 	metrics.GetOrRegisterCounter("pss.process.asym", nil).Inc(1)
 
 	recvmsg, err := envelope.OpenAsymmetric(p.privateKey)
 	if err != nil {
-		return nil, "", nil, fmt.Errorf("could not decrypt message: %s", err)
+		return nil, "", nil, fmt.Errorf("could not DEWHrypt message: %s", err)
 	}
 	// check signature (if signed), strip padding
 	if !recvmsg.Validate() {
@@ -634,7 +634,7 @@ func (p *Pss) processAsym(envelope *whisper.Envelope) (*whisper.ReceivedMessage,
 // Symkey garbage collection
 // a key is removed if:
 // - it is not marked as protected
-// - it is not in the incoming decryption cache
+// - it is not in the incoming DEWHryption cache
 func (p *Pss) cleanKeys() (count int) {
 	for keyid, peertopics := range p.symKeyPool {
 		var expiredtopics []Topic
@@ -644,8 +644,8 @@ func (p *Pss) cleanKeys() (count int) {
 			}
 
 			var match bool
-			for i := p.symKeyDecryptCacheCursor; i > p.symKeyDecryptCacheCursor-cap(p.symKeyDecryptCache) && i > 0; i-- {
-				cacheid := p.symKeyDecryptCache[i%cap(p.symKeyDecryptCache)]
+			for i := p.symKeyDEWHryptCacheCursor; i > p.symKeyDEWHryptCacheCursor-cap(p.symKeyDEWHryptCache) && i > 0; i-- {
+				cacheid := p.symKeyDEWHryptCache[i%cap(p.symKeyDEWHryptCache)]
 				if *cacheid == keyid {
 					match = true
 				}

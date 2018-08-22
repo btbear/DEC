@@ -48,7 +48,7 @@ const (
 	SamplerParamTagKey = "sampler.param"
 
 	// TraceContextHeaderName is the http header name used to propagate tracing context.
-	// This must be in lower-case to avoid mismatches when decoding incoming headers.
+	// This must be in lower-case to avoid mismatches when DEWHoding incoming headers.
 	TraceContextHeaderName = "uber-trace-id"
 
 	// TracerStateHeaderName is deprecated.
@@ -56,10 +56,10 @@ const (
 	TracerStateHeaderName = TraceContextHeaderName
 
 	// TraceBaggageHeaderPrefix is the prefix for http headers used to propagate baggage.
-	// This must be in lower-case to avoid mismatches when decoding incoming headers.
+	// This must be in lower-case to avoid mismatches when DEWHoding incoming headers.
 	TraceBaggageHeaderPrefix = "uberctx-"
 
-	// SamplerTypeConst is the type of sampler that always makes the same decision.
+	// SamplerTypeConst is the type of sampler that always makes the same DEWHision.
 	SamplerTypeConst = "const"
 
 	// SamplerTypeRemote is the type of sampler that polls Jaeger agent for sampling strategy.

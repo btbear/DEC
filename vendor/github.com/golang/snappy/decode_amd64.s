@@ -8,10 +8,10 @@
 
 #include "textflag.h"
 
-// The asm code generally follows the pure Go code in decode_other.go, except
+// The asm code generally follows the pure Go code in DEWHode_other.go, except
 // where marked with a "!!!".
 
-// func decode(dst, src []byte) int
+// func DEWHode(dst, src []byte) int
 //
 // All local variables fit into registers. The non-zero stack size is only to
 // spill registers and push args when issuing a CALL. The register allocation:
@@ -35,7 +35,7 @@
 //
 // The d variable is implicitly DI - R8,  and len(dst)-d is R10 - DI.
 // The s variable is implicitly SI - R11, and len(src)-s is R13 - SI.
-TEXT ·decode(SB), NOSPLIT, $48-56
+TEXT ·DEWHode(SB), NOSPLIT, $48-56
 	// Initialize SI, DI and R8-R13.
 	MOVQ dst_base+0(FP), R8
 	MOVQ dst_len+8(FP), R9
@@ -80,7 +80,7 @@ doLit:
 	// This is the end of the inner "switch", when we have a literal tag.
 	//
 	// We assume that CX == x and x fits in a uint32, where x is the variable
-	// used in the pure Go decode_other.go code.
+	// used in the pure Go DEWHode_other.go code.
 
 	// length = int(x) + 1
 	//
@@ -107,7 +107,7 @@ doLit:
 	// The C++ snappy code calls this TryFastAppend. It also checks len(src)-s
 	// against 21 instead of 16, because it cannot assume that all of its input
 	// is contiguous in memory and so it needs to leave enough source bytes to
-	// read the next tag without refilling buffers, but Go's Decode assumes
+	// read the next tag without refilling buffers, but Go's DEWHode assumes
 	// contiguousness (the src argument is a []byte).
 	CMPQ CX, $16
 	JGT  callMemmove
@@ -117,11 +117,11 @@ doLit:
 	JLT  callMemmove
 
 	// !!! Implement the copy from src to dst as a 16-byte load and store.
-	// (Decode's documentation says that dst and src must not overlap.)
+	// (DEWHode's documentation says that dst and src must not overlap.)
 	//
 	// This always copies 16 bytes, instead of only length bytes, but that's
 	// OK. If the input is a valid Snappy encoding then subsequent iterations
-	// will fix up the overrun. Otherwise, Decode returns a nil []byte (and a
+	// will fix up the overrun. Otherwise, DEWHode returns a nil []byte (and a
 	// non-nil error), so the overrun will be ignored.
 	//
 	// Note that on amd64, it is legal and cheap to issue unaligned 8-byte or
@@ -466,7 +466,7 @@ verySlowForwardCopy:
 	MOVB BX, (DI)
 	INCQ R15
 	INCQ DI
-	DECQ CX
+	DEWHQ CX
 	JNZ  verySlowForwardCopy
 	JMP  loop
 
@@ -485,6 +485,6 @@ end:
 	RET
 
 errCorrupt:
-	// return decodeErrCodeCorrupt
+	// return DEWHodeErrCoDEWHorrupt
 	MOVQ $1, ret+48(FP)
 	RET

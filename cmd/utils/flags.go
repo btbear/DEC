@@ -1,20 +1,20 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
-// Package utils contains internal helper functions for go-DEC commands.
+// Package utils contains internal helper functions for go-DEWH commands.
 package utils
 
 import (
@@ -29,35 +29,35 @@ import (
 	"strings"
 	"time"
 
-	"github.com/DEC/go-DEC/accounts"
-	"github.com/DEC/go-DEC/accounts/keystore"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/fdlimit"
-	"github.com/DEC/go-DEC/consensus"
-	"github.com/DEC/go-DEC/consensus/clique"
-	"github.com/DEC/go-DEC/consensus/ethash"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/core/state"
-	"github.com/DEC/go-DEC/core/vm"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/dashboard"
-	"github.com/DEC/go-DEC/eth"
-	"github.com/DEC/go-DEC/eth/downloader"
-	"github.com/DEC/go-DEC/eth/gasprice"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/ethstats"
-	"github.com/DEC/go-DEC/les"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/metrics"
-	"github.com/DEC/go-DEC/metrics/influxdb"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/discv5"
-	"github.com/DEC/go-DEC/p2p/nat"
-	"github.com/DEC/go-DEC/p2p/netutil"
-	"github.com/DEC/go-DEC/params"
-	whisper "github.com/DEC/go-DEC/whisper/whisperv6"
+	"github.com/DEWH/go-DEWH/accounts"
+	"github.com/DEWH/go-DEWH/accounts/keystore"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/fdlimit"
+	"github.com/DEWH/go-DEWH/consensus"
+	"github.com/DEWH/go-DEWH/consensus/clique"
+	"github.com/DEWH/go-DEWH/consensus/ethash"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/core/state"
+	"github.com/DEWH/go-DEWH/core/vm"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/dashboard"
+	"github.com/DEWH/go-DEWH/eth"
+	"github.com/DEWH/go-DEWH/eth/downloader"
+	"github.com/DEWH/go-DEWH/eth/gasprice"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/ethstats"
+	"github.com/DEWH/go-DEWH/les"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/metrics"
+	"github.com/DEWH/go-DEWH/metrics/influxdb"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/discv5"
+	"github.com/DEWH/go-DEWH/p2p/nat"
+	"github.com/DEWH/go-DEWH/p2p/netutil"
+	"github.com/DEWH/go-DEWH/params"
+	whisper "github.com/DEWH/go-DEWH/whisper/whisperv6"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -602,7 +602,7 @@ func setNodeKey(ctx *cli.Context, cfg *p2p.Config) {
 	case file != "" && hex != "":
 		Fatalf("Options %q and %q are mutually exclusive", NodeKeyFileFlag.Name, NodeKeyHexFlag.Name)
 	case file != "":
-		if key, err = crypto.LoadECDSA(file); err != nil {
+		if key, err = crypto.LoaDEWHDSA(file); err != nil {
 			Fatalf("Option %q: %v", NodeKeyFileFlag.Name, err)
 		}
 		cfg.PrivateKey = key
@@ -904,8 +904,8 @@ func SetP2PConfig(ctx *cli.Context, cfg *p2p.Config) {
 	}
 }
 
-// SetNodeConfig applies node-related command line flags to the config.
-func SetNodeConfig(ctx *cli.Context, cfg *node.Config) {
+// SetNoDEWHonfig applies node-related command line flags to the config.
+func SetNoDEWHonfig(ctx *cli.Context, cfg *node.Config) {
 	SetP2PConfig(ctx, &cfg.P2P)
 	setIPC(ctx, cfg)
 	setHTTP(ctx, cfg)
@@ -1159,7 +1159,7 @@ func SetDashboardConfig(ctx *cli.Context, cfg *dashboard.Config) {
 	cfg.Refresh = ctx.GlobalDuration(DashboardRefreshFlag.Name)
 }
 
-// RegisterEthService adds an DEC client to the stack.
+// RegisterEthService adds an DEWH client to the stack.
 func RegisterEthService(stack *node.Node, cfg *eth.Config) {
 	var err error
 	if cfg.SyncMode == downloader.LightSync {
@@ -1177,7 +1177,7 @@ func RegisterEthService(stack *node.Node, cfg *eth.Config) {
 		})
 	}
 	if err != nil {
-		Fatalf("Failed to register the DEC service: %v", err)
+		Fatalf("Failed to register the DEWH service: %v", err)
 	}
 }
 
@@ -1197,20 +1197,20 @@ func RegisterShhService(stack *node.Node, cfg *whisper.Config) {
 	}
 }
 
-// RegisterEthStatsService configures the DEC Stats daemon and adds it to
+// RegisterEthStatsService configures the DEWH Stats daemon and adds it to
 // the given node.
 func RegisterEthStatsService(stack *node.Node, url string) {
 	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) {
 		// Retrieve both eth and les services
-		var ethServ *eth.DEC
+		var ethServ *eth.DEWH
 		ctx.Service(&ethServ)
 
-		var lesServ *les.LightDEC
+		var lesServ *les.LightDEWH
 		ctx.Service(&lesServ)
 
 		return ethstats.New(url, ethServ, lesServ)
 	}); err != nil {
-		Fatalf("Failed to register the DEC Stats service: %v", err)
+		Fatalf("Failed to register the DEWH Stats service: %v", err)
 	}
 }
 

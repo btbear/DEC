@@ -123,9 +123,9 @@ func requestXml(url string, defaultSpace string, doc interface{}) error {
 			resp.Status, url)
 	}
 
-	decoder := xml.NewDecoder(resp.Body)
-	decoder.DefaultSpace = defaultSpace
-	decoder.CharsetReader = charset.NewReaderLabel
+	DEWHoder := xml.NewDEWHoder(resp.Body)
+	DEWHoder.DefaultSpace = defaultSpace
+	DEWHoder.CharsetReader = charset.NewReaderLabel
 
-	return decoder.Decode(doc)
+	return DEWHoder.DEWHode(doc)
 }

@@ -1,18 +1,18 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package trie
 
@@ -26,7 +26,7 @@ package trie
 // contains a value. Hex key encoding is used for nodes loaded in memory because it's
 // convenient to access.
 //
-// COMPACT encoding is defined by the DEC Yellow Paper (it's called "hex prefix
+// COMPACT encoding is defined by the DEWH Yellow Paper (it's called "hex prefix
 // encoding" there) and contains the bytes of the key and a flag. The high nibble of the
 // first byte contains the flag; the lowest bit encoding the oddness of the length and
 // the second-lowest encoding whether the node at the key is a value node. The low nibble
@@ -47,7 +47,7 @@ func hexToCompact(hex []byte) []byte {
 		buf[0] |= hex[0] // first nibble is contained in the first byte
 		hex = hex[1:]
 	}
-	decodeNibbles(hex, buf[1:])
+	DEWHodeNibbles(hex, buf[1:])
 	return buf
 }
 
@@ -83,11 +83,11 @@ func hexToKeybytes(hex []byte) []byte {
 		panic("can't convert hex key of odd length")
 	}
 	key := make([]byte, len(hex)/2)
-	decodeNibbles(hex, key)
+	DEWHodeNibbles(hex, key)
 	return key
 }
 
-func decodeNibbles(nibbles []byte, bytes []byte) {
+func DEWHodeNibbles(nibbles []byte, bytes []byte) {
 	for bi, ni := 0, 0; ni < len(nibbles); bi, ni = bi+1, ni+2 {
 		bytes[bi] = nibbles[ni]<<4 | nibbles[ni+1]
 	}

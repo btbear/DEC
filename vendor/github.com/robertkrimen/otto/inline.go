@@ -5818,7 +5818,7 @@ func _newContext(runtime *_runtime) {
 				call: builtinGlobal_isFinite,
 			},
 		}
-		decodeURI_function := &_object{
+		DEWHodeURI_function := &_object{
 			runtime:     runtime,
 			class:       "Function",
 			objectClass: _classObject,
@@ -5837,11 +5837,11 @@ func _newContext(runtime *_runtime) {
 				"length",
 			},
 			value: _nativeFunctionObject{
-				name: "decodeURI",
-				call: builtinGlobal_decodeURI,
+				name: "DEWHodeURI",
+				call: builtinGlobal_DEWHodeURI,
 			},
 		}
-		decodeURIComponent_function := &_object{
+		DEWHodeURIComponent_function := &_object{
 			runtime:     runtime,
 			class:       "Function",
 			objectClass: _classObject,
@@ -5860,8 +5860,8 @@ func _newContext(runtime *_runtime) {
 				"length",
 			},
 			value: _nativeFunctionObject{
-				name: "decodeURIComponent",
-				call: builtinGlobal_decodeURIComponent,
+				name: "DEWHodeURIComponent",
+				call: builtinGlobal_DEWHodeURIComponent,
 			},
 		}
 		encodeURI_function := &_object{
@@ -5992,18 +5992,18 @@ func _newContext(runtime *_runtime) {
 					value: isFinite_function,
 				},
 			},
-			"decodeURI": _property{
+			"DEWHodeURI": _property{
 				mode: 0101,
 				value: Value{
 					kind:  valueObject,
-					value: decodeURI_function,
+					value: DEWHodeURI_function,
 				},
 			},
-			"decodeURIComponent": _property{
+			"DEWHodeURIComponent": _property{
 				mode: 0101,
 				value: Value{
 					kind:  valueObject,
-					value: decodeURIComponent_function,
+					value: DEWHodeURIComponent_function,
 				},
 			},
 			"encodeURI": _property{
@@ -6180,8 +6180,8 @@ func _newContext(runtime *_runtime) {
 			"parseFloat",
 			"isNaN",
 			"isFinite",
-			"decodeURI",
-			"decodeURIComponent",
+			"DEWHodeURI",
+			"DEWHodeURIComponent",
 			"encodeURI",
 			"encodeURIComponent",
 			"escape",

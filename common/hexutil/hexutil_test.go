@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package hexutil
 
@@ -30,8 +30,8 @@ type marshalTest struct {
 type unmarshalTest struct {
 	input        string
 	want         interface{}
-	wantErr      error // if set, decoding must fail on any platform
-	wantErr32bit error // if set, decoding must fail on 32bit platforms (used for Uint tests)
+	wantErr      error // if set, DEWHoding must fail on any platform
+	wantErr32bit error // if set, DEWHoding must fail on 32bit platforms (used for Uint tests)
 }
 
 var (
@@ -64,7 +64,7 @@ var (
 		{uint(0x11223344), "0x11223344"},
 	}
 
-	decodeBytesTests = []unmarshalTest{
+	DEWHodeBytesTests = []unmarshalTest{
 		// invalid
 		{input: ``, wantErr: ErrEmptyString},
 		{input: `0`, wantErr: ErrMissingPrefix},
@@ -84,7 +84,7 @@ var (
 		},
 	}
 
-	decodeBigTests = []unmarshalTest{
+	DEWHodeBigTests = []unmarshalTest{
 		// invalid
 		{input: `0`, wantErr: ErrMissingPrefix},
 		{input: `0x`, wantErr: ErrEmptyNumber},
@@ -117,7 +117,7 @@ var (
 		},
 	}
 
-	decodeUint64Tests = []unmarshalTest{
+	DEWHodeUint64Tests = []unmarshalTest{
 		// invalid
 		{input: `0`, wantErr: ErrMissingPrefix},
 		{input: `0x`, wantErr: ErrEmptyNumber},
@@ -145,14 +145,14 @@ func TestEncode(t *testing.T) {
 	}
 }
 
-func TestDecode(t *testing.T) {
-	for _, test := range decodeBytesTests {
-		dec, err := Decode(test.input)
+func TestDEWHode(t *testing.T) {
+	for _, test := range DEWHodeBytesTests {
+		DEWH, err := DEWHode(test.input)
 		if !checkError(t, test.input, err, test.wantErr) {
 			continue
 		}
-		if !bytes.Equal(test.want.([]byte), dec) {
-			t.Errorf("input %s: value mismatch: got %x, want %x", test.input, dec, test.want)
+		if !bytes.Equal(test.want.([]byte), DEWH) {
+			t.Errorf("input %s: value mismatch: got %x, want %x", test.input, DEWH, test.want)
 			continue
 		}
 	}
@@ -167,14 +167,14 @@ func TestEncodeBig(t *testing.T) {
 	}
 }
 
-func TestDecodeBig(t *testing.T) {
-	for _, test := range decodeBigTests {
-		dec, err := DecodeBig(test.input)
+func TestDEWHodeBig(t *testing.T) {
+	for _, test := range DEWHodeBigTests {
+		DEWH, err := DEWHodeBig(test.input)
 		if !checkError(t, test.input, err, test.wantErr) {
 			continue
 		}
-		if dec.Cmp(test.want.(*big.Int)) != 0 {
-			t.Errorf("input %s: value mismatch: got %x, want %x", test.input, dec, test.want)
+		if DEWH.Cmp(test.want.(*big.Int)) != 0 {
+			t.Errorf("input %s: value mismatch: got %x, want %x", test.input, DEWH, test.want)
 			continue
 		}
 	}
@@ -189,14 +189,14 @@ func TestEncodeUint64(t *testing.T) {
 	}
 }
 
-func TestDecodeUint64(t *testing.T) {
-	for _, test := range decodeUint64Tests {
-		dec, err := DecodeUint64(test.input)
+func TestDEWHodeUint64(t *testing.T) {
+	for _, test := range DEWHodeUint64Tests {
+		DEWH, err := DEWHodeUint64(test.input)
 		if !checkError(t, test.input, err, test.wantErr) {
 			continue
 		}
-		if dec != test.want.(uint64) {
-			t.Errorf("input %s: value mismatch: got %x, want %x", test.input, dec, test.want)
+		if DEWH != test.want.(uint64) {
+			t.Errorf("input %s: value mismatch: got %x, want %x", test.input, DEWH, test.want)
 			continue
 		}
 	}

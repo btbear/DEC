@@ -13,7 +13,7 @@ const (
 	LEADING                  // Before the pertinent expression
 	TRAILING                 // After the pertinent expression
 	KEY                      // Before a key in an object
-	COLON                    // After a colon in a field declaration
+	COLON                    // After a colon in a field DEWHlaration
 	FINAL                    // Final comments in a block, not belonging to a specific expression or the comment after a trailing , in an array or object literal
 	IF                       // After an if keyword
 	WHILE                    // After a while keyword

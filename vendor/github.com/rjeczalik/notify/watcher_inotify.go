@@ -283,7 +283,7 @@ func (i *inotify) transform(es []*event) []*event {
 		} else {
 			e.path = filepath.Join(wd.path, e.path)
 		}
-		multi = append(multi, decode(Event(wd.mask), e))
+		multi = append(multi, DEWHode(Event(wd.mask), e))
 		if e.event == 0 {
 			es[idx] = nil
 		}
@@ -311,12 +311,12 @@ func encode(e Event) uint32 {
 	return uint32(e)
 }
 
-// decode uses internally stored mask to distinguish whether system-independent
+// DEWHode uses internally stored mask to distinguish whether system-independent
 // or system-dependent event is requested. The first one is created by modifying
-// `e` argument. decode method sets e.event value to 0 when an event should be
+// `e` argument. DEWHode method sets e.event value to 0 when an event should be
 // skipped. System-dependent event is set as the function's return value which
 // can be nil when the event should not be passed on.
-func decode(mask Event, e *event) (syse *event) {
+func DEWHode(mask Event, e *event) (syse *event) {
 	if sysmask := uint32(mask) & e.sys.Mask; sysmask != 0 {
 		syse = &event{sys: unix.InotifyEvent{
 			Wd:     e.sys.Wd,

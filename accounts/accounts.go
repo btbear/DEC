@@ -1,35 +1,35 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package accounts implements high level DEC account management.
+// Package accounts implements high level DEWH account management.
 package accounts
 
 import (
 	"math/big"
 
-	DEC "github.com/DEC/go-DEC"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/event"
+	DEWH "github.com/DEWH/go-DEWH"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/event"
 )
 
-// Account represents an DEC account located at a specific location defined
+// Account represents an DEWH account located at a specific location defined
 // by the optional URL field.
 type Account struct {
-	Address common.Address `json:"address"` // DEC account address derived from the key
+	Address common.Address `json:"address"` // DEWH account address derived from the key
 	URL     URL            `json:"url"`     // Optional resource locator within a backend
 }
 
@@ -47,7 +47,7 @@ type Wallet interface {
 	Status() (string, error)
 
 	// Open initializes access to a wallet instance. It is not meant to unlock or
-	// decrypt account keys, rather simply to establish a connection to hardware
+	// DEWHrypt account keys, rather simply to establish a connection to hardware
 	// wallets and/or to access derivation seeds.
 	//
 	// The passphrase parameter may or may not be used by the implementation of a
@@ -80,12 +80,12 @@ type Wallet interface {
 	// accounts.
 	//
 	// Note, self derivaton will increment the last component of the specified path
-	// opposed to decending into a child path to allow discovering accounts starting
+	// opposed to DEWHending into a child path to allow discovering accounts starting
 	// from non zero components.
 	//
 	// You can disable automatic account discovery by calling SelfDerive with a nil
 	// chain state reader.
-	SelfDerive(base DerivationPath, chain DEC.ChainStateReader)
+	SelfDerive(base DerivationPath, chain DEWH.ChainStateReader)
 
 	// SignHash requests the wallet to sign the given hash.
 	//
@@ -93,7 +93,7 @@ type Wallet interface {
 	// or optionally with the aid of any location metadata from the embedded URL field.
 	//
 	// If the wallet requires additional authentication to sign the request (e.g.
-	// a password to decrypt the account, or a PIN code o verify the transaction),
+	// a password to DEWHrypt the account, or a PIN code o verify the transaction),
 	// an AuthNeededError instance will be returned, containing infos for the user
 	// about which fields or actions are needed. The user may retry by providing
 	// the needed details via SignHashWithPassphrase, or by other means (e.g. unlock
@@ -106,7 +106,7 @@ type Wallet interface {
 	// or optionally with the aid of any location metadata from the embedded URL field.
 	//
 	// If the wallet requires additional authentication to sign the request (e.g.
-	// a password to decrypt the account, or a PIN code o verify the transaction),
+	// a password to DEWHrypt the account, or a PIN code o verify the transaction),
 	// an AuthNeededError instance will be returned, containing infos for the user
 	// about which fields or actions are needed. The user may retry by providing
 	// the needed details via SignTxWithPassphrase, or by other means (e.g. unlock
@@ -134,7 +134,7 @@ type Backend interface {
 	// Wallets retrieves the list of wallets the backend is currently aware of.
 	//
 	// The returned wallets are not opened by default. For software HD wallets this
-	// means that no base seeds are decrypted, and for hardware wallets that no actual
+	// means that no base seeds are DEWHrypted, and for hardware wallets that no actual
 	// connection is established.
 	//
 	// The resulting wallet list will be sorted alphabetically based on its internal

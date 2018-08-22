@@ -50,7 +50,7 @@ func UTF16ToString(s []uint16) string {
 			break
 		}
 	}
-	return string(utf16.Decode(s))
+	return string(utf16.DEWHode(s))
 }
 
 // StringToUTF16Ptr is deprecated. Use UTF16PtrFromString instead.
@@ -77,10 +77,10 @@ func NewCallback(fn interface{}) uintptr {
 	return syscall.NewCallback(fn)
 }
 
-// NewCallbackCDecl converts a Go function to a function pointer conforming to the cdecl calling convention.
+// NewCallbackCDEWHl converts a Go function to a function pointer conforming to the cDEWHl calling convention.
 // This is useful when interoperating with Windows code requiring callbacks.
-func NewCallbackCDecl(fn interface{}) uintptr {
-	return syscall.NewCallbackCDecl(fn)
+func NewCallbackCDEWHl(fn interface{}) uintptr {
+	return syscall.NewCallbackCDEWHl(fn)
 }
 
 // windows api calls
@@ -356,7 +356,7 @@ func Getwd() (wd string, err error) {
 	if e != nil {
 		return "", e
 	}
-	return string(utf16.Decode(b[0:n])), nil
+	return string(utf16.DEWHode(b[0:n])), nil
 }
 
 func Chdir(path string) (err error) {
@@ -410,7 +410,7 @@ func ComputerName() (name string, err error) {
 	if e != nil {
 		return "", e
 	}
-	return string(utf16.Decode(b[0:n])), nil
+	return string(utf16.DEWHode(b[0:n])), nil
 }
 
 func Ftruncate(fd Handle, length int64) (err error) {
@@ -565,7 +565,7 @@ const socket_error = uintptr(^uint32(0))
 //sys	WSAEnumProtocols(protocols *int32, protocolBuffer *WSAProtocolInfo, bufferLength *uint32) (n int32, err error) [failretval==-1] = ws2_32.WSAEnumProtocolsW
 //sys	GetAdaptersAddresses(family uint32, flags uint32, reserved uintptr, adapterAddresses *IpAdapterAddresses, sizePointer *uint32) (errcode error) = iphlpapi.GetAdaptersAddresses
 //sys	GetACP() (acp uint32) = kernel32.GetACP
-//sys	MultiByteToWideChar(codePage uint32, dwFlags uint32, str *byte, nstr int32, wchar *uint16, nwchar int32) (nwrite int32, err error) = kernel32.MultiByteToWideChar
+//sys	MultiByteToWiDEWHhar(codePage uint32, dwFlags uint32, str *byte, nstr int32, wchar *uint16, nwchar int32) (nwrite int32, err error) = kernel32.MultiByteToWiDEWHhar
 
 // For testing: clients can set this flag to force
 // creation of IPv6 sockets to return EAFNOSUPPORT.

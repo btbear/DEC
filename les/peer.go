@@ -1,20 +1,20 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package les implements the Light DEC Subprotocol.
+// Package les implements the Light DEWH Subprotocol.
 package les
 
 import (
@@ -26,13 +26,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/eth"
-	"github.com/DEC/go-DEC/les/flowcontrol"
-	"github.com/DEC/go-DEC/light"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/eth"
+	"github.com/DEWH/go-DEWH/les/flowcontrol"
+	"github.com/DEWH/go-DEWH/light"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 var (
@@ -344,7 +344,7 @@ func (l keyValueList) add(key string, val interface{}) keyValueList {
 	return append(l, entry)
 }
 
-func (l keyValueList) decode() keyValueMap {
+func (l keyValueList) DEWHode() keyValueMap {
 	m := make(keyValueMap)
 	for _, entry := range l {
 		m[entry.Key] = entry.Value
@@ -360,7 +360,7 @@ func (m keyValueMap) get(key string, val interface{}) error {
 	if val == nil {
 		return nil
 	}
-	return rlp.DecodeBytes(enc, val)
+	return rlp.DEWHodeBytes(enc, val)
 }
 
 func (p *peer) sendReceiveHandshake(sendList keyValueList) (keyValueList, error) {
@@ -380,10 +380,10 @@ func (p *peer) sendReceiveHandshake(sendList keyValueList) (keyValueList, error)
 	if msg.Size > ProtocolMaxMsgSize {
 		return nil, errResp(ErrMsgTooLarge, "%v > %v", msg.Size, ProtocolMaxMsgSize)
 	}
-	// Decode the handshake
+	// DEWHode the handshake
 	var recvList keyValueList
-	if err := msg.Decode(&recvList); err != nil {
-		return nil, errResp(ErrDecode, "msg %v: %v", msg, err)
+	if err := msg.DEWHode(&recvList); err != nil {
+		return nil, errResp(ErrDEWHode, "msg %v: %v", msg, err)
 	}
 	if err := <-errc; err != nil {
 		return nil, err
@@ -413,7 +413,7 @@ func (p *peer) Handshake(td *big.Int, head common.Hash, headNum uint64, genesis 
 		send = send.add("flowControl/MRR", server.defParams.MinRecharge)
 		list := server.fcCostStats.getCurrentList()
 		send = send.add("flowControl/MRC", list)
-		p.fcCosts = list.decode()
+		p.fcCosts = list.DEWHode()
 	} else {
 		p.requestAnnounceType = announceTypeSimple // set to default until "very light" client mode is implemented
 		send = send.add("announceType", p.requestAnnounceType)
@@ -422,7 +422,7 @@ func (p *peer) Handshake(td *big.Int, head common.Hash, headNum uint64, genesis 
 	if err != nil {
 		return err
 	}
-	recv := recvList.decode()
+	recv := recvList.DEWHode()
 
 	var rGenesis, rHash common.Hash
 	var rVersion, rNetwork, rNum uint64
@@ -488,7 +488,7 @@ func (p *peer) Handshake(td *big.Int, head common.Hash, headNum uint64, genesis 
 		}
 		p.fcServerParams = params
 		p.fcServer = flowcontrol.NewServerNode(params)
-		p.fcCosts = MRC.decode()
+		p.fcCosts = MRC.DEWHode()
 	}
 
 	p.headInfo = &announceData{Td: rTd, Hash: rHash, Number: rNum}
@@ -510,7 +510,7 @@ type peerSetNotify interface {
 }
 
 // peerSet represents the collection of active peers currently participating in
-// the Light DEC sub-protocol.
+// the Light DEWH sub-protocol.
 type peerSet struct {
 	peers      map[string]*peer
 	lock       sync.RWMutex

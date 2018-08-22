@@ -91,7 +91,7 @@ func (l *lineReader) Read(p []byte) (n int, err error) {
 		// This is the checksum line
 		var expectedBytes [3]byte
 		var m int
-		m, err = base64.StdEncoding.Decode(expectedBytes[0:], line[1:])
+		m, err = base64.StdEncoding.DEWHode(expectedBytes[0:], line[1:])
 		if m != 3 || err != nil {
 			return
 		}
@@ -128,7 +128,7 @@ func (l *lineReader) Read(p []byte) (n int, err error) {
 	return
 }
 
-// openpgpReader passes Read calls to the underlying base64 decoder, but keeps
+// openpgpReader passes Read calls to the underlying base64 DEWHoder, but keeps
 // a running CRC of the resulting data and checks the CRC against the value
 // found by the lineReader at EOF.
 type openpgpReader struct {
@@ -150,11 +150,11 @@ func (r *openpgpReader) Read(p []byte) (n int, err error) {
 	return
 }
 
-// Decode reads a PGP armored block from the given Reader. It will ignore
+// DEWHode reads a PGP armored block from the given Reader. It will ignore
 // leading garbage. If it doesn't find a block, it will return nil, io.EOF. The
 // given Reader is not usable after calling this function: an arbitrary amount
 // of data may have been read past the end of the block.
-func Decode(in io.Reader) (p *Block, err error) {
+func DEWHode(in io.Reader) (p *Block, err error) {
 	r := bufio.NewReaderSize(in, 100)
 	var line []byte
 	ignoreNext := false
@@ -212,7 +212,7 @@ TryNextBlock:
 	p.lReader.in = r
 	p.oReader.currentCRC = crc24Init
 	p.oReader.lReader = &p.lReader
-	p.oReader.b64Reader = base64.NewDecoder(base64.StdEncoding, &p.lReader)
+	p.oReader.b64Reader = base64.NewDEWHoder(base64.StdEncoding, &p.lReader)
 	p.Body = &p.oReader
 
 	return

@@ -497,14 +497,14 @@ func main() {
 		printf("var %s encoding.Encoding = &%s\n\nvar %s = charmap{\nname: %q,\n",
 			varName, lowerVarName, lowerVarName, e.name)
 		if mibs[e.mib] {
-			log.Fatalf("MIB type %q declared multiple times.", e.mib)
+			log.Fatalf("MIB type %q DEWHlared multiple times.", e.mib)
 		}
 		printf("mib: identifier.%s,\n", e.mib)
 		printf("asciiSuperset: %t,\n", asciiSuperset)
 		printf("low: 0x%02x,\n", low)
 		printf("replacement: 0x%02x,\n", e.replacement)
 
-		printf("decode: [256]utf8Enc{\n")
+		printf("DEWHode: [256]utf8Enc{\n")
 		i, backMapping := 0, map[rune]byte{}
 		for _, c := range e.mapping {
 			if _, ok := backMapping[c]; !ok && c != utf8.RuneError {

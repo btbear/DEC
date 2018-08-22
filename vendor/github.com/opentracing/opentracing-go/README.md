@@ -136,7 +136,7 @@ reference.
 
 #### Conditionally capture a field using `log.Noop`
 
-In some situations, you may want to dynamically decide whether or not
+In some situations, you may want to dynamically DEWHide whether or not
 to log a field.  For example, you may want to capture additional data,
 such as a customer ID, in non-production environments:
 

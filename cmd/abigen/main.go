@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -24,16 +24,16 @@ import (
 	"os"
 	"strings"
 
-	"github.com/DEC/go-DEC/accounts/abi/bind"
-	"github.com/DEC/go-DEC/common/compiler"
+	"github.com/DEWH/go-DEWH/accounts/abi/bind"
+	"github.com/DEWH/go-DEWH/common/compiler"
 )
 
 var (
-	abiFlag = flag.String("abi", "", "Path to the DEC contract ABI json to bind, - for STDIN")
-	binFlag = flag.String("bin", "", "Path to the DEC contract bytecode (generate deploy method)")
+	abiFlag = flag.String("abi", "", "Path to the DEWH contract ABI json to bind, - for STDIN")
+	binFlag = flag.String("bin", "", "Path to the DEWH contract bytecode (generate deploy method)")
 	typFlag = flag.String("type", "", "Struct name for the binding (default = package name)")
 
-	solFlag  = flag.String("sol", "", "Path to the DEC contract Solidity source to build and bind")
+	solFlag  = flag.String("sol", "", "Path to the DEWH contract Solidity source to build and bind")
 	solcFlag = flag.String("solc", "solc", "Solidity compiler to use if source builds are requested")
 	excFlag  = flag.String("exc", "", "Comma separated types to exclude from binding")
 

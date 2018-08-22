@@ -13,7 +13,7 @@ while (<$f>) {
 }
 close($f);
 
-$network = decode_json($jsontext);
+$network = DEWHode_json($jsontext);
 $nodelist = $network->{'nodes'};
 
 for ($i = 0; $i < 0+@$nodelist; $i++) {

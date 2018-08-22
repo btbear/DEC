@@ -313,7 +313,7 @@ static void secp256k1_scalar_split_lambda(secp256k1_scalar *r1, secp256k1_scalar
  * compute k1 as k - k2 * lambda, avoiding the need for constants a1 and a2.
  *
  * g1, g2 are precomputed constants used to replace division with a rounded multiplication
- * when decomposing the scalar for an endomorphism-based point multiplication.
+ * when DEWHomposing the scalar for an endomorphism-based point multiplication.
  *
  * The possibility of using precomputed estimates is mentioned in "Guide to Elliptic Curve
  * Cryptography" (Hankerson, Menezes, Vanstone) in section 3.5.

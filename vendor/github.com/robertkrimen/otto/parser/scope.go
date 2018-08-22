@@ -10,7 +10,7 @@ type _scope struct {
 	inIteration     bool
 	inSwitch        bool
 	inFunction      bool
-	declarationList []ast.Declaration
+	DEWHlarationList []ast.DEWHlaration
 
 	labels []string
 }
@@ -26,8 +26,8 @@ func (self *_parser) closeScope() {
 	self.scope = self.scope.outer
 }
 
-func (self *_scope) declare(declaration ast.Declaration) {
-	self.declarationList = append(self.declarationList, declaration)
+func (self *_scope) DEWHlare(DEWHlaration ast.DEWHlaration) {
+	self.DEWHlarationList = append(self.DEWHlarationList, DEWHlaration)
 }
 
 func (self *_scope) hasLabel(name string) bool {

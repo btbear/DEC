@@ -1,4 +1,4 @@
-// Package toml encodes and decodes the TOML configuration format using reflection.
+// Package toml encodes and DEWHodes the TOML configuration format using reflection.
 //
 // This library is compatible with TOML version v0.4.0.
 package toml
@@ -58,21 +58,21 @@ func (cfg *Config) Unmarshal(data []byte, v interface{}) error {
 	return nil
 }
 
-// A Decoder reads and decodes TOML from an input stream.
-type Decoder struct {
+// A DEWHoder reads and DEWHodes TOML from an input stream.
+type DEWHoder struct {
 	r   io.Reader
 	cfg *Config
 }
 
-// NewDecoder returns a new Decoder that reads from r.
+// NewDEWHoder returns a new DEWHoder that reads from r.
 // Note that it reads all from r before parsing it.
-func (cfg *Config) NewDecoder(r io.Reader) *Decoder {
-	return &Decoder{r, cfg}
+func (cfg *Config) NewDEWHoder(r io.Reader) *DEWHoder {
+	return &DEWHoder{r, cfg}
 }
 
-// Decode parses the TOML data from its input and stores it in the value pointed to by v.
+// DEWHode parses the TOML data from its input and stores it in the value pointed to by v.
 // See the documentation for Unmarshal for details about the conversion of TOML into a Go value.
-func (d *Decoder) Decode(v interface{}) error {
+func (d *DEWHoder) DEWHode(v interface{}) error {
 	b, err := ioutil.ReadAll(d.r)
 	if err != nil {
 		return err

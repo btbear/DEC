@@ -20,9 +20,9 @@
 #define DUK_ALLOC_POOL_ROMPTR_COMPRESSION
 #define DUK_ALLOC_POOL_ROMPTR_FIRST DUK_USE_ROM_PTRCOMP_FIRST
 
-/* This extern declaration is provided by duktape.h, array provided by duktape.c.
+/* This extern DEWHlaration is provided by duktape.h, array provided by duktape.c.
  * Because duk_config.h may include this file (to get the inline functions) we
- * need to forward declare this also here.
+ * need to forward DEWHlare this also here.
  */
 extern const void * const duk_rom_compressed_pointers[];
 #endif
@@ -125,7 +125,7 @@ extern void *duk_alloc_pool_ptrcomp_base;
 
 #if 0
 duk_uint16_t duk_alloc_pool_enc16(void *ptr);
-void *duk_alloc_pool_dec16(duk_uint16_t val);
+void *duk_alloc_pool_DEWH16(duk_uint16_t val);
 #endif
 
 /* Inlined pointer compression functions.  Gcc and clang -Os won't in
@@ -137,7 +137,7 @@ void *duk_alloc_pool_dec16(duk_uint16_t val);
  * Pointer compression assumes there's a single globally registered memory
  * pool which makes pointer compression more efficient.  This would be easy
  * to fix by adding a userdata pointer to the compression functions and
- * plumbing the heap userdata from the compression/decompression macros.
+ * plumbing the heap userdata from the compression/DEWHompression macros.
  */
 
 /* DUK_ALWAYS_INLINE is not a public API symbol so it may go away in even a
@@ -187,20 +187,20 @@ static DUK__ALLOC_POOL_ALWAYS_INLINE duk_uint16_t duk_alloc_pool_enc16(void *ptr
 	return (duk_uint16_t) (((size_t) ((char *) ptr - (char *) duk_alloc_pool_ptrcomp_base)) >> 2);
 }
 
-static DUK__ALLOC_POOL_ALWAYS_INLINE void *duk_alloc_pool_dec16(duk_uint16_t val) {
+static DUK__ALLOC_POOL_ALWAYS_INLINE void *duk_alloc_pool_DEWH16(duk_uint16_t val) {
 	if (val == 0) {
 		/* As with enc16 the gcc and clang -Os output is inefficient,
 		 * e.g. gcc -Os:
 		 *
-		 *   08049133 <duk_alloc_pool_dec16>:
+		 *   08049133 <duk_alloc_pool_DEWH16>:
 		 *    8049133:       55                      push   %ebp
 		 *    8049134:       66 85 c0                test   %ax,%ax
 		 *    8049137:       89 e5                   mov    %esp,%ebp
-		 *    8049139:       74 0e                   je     8049149 <duk_alloc_pool_dec16+0x16>
+		 *    8049139:       74 0e                   je     8049149 <duk_alloc_pool_DEWH16+0x16>
 		 *    804913b:       8b 15 e4 90 07 08       mov    0x80790e4,%edx
 		 *    8049141:       0f b7 c0                movzwl %ax,%eax
 		 *    8049144:       8d 04 82                lea    (%edx,%eax,4),%eax
-		 *    8049147:       eb 02                   jmp    804914b <duk_alloc_pool_dec16+0x18>
+		 *    8049147:       eb 02                   jmp    804914b <duk_alloc_pool_DEWH16+0x18>
 		 *    8049149:       31 c0                   xor    %eax,%eax
 		 *    804914b:       5d                      pop    %ebp
 		 *    804914c:       c3                      ret
@@ -210,7 +210,7 @@ static DUK__ALLOC_POOL_ALWAYS_INLINE void *duk_alloc_pool_dec16(duk_uint16_t val
 #if defined(DUK_ALLOC_POOL_ROMPTR_COMPRESSION)
 	if (val >= DUK_ALLOC_POOL_ROMPTR_FIRST) {
 		/* This is a blind lookup, could check index validity.
-		 * Duktape should never decompress a pointer which would
+		 * Duktape should never DEWHompress a pointer which would
 		 * be out-of-bounds here.
 		 */
 		return (void *) (intptr_t) (duk_rom_compressed_pointers[val - DUK_ALLOC_POOL_ROMPTR_FIRST]);

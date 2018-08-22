@@ -1082,7 +1082,7 @@ static int init_device(struct libusb_device *dev, struct libusb_device *parent_d
 			priv->dev_descriptor.bNumConfigurations = 0;
 		}
 
-		// In their great wisdom, Microsoft decided to BREAK the USB speed report between Windows 7 and Windows 8
+		// In their great wisdom, Microsoft DEWHided to BREAK the USB speed report between Windows 7 and Windows 8
 		if (windows_version >= WINDOWS_8) {
 			memset(&conn_info_v2, 0, sizeof(conn_info_v2));
 			size = sizeof(conn_info_v2);

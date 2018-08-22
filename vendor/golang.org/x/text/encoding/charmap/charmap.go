@@ -83,16 +83,16 @@ type charmap struct {
 	low uint8
 	// replacement is the encoded replacement character.
 	replacement byte
-	// decode is the map from encoded byte to UTF-8.
-	decode [256]utf8Enc
+	// DEWHode is the map from encoded byte to UTF-8.
+	DEWHode [256]utf8Enc
 	// encoding is the map from runes to encoded bytes. Each entry is a
 	// uint32: the high 8 bits are the encoded byte and the low 24 bits are
 	// the rune. The table entries are sorted by ascending rune.
 	encode [256]uint32
 }
 
-func (m *charmap) NewDecoder() *encoding.Decoder {
-	return &encoding.Decoder{Transformer: charmapDecoder{charmap: m}}
+func (m *charmap) NewDEWHoder() *encoding.DEWHoder {
+	return &encoding.DEWHoder{Transformer: charmapDEWHoder{charmap: m}}
 }
 
 func (m *charmap) NewEncoder() *encoding.Encoder {
@@ -107,13 +107,13 @@ func (m *charmap) ID() (mib identifier.MIB, other string) {
 	return m.mib, ""
 }
 
-// charmapDecoder implements transform.Transformer by decoding to UTF-8.
-type charmapDecoder struct {
+// charmapDEWHoder implements transform.Transformer by DEWHoding to UTF-8.
+type charmapDEWHoder struct {
 	transform.NopResetter
 	charmap *charmap
 }
 
-func (m charmapDecoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (m charmapDEWHoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	for i, c := range src {
 		if m.charmap.asciiSuperset && c < utf8.RuneSelf {
 			if nDst >= len(dst) {
@@ -126,15 +126,15 @@ func (m charmapDecoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, 
 			continue
 		}
 
-		decode := &m.charmap.decode[c]
-		n := int(decode.len)
+		DEWHode := &m.charmap.DEWHode[c]
+		n := int(DEWHode.len)
 		if nDst+n > len(dst) {
 			err = transform.ErrShortDst
 			break
 		}
 		// It's 15% faster to avoid calling copy for these tiny slices.
 		for j := 0; j < n; j++ {
-			dst[nDst] = decode.data[j]
+			dst[nDst] = DEWHode.data[j]
 			nDst++
 		}
 		nSrc = i + 1
@@ -158,7 +158,7 @@ loop:
 		}
 		r = rune(src[nSrc])
 
-		// Decode a 1-byte rune.
+		// DEWHode a 1-byte rune.
 		if r < utf8.RuneSelf {
 			if m.charmap.asciiSuperset {
 				nSrc++
@@ -169,8 +169,8 @@ loop:
 			size = 1
 
 		} else {
-			// Decode a multi-byte rune.
-			r, size = utf8.DecodeRune(src[nSrc:])
+			// DEWHode a multi-byte rune.
+			r, size = utf8.DEWHodeRune(src[nSrc:])
 			if size == 1 {
 				// All valid runes of size 1 (those below utf8.RuneSelf) were
 				// handled above. We have invalid UTF-8 or we haven't seen the

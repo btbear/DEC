@@ -23,7 +23,7 @@ type Iter struct {
 	asciiF iterFunc
 
 	p        int    // current position in input source
-	multiSeg []byte // remainder of multi-segment decomposition
+	multiSeg []byte // remainder of multi-segment DEWHomposition
 }
 
 type iterFunc func(*Iter) []byte
@@ -170,15 +170,15 @@ func nextHangul(i *Iter) []byte {
 		return i.next(i)
 	}
 	i.p = next
-	return i.buf[:decomposeHangul(i.buf[:], i.rb.src.hangul(p))]
+	return i.buf[:DEWHomposeHangul(i.buf[:], i.rb.src.hangul(p))]
 }
 
 func nextDone(i *Iter) []byte {
 	return nil
 }
 
-// nextMulti is used for iterating over multi-segment decompositions
-// for decomposing normal forms.
+// nextMulti is used for iterating over multi-segment DEWHompositions
+// for DEWHomposing normal forms.
 func nextMulti(i *Iter) []byte {
 	j := 0
 	d := i.multiSeg
@@ -193,12 +193,12 @@ func nextMulti(i *Iter) []byte {
 		}
 		j += int(info.size)
 	}
-	// treat last segment as normal decomposition
+	// treat last segment as normal DEWHomposition
 	i.next = i.rb.f.nextMain
 	return i.next(i)
 }
 
-// nextMultiNorm is used for iterating over multi-segment decompositions
+// nextMultiNorm is used for iterating over multi-segment DEWHompositions
 // for composing normal forms.
 func nextMultiNorm(i *Iter) []byte {
 	j := 0
@@ -220,8 +220,8 @@ func nextMultiNorm(i *Iter) []byte {
 	return doNormComposed(i)
 }
 
-// nextDecomposed is the implementation of Next for forms NFD and NFKD.
-func nextDecomposed(i *Iter) (next []byte) {
+// nextDEWHomposed is the implementation of Next for forms NFD and NFKD.
+func nextDEWHomposed(i *Iter) (next []byte) {
 	outp := 0
 	inCopyStart, outCopyStart := i.p, 0
 	for {
@@ -237,9 +237,9 @@ func nextDecomposed(i *Iter) (next []byte) {
 				return i.returnSlice(p, i.p)
 			}
 			outp++
-		} else if d := i.info.Decomposition(); d != nil {
+		} else if d := i.info.DEWHomposition(); d != nil {
 			// Note: If leading CCC != 0, then len(d) == 2 and last is also non-zero.
-			// Case 1: there is a leftover to copy.  In this case the decomposition
+			// Case 1: there is a leftover to copy.  In this case the DEWHomposition
 			// must begin with a modifier and should always be appended.
 			// Case 2: no leftover. Simply return d if followed by a ccc == 0 value.
 			p := outp + len(d)
@@ -251,14 +251,14 @@ func nextDecomposed(i *Iter) (next []byte) {
 					return i.buf[:outp]
 				}
 			} else if i.info.multiSegment() {
-				// outp must be 0 as multi-segment decompositions always
+				// outp must be 0 as multi-segment DEWHompositions always
 				// start a new segment.
 				if i.multiSeg == nil {
 					i.multiSeg = d
 					i.next = nextMulti
 					return nextMulti(i)
 				}
-				// We are in the last segment.  Treat as normal decomposition.
+				// We are in the last segment.  Treat as normal DEWHomposition.
 				d = i.multiSeg
 				i.multiSeg = nil
 				p = len(d)
@@ -272,7 +272,7 @@ func nextDecomposed(i *Iter) (next []byte) {
 			}
 			switch i.rb.ss.next(i.info) {
 			case ssOverflow:
-				i.next = nextCGJDecompose
+				i.next = nextCGJDEWHompose
 				fallthrough
 			case ssStarter:
 				if outp > 0 {
@@ -289,7 +289,7 @@ func nextDecomposed(i *Iter) (next []byte) {
 			}
 			continue
 		} else if r := i.rb.src.hangul(i.p); r != 0 {
-			outp = decomposeHangul(i.buf[:], r)
+			outp = DEWHomposeHangul(i.buf[:], r)
 			i.p += hangulUTF8Size
 			inCopyStart, outCopyStart = i.p, outp
 			if i.p >= i.rb.nsrc {
@@ -316,7 +316,7 @@ func nextDecomposed(i *Iter) (next []byte) {
 		if v := i.rb.ss.next(i.info); v == ssStarter {
 			break
 		} else if v == ssOverflow {
-			i.next = nextCGJDecompose
+			i.next = nextCGJDEWHompose
 			break
 		}
 		if i.info.ccc < prevCC {
@@ -330,14 +330,14 @@ func nextDecomposed(i *Iter) (next []byte) {
 	}
 	return i.buf[:outp]
 doNorm:
-	// Insert what we have decomposed so far in the reorderBuffer.
+	// Insert what we have DEWHomposed so far in the reorderBuffer.
 	// As we will only reorder, there will always be enough room.
 	i.rb.src.copySlice(i.buf[outCopyStart:], inCopyStart, i.p)
-	i.rb.insertDecomposed(i.buf[0:outp])
-	return doNormDecomposed(i)
+	i.rb.insertDEWHomposed(i.buf[0:outp])
+	return doNormDEWHomposed(i)
 }
 
-func doNormDecomposed(i *Iter) []byte {
+func doNormDEWHomposed(i *Iter) []byte {
 	for {
 		i.rb.insertUnsafe(i.rb.src, i.p, i.info)
 		if i.p += int(i.info.size); i.p >= i.rb.nsrc {
@@ -349,7 +349,7 @@ func doNormDecomposed(i *Iter) []byte {
 			break
 		}
 		if s := i.rb.ss.next(i.info); s == ssOverflow {
-			i.next = nextCGJDecompose
+			i.next = nextCGJDEWHompose
 			break
 		}
 	}
@@ -357,12 +357,12 @@ func doNormDecomposed(i *Iter) []byte {
 	return i.buf[:i.rb.flushCopy(i.buf[:])]
 }
 
-func nextCGJDecompose(i *Iter) []byte {
+func nextCGJDEWHompose(i *Iter) []byte {
 	i.rb.ss = 0
 	i.rb.insertCGJ()
-	i.next = nextDecomposed
+	i.next = nextDEWHomposed
 	i.rb.ss.first(i.info)
-	buf := doNormDecomposed(i)
+	buf := doNormDEWHomposed(i)
 	return buf
 }
 
@@ -411,7 +411,7 @@ doNorm:
 	i.info = i.rb.f.info(i.rb.src, i.p)
 	i.rb.ss.first(i.info)
 	if i.info.multiSegment() {
-		d := i.info.Decomposition()
+		d := i.info.DEWHomposition()
 		info := i.rb.f.info(input{bytes: d}, 0)
 		i.rb.insertUnsafe(input{bytes: d}, 0, info)
 		i.multiSeg = d[int(info.size):]

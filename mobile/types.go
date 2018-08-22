@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Contains all the wrappers from the core/types package.
 
@@ -23,9 +23,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 // A Nonce is a 64-bit hash which proves (combined with the mix-hash) that
@@ -59,7 +59,7 @@ func (b *Bloom) GetHex() string {
 	return fmt.Sprintf("0x%x", b.bloom[:])
 }
 
-// Header represents a block header in the DEC blockchain.
+// Header represents a block header in the DEWH blockchain.
 type Header struct {
 	header *types.Header
 }
@@ -69,7 +69,7 @@ func NewHeaderFromRLP(data []byte) (*Header, error) {
 	h := &Header{
 		header: new(types.Header),
 	}
-	if err := rlp.DecodeBytes(common.CopyBytes(data), h.header); err != nil {
+	if err := rlp.DEWHodeBytes(common.CopyBytes(data), h.header); err != nil {
 		return nil, err
 	}
 	return h, nil
@@ -130,7 +130,7 @@ func (h *Headers) Get(index int) (header *Header, _ error) {
 	return &Header{h.headers[index]}, nil
 }
 
-// Block represents an entire block in the DEC blockchain.
+// Block represents an entire block in the DEWH blockchain.
 type Block struct {
 	block *types.Block
 }
@@ -140,7 +140,7 @@ func NewBlockFromRLP(data []byte) (*Block, error) {
 	b := &Block{
 		block: new(types.Block),
 	}
-	if err := rlp.DecodeBytes(common.CopyBytes(data), b.block); err != nil {
+	if err := rlp.DEWHodeBytes(common.CopyBytes(data), b.block); err != nil {
 		return nil, err
 	}
 	return b, nil
@@ -194,7 +194,7 @@ func (b *Block) GetTransaction(hash *Hash) *Transaction {
 	return &Transaction{b.block.Transaction(hash.hash)}
 }
 
-// Transaction represents a single DEC transaction.
+// Transaction represents a single DEWH transaction.
 type Transaction struct {
 	tx *types.Transaction
 }
@@ -209,7 +209,7 @@ func NewTransactionFromRLP(data []byte) (*Transaction, error) {
 	tx := &Transaction{
 		tx: new(types.Transaction),
 	}
-	if err := rlp.DecodeBytes(common.CopyBytes(data), tx.tx); err != nil {
+	if err := rlp.DEWHodeBytes(common.CopyBytes(data), tx.tx); err != nil {
 		return nil, err
 	}
 	return tx, nil
@@ -249,7 +249,7 @@ func (tx *Transaction) GetCost() *BigInt { return &BigInt{tx.tx.Cost()} }
 // Deprecated: GetSigHash cannot know which signer to use.
 func (tx *Transaction) GetSigHash() *Hash { return &Hash{types.HomesteadSigner{}.Hash(tx.tx)} }
 
-// Deprecated: use DECClient.TransactionSender
+// Deprecated: use DEWHClient.TransactionSender
 func (tx *Transaction) GetFrom(chainID *BigInt) (address *Address, _ error) {
 	var signer types.Signer = types.HomesteadSigner{}
 	if chainID != nil {
@@ -301,7 +301,7 @@ func NewReceiptFromRLP(data []byte) (*Receipt, error) {
 	r := &Receipt{
 		receipt: new(types.Receipt),
 	}
-	if err := rlp.DecodeBytes(common.CopyBytes(data), r.receipt); err != nil {
+	if err := rlp.DEWHodeBytes(common.CopyBytes(data), r.receipt); err != nil {
 		return nil, err
 	}
 	return r, nil

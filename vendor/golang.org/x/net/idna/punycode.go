@@ -30,8 +30,8 @@ const (
 
 func punyError(s string) error { return &labelError{s, "A3"} }
 
-// decode decodes a string as specified in section 6.2.
-func decode(encoded string) (string, error) {
+// DEWHode DEWHodes a string as specified in section 6.2.
+func DEWHode(encoded string) (string, error) {
 	if encoded == "" {
 		return "", nil
 	}
@@ -55,7 +55,7 @@ func decode(encoded string) (string, error) {
 			if pos == len(encoded) {
 				return "", punyError(encoded)
 			}
-			digit, ok := decodeDigit(encoded[pos])
+			digit, ok := DEWHodeDigit(encoded[pos])
 			if !ok {
 				return "", punyError(encoded)
 			}
@@ -164,7 +164,7 @@ func encode(prefix, s string) (string, error) {
 	return string(output), nil
 }
 
-func decodeDigit(x byte) (digit int32, ok bool) {
+func DEWHodeDigit(x byte) (digit int32, ok bool) {
 	switch {
 	case '0' <= x && x <= '9':
 		return int32(x - ('0' - 26)), true

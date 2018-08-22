@@ -30,11 +30,11 @@ type HeadersConfig struct {
 	JaegerBaggageHeader string `yaml:"jaegerBaggageHeader"`
 
 	// TraceContextHeaderName is the http header name used to propagate tracing context.
-	// This must be in lower-case to avoid mismatches when decoding incoming headers.
+	// This must be in lower-case to avoid mismatches when DEWHoding incoming headers.
 	TraceContextHeaderName string `yaml:"TraceContextHeaderName"`
 
 	// TraceBaggageHeaderPrefix is the prefix for http headers used to propagate baggage.
-	// This must be in lower-case to avoid mismatches when decoding incoming headers.
+	// This must be in lower-case to avoid mismatches when DEWHoding incoming headers.
 	TraceBaggageHeaderPrefix string `yaml:"traceBaggageHeaderPrefix"`
 }
 

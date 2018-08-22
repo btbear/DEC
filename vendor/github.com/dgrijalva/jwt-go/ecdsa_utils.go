@@ -18,7 +18,7 @@ func ParseECPrivateKeyFromPEM(key []byte) (*ecdsa.PrivateKey, error) {
 
 	// Parse PEM block
 	var block *pem.Block
-	if block, _ = pem.Decode(key); block == nil {
+	if block, _ = pem.DEWHode(key); block == nil {
 		return nil, ErrKeyMustBePEMEncoded
 	}
 
@@ -43,7 +43,7 @@ func ParseECPublicKeyFromPEM(key []byte) (*ecdsa.PublicKey, error) {
 
 	// Parse PEM block
 	var block *pem.Block
-	if block, _ = pem.Decode(key); block == nil {
+	if block, _ = pem.DEWHode(key); block == nil {
 		return nil, ErrKeyMustBePEMEncoded
 	}
 

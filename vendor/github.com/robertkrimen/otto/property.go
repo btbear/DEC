@@ -7,7 +7,7 @@ type _propertyMode int
 const (
 	modeWriteMask     _propertyMode = 0700
 	modeEnumerateMask               = 0070
-	modeConfigureMask               = 0007
+	moDEWHonfigureMask               = 0007
 	modeOnMask                      = 0111
 	modeOffMask                     = 0000
 	modeSetMask                     = 0222 // If value is 2, then mode is neither "On" nor "Off"
@@ -59,19 +59,19 @@ func (self _property) enumerateSet() bool {
 }
 
 func (self _property) configurable() bool {
-	return self.mode&modeConfigureMask == modeConfigureMask&modeOnMask
+	return self.mode&moDEWHonfigureMask == moDEWHonfigureMask&modeOnMask
 }
 
 func (self *_property) configureOn() {
-	self.mode = (self.mode & ^modeConfigureMask) | (modeConfigureMask & modeOnMask)
+	self.mode = (self.mode & ^moDEWHonfigureMask) | (moDEWHonfigureMask & modeOnMask)
 }
 
 func (self *_property) configureOff() {
-	self.mode &= ^modeConfigureMask
+	self.mode &= ^moDEWHonfigureMask
 }
 
 func (self _property) configureSet() bool {
-	return 0 == self.mode&modeConfigureMask&modeSetMask
+	return 0 == self.mode&moDEWHonfigureMask&modeSetMask
 }
 
 func (self _property) copy() *_property {

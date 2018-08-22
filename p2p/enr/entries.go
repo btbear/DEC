@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package enr
 
@@ -22,15 +22,15 @@ import (
 	"io"
 	"net"
 
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 // Entry is implemented by known node record entry types.
 //
 // To define a new entry that is to be included in a node record,
 // create a Go type that satisfies this interface. The type should
-// also implement rlp.Decoder if additional checks are needed on the value.
+// also implement rlp.DEWHoder if additional checks are needed on the value.
 type Entry interface {
 	ENRKey() string
 }
@@ -46,8 +46,8 @@ func (g generic) EncodeRLP(w io.Writer) error {
 	return rlp.Encode(w, g.value)
 }
 
-func (g *generic) DecodeRLP(s *rlp.Stream) error {
-	return s.Decode(g.value)
+func (g *generic) DEWHodeRLP(s *rlp.Stream) error {
+	return s.DEWHode(g.value)
 }
 
 // WithEntry wraps any value with a key name. It can be used to set and load arbitrary values
@@ -87,9 +87,9 @@ func (v IP) EncodeRLP(w io.Writer) error {
 	return rlp.Encode(w, net.IP(v))
 }
 
-// DecodeRLP implements rlp.Decoder.
-func (v *IP) DecodeRLP(s *rlp.Stream) error {
-	if err := s.Decode((*net.IP)(v)); err != nil {
+// DEWHodeRLP implements rlp.DEWHoder.
+func (v *IP) DEWHodeRLP(s *rlp.Stream) error {
+	if err := s.DEWHode((*net.IP)(v)); err != nil {
 		return err
 	}
 	if len(*v) != 4 && len(*v) != 16 {
@@ -108,13 +108,13 @@ func (v Secp256k1) EncodeRLP(w io.Writer) error {
 	return rlp.Encode(w, crypto.CompressPubkey((*ecdsa.PublicKey)(&v)))
 }
 
-// DecodeRLP implements rlp.Decoder.
-func (v *Secp256k1) DecodeRLP(s *rlp.Stream) error {
+// DEWHodeRLP implements rlp.DEWHoder.
+func (v *Secp256k1) DEWHodeRLP(s *rlp.Stream) error {
 	buf, err := s.Bytes()
 	if err != nil {
 		return err
 	}
-	pk, err := crypto.DecompressPubkey(buf)
+	pk, err := crypto.DEWHompressPubkey(buf)
 	if err != nil {
 		return err
 	}

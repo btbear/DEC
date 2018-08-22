@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -26,13 +26,13 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/log"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/log"
 )
 
-// nodeDockerfile is the Dockerfile required to run an DEC node.
+// nodeDockerfile is the Dockerfile required to run an DEWH node.
 var nodeDockerfile = `
-FROM DEC/client-go:latest
+FROM DEWH/client-go:latest
 
 ADD genesis.json /genesis.json
 {{if .Unlock}}
@@ -41,15 +41,15 @@ ADD genesis.json /genesis.json
 {{end}}
 RUN \
   echo 'geth --cache 512 init /genesis.json' > geth.sh && \{{if .Unlock}}
-	echo 'mkdir -p /root/.DEC/keystore/ && cp /signer.json /root/.DEC/keystore/' >> geth.sh && \{{end}}
+	echo 'mkdir -p /root/.DEWH/keystore/ && cp /signer.json /root/.DEWH/keystore/' >> geth.sh && \{{end}}
 	echo $'geth --networkid {{.NetworkID}} --cache 512 --port {{.Port}} --maxpeers {{.Peers}} {{.LightFlag}} --ethstats \'{{.Ethstats}}\' {{if .Bootnodes}}--bootnodes {{.Bootnodes}}{{end}} {{if .Etherbase}}--etherbase {{.Etherbase}} --mine --minerthreads 1{{end}} {{if .Unlock}}--unlock 0 --password /signer.pass --mine{{end}} --targetgaslimit {{.GasTarget}} --gasprice {{.GasPrice}}' >> geth.sh
 
 ENTRYPOINT ["/bin/sh", "geth.sh"]
 `
 
-// nodeComposefile is the docker-compose.yml file required to deploy and maintain
-// an DEC node (bootnode or miner for now).
-var nodeComposefile = `
+// noDEWHomposefile is the docker-compose.yml file required to deploy and maintain
+// an DEWH node (bootnode or miner for now).
+var noDEWHomposefile = `
 version: '2'
 services:
   {{.Type}}:
@@ -59,7 +59,7 @@ services:
       - "{{.Port}}:{{.Port}}"
       - "{{.Port}}:{{.Port}}/udp"
     volumes:
-      - {{.Datadir}}:/root/.DEC{{if .Ethashdir}}
+      - {{.Datadir}}:/root/.DEWH{{if .Ethashdir}}
       - {{.Ethashdir}}:/root/.ethash{{end}}
     environment:
       - PORT={{.Port}}/tcp
@@ -77,7 +77,7 @@ services:
     restart: always
 `
 
-// deployNode deploys a new DEC node container to a remote machine via SSH,
+// deployNode deploys a new DEWH node container to a remote machine via SSH,
 // docker and docker-compose. If an instance with the specified network name
 // already exists there, it will be overwritten!
 func deployNode(client *sshClient, network string, bootnodes []string, config *nodeInfos, nocache bool) ([]byte, error) {
@@ -110,7 +110,7 @@ func deployNode(client *sshClient, network string, bootnodes []string, config *n
 	files[filepath.Join(workdir, "Dockerfile")] = dockerfile.Bytes()
 
 	composefile := new(bytes.Buffer)
-	template.Must(template.New("").Parse(nodeComposefile)).Execute(composefile, map[string]interface{}{
+	template.Must(template.New("").Parse(noDEWHomposefile)).Execute(composefile, map[string]interface{}{
 		"Type":       kind,
 		"Datadir":    config.datadir,
 		"Ethashdir":  config.ethashdir,
@@ -246,7 +246,7 @@ func checkNode(client *sshClient, network string, boot bool) (*nodeInfos, error)
 	// Assemble and return the useful infos
 	stats := &nodeInfos{
 		genesis:    genesis,
-		datadir:    infos.volumes["/root/.DEC"],
+		datadir:    infos.volumes["/root/.DEWH"],
 		ethashdir:  infos.volumes["/root/.ethash"],
 		port:       port,
 		peersTotal: totalPeers,

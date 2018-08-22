@@ -162,9 +162,9 @@ type channel struct {
 
 	mux *mux
 
-	// decided is set to true if an accept or reject message has been sent
+	// DEWHided is set to true if an accept or reject message has been sent
 	// (for outbound channels) or received (for inbound channels).
-	decided bool
+	DEWHided bool
 
 	// direction contains either channelOutbound, for channels created
 	// locally, or channelInbound, for channels created by the peer.
@@ -388,10 +388,10 @@ func (c *channel) responseMessageReceived() error {
 	if c.direction == channelInbound {
 		return errors.New("ssh: channel response message received on inbound channel")
 	}
-	if c.decided {
+	if c.DEWHided {
 		return errors.New("ssh: duplicate response received for channel")
 	}
-	c.decided = true
+	c.DEWHided = true
 	return nil
 }
 
@@ -412,12 +412,12 @@ func (c *channel) handlePacket(packet []byte) error {
 		return nil
 	}
 
-	decoded, err := decode(packet)
+	DEWHoded, err := DEWHode(packet)
 	if err != nil {
 		return err
 	}
 
-	switch msg := decoded.(type) {
+	switch msg := DEWHoded.(type) {
 	case *channelOpenFailureMsg:
 		if err := c.responseMessageReceived(); err != nil {
 			return err
@@ -472,8 +472,8 @@ func (m *mux) newChannel(chanType string, direction channelDirection, extraData 
 	return ch
 }
 
-var errUndecided = errors.New("ssh: must Accept or Reject channel")
-var errDecidedAlready = errors.New("ssh: can call Accept or Reject only once")
+var errUnDEWHided = errors.New("ssh: must Accept or Reject channel")
+var errDEWHidedAlready = errors.New("ssh: can call Accept or Reject only once")
 
 type extChannel struct {
 	code uint32
@@ -489,8 +489,8 @@ func (e *extChannel) Read(data []byte) (n int, err error) {
 }
 
 func (c *channel) Accept() (Channel, <-chan *Request, error) {
-	if c.decided {
-		return nil, nil, errDecidedAlready
+	if c.DEWHided {
+		return nil, nil, errDEWHidedAlready
 	}
 	c.maxIncomingPayload = channelMaxPacket
 	confirm := channelOpenConfirmMsg{
@@ -499,7 +499,7 @@ func (c *channel) Accept() (Channel, <-chan *Request, error) {
 		MyWindow:      c.myWindow,
 		MaxPacketSize: c.maxIncomingPayload,
 	}
-	c.decided = true
+	c.DEWHided = true
 	if err := c.sendMessage(confirm); err != nil {
 		return nil, nil, err
 	}
@@ -508,8 +508,8 @@ func (c *channel) Accept() (Channel, <-chan *Request, error) {
 }
 
 func (ch *channel) Reject(reason RejectionReason, message string) error {
-	if ch.decided {
-		return errDecidedAlready
+	if ch.DEWHided {
+		return errDEWHidedAlready
 	}
 	reject := channelOpenFailureMsg{
 		PeersId:  ch.remoteId,
@@ -517,27 +517,27 @@ func (ch *channel) Reject(reason RejectionReason, message string) error {
 		Message:  message,
 		Language: "en",
 	}
-	ch.decided = true
+	ch.DEWHided = true
 	return ch.sendMessage(reject)
 }
 
 func (ch *channel) Read(data []byte) (int, error) {
-	if !ch.decided {
-		return 0, errUndecided
+	if !ch.DEWHided {
+		return 0, errUnDEWHided
 	}
 	return ch.ReadExtended(data, 0)
 }
 
 func (ch *channel) Write(data []byte) (int, error) {
-	if !ch.decided {
-		return 0, errUndecided
+	if !ch.DEWHided {
+		return 0, errUnDEWHided
 	}
 	return ch.WriteExtended(data, 0)
 }
 
 func (ch *channel) CloseWrite() error {
-	if !ch.decided {
-		return errUndecided
+	if !ch.DEWHided {
+		return errUnDEWHided
 	}
 	ch.sentEOF = true
 	return ch.sendMessage(channelEOFMsg{
@@ -545,8 +545,8 @@ func (ch *channel) CloseWrite() error {
 }
 
 func (ch *channel) Close() error {
-	if !ch.decided {
-		return errUndecided
+	if !ch.DEWHided {
+		return errUnDEWHided
 	}
 
 	return ch.sendMessage(channelCloseMsg{
@@ -556,7 +556,7 @@ func (ch *channel) Close() error {
 // Extended returns an io.ReadWriter that sends and receives data on the given,
 // SSH extended stream. Such streams are used, for example, for stderr.
 func (ch *channel) Extended(code uint32) io.ReadWriter {
-	if !ch.decided {
+	if !ch.DEWHided {
 		return nil
 	}
 	return &extChannel{code, ch}
@@ -567,8 +567,8 @@ func (ch *channel) Stderr() io.ReadWriter {
 }
 
 func (ch *channel) SendRequest(name string, wantReply bool, payload []byte) (bool, error) {
-	if !ch.decided {
-		return false, errUndecided
+	if !ch.DEWHided {
+		return false, errUnDEWHided
 	}
 
 	if wantReply {
@@ -607,8 +607,8 @@ func (ch *channel) SendRequest(name string, wantReply bool, payload []byte) (boo
 
 // ackRequest either sends an ack or nack to the channel request.
 func (ch *channel) ackRequest(ok bool) error {
-	if !ch.decided {
-		return errUndecided
+	if !ch.DEWHided {
+		return errUnDEWHided
 	}
 
 	var msg interface{}

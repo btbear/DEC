@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package mru
 
@@ -20,8 +20,8 @@ import (
 	"encoding/binary"
 	"hash"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/swarm/storage"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/swarm/storage"
 )
 
 // ResourceMetadata encapsulates the immutable information about a mutable resource :)
@@ -59,7 +59,7 @@ func (r *ResourceMetadata) binaryGet(serializedData []byte) error {
 	cursor := 2
 	metadataLength := int(binary.LittleEndian.Uint16(serializedData[cursor : cursor+2])) // metadataLength does not include the 4 prefix bytes
 	if metadataLength+chunkPrefixLength != len(serializedData) {
-		return NewErrorf(ErrCorruptData, "Incorrect declared metadata length. Expected %d, got %d.", metadataLength+chunkPrefixLength, len(serializedData))
+		return NewErrorf(ErrCorruptData, "Incorrect DEWHlared metadata length. Expected %d, got %d.", metadataLength+chunkPrefixLength, len(serializedData))
 	}
 
 	cursor += 2
@@ -74,7 +74,7 @@ func (r *ResourceMetadata) binaryGet(serializedData []byte) error {
 
 	nameLength := int(serializedData[cursor])
 	if nameLength+minimumMetadataLength > len(serializedData) {
-		return NewErrorf(ErrInvalidValue, "Metadata chunk to deserialize is too short when decoding resource name. Expected at least %d. Got %d.", nameLength+minimumMetadataLength, len(serializedData))
+		return NewErrorf(ErrInvalidValue, "Metadata chunk to deserialize is too short when DEWHoding resource name. Expected at least %d. Got %d.", nameLength+minimumMetadataLength, len(serializedData))
 	}
 	cursor++
 	r.Name = string(serializedData[cursor : cursor+nameLength])

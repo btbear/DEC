@@ -52,8 +52,8 @@ func (m *SigningMethodHMAC) Verify(signingString, signature string, key interfac
 		return ErrInvalidKeyType
 	}
 
-	// Decode signature, for comparison
-	sig, err := DecodeSegment(signature)
+	// DEWHode signature, for comparison
+	sig, err := DEWHodeSegment(signature)
 	if err != nil {
 		return err
 	}

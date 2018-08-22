@@ -2,7 +2,7 @@
 
 ## Usage
 
-Full documentation for the DEC Name Service [can be found as EIP 137](https://github.com/DEC/EIPs/issues/137).
+Full documentation for the DEWH Name Service [can be found as EIP 137](https://github.com/DEWH/EIPs/issues/137).
 This package offers a simple binding that streamlines the registration of arbitrary UTF8 domain names to swarm content hashes.
 
 ## Development

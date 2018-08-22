@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package simulations
 
@@ -24,11 +24,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/event"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/simulations/adapters"
+	"github.com/DEWH/go-DEWH/event"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/simulations/adapters"
 )
 
 var DialBanTimeout = 200 * time.Millisecond
@@ -80,7 +80,7 @@ func (net *Network) Events() *event.Feed {
 
 // NewNodeWithConfig adds a new node to the network with the given config,
 // returning an error if a node with the same ID or name already exists
-func (net *Network) NewNodeWithConfig(conf *adapters.NodeConfig) (*Node, error) {
+func (net *Network) NewNodeWithConfig(conf *adapters.NoDEWHonfig) (*Node, error) {
 	net.lock.Lock()
 	defer net.lock.Unlock()
 
@@ -520,7 +520,7 @@ type Node struct {
 	adapters.Node `json:"-"`
 
 	// Config if the config used to created the node
-	Config *adapters.NodeConfig `json:"config"`
+	Config *adapters.NoDEWHonfig `json:"config"`
 
 	// Up tracks whether or not the node is running
 	Up bool `json:"up"`
@@ -552,7 +552,7 @@ func (n *Node) NodeInfo() *p2p.NodeInfo {
 func (n *Node) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
 		Info   *p2p.NodeInfo        `json:"info,omitempty"`
-		Config *adapters.NodeConfig `json:"config,omitempty"`
+		Config *adapters.NoDEWHonfig `json:"config,omitempty"`
 		Up     bool                 `json:"up"`
 	}{
 		Info:   n.NodeInfo(),

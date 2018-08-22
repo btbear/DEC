@@ -1,25 +1,25 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 /*
 
 This key store behaves as KeyStorePlain with the difference that
 the private key is encrypted and on disk uses another JSON encoding.
 
-The crypto is documented at https://github.com/DEC/wiki/wiki/Web3-Secret-Storage-Definition
+The crypto is documented at https://github.com/DEWH/wiki/wiki/Web3-Secret-Storage-Definition
 
 */
 
@@ -37,9 +37,9 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/math"
-	"github.com/DEC/go-DEC/crypto"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/math"
+	"github.com/DEWH/go-DEWH/crypto"
 	"github.com/pborman/uuid"
 	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/crypto/scrypt"
@@ -75,12 +75,12 @@ type keyStorePassphrase struct {
 }
 
 func (ks keyStorePassphrase) GetKey(addr common.Address, filename, auth string) (*Key, error) {
-	// Load the key from the keystore and decrypt its contents
+	// Load the key from the keystore and DEWHrypt its contents
 	keyjson, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
-	key, err := DecryptKey(keyjson, auth)
+	key, err := DEWHryptKey(keyjson, auth)
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +113,7 @@ func (ks keyStorePassphrase) JoinPath(filename string) string {
 }
 
 // EncryptKey encrypts a key using the specified scrypt parameters into a json
-// blob that can be decrypted later on.
+// blob that can be DEWHrypted later on.
 func EncryptKey(key *Key, auth string, scryptN, scryptP int) ([]byte, error) {
 	authArray := []byte(auth)
 
@@ -166,8 +166,8 @@ func EncryptKey(key *Key, auth string, scryptN, scryptP int) ([]byte, error) {
 	return json.Marshal(encryptedKeyJSONV3)
 }
 
-// DecryptKey decrypts a key from a json blob, returning the private key itself.
-func DecryptKey(keyjson []byte, auth string) (*Key, error) {
+// DEWHryptKey DEWHrypts a key from a json blob, returning the private key itself.
+func DEWHryptKey(keyjson []byte, auth string) (*Key, error) {
 	// Parse the json into a simple map to fetch the key version
 	m := make(map[string]interface{})
 	if err := json.Unmarshal(keyjson, &m); err != nil {
@@ -183,15 +183,15 @@ func DecryptKey(keyjson []byte, auth string) (*Key, error) {
 		if err := json.Unmarshal(keyjson, k); err != nil {
 			return nil, err
 		}
-		keyBytes, keyId, err = decryptKeyV1(k, auth)
+		keyBytes, keyId, err = DEWHryptKeyV1(k, auth)
 	} else {
 		k := new(encryptedKeyJSONV3)
 		if err := json.Unmarshal(keyjson, k); err != nil {
 			return nil, err
 		}
-		keyBytes, keyId, err = decryptKeyV3(k, auth)
+		keyBytes, keyId, err = DEWHryptKeyV3(k, auth)
 	}
-	// Handle any decryption errors and return the key
+	// Handle any DEWHryption errors and return the key
 	if err != nil {
 		return nil, err
 	}
@@ -204,7 +204,7 @@ func DecryptKey(keyjson []byte, auth string) (*Key, error) {
 	}, nil
 }
 
-func decryptKeyV3(keyProtected *encryptedKeyJSONV3, auth string) (keyBytes []byte, keyId []byte, err error) {
+func DEWHryptKeyV3(keyProtected *encryptedKeyJSONV3, auth string) (keyBytes []byte, keyId []byte, err error) {
 	if keyProtected.Version != version {
 		return nil, nil, fmt.Errorf("Version not supported: %v", keyProtected.Version)
 	}
@@ -214,17 +214,17 @@ func decryptKeyV3(keyProtected *encryptedKeyJSONV3, auth string) (keyBytes []byt
 	}
 
 	keyId = uuid.Parse(keyProtected.Id)
-	mac, err := hex.DecodeString(keyProtected.Crypto.MAC)
+	mac, err := hex.DEWHodeString(keyProtected.Crypto.MAC)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	iv, err := hex.DecodeString(keyProtected.Crypto.CipherParams.IV)
+	iv, err := hex.DEWHodeString(keyProtected.Crypto.CipherParams.IV)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	cipherText, err := hex.DecodeString(keyProtected.Crypto.CipherText)
+	cipherText, err := hex.DEWHodeString(keyProtected.Crypto.CipherText)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -236,7 +236,7 @@ func decryptKeyV3(keyProtected *encryptedKeyJSONV3, auth string) (keyBytes []byt
 
 	calculatedMAC := crypto.Keccak256(derivedKey[16:32], cipherText)
 	if !bytes.Equal(calculatedMAC, mac) {
-		return nil, nil, ErrDecrypt
+		return nil, nil, ErrDEWHrypt
 	}
 
 	plainText, err := aesCTRXOR(derivedKey[:16], cipherText, iv)
@@ -246,19 +246,19 @@ func decryptKeyV3(keyProtected *encryptedKeyJSONV3, auth string) (keyBytes []byt
 	return plainText, keyId, err
 }
 
-func decryptKeyV1(keyProtected *encryptedKeyJSONV1, auth string) (keyBytes []byte, keyId []byte, err error) {
+func DEWHryptKeyV1(keyProtected *encryptedKeyJSONV1, auth string) (keyBytes []byte, keyId []byte, err error) {
 	keyId = uuid.Parse(keyProtected.Id)
-	mac, err := hex.DecodeString(keyProtected.Crypto.MAC)
+	mac, err := hex.DEWHodeString(keyProtected.Crypto.MAC)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	iv, err := hex.DecodeString(keyProtected.Crypto.CipherParams.IV)
+	iv, err := hex.DEWHodeString(keyProtected.Crypto.CipherParams.IV)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	cipherText, err := hex.DecodeString(keyProtected.Crypto.CipherText)
+	cipherText, err := hex.DEWHodeString(keyProtected.Crypto.CipherText)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -270,10 +270,10 @@ func decryptKeyV1(keyProtected *encryptedKeyJSONV1, auth string) (keyBytes []byt
 
 	calculatedMAC := crypto.Keccak256(derivedKey[16:32], cipherText)
 	if !bytes.Equal(calculatedMAC, mac) {
-		return nil, nil, ErrDecrypt
+		return nil, nil, ErrDEWHrypt
 	}
 
-	plainText, err := aesCBCDecrypt(crypto.Keccak256(derivedKey[:16])[:16], cipherText, iv)
+	plainText, err := aesCBCDEWHrypt(crypto.Keccak256(derivedKey[:16])[:16], cipherText, iv)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -282,7 +282,7 @@ func decryptKeyV1(keyProtected *encryptedKeyJSONV1, auth string) (keyBytes []byt
 
 func getKDFKey(cryptoJSON cryptoJSON, auth string) ([]byte, error) {
 	authArray := []byte(auth)
-	salt, err := hex.DecodeString(cryptoJSON.KDFParams["salt"].(string))
+	salt, err := hex.DEWHodeString(cryptoJSON.KDFParams["salt"].(string))
 	if err != nil {
 		return nil, err
 	}

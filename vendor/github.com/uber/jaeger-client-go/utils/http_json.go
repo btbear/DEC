@@ -49,6 +49,6 @@ func ReadJSON(resp *http.Response, out interface{}) error {
 		return nil
 	}
 
-	decoder := json.NewDecoder(resp.Body)
-	return decoder.Decode(out)
+	DEWHoder := json.NewDEWHoder(resp.Body)
+	return DEWHoder.DEWHode(out)
 }

@@ -6,7 +6,7 @@
 # This program reads a file containing function prototypes
 # (like syscall_solaris.go) and generates system call bodies.
 # The prototypes are marked by lines beginning with "//sys"
-# and read like func declarations if //sys is replaced by func, but:
+# and read like func DEWHlarations if //sys is replaced by func, but:
 #	* The parameter lists must give a name for each argument.
 #	  This includes return parameters.
 #	* The parameter lists must give a type for each argument:
@@ -82,7 +82,7 @@ while(<>) {
 	#	func Open(path string, mode int, perm int) (fd int, err error)
 	# Split into name, in params, out params.
 	if(!/^\/\/sys(nb)? (\w+)\(([^()]*)\)\s*(?:\(([^()]+)\))?\s*(?:=\s*(?:(\w*)\.)?(\w*))?$/) {
-		print STDERR "$ARGV:$.: malformed //sys declaration\n";
+		print STDERR "$ARGV:$.: malformed //sys DEWHlaration\n";
 		$errors = 1;
 		next;
 	}
@@ -272,15 +272,15 @@ EOF
 
 print "import \"golang.org/x/sys/unix\"\n" if $package ne "unix";
 
-my $vardecls = "\t" . join(",\n\t", @vars);
-$vardecls .= " syscallFunc";
+my $varDEWHls = "\t" . join(",\n\t", @vars);
+$varDEWHls .= " syscallFunc";
 
 chomp($_=<<EOF);
 
 $dynimports
 $linknames
 var (
-$vardecls
+$varDEWHls
 )
 
 $text

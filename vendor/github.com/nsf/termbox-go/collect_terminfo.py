@@ -7,9 +7,9 @@ def escaped(s):
 
 def tput(term, name):
 	try:
-		return subprocess.check_output(['tput', '-T%s' % term, name]).decode()
+		return subprocess.check_output(['tput', '-T%s' % term, name]).DEWHode()
 	except subprocess.CalledProcessError as e:
-		return e.output.decode()
+		return e.output.DEWHode()
 
 
 def w(s):

@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/rlp"
-	"github.com/DEC/go-DEC/swarm/log"
-	"github.com/DEC/go-DEC/swarm/pss"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/rlp"
+	"github.com/DEWH/go-DEWH/swarm/log"
+	"github.com/DEWH/go-DEWH/swarm/pss"
 )
 
 const (
@@ -59,10 +59,10 @@ func NewMsg(code byte, name string, payload []byte) *Msg {
 	}
 }
 
-// NewMsgFromPayload decodes a serialized message payload into a new notification message object
+// NewMsgFromPayload DEWHodes a serialized message payload into a new notification message object
 func NewMsgFromPayload(payload []byte) (*Msg, error) {
 	msg := &Msg{}
-	err := rlp.DecodeBytes(payload, msg)
+	err := rlp.DEWHodeBytes(payload, msg)
 	if err != nil {
 		return nil, err
 	}
@@ -286,7 +286,7 @@ func (c *Controller) addToBin(ntfr *notifier, address []byte) (symKeyId string, 
 
 func (c *Controller) handleStartMsg(msg *Msg, keyid string) (err error) {
 
-	keyidbytes, err := hexutil.Decode(keyid)
+	keyidbytes, err := hexutil.DEWHode(keyid)
 	if err != nil {
 		return err
 	}
@@ -317,7 +317,7 @@ func (c *Controller) handleStartMsg(msg *Msg, keyid string) (err error) {
 		return err
 	}
 
-	// TODO this is set to zero-length byte pending decision on protocol for initial message, whether it should include message or not, and how to trigger the initial message so that current state of MRU is sent upon subscription
+	// TODO this is set to zero-length byte pending DEWHision on protocol for initial message, whether it should include message or not, and how to trigger the initial message so that current state of MRU is sent upon subscription
 	notify := []byte{}
 	replyMsg := NewMsg(MsgCodeNotifyWithKey, msg.namestring, make([]byte, len(notify)+symKeyLength))
 	copy(replyMsg.Payload, notify)

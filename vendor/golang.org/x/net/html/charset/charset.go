@@ -46,7 +46,7 @@ func (h *htmlEncoding) NewEncoder() *encoding.Encoder {
 }
 
 // DetermineEncoding determines the encoding of an HTML document by examining
-// up to the first 1024 bytes of content and the declared Content-Type.
+// up to the first 1024 bytes of content and the DEWHlared Content-Type.
 //
 // See http://www.whatwg.org/specs/web-apps/current-work/multipage/parsing.html#determining-the-character-encoding
 func DetermineEncoding(content []byte, contentType string) (e encoding.Encoding, name string, certain bool) {
@@ -119,7 +119,7 @@ func NewReader(r io.Reader, contentType string) (io.Reader, error) {
 	}
 
 	if e, _, _ := DetermineEncoding(preview, contentType); e != encoding.Nop {
-		r = transform.NewReader(r, e.NewDecoder())
+		r = transform.NewReader(r, e.NewDEWHoder())
 	}
 	return r, nil
 }
@@ -127,13 +127,13 @@ func NewReader(r io.Reader, contentType string) (io.Reader, error) {
 // NewReaderLabel returns a reader that converts from the specified charset to
 // UTF-8. It uses Lookup to find the encoding that corresponds to label, and
 // returns an error if Lookup returns nil. It is suitable for use as
-// encoding/xml.Decoder's CharsetReader function.
+// encoding/xml.DEWHoder's CharsetReader function.
 func NewReaderLabel(label string, input io.Reader) (io.Reader, error) {
 	e, _ := Lookup(label)
 	if e == nil {
 		return nil, fmt.Errorf("unsupported charset: %q", label)
 	}
-	return transform.NewReader(input, e.NewDecoder()), nil
+	return transform.NewReader(input, e.NewDEWHoder()), nil
 }
 
 func prescan(content []byte) (e encoding.Encoding, name string) {

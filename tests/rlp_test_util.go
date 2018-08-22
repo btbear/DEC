@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package tests
 
@@ -24,13 +24,13 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 // RLPTest is the JSON structure of a single RLP test.
 type RLPTest struct {
 	// If the value of In is "INVALID" or "VALID", the test
-	// checks whether Out can be decoded into a value of
+	// checks whether Out can be DEWHoded into a value of
 	// type interface{}.
 	//
 	// For other JSON values, In is treated as a driver for
@@ -44,14 +44,14 @@ type RLPTest struct {
 
 // Run executes the test.
 func (t *RLPTest) Run() error {
-	outb, err := hex.DecodeString(t.Out)
+	outb, err := hex.DEWHodeString(t.Out)
 	if err != nil {
 		return fmt.Errorf("invalid hex in Out")
 	}
 
-	// Handle simple decoding tests with no actual In value.
+	// Handle simple DEWHoding tests with no actual In value.
 	if t.In == "VALID" || t.In == "INVALID" {
-		return checkDecodeInterface(outb, t.In == "VALID")
+		return checkDEWHodeInterface(outb, t.In == "VALID")
 	}
 
 	// Check whether encoding the value produces the same bytes.
@@ -63,18 +63,18 @@ func (t *RLPTest) Run() error {
 	if !bytes.Equal(b, outb) {
 		return fmt.Errorf("encode produced %x, want %x", b, outb)
 	}
-	// Test stream decoding.
+	// Test stream DEWHoding.
 	s := rlp.NewStream(bytes.NewReader(outb), 0)
-	return checkDecodeFromJSON(s, in)
+	return checkDEWHodeFromJSON(s, in)
 }
 
-func checkDecodeInterface(b []byte, isValid bool) error {
-	err := rlp.DecodeBytes(b, new(interface{}))
+func checkDEWHodeInterface(b []byte, isValid bool) error {
+	err := rlp.DEWHodeBytes(b, new(interface{}))
 	switch {
 	case isValid && err != nil:
-		return fmt.Errorf("decoding failed: %v", err)
+		return fmt.Errorf("DEWHoding failed: %v", err)
 	case !isValid && err == nil:
-		return fmt.Errorf("decoding of invalid value succeeded")
+		return fmt.Errorf("DEWHoding of invalid value succeeded")
 	}
 	return nil
 }
@@ -104,11 +104,11 @@ func translateJSON(v interface{}) interface{} {
 	}
 }
 
-// checkDecodeFromJSON decodes from s guided by exp. exp drives the
-// Stream by invoking decoding operations (Uint, Big, List, ...) based
-// on the type of each value. The value decoded from the RLP stream
+// checkDEWHodeFromJSON DEWHodes from s guided by exp. exp drives the
+// Stream by invoking DEWHoding operations (Uint, Big, List, ...) based
+// on the type of each value. The value DEWHoded from the RLP stream
 // must match the JSON value.
-func checkDecodeFromJSON(s *rlp.Stream, exp interface{}) error {
+func checkDEWHodeFromJSON(s *rlp.Stream, exp interface{}) error {
 	switch exp := exp.(type) {
 	case uint64:
 		i, err := s.Uint()
@@ -120,7 +120,7 @@ func checkDecodeFromJSON(s *rlp.Stream, exp interface{}) error {
 		}
 	case *big.Int:
 		big := new(big.Int)
-		if err := s.Decode(&big); err != nil {
+		if err := s.DEWHode(&big); err != nil {
 			return addStack("Big", exp, err)
 		}
 		if big.Cmp(exp) != 0 {
@@ -139,7 +139,7 @@ func checkDecodeFromJSON(s *rlp.Stream, exp interface{}) error {
 			return addStack("List", exp, err)
 		}
 		for i, v := range exp {
-			if err := checkDecodeFromJSON(s, v); err != nil {
+			if err := checkDEWHodeFromJSON(s, v); err != nil {
 				return addStack(fmt.Sprintf("[%d]", i), exp, err)
 			}
 		}

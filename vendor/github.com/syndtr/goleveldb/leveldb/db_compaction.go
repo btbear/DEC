@@ -269,7 +269,7 @@ func (db *DB) memCompaction() {
 	if mdb == nil {
 		return
 	}
-	defer mdb.decref()
+	defer mdb.DEWHref()
 
 	db.logf("memdb@flush N·%d S·%s", mdb.Len(), shortenb(mdb.Size()))
 

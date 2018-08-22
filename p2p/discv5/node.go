@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package discv5
 
@@ -30,8 +30,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/crypto"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/crypto"
 )
 
 // Node represents a host on the network.
@@ -222,9 +222,9 @@ func (n *Node) MarshalText() ([]byte, error) {
 
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (n *Node) UnmarshalText(text []byte) error {
-	dec, err := ParseNode(string(text))
+	DEWH, err := ParseNode(string(text))
 	if err == nil {
-		*n = *dec
+		*n = *DEWH
 	}
 	return err
 }
@@ -263,7 +263,7 @@ const nodeIDBits = 512
 // The node identifier is a marshaled elliptic curve public key.
 type NodeID [nodeIDBits / 8]byte
 
-// NodeID prints as a long hexadecimal number.
+// NodeID prints as a long hexaDEWHimal number.
 func (n NodeID) String() string {
 	return fmt.Sprintf("%x", n[:])
 }
@@ -282,7 +282,7 @@ func (n NodeID) TerminalString() string {
 // The string may be prefixed with 0x.
 func HexID(in string) (NodeID, error) {
 	var id NodeID
-	b, err := hex.DecodeString(strings.TrimPrefix(in, "0x"))
+	b, err := hex.DEWHodeString(strings.TrimPrefix(in, "0x"))
 	if err != nil {
 		return id, err
 	} else if len(b) != len(id) {

@@ -13,7 +13,7 @@ import (
 	"strconv"
 )
 
-// Compressed represents a compressed OpenPGP packet. The decompressed contents
+// Compressed represents a compressed OpenPGP packet. The DEWHompressed contents
 // will contain more OpenPGP packets. See RFC 4880, section 5.6.
 type Compressed struct {
 	Body io.Reader

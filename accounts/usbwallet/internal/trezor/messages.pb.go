@@ -65,23 +65,23 @@ const (
 	MessageType_MessageType_CipheredKeyValue         MessageType = 48
 	MessageType_MessageType_EncryptMessage           MessageType = 49
 	MessageType_MessageType_EncryptedMessage         MessageType = 50
-	MessageType_MessageType_DecryptMessage           MessageType = 51
-	MessageType_MessageType_DecryptedMessage         MessageType = 52
+	MessageType_MessageType_DEWHryptMessage           MessageType = 51
+	MessageType_MessageType_DEWHryptedMessage         MessageType = 52
 	MessageType_MessageType_SignIdentity             MessageType = 53
 	MessageType_MessageType_SignedIdentity           MessageType = 54
 	MessageType_MessageType_GetFeatures              MessageType = 55
-	MessageType_MessageType_DECGetAddress       MessageType = 56
-	MessageType_MessageType_DECAddress          MessageType = 57
-	MessageType_MessageType_DECSignTx           MessageType = 58
-	MessageType_MessageType_DECTxRequest        MessageType = 59
-	MessageType_MessageType_DECTxAck            MessageType = 60
+	MessageType_MessageType_DEWHGetAddress       MessageType = 56
+	MessageType_MessageType_DEWHAddress          MessageType = 57
+	MessageType_MessageType_DEWHSignTx           MessageType = 58
+	MessageType_MessageType_DEWHTxRequest        MessageType = 59
+	MessageType_MessageType_DEWHTxAck            MessageType = 60
 	MessageType_MessageType_GetECDHSessionKey        MessageType = 61
 	MessageType_MessageType_ECDHSessionKey           MessageType = 62
 	MessageType_MessageType_SetU2FCounter            MessageType = 63
-	MessageType_MessageType_DECSignMessage      MessageType = 64
-	MessageType_MessageType_DECVerifyMessage    MessageType = 65
-	MessageType_MessageType_DECMessageSignature MessageType = 66
-	MessageType_MessageType_DebugLinkDecision        MessageType = 100
+	MessageType_MessageType_DEWHSignMessage      MessageType = 64
+	MessageType_MessageType_DEWHVerifyMessage    MessageType = 65
+	MessageType_MessageType_DEWHMessageSignature MessageType = 66
+	MessageType_MessageType_DebugLinkDEWHision        MessageType = 100
 	MessageType_MessageType_DebugLinkGetState        MessageType = 101
 	MessageType_MessageType_DebugLinkState           MessageType = 102
 	MessageType_MessageType_DebugLinkStop            MessageType = 103
@@ -141,23 +141,23 @@ var MessageType_name = map[int32]string{
 	48:  "MessageType_CipheredKeyValue",
 	49:  "MessageType_EncryptMessage",
 	50:  "MessageType_EncryptedMessage",
-	51:  "MessageType_DecryptMessage",
-	52:  "MessageType_DecryptedMessage",
+	51:  "MessageType_DEWHryptMessage",
+	52:  "MessageType_DEWHryptedMessage",
 	53:  "MessageType_SignIdentity",
 	54:  "MessageType_SignedIdentity",
 	55:  "MessageType_GetFeatures",
-	56:  "MessageType_DECGetAddress",
-	57:  "MessageType_DECAddress",
-	58:  "MessageType_DECSignTx",
-	59:  "MessageType_DECTxRequest",
-	60:  "MessageType_DECTxAck",
+	56:  "MessageType_DEWHGetAddress",
+	57:  "MessageType_DEWHAddress",
+	58:  "MessageType_DEWHSignTx",
+	59:  "MessageType_DEWHTxRequest",
+	60:  "MessageType_DEWHTxAck",
 	61:  "MessageType_GetECDHSessionKey",
 	62:  "MessageType_ECDHSessionKey",
 	63:  "MessageType_SetU2FCounter",
-	64:  "MessageType_DECSignMessage",
-	65:  "MessageType_DECVerifyMessage",
-	66:  "MessageType_DECMessageSignature",
-	100: "MessageType_DebugLinkDecision",
+	64:  "MessageType_DEWHSignMessage",
+	65:  "MessageType_DEWHVerifyMessage",
+	66:  "MessageType_DEWHMessageSignature",
+	100: "MessageType_DebugLinkDEWHision",
 	101: "MessageType_DebugLinkGetState",
 	102: "MessageType_DebugLinkState",
 	103: "MessageType_DebugLinkStop",
@@ -216,23 +216,23 @@ var MessageType_value = map[string]int32{
 	"MessageType_CipheredKeyValue":         48,
 	"MessageType_EncryptMessage":           49,
 	"MessageType_EncryptedMessage":         50,
-	"MessageType_DecryptMessage":           51,
-	"MessageType_DecryptedMessage":         52,
+	"MessageType_DEWHryptMessage":           51,
+	"MessageType_DEWHryptedMessage":         52,
 	"MessageType_SignIdentity":             53,
 	"MessageType_SignedIdentity":           54,
 	"MessageType_GetFeatures":              55,
-	"MessageType_DECGetAddress":       56,
-	"MessageType_DECAddress":          57,
-	"MessageType_DECSignTx":           58,
-	"MessageType_DECTxRequest":        59,
-	"MessageType_DECTxAck":            60,
+	"MessageType_DEWHGetAddress":       56,
+	"MessageType_DEWHAddress":          57,
+	"MessageType_DEWHSignTx":           58,
+	"MessageType_DEWHTxRequest":        59,
+	"MessageType_DEWHTxAck":            60,
 	"MessageType_GetECDHSessionKey":        61,
 	"MessageType_ECDHSessionKey":           62,
 	"MessageType_SetU2FCounter":            63,
-	"MessageType_DECSignMessage":      64,
-	"MessageType_DECVerifyMessage":    65,
-	"MessageType_DECMessageSignature": 66,
-	"MessageType_DebugLinkDecision":        100,
+	"MessageType_DEWHSignMessage":      64,
+	"MessageType_DEWHVerifyMessage":    65,
+	"MessageType_DEWHMessageSignature": 66,
+	"MessageType_DebugLinkDEWHision":        100,
 	"MessageType_DebugLinkGetState":        101,
 	"MessageType_DebugLinkState":           102,
 	"MessageType_DebugLinkStop":            103,
@@ -954,29 +954,29 @@ func (m *GetAddress) GetScriptType() InputScriptType {
 }
 
 // *
-// Request: Ask device for DEC address corresponding to address_n path
+// Request: Ask device for DEWH address corresponding to address_n path
 // @next PassphraseRequest
-// @next DECAddress
+// @next DEWHAddress
 // @next Failure
-type DECGetAddress struct {
+type DEWHGetAddress struct {
 	AddressN         []uint32 `protobuf:"varint,1,rep,name=address_n,json=addressN" json:"address_n,omitempty"`
 	ShowDisplay      *bool    `protobuf:"varint,2,opt,name=show_display,json=showDisplay" json:"show_display,omitempty"`
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *DECGetAddress) Reset()                    { *m = DECGetAddress{} }
-func (m *DECGetAddress) String() string            { return proto.CompactTextString(m) }
-func (*DECGetAddress) ProtoMessage()               {}
-func (*DECGetAddress) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{22} }
+func (m *DEWHGetAddress) Reset()                    { *m = DEWHGetAddress{} }
+func (m *DEWHGetAddress) String() string            { return proto.CompactTextString(m) }
+func (*DEWHGetAddress) ProtoMessage()               {}
+func (*DEWHGetAddress) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{22} }
 
-func (m *DECGetAddress) GetAddressN() []uint32 {
+func (m *DEWHGetAddress) GetAddressN() []uint32 {
 	if m != nil {
 		return m.AddressN
 	}
 	return nil
 }
 
-func (m *DECGetAddress) GetShowDisplay() bool {
+func (m *DEWHGetAddress) GetShowDisplay() bool {
 	if m != nil && m.ShowDisplay != nil {
 		return *m.ShowDisplay
 	}
@@ -1004,19 +1004,19 @@ func (m *Address) GetAddress() string {
 }
 
 // *
-// Response: Contains an DEC address derived from device private seed
-// @prev DECGetAddress
-type DECAddress struct {
+// Response: Contains an DEWH address derived from device private seed
+// @prev DEWHGetAddress
+type DEWHAddress struct {
 	Address          []byte `protobuf:"bytes,1,req,name=address" json:"address,omitempty"`
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *DECAddress) Reset()                    { *m = DECAddress{} }
-func (m *DECAddress) String() string            { return proto.CompactTextString(m) }
-func (*DECAddress) ProtoMessage()               {}
-func (*DECAddress) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{24} }
+func (m *DEWHAddress) Reset()                    { *m = DEWHAddress{} }
+func (m *DEWHAddress) String() string            { return proto.CompactTextString(m) }
+func (*DEWHAddress) ProtoMessage()               {}
+func (*DEWHAddress) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{24} }
 
-func (m *DECAddress) GetAddress() []byte {
+func (m *DEWHAddress) GetAddress() []byte {
 	if m != nil {
 		return m.Address
 	}
@@ -1589,10 +1589,10 @@ func (m *EncryptedMessage) GetHmac() []byte {
 }
 
 // *
-// Request: Ask device to decrypt message
+// Request: Ask device to DEWHrypt message
 // @next Success
 // @next Failure
-type DecryptMessage struct {
+type DEWHryptMessage struct {
 	AddressN         []uint32 `protobuf:"varint,1,rep,name=address_n,json=addressN" json:"address_n,omitempty"`
 	Nonce            []byte   `protobuf:"bytes,2,opt,name=nonce" json:"nonce,omitempty"`
 	Message          []byte   `protobuf:"bytes,3,opt,name=message" json:"message,omitempty"`
@@ -1600,33 +1600,33 @@ type DecryptMessage struct {
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *DecryptMessage) Reset()                    { *m = DecryptMessage{} }
-func (m *DecryptMessage) String() string            { return proto.CompactTextString(m) }
-func (*DecryptMessage) ProtoMessage()               {}
-func (*DecryptMessage) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{39} }
+func (m *DEWHryptMessage) Reset()                    { *m = DEWHryptMessage{} }
+func (m *DEWHryptMessage) String() string            { return proto.CompactTextString(m) }
+func (*DEWHryptMessage) ProtoMessage()               {}
+func (*DEWHryptMessage) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{39} }
 
-func (m *DecryptMessage) GetAddressN() []uint32 {
+func (m *DEWHryptMessage) GetAddressN() []uint32 {
 	if m != nil {
 		return m.AddressN
 	}
 	return nil
 }
 
-func (m *DecryptMessage) GetNonce() []byte {
+func (m *DEWHryptMessage) GetNonce() []byte {
 	if m != nil {
 		return m.Nonce
 	}
 	return nil
 }
 
-func (m *DecryptMessage) GetMessage() []byte {
+func (m *DEWHryptMessage) GetMessage() []byte {
 	if m != nil {
 		return m.Message
 	}
 	return nil
 }
 
-func (m *DecryptMessage) GetHmac() []byte {
+func (m *DEWHryptMessage) GetHmac() []byte {
 	if m != nil {
 		return m.Hmac
 	}
@@ -1634,27 +1634,27 @@ func (m *DecryptMessage) GetHmac() []byte {
 }
 
 // *
-// Response: Decrypted message
-// @prev DecryptedMessage
-type DecryptedMessage struct {
+// Response: DEWHrypted message
+// @prev DEWHryptedMessage
+type DEWHryptedMessage struct {
 	Message          []byte  `protobuf:"bytes,1,opt,name=message" json:"message,omitempty"`
 	Address          *string `protobuf:"bytes,2,opt,name=address" json:"address,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *DecryptedMessage) Reset()                    { *m = DecryptedMessage{} }
-func (m *DecryptedMessage) String() string            { return proto.CompactTextString(m) }
-func (*DecryptedMessage) ProtoMessage()               {}
-func (*DecryptedMessage) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{40} }
+func (m *DEWHryptedMessage) Reset()                    { *m = DEWHryptedMessage{} }
+func (m *DEWHryptedMessage) String() string            { return proto.CompactTextString(m) }
+func (*DEWHryptedMessage) ProtoMessage()               {}
+func (*DEWHryptedMessage) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{40} }
 
-func (m *DecryptedMessage) GetMessage() []byte {
+func (m *DEWHryptedMessage) GetMessage() []byte {
 	if m != nil {
 		return m.Message
 	}
 	return nil
 }
 
-func (m *DecryptedMessage) GetAddress() string {
+func (m *DEWHryptedMessage) GetAddress() string {
 	if m != nil && m.Address != nil {
 		return *m.Address
 	}
@@ -1662,7 +1662,7 @@ func (m *DecryptedMessage) GetAddress() string {
 }
 
 // *
-// Request: Ask device to encrypt or decrypt value of given key
+// Request: Ask device to encrypt or DEWHrypt value of given key
 // @next CipheredKeyValue
 // @next Failure
 type CipherKeyValue struct {
@@ -1671,7 +1671,7 @@ type CipherKeyValue struct {
 	Value            []byte   `protobuf:"bytes,3,opt,name=value" json:"value,omitempty"`
 	Encrypt          *bool    `protobuf:"varint,4,opt,name=encrypt" json:"encrypt,omitempty"`
 	AskOnEncrypt     *bool    `protobuf:"varint,5,opt,name=ask_on_encrypt,json=askOnEncrypt" json:"ask_on_encrypt,omitempty"`
-	AskOnDecrypt     *bool    `protobuf:"varint,6,opt,name=ask_on_decrypt,json=askOnDecrypt" json:"ask_on_decrypt,omitempty"`
+	AskOnDEWHrypt     *bool    `protobuf:"varint,6,opt,name=ask_on_DEWHrypt,json=askOnDEWHrypt" json:"ask_on_DEWHrypt,omitempty"`
 	Iv               []byte   `protobuf:"bytes,7,opt,name=iv" json:"iv,omitempty"`
 	XXX_unrecognized []byte   `json:"-"`
 }
@@ -1716,9 +1716,9 @@ func (m *CipherKeyValue) GetAskOnEncrypt() bool {
 	return false
 }
 
-func (m *CipherKeyValue) GetAskOnDecrypt() bool {
-	if m != nil && m.AskOnDecrypt != nil {
-		return *m.AskOnDecrypt
+func (m *CipherKeyValue) GetAskOnDEWHrypt() bool {
+	if m != nil && m.AskOnDEWHrypt != nil {
+		return *m.AskOnDEWHrypt
 	}
 	return false
 }
@@ -1731,7 +1731,7 @@ func (m *CipherKeyValue) GetIv() []byte {
 }
 
 // *
-// Response: Return ciphered/deciphered value
+// Response: Return ciphered/DEWHiphered value
 // @prev CipherKeyValue
 type CipheredKeyValue struct {
 	Value            []byte `protobuf:"bytes,1,opt,name=value" json:"value,omitempty"`
@@ -2006,9 +2006,9 @@ func (m *TxAck) GetTx() *TransactionType {
 // Note: the first at most 1024 bytes of data MUST be transmitted as part of this message.
 // @next PassphraseRequest
 // @next PinMatrixRequest
-// @next DECTxRequest
+// @next DEWHTxRequest
 // @next Failure
-type DECSignTx struct {
+type DEWHSignTx struct {
 	AddressN         []uint32 `protobuf:"varint,1,rep,name=address_n,json=addressN" json:"address_n,omitempty"`
 	Nonce            []byte   `protobuf:"bytes,2,opt,name=nonce" json:"nonce,omitempty"`
 	GasPrice         []byte   `protobuf:"bytes,3,opt,name=gas_price,json=gasPrice" json:"gas_price,omitempty"`
@@ -2021,68 +2021,68 @@ type DECSignTx struct {
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *DECSignTx) Reset()                    { *m = DECSignTx{} }
-func (m *DECSignTx) String() string            { return proto.CompactTextString(m) }
-func (*DECSignTx) ProtoMessage()               {}
-func (*DECSignTx) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{49} }
+func (m *DEWHSignTx) Reset()                    { *m = DEWHSignTx{} }
+func (m *DEWHSignTx) String() string            { return proto.CompactTextString(m) }
+func (*DEWHSignTx) ProtoMessage()               {}
+func (*DEWHSignTx) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{49} }
 
-func (m *DECSignTx) GetAddressN() []uint32 {
+func (m *DEWHSignTx) GetAddressN() []uint32 {
 	if m != nil {
 		return m.AddressN
 	}
 	return nil
 }
 
-func (m *DECSignTx) GetNonce() []byte {
+func (m *DEWHSignTx) GetNonce() []byte {
 	if m != nil {
 		return m.Nonce
 	}
 	return nil
 }
 
-func (m *DECSignTx) GetGasPrice() []byte {
+func (m *DEWHSignTx) GetGasPrice() []byte {
 	if m != nil {
 		return m.GasPrice
 	}
 	return nil
 }
 
-func (m *DECSignTx) GetGasLimit() []byte {
+func (m *DEWHSignTx) GetGasLimit() []byte {
 	if m != nil {
 		return m.GasLimit
 	}
 	return nil
 }
 
-func (m *DECSignTx) GetTo() []byte {
+func (m *DEWHSignTx) GetTo() []byte {
 	if m != nil {
 		return m.To
 	}
 	return nil
 }
 
-func (m *DECSignTx) GetValue() []byte {
+func (m *DEWHSignTx) GetValue() []byte {
 	if m != nil {
 		return m.Value
 	}
 	return nil
 }
 
-func (m *DECSignTx) GetDataInitialChunk() []byte {
+func (m *DEWHSignTx) GetDataInitialChunk() []byte {
 	if m != nil {
 		return m.DataInitialChunk
 	}
 	return nil
 }
 
-func (m *DECSignTx) GetDataLength() uint32 {
+func (m *DEWHSignTx) GetDataLength() uint32 {
 	if m != nil && m.DataLength != nil {
 		return *m.DataLength
 	}
 	return 0
 }
 
-func (m *DECSignTx) GetChainId() uint32 {
+func (m *DEWHSignTx) GetChainId() uint32 {
 	if m != nil && m.ChainId != nil {
 		return *m.ChainId
 	}
@@ -2093,9 +2093,9 @@ func (m *DECSignTx) GetChainId() uint32 {
 // Response: Device asks for more data from transaction payload, or returns the signature.
 // If data_length is set, device awaits that many more bytes of payload.
 // Otherwise, the signature_* fields contain the computed transaction signature. All three fields will be present.
-// @prev DECSignTx
-// @next DECTxAck
-type DECTxRequest struct {
+// @prev DEWHSignTx
+// @next DEWHTxAck
+type DEWHTxRequest struct {
 	DataLength       *uint32 `protobuf:"varint,1,opt,name=data_length,json=dataLength" json:"data_length,omitempty"`
 	SignatureV       *uint32 `protobuf:"varint,2,opt,name=signature_v,json=signatureV" json:"signature_v,omitempty"`
 	SignatureR       []byte  `protobuf:"bytes,3,opt,name=signature_r,json=signatureR" json:"signature_r,omitempty"`
@@ -2103,33 +2103,33 @@ type DECTxRequest struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *DECTxRequest) Reset()                    { *m = DECTxRequest{} }
-func (m *DECTxRequest) String() string            { return proto.CompactTextString(m) }
-func (*DECTxRequest) ProtoMessage()               {}
-func (*DECTxRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{50} }
+func (m *DEWHTxRequest) Reset()                    { *m = DEWHTxRequest{} }
+func (m *DEWHTxRequest) String() string            { return proto.CompactTextString(m) }
+func (*DEWHTxRequest) ProtoMessage()               {}
+func (*DEWHTxRequest) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{50} }
 
-func (m *DECTxRequest) GetDataLength() uint32 {
+func (m *DEWHTxRequest) GetDataLength() uint32 {
 	if m != nil && m.DataLength != nil {
 		return *m.DataLength
 	}
 	return 0
 }
 
-func (m *DECTxRequest) GetSignatureV() uint32 {
+func (m *DEWHTxRequest) GetSignatureV() uint32 {
 	if m != nil && m.SignatureV != nil {
 		return *m.SignatureV
 	}
 	return 0
 }
 
-func (m *DECTxRequest) GetSignatureR() []byte {
+func (m *DEWHTxRequest) GetSignatureR() []byte {
 	if m != nil {
 		return m.SignatureR
 	}
 	return nil
 }
 
-func (m *DECTxRequest) GetSignatureS() []byte {
+func (m *DEWHTxRequest) GetSignatureS() []byte {
 	if m != nil {
 		return m.SignatureS
 	}
@@ -2138,19 +2138,19 @@ func (m *DECTxRequest) GetSignatureS() []byte {
 
 // *
 // Request: Transaction payload data.
-// @prev DECTxRequest
-// @next DECTxRequest
-type DECTxAck struct {
+// @prev DEWHTxRequest
+// @next DEWHTxRequest
+type DEWHTxAck struct {
 	DataChunk        []byte `protobuf:"bytes,1,opt,name=data_chunk,json=dataChunk" json:"data_chunk,omitempty"`
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *DECTxAck) Reset()                    { *m = DECTxAck{} }
-func (m *DECTxAck) String() string            { return proto.CompactTextString(m) }
-func (*DECTxAck) ProtoMessage()               {}
-func (*DECTxAck) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{51} }
+func (m *DEWHTxAck) Reset()                    { *m = DEWHTxAck{} }
+func (m *DEWHTxAck) String() string            { return proto.CompactTextString(m) }
+func (*DEWHTxAck) ProtoMessage()               {}
+func (*DEWHTxAck) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{51} }
 
-func (m *DECTxAck) GetDataChunk() []byte {
+func (m *DEWHTxAck) GetDataChunk() []byte {
 	if m != nil {
 		return m.DataChunk
 	}
@@ -2159,27 +2159,27 @@ func (m *DECTxAck) GetDataChunk() []byte {
 
 // *
 // Request: Ask device to sign message
-// @next DECMessageSignature
+// @next DEWHMessageSignature
 // @next Failure
-type DECSignMessage struct {
+type DEWHSignMessage struct {
 	AddressN         []uint32 `protobuf:"varint,1,rep,name=address_n,json=addressN" json:"address_n,omitempty"`
 	Message          []byte   `protobuf:"bytes,2,req,name=message" json:"message,omitempty"`
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *DECSignMessage) Reset()                    { *m = DECSignMessage{} }
-func (m *DECSignMessage) String() string            { return proto.CompactTextString(m) }
-func (*DECSignMessage) ProtoMessage()               {}
-func (*DECSignMessage) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{52} }
+func (m *DEWHSignMessage) Reset()                    { *m = DEWHSignMessage{} }
+func (m *DEWHSignMessage) String() string            { return proto.CompactTextString(m) }
+func (*DEWHSignMessage) ProtoMessage()               {}
+func (*DEWHSignMessage) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{52} }
 
-func (m *DECSignMessage) GetAddressN() []uint32 {
+func (m *DEWHSignMessage) GetAddressN() []uint32 {
 	if m != nil {
 		return m.AddressN
 	}
 	return nil
 }
 
-func (m *DECSignMessage) GetMessage() []byte {
+func (m *DEWHSignMessage) GetMessage() []byte {
 	if m != nil {
 		return m.Message
 	}
@@ -2190,33 +2190,33 @@ func (m *DECSignMessage) GetMessage() []byte {
 // Request: Ask device to verify message
 // @next Success
 // @next Failure
-type DECVerifyMessage struct {
+type DEWHVerifyMessage struct {
 	Address          []byte `protobuf:"bytes,1,opt,name=address" json:"address,omitempty"`
 	Signature        []byte `protobuf:"bytes,2,opt,name=signature" json:"signature,omitempty"`
 	Message          []byte `protobuf:"bytes,3,opt,name=message" json:"message,omitempty"`
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *DECVerifyMessage) Reset()                    { *m = DECVerifyMessage{} }
-func (m *DECVerifyMessage) String() string            { return proto.CompactTextString(m) }
-func (*DECVerifyMessage) ProtoMessage()               {}
-func (*DECVerifyMessage) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{53} }
+func (m *DEWHVerifyMessage) Reset()                    { *m = DEWHVerifyMessage{} }
+func (m *DEWHVerifyMessage) String() string            { return proto.CompactTextString(m) }
+func (*DEWHVerifyMessage) ProtoMessage()               {}
+func (*DEWHVerifyMessage) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{53} }
 
-func (m *DECVerifyMessage) GetAddress() []byte {
+func (m *DEWHVerifyMessage) GetAddress() []byte {
 	if m != nil {
 		return m.Address
 	}
 	return nil
 }
 
-func (m *DECVerifyMessage) GetSignature() []byte {
+func (m *DEWHVerifyMessage) GetSignature() []byte {
 	if m != nil {
 		return m.Signature
 	}
 	return nil
 }
 
-func (m *DECVerifyMessage) GetMessage() []byte {
+func (m *DEWHVerifyMessage) GetMessage() []byte {
 	if m != nil {
 		return m.Message
 	}
@@ -2225,26 +2225,26 @@ func (m *DECVerifyMessage) GetMessage() []byte {
 
 // *
 // Response: Signed message
-// @prev DECSignMessage
-type DECMessageSignature struct {
+// @prev DEWHSignMessage
+type DEWHMessageSignature struct {
 	Address          []byte `protobuf:"bytes,1,opt,name=address" json:"address,omitempty"`
 	Signature        []byte `protobuf:"bytes,2,opt,name=signature" json:"signature,omitempty"`
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *DECMessageSignature) Reset()                    { *m = DECMessageSignature{} }
-func (m *DECMessageSignature) String() string            { return proto.CompactTextString(m) }
-func (*DECMessageSignature) ProtoMessage()               {}
-func (*DECMessageSignature) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{54} }
+func (m *DEWHMessageSignature) Reset()                    { *m = DEWHMessageSignature{} }
+func (m *DEWHMessageSignature) String() string            { return proto.CompactTextString(m) }
+func (*DEWHMessageSignature) ProtoMessage()               {}
+func (*DEWHMessageSignature) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{54} }
 
-func (m *DECMessageSignature) GetAddress() []byte {
+func (m *DEWHMessageSignature) GetAddress() []byte {
 	if m != nil {
 		return m.Address
 	}
 	return nil
 }
 
-func (m *DECMessageSignature) GetSignature() []byte {
+func (m *DEWHMessageSignature) GetSignature() []byte {
 	if m != nil {
 		return m.Signature
 	}
@@ -2512,17 +2512,17 @@ func (m *SelfTest) GetPayload() []byte {
 // *
 // Request: "Press" the button on the device
 // @next Success
-type DebugLinkDecision struct {
+type DebugLinkDEWHision struct {
 	YesNo            *bool  `protobuf:"varint,1,req,name=yes_no,json=yesNo" json:"yes_no,omitempty"`
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *DebugLinkDecision) Reset()                    { *m = DebugLinkDecision{} }
-func (m *DebugLinkDecision) String() string            { return proto.CompactTextString(m) }
-func (*DebugLinkDecision) ProtoMessage()               {}
-func (*DebugLinkDecision) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{64} }
+func (m *DebugLinkDEWHision) Reset()                    { *m = DebugLinkDEWHision{} }
+func (m *DebugLinkDEWHision) String() string            { return proto.CompactTextString(m) }
+func (*DebugLinkDEWHision) ProtoMessage()               {}
+func (*DebugLinkDEWHision) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{64} }
 
-func (m *DebugLinkDecision) GetYesNo() bool {
+func (m *DebugLinkDEWHision) GetYesNo() bool {
 	if m != nil && m.YesNo != nil {
 		return *m.YesNo
 	}
@@ -2806,9 +2806,9 @@ func init() {
 	proto.RegisterType((*GetPublicKey)(nil), "GetPublicKey")
 	proto.RegisterType((*PublicKey)(nil), "PublicKey")
 	proto.RegisterType((*GetAddress)(nil), "GetAddress")
-	proto.RegisterType((*DECGetAddress)(nil), "DECGetAddress")
+	proto.RegisterType((*DEWHGetAddress)(nil), "DEWHGetAddress")
 	proto.RegisterType((*Address)(nil), "Address")
-	proto.RegisterType((*DECAddress)(nil), "DECAddress")
+	proto.RegisterType((*DEWHAddress)(nil), "DEWHAddress")
 	proto.RegisterType((*WipeDevice)(nil), "WipeDevice")
 	proto.RegisterType((*LoadDevice)(nil), "LoadDevice")
 	proto.RegisterType((*ResetDevice)(nil), "ResetDevice")
@@ -2823,8 +2823,8 @@ func init() {
 	proto.RegisterType((*MessageSignature)(nil), "MessageSignature")
 	proto.RegisterType((*EncryptMessage)(nil), "EncryptMessage")
 	proto.RegisterType((*EncryptedMessage)(nil), "EncryptedMessage")
-	proto.RegisterType((*DecryptMessage)(nil), "DecryptMessage")
-	proto.RegisterType((*DecryptedMessage)(nil), "DecryptedMessage")
+	proto.RegisterType((*DEWHryptMessage)(nil), "DEWHryptMessage")
+	proto.RegisterType((*DEWHryptedMessage)(nil), "DEWHryptedMessage")
 	proto.RegisterType((*CipherKeyValue)(nil), "CipherKeyValue")
 	proto.RegisterType((*CipheredKeyValue)(nil), "CipheredKeyValue")
 	proto.RegisterType((*EstimateTxSize)(nil), "EstimateTxSize")
@@ -2833,12 +2833,12 @@ func init() {
 	proto.RegisterType((*SimpleSignTx)(nil), "SimpleSignTx")
 	proto.RegisterType((*TxRequest)(nil), "TxRequest")
 	proto.RegisterType((*TxAck)(nil), "TxAck")
-	proto.RegisterType((*DECSignTx)(nil), "DECSignTx")
-	proto.RegisterType((*DECTxRequest)(nil), "DECTxRequest")
-	proto.RegisterType((*DECTxAck)(nil), "DECTxAck")
-	proto.RegisterType((*DECSignMessage)(nil), "DECSignMessage")
-	proto.RegisterType((*DECVerifyMessage)(nil), "DECVerifyMessage")
-	proto.RegisterType((*DECMessageSignature)(nil), "DECMessageSignature")
+	proto.RegisterType((*DEWHSignTx)(nil), "DEWHSignTx")
+	proto.RegisterType((*DEWHTxRequest)(nil), "DEWHTxRequest")
+	proto.RegisterType((*DEWHTxAck)(nil), "DEWHTxAck")
+	proto.RegisterType((*DEWHSignMessage)(nil), "DEWHSignMessage")
+	proto.RegisterType((*DEWHVerifyMessage)(nil), "DEWHVerifyMessage")
+	proto.RegisterType((*DEWHMessageSignature)(nil), "DEWHMessageSignature")
 	proto.RegisterType((*SignIdentity)(nil), "SignIdentity")
 	proto.RegisterType((*SignedIdentity)(nil), "SignedIdentity")
 	proto.RegisterType((*GetECDHSessionKey)(nil), "GetECDHSessionKey")
@@ -2848,7 +2848,7 @@ func init() {
 	proto.RegisterType((*FirmwareRequest)(nil), "FirmwareRequest")
 	proto.RegisterType((*FirmwareUpload)(nil), "FirmwareUpload")
 	proto.RegisterType((*SelfTest)(nil), "SelfTest")
-	proto.RegisterType((*DebugLinkDecision)(nil), "DebugLinkDecision")
+	proto.RegisterType((*DebugLinkDEWHision)(nil), "DebugLinkDEWHision")
 	proto.RegisterType((*DebugLinkGetState)(nil), "DebugLinkGetState")
 	proto.RegisterType((*DebugLinkState)(nil), "DebugLinkState")
 	proto.RegisterType((*DebugLinkStop)(nil), "DebugLinkStop")

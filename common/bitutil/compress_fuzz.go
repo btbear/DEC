@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // +build gofuzz
 
@@ -29,23 +29,23 @@ func Fuzz(data []byte) int {
 	if data[0]%2 == 0 {
 		return fuzzEncode(data[1:])
 	}
-	return fuzzDecode(data[1:])
+	return fuzzDEWHode(data[1:])
 }
 
 // fuzzEncode implements a go-fuzz fuzzer method to test the bitset encoding and
-// decoding algorithm.
+// DEWHoding algorithm.
 func fuzzEncode(data []byte) int {
-	proc, _ := bitsetDecodeBytes(bitsetEncodeBytes(data), len(data))
+	proc, _ := bitsetDEWHodeBytes(bitsetEncodeBytes(data), len(data))
 	if !bytes.Equal(data, proc) {
 		panic("content mismatch")
 	}
 	return 0
 }
 
-// fuzzDecode implements a go-fuzz fuzzer method to test the bit decoding and
+// fuzzDEWHode implements a go-fuzz fuzzer method to test the bit DEWHoding and
 // reencoding algorithm.
-func fuzzDecode(data []byte) int {
-	blob, err := bitsetDecodeBytes(data, 1024)
+func fuzzDEWHode(data []byte) int {
+	blob, err := bitsetDEWHodeBytes(data, 1024)
 	if err != nil {
 		return 0
 	}

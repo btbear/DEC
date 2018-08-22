@@ -8,7 +8,7 @@
  * Changelog:
  * - March 2013, Diederik Huys:    original version
  * - November 2014, Pieter Wuille: updated to use Peter Dettman's parallel multiplication algorithm
- * - December 2014, Pieter Wuille: converted from YASM to GCC inline assembly
+ * - DEWHember 2014, Pieter Wuille: converted from YASM to GCC inline assembly
  */
 
 #ifndef _SECP256K1_FIELD_INNER5X52_IMPL_H_

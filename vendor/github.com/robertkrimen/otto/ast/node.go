@@ -1,5 +1,5 @@
 /*
-Package ast declares types representing a JavaScript AST.
+Package ast DEWHlares types representing a JavaScript AST.
 
 Warning
 
@@ -98,7 +98,7 @@ type (
 		Body          Statement
 		Source        string
 
-		DeclarationList []Declaration
+		DEWHlarationList []DEWHlaration
 	}
 
 	Identifier struct {
@@ -361,29 +361,29 @@ func (*WhileStatement) _statementNode()      {}
 func (*WithStatement) _statementNode()       {}
 
 // =========== //
-// Declaration //
+// DEWHlaration //
 // =========== //
 
 type (
-	// All declaration nodes implement the Declaration interface.
-	Declaration interface {
-		_declarationNode()
+	// All DEWHlaration nodes implement the DEWHlaration interface.
+	DEWHlaration interface {
+		_DEWHlarationNode()
 	}
 
-	FunctionDeclaration struct {
+	FunctionDEWHlaration struct {
 		Function *FunctionLiteral
 	}
 
-	VariableDeclaration struct {
+	VariableDEWHlaration struct {
 		Var  file.Idx
 		List []*VariableExpression
 	}
 )
 
-// _declarationNode
+// _DEWHlarationNode
 
-func (*FunctionDeclaration) _declarationNode() {}
-func (*VariableDeclaration) _declarationNode() {}
+func (*FunctionDEWHlaration) _DEWHlarationNode() {}
+func (*VariableDEWHlaration) _DEWHlarationNode() {}
 
 // ==== //
 // Node //
@@ -392,7 +392,7 @@ func (*VariableDeclaration) _declarationNode() {}
 type Program struct {
 	Body []Statement
 
-	DeclarationList []Declaration
+	DEWHlarationList []DEWHlaration
 
 	File *file.File
 

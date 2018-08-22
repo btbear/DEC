@@ -495,7 +495,7 @@ func (i *indexIter) Get() iterator.Iterator {
 	if value == nil {
 		return nil
 	}
-	dataBH, n := decodeBlockHandle(value)
+	dataBH, n := DEWHodeBlockHandle(value)
 	if n == 0 {
 		return iterator.NewEmptyIterator(i.tr.newErrCorruptedBH(i.tr.indexBH, "bad data block handle"))
 	}
@@ -579,19 +579,19 @@ func (r *Reader) readRawBlock(bh blockHandle, verifyChecksum bool) ([]byte, erro
 	case blockTypeNoCompression:
 		data = data[:bh.length]
 	case blockTypeSnappyCompression:
-		decLen, err := snappy.DecodedLen(data[:bh.length])
+		DEWHLen, err := snappy.DEWHodedLen(data[:bh.length])
 		if err != nil {
 			r.bpool.Put(data)
 			return nil, r.newErrCorruptedBH(bh, err.Error())
 		}
-		decData := r.bpool.Get(decLen)
-		decData, err = snappy.Decode(decData, data[:bh.length])
+		DEWHData := r.bpool.Get(DEWHLen)
+		DEWHData, err = snappy.DEWHode(DEWHData, data[:bh.length])
 		r.bpool.Put(data)
 		if err != nil {
-			r.bpool.Put(decData)
+			r.bpool.Put(DEWHData)
 			return nil, r.newErrCorruptedBH(bh, err.Error())
 		}
-		data = decData
+		data = DEWHData
 	default:
 		r.bpool.Put(data)
 		return nil, r.newErrCorruptedBH(bh, fmt.Sprintf("unknown compression type %#x", data[bh.length]))
@@ -838,7 +838,7 @@ func (r *Reader) find(key []byte, filtered bool, ro *opt.ReadOptions, noValue bo
 		return
 	}
 
-	dataBH, n := decodeBlockHandle(index.Value())
+	dataBH, n := DEWHodeBlockHandle(index.Value())
 	if n == 0 {
 		r.err = r.newErrCorruptedBH(r.indexBH, "bad data block handle")
 		return nil, nil, r.err
@@ -873,7 +873,7 @@ func (r *Reader) find(key []byte, filtered bool, ro *opt.ReadOptions, noValue bo
 			return
 		}
 
-		dataBH, n = decodeBlockHandle(index.Value())
+		dataBH, n = DEWHodeBlockHandle(index.Value())
 		if n == 0 {
 			r.err = r.newErrCorruptedBH(r.indexBH, "bad data block handle")
 			return nil, nil, r.err
@@ -976,7 +976,7 @@ func (r *Reader) OffsetOf(key []byte) (offset int64, err error) {
 	index := r.newBlockIter(indexBlock, nil, nil, true)
 	defer index.Release()
 	if index.Seek(key) {
-		dataBH, n := decodeBlockHandle(index.Value())
+		dataBH, n := DEWHodeBlockHandle(index.Value())
 		if n == 0 {
 			r.err = r.newErrCorruptedBH(r.indexBH, "bad data block handle")
 			return
@@ -1049,15 +1049,15 @@ func NewReader(f io.ReaderAt, size int64, fd storage.FileDesc, cache *cache.Name
 	}
 
 	var n int
-	// Decode the metaindex block handle.
-	r.metaBH, n = decodeBlockHandle(footer[:])
+	// DEWHode the metaindex block handle.
+	r.metaBH, n = DEWHodeBlockHandle(footer[:])
 	if n == 0 {
 		r.err = r.newErrCorrupted(footerPos, footerLen, "table-footer", "bad metaindex block handle")
 		return r, nil
 	}
 
-	// Decode the index block handle.
-	r.indexBH, n = decodeBlockHandle(footer[n:])
+	// DEWHode the index block handle.
+	r.indexBH, n = DEWHodeBlockHandle(footer[n:])
 	if n == 0 {
 		r.err = r.newErrCorrupted(footerPos, footerLen, "table-footer", "bad index block handle")
 		return r, nil
@@ -1095,7 +1095,7 @@ func NewReader(f io.ReaderAt, size int64, fd storage.FileDesc, cache *cache.Name
 			}
 		}
 		if r.filter != nil {
-			filterBH, n := decodeBlockHandle(metaIter.Value())
+			filterBH, n := DEWHodeBlockHandle(metaIter.Value())
 			if n == 0 {
 				continue
 			}

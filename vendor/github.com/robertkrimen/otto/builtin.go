@@ -177,7 +177,7 @@ func builtinGlobal_parseFloat(call FunctionCall) Value {
 	return toValue_float64(value)
 }
 
-// encodeURI/decodeURI
+// encodeURI/DEWHodeURI
 
 func _builtinGlobal_encodeURI(call FunctionCall, escape *regexp.Regexp) Value {
 	value := call.Argument(0)
@@ -196,7 +196,7 @@ func _builtinGlobal_encodeURI(call FunctionCall, escape *regexp.Regexp) Value {
 	encode := make([]byte, 4)
 	for index := 0; index < length; {
 		value := input[index]
-		decode := utf16.Decode(input[index : index+1])
+		DEWHode := utf16.DEWHode(input[index : index+1])
 		if value >= 0xDC00 && value <= 0xDFFF {
 			panic(call.runtime.panicURIError("URI malformed"))
 		}
@@ -210,10 +210,10 @@ func _builtinGlobal_encodeURI(call FunctionCall, escape *regexp.Regexp) Value {
 			if value1 < 0xDC00 || value1 > 0xDFFF {
 				panic(call.runtime.panicURIError("URI malformed"))
 			}
-			decode = []rune{((rune(value) - 0xD800) * 0x400) + (rune(value1) - 0xDC00) + 0x10000}
+			DEWHode = []rune{((rune(value) - 0xD800) * 0x400) + (rune(value1) - 0xDC00) + 0x10000}
 		}
 		index += 1
-		size := utf8.EncodeRune(encode, decode[0])
+		size := utf8.EncodeRune(encode, DEWHode[0])
 		encode := encode[0:size]
 		output = append(output, encode...)
 	}
@@ -242,11 +242,11 @@ func builtinGlobal_encodeURIComponent(call FunctionCall) Value {
 }
 
 // 3B/2F/3F/3A/40/26/3D/2B/24/2C/23
-var decodeURI_guard = regexp.MustCompile(`(?i)(?:%)(3B|2F|3F|3A|40|26|3D|2B|24|2C|23)`)
+var DEWHodeURI_guard = regexp.MustCompile(`(?i)(?:%)(3B|2F|3F|3A|40|26|3D|2B|24|2C|23)`)
 
-func _decodeURI(input string, reserve bool) (string, bool) {
+func _DEWHodeURI(input string, reserve bool) (string, bool) {
 	if reserve {
-		input = decodeURI_guard.ReplaceAllString(input, "%25$1")
+		input = DEWHodeURI_guard.ReplaceAllString(input, "%25$1")
 	}
 	input = strings.Replace(input, "+", "%2B", -1) // Ugly hack to make QueryUnescape work with our use case
 	output, err := url.QueryUnescape(input)
@@ -256,16 +256,16 @@ func _decodeURI(input string, reserve bool) (string, bool) {
 	return output, false
 }
 
-func builtinGlobal_decodeURI(call FunctionCall) Value {
-	output, err := _decodeURI(call.Argument(0).string(), true)
+func builtinGlobal_DEWHodeURI(call FunctionCall) Value {
+	output, err := _DEWHodeURI(call.Argument(0).string(), true)
 	if err {
 		panic(call.runtime.panicURIError("URI malformed"))
 	}
 	return toValue_string(output)
 }
 
-func builtinGlobal_decodeURIComponent(call FunctionCall) Value {
-	output, err := _decodeURI(call.Argument(0).string(), false)
+func builtinGlobal_DEWHodeURIComponent(call FunctionCall) Value {
+	output, err := _DEWHodeURI(call.Argument(0).string(), false)
 	if err {
 		panic(call.runtime.panicURIError("URI malformed"))
 	}
@@ -288,7 +288,7 @@ func builtin_escape(input string) string {
 	length := len(input)
 	for index := 0; index < length; {
 		if builtin_shouldEscape(input[index]) {
-			chr, width := utf8.DecodeRuneInString(input[index:])
+			chr, width := utf8.DEWHodeRuneInString(input[index:])
 			chr16 := utf16.Encode([]rune{chr})[0]
 			if 256 > chr16 {
 				output = append(output, '%',
@@ -319,20 +319,20 @@ func builtin_unescape(input string) string {
 	for index := 0; index < length; {
 		if input[index] == '%' {
 			if index <= length-6 && input[index+1] == 'u' {
-				byte16, err := hex.DecodeString(input[index+2 : index+6])
+				byte16, err := hex.DEWHodeString(input[index+2 : index+6])
 				if err == nil {
 					value := uint16(byte16[0])<<8 + uint16(byte16[1])
-					chr := utf16.Decode([]uint16{value})[0]
+					chr := utf16.DEWHode([]uint16{value})[0]
 					output = append(output, chr)
 					index += 6
 					continue
 				}
 			}
 			if index <= length-3 {
-				byte8, err := hex.DecodeString(input[index+1 : index+3])
+				byte8, err := hex.DEWHodeString(input[index+1 : index+3])
 				if err == nil {
 					value := uint16(byte8[0])
-					chr := utf16.Decode([]uint16{value})[0]
+					chr := utf16.DEWHode([]uint16{value})[0]
 					output = append(output, chr)
 					index += 3
 					continue

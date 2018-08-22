@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package whisperv6
 
@@ -26,13 +26,13 @@ import (
 	"sync"
 	"time"
 
-	mapset "github.com/deckarep/golang-set"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/rlp"
-	"github.com/DEC/go-DEC/rpc"
+	mapset "github.com/DEWHkarep/golang-set"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/rlp"
+	"github.com/DEWH/go-DEWH/rpc"
 	"github.com/syndtr/goleveldb/leveldb/errors"
 	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/sync/syncmap"
@@ -57,7 +57,7 @@ const (
 	bloomFilterToleranceIdx        // Bloom filter tolerated by the whisper node for a limited time
 )
 
-// Whisper represents a dark communication interface through the DEC
+// Whisper represents a dark communication interface through the DEWH
 // network, using its very own P2P communication layer.
 type Whisper struct {
 	protocol p2p.Protocol // Protocol description and parameters
@@ -90,7 +90,7 @@ type Whisper struct {
 	mailServer MailServer // MailServer interface
 }
 
-// New creates a Whisper client ready to communicate through the DEC P2P network.
+// New creates a Whisper client ready to communicate through the DEWH P2P network.
 func New(cfg *Config) *Whisper {
 	if cfg == nil {
 		cfg = &DefaultConfig
@@ -369,7 +369,7 @@ func (whisper *Whisper) SendP2PDirect(peer *Peer, envelope *Envelope) error {
 }
 
 // NewKeyPair generates a new cryptographic identity for the client, and injects
-// it into the known identities for message decryption. Returns ID of the new key pair.
+// it into the known identities for message DEWHryption. Returns ID of the new key pair.
 func (whisper *Whisper) NewKeyPair() (string, error) {
 	key, err := crypto.GenerateKey()
 	if err != nil || !validatePrivateKey(key) {
@@ -545,7 +545,7 @@ func (whisper *Whisper) GetSymKey(id string) ([]byte, error) {
 	return nil, fmt.Errorf("non-existent key ID")
 }
 
-// Subscribe installs a new message handler used for filtering, decrypting
+// Subscribe installs a new message handler used for filtering, DEWHrypting
 // and subsequent storing of incoming messages.
 func (whisper *Whisper) Subscribe(f *Filter) (string, error) {
 	s, err := whisper.filters.Install(f)
@@ -663,10 +663,10 @@ func (whisper *Whisper) runMessageLoop(p *Peer, rw p2p.MsgReadWriter) error {
 			// this should not happen, but no need to panic; just ignore this message.
 			log.Warn("unxepected status message received", "peer", p.peer.ID())
 		case messagesCode:
-			// decode the contained envelopes
+			// DEWHode the contained envelopes
 			var envelopes []*Envelope
-			if err := packet.Decode(&envelopes); err != nil {
-				log.Warn("failed to decode envelopes, peer will be disconnected", "peer", p.peer.ID(), "err", err)
+			if err := packet.DEWHode(&envelopes); err != nil {
+				log.Warn("failed to DEWHode envelopes, peer will be disconnected", "peer", p.peer.ID(), "err", err)
 				return errors.New("invalid envelopes")
 			}
 
@@ -689,7 +689,7 @@ func (whisper *Whisper) runMessageLoop(p *Peer, rw p2p.MsgReadWriter) error {
 			s := rlp.NewStream(packet.Payload, uint64(packet.Size))
 			i, err := s.Uint()
 			if err != nil {
-				log.Warn("failed to decode powRequirementCode message, peer will be disconnected", "peer", p.peer.ID(), "err", err)
+				log.Warn("failed to DEWHode powRequirementCode message, peer will be disconnected", "peer", p.peer.ID(), "err", err)
 				return errors.New("invalid powRequirementCode message")
 			}
 			f := math.Float64frombits(i)
@@ -700,13 +700,13 @@ func (whisper *Whisper) runMessageLoop(p *Peer, rw p2p.MsgReadWriter) error {
 			p.powRequirement = f
 		case bloomFilterExCode:
 			var bloom []byte
-			err := packet.Decode(&bloom)
+			err := packet.DEWHode(&bloom)
 			if err == nil && len(bloom) != BloomFilterSize {
 				err = fmt.Errorf("wrong bloom filter size %d", len(bloom))
 			}
 
 			if err != nil {
-				log.Warn("failed to decode bloom filter exchange message, peer will be disconnected", "peer", p.peer.ID(), "err", err)
+				log.Warn("failed to DEWHode bloom filter exchange message, peer will be disconnected", "peer", p.peer.ID(), "err", err)
 				return errors.New("invalid bloom filter exchange message")
 			}
 			p.setBloomFilter(bloom)
@@ -717,8 +717,8 @@ func (whisper *Whisper) runMessageLoop(p *Peer, rw p2p.MsgReadWriter) error {
 			// these messages are only accepted from the trusted peer.
 			if p.trusted {
 				var envelope Envelope
-				if err := packet.Decode(&envelope); err != nil {
-					log.Warn("failed to decode direct message, peer will be disconnected", "peer", p.peer.ID(), "err", err)
+				if err := packet.DEWHode(&envelope); err != nil {
+					log.Warn("failed to DEWHode direct message, peer will be disconnected", "peer", p.peer.ID(), "err", err)
 					return errors.New("invalid direct message")
 				}
 				whisper.postEvent(&envelope, true)
@@ -727,8 +727,8 @@ func (whisper *Whisper) runMessageLoop(p *Peer, rw p2p.MsgReadWriter) error {
 			// Must be processed if mail server is implemented. Otherwise ignore.
 			if whisper.mailServer != nil {
 				var request Envelope
-				if err := packet.Decode(&request); err != nil {
-					log.Warn("failed to decode p2p request message, peer will be disconnected", "peer", p.peer.ID(), "err", err)
+				if err := packet.DEWHode(&request); err != nil {
+					log.Warn("failed to DEWHode p2p request message, peer will be disconnected", "peer", p.peer.ID(), "err", err)
 					return errors.New("invalid p2p request")
 				}
 				whisper.mailServer.DeliverMail(p, &request)

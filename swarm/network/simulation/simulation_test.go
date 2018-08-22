@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package simulation
 
@@ -24,11 +24,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/simulations/adapters"
-	"github.com/DEC/go-DEC/rpc"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/simulations/adapters"
+	"github.com/DEWH/go-DEWH/rpc"
 	colorable "github.com/mattn/go-colorable"
 )
 
@@ -116,37 +116,37 @@ func TestClose(t *testing.T) {
 		},
 	})
 
-	nodeCount := 30
+	noDEWHount := 30
 
-	_, err := sim.AddNodes(nodeCount)
+	_, err := sim.AddNodes(noDEWHount)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	var upNodeCount int
+	var upNoDEWHount int
 	for _, n := range sim.Net.GetNodes() {
 		if n.Up {
-			upNodeCount++
+			upNoDEWHount++
 		}
 	}
-	if upNodeCount != nodeCount {
-		t.Errorf("all nodes should be up, insted only %v are up", upNodeCount)
+	if upNoDEWHount != noDEWHount {
+		t.Errorf("all nodes should be up, insted only %v are up", upNoDEWHount)
 	}
 
 	sim.Close()
 
-	if cleanupCount != nodeCount {
-		t.Errorf("number of cleanups expected %v, got %v", nodeCount, cleanupCount)
+	if cleanupCount != noDEWHount {
+		t.Errorf("number of cleanups expected %v, got %v", noDEWHount, cleanupCount)
 	}
 
-	upNodeCount = 0
+	upNoDEWHount = 0
 	for _, n := range sim.Net.GetNodes() {
 		if n.Up {
-			upNodeCount++
+			upNoDEWHount++
 		}
 	}
-	if upNodeCount != 0 {
-		t.Errorf("all nodes should be down, insted %v are up", upNodeCount)
+	if upNoDEWHount != 0 {
+		t.Errorf("all nodes should be down, insted %v are up", upNoDEWHount)
 	}
 }
 

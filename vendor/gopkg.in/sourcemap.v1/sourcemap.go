@@ -29,7 +29,7 @@ type mapping struct {
 
 type mappings struct {
 	rd  *strings.Reader
-	dec *base64vlq.Decoder
+	DEWH *base64vlq.DEWHoder
 
 	hasName bool
 	value   mapping
@@ -41,7 +41,7 @@ func parseMappings(s string) ([]mapping, error) {
 	rd := strings.NewReader(s)
 	m := &mappings{
 		rd:  rd,
-		dec: base64vlq.NewDecoder(rd),
+		DEWH: base64vlq.NewDEWHoder(rd),
 	}
 	m.value.genLine = 1
 	m.value.sourceLine = 1
@@ -91,7 +91,7 @@ func (m *mappings) parse() error {
 }
 
 func parseGenCol(m *mappings) (fn, error) {
-	n, err := m.dec.Decode()
+	n, err := m.DEWH.DEWHode()
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +100,7 @@ func parseGenCol(m *mappings) (fn, error) {
 }
 
 func parseSourcesInd(m *mappings) (fn, error) {
-	n, err := m.dec.Decode()
+	n, err := m.DEWH.DEWHode()
 	if err != nil {
 		return nil, err
 	}
@@ -109,7 +109,7 @@ func parseSourcesInd(m *mappings) (fn, error) {
 }
 
 func parseSourceLine(m *mappings) (fn, error) {
-	n, err := m.dec.Decode()
+	n, err := m.DEWH.DEWHode()
 	if err != nil {
 		return nil, err
 	}
@@ -118,7 +118,7 @@ func parseSourceLine(m *mappings) (fn, error) {
 }
 
 func parseSourceCol(m *mappings) (fn, error) {
-	n, err := m.dec.Decode()
+	n, err := m.DEWH.DEWHode()
 	if err != nil {
 		return nil, err
 	}
@@ -127,7 +127,7 @@ func parseSourceCol(m *mappings) (fn, error) {
 }
 
 func parseNamesInd(m *mappings) (fn, error) {
-	n, err := m.dec.Decode()
+	n, err := m.DEWH.DEWHode()
 	if err != nil {
 		return nil, err
 	}

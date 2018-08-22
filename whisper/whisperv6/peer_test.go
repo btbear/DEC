@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package whisperv6
 
@@ -28,12 +28,12 @@ import (
 
 	"net"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/nat"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/nat"
 )
 
 var keys = []string{
@@ -89,8 +89,8 @@ const NumNodes = 8 // must not exceed the number of keys (32)
 
 var result TestData
 var nodes [NumNodes]*TestNode
-var sharedKey = hexutil.MustDecode("0x03ca634cae0d49acb401d8a4c6b6fe8c55b70d115bf400769cc1400f3258cd31")
-var wrongKey = hexutil.MustDecode("0xf91156714d7ec88d3edc1c652c2181dbb3044e8771c683f3b30d33c12b986b11")
+var sharedKey = hexutil.MustDEWHode("0x03ca634cae0d49acb401d8a4c6b6fe8c55b70d115bf400769cc1400f3258cd31")
+var wrongKey = hexutil.MustDEWHode("0xf91156714d7ec88d3edc1c652c2181dbb3044e8771c683f3b30d33c12b986b11")
 var sharedTopic = TopicType{0xF, 0x1, 0x2, 0}
 var wrongTopic = TopicType{0, 0, 0, 0}
 var expectedMessage = []byte("per aspera ad astra")
@@ -107,31 +107,31 @@ func TestSimulation(t *testing.T) {
 	// installs the filters with shared (predefined) parameters
 	initialize(t)
 
-	// each node sends one random (not decryptable) message
+	// each node sends one random (not DEWHryptable) message
 	for i := 0; i < NumNodes; i++ {
 		sendMsg(t, false, i)
 	}
 
-	// node #0 sends one expected (decryptable) message
+	// node #0 sends one expected (DEWHryptable) message
 	sendMsg(t, true, 0)
 
-	// check if each node have received and decrypted exactly one message
+	// check if each node have received and DEWHrypted exactly one message
 	checkPropagation(t, true)
 
-	// check if Status message was correctly decoded
+	// check if Status message was correctly DEWHoded
 	checkBloomFilterExchange(t)
 	checkPowExchange(t)
 
 	// send new pow and bloom exchange messages
 	resetParams(t)
 
-	// node #1 sends one expected (decryptable) message
+	// node #1 sends one expected (DEWHryptable) message
 	sendMsg(t, true, 1)
 
-	// check if each node (except node #0) have received and decrypted exactly one message
+	// check if each node (except node #0) have received and DEWHrypted exactly one message
 	checkPropagation(t, false)
 
-	// check if corresponding protocol-level messages were correctly decoded
+	// check if corresponding protocol-level messages were correctly DEWHoded
 	checkPowExchangeForNodeZero(t)
 	checkBloomFilterExchange(t)
 

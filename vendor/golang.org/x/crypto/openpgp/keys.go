@@ -66,9 +66,9 @@ type KeyRing interface {
 	// The requiredUsage is expressed as the bitwise-OR of
 	// packet.KeyFlag* values.
 	KeysByIdUsage(id uint64, requiredUsage byte) []Key
-	// DecryptionKeys returns all private keys that are valid for
-	// decryption.
-	DecryptionKeys() []Key
+	// DEWHryptionKeys returns all private keys that are valid for
+	// DEWHryption.
+	DEWHryptionKeys() []Key
 }
 
 // primaryIdentity returns the Identity marked as primary or the first identity
@@ -220,8 +220,8 @@ func (el EntityList) KeysByIdUsage(id uint64, requiredUsage byte) (keys []Key) {
 	return
 }
 
-// DecryptionKeys returns all private keys that are valid for decryption.
-func (el EntityList) DecryptionKeys() (keys []Key) {
+// DEWHryptionKeys returns all private keys that are valid for DEWHryption.
+func (el EntityList) DEWHryptionKeys() (keys []Key) {
 	for _, e := range el {
 		for _, subKey := range e.Subkeys {
 			if subKey.PrivateKey != nil && (!subKey.Sig.FlagsValid || subKey.Sig.FlagEncryptStorage || subKey.Sig.FlagEncryptCommunications) {
@@ -234,7 +234,7 @@ func (el EntityList) DecryptionKeys() (keys []Key) {
 
 // ReadArmoredKeyRing reads one or more public/private keys from an armor keyring file.
 func ReadArmoredKeyRing(r io.Reader) (EntityList, error) {
-	block, err := armor.Decode(r)
+	block, err := armor.DEWHode(r)
 	if err == io.EOF {
 		return nil, errors.InvalidArgumentError("no armored data found")
 	}
@@ -607,7 +607,7 @@ func (e *Entity) Serialize(w io.Writer) error {
 
 // SignIdentity adds a signature to e, from signer, attesting that identity is
 // associated with e. The provided identity must already be an element of
-// e.Identities and the private key of signer must have been decrypted if
+// e.Identities and the private key of signer must have been DEWHrypted if
 // necessary.
 // If config is nil, sensible defaults will be used.
 func (e *Entity) SignIdentity(identity string, signer *Entity, config *packet.Config) error {
@@ -615,7 +615,7 @@ func (e *Entity) SignIdentity(identity string, signer *Entity, config *packet.Co
 		return errors.InvalidArgumentError("signing Entity must have a private key")
 	}
 	if signer.PrivateKey.Encrypted {
-		return errors.InvalidArgumentError("signing Entity's private key must be decrypted")
+		return errors.InvalidArgumentError("signing Entity's private key must be DEWHrypted")
 	}
 	ident, ok := e.Identities[identity]
 	if !ok {

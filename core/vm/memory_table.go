@@ -1,25 +1,25 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package vm
 
 import (
 	"math/big"
 
-	"github.com/DEC/go-DEC/common/math"
+	"github.com/DEWH/go-DEWH/common/math"
 )
 
 func memorySha3(stack *Stack) *big.Int {
@@ -34,11 +34,11 @@ func memoryReturnDataCopy(stack *Stack) *big.Int {
 	return calcMemSize(stack.Back(0), stack.Back(2))
 }
 
-func memoryCodeCopy(stack *Stack) *big.Int {
+func memoryCoDEWHopy(stack *Stack) *big.Int {
 	return calcMemSize(stack.Back(0), stack.Back(2))
 }
 
-func memoryExtCodeCopy(stack *Stack) *big.Int {
+func memoryExtCoDEWHopy(stack *Stack) *big.Int {
 	return calcMemSize(stack.Back(1), stack.Back(3))
 }
 

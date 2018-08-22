@@ -18,13 +18,13 @@ import (
 var HZGB2312 encoding.Encoding = &hzGB2312
 
 var hzGB2312 = internal.Encoding{
-	internal.FuncEncoding{hzGB2312NewDecoder, hzGB2312NewEncoder},
+	internal.FuncEncoding{hzGB2312NewDEWHoder, hzGB2312NewEncoder},
 	"HZ-GB2312",
 	identifier.HZGB2312,
 }
 
-func hzGB2312NewDecoder() transform.Transformer {
-	return new(hzGB2312Decoder)
+func hzGB2312NewDEWHoder() transform.Transformer {
+	return new(hzGB2312DEWHoder)
 }
 
 func hzGB2312NewEncoder() transform.Transformer {
@@ -38,13 +38,13 @@ const (
 	gbState
 )
 
-type hzGB2312Decoder int
+type hzGB2312DEWHoder int
 
-func (d *hzGB2312Decoder) Reset() {
+func (d *hzGB2312DEWHoder) Reset() {
 	*d = asciiState
 }
 
-func (d *hzGB2312Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (d *hzGB2312DEWHoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	r, size := rune(0), 0
 loop:
 	for ; nSrc < len(src); nSrc += size {
@@ -97,8 +97,8 @@ loop:
 			}
 
 			r, size = '\ufffd', 2
-			if i := int(c0-0x01)*190 + int(c1+0x3f); i < len(decode) {
-				r = rune(decode[i])
+			if i := int(c0-0x01)*190 + int(c1+0x3f); i < len(DEWHode) {
+				r = rune(DEWHode[i])
 				if r == 0 {
 					r = '\ufffd'
 				}
@@ -128,7 +128,7 @@ func (e *hzGB2312Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int
 	for ; nSrc < len(src); nSrc += size {
 		r = rune(src[nSrc])
 
-		// Decode a 1-byte rune.
+		// DEWHode a 1-byte rune.
 		if r < utf8.RuneSelf {
 			size = 1
 			if r == '~' {
@@ -159,8 +159,8 @@ func (e *hzGB2312Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int
 
 		}
 
-		// Decode a multi-byte rune.
-		r, size = utf8.DecodeRune(src[nSrc:])
+		// DEWHode a multi-byte rune.
+		r, size = utf8.DEWHodeRune(src[nSrc:])
 		if size == 1 {
 			// All valid runes of size 1 (those below utf8.RuneSelf) were
 			// handled above. We have invalid UTF-8 or we haven't seen the

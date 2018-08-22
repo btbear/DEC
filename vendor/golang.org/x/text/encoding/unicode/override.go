@@ -8,9 +8,9 @@ import (
 	"golang.org/x/text/transform"
 )
 
-// BOMOverride returns a new decoder transformer that is identical to fallback,
+// BOMOverride returns a new DEWHoder transformer that is identical to fallback,
 // except that the presence of a Byte Order Mark at the start of the input
-// causes it to switch to the corresponding Unicode decoding. It will only
+// causes it to switch to the corresponding Unicode DEWHoding. It will only
 // consider BOMs for UTF-8, UTF-16BE, and UTF-16LE.
 //
 // This differs from using ExpectBOM by allowing a BOM to switch to UTF-8, not
@@ -43,8 +43,8 @@ func (d *bomOverride) Reset() {
 }
 
 var (
-	// TODO: we could use decode functions here, instead of allocating a new
-	// decoder on every NewDecoder as IgnoreBOM decoders can be stateless.
+	// TODO: we could use DEWHode functions here, instead of allocating a new
+	// DEWHoder on every NewDEWHoder as IgnoreBOM DEWHoders can be stateless.
 	utf16le = UTF16(LittleEndian, IgnoreBOM)
 	utf16be = UTF16(BigEndian, IgnoreBOM)
 )
@@ -62,10 +62,10 @@ func (d *bomOverride) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, er
 	bomSize := 0
 	if len(src) >= 2 {
 		if src[0] == 0xFF && src[1] == 0xFE {
-			d.current = utf16le.NewDecoder()
+			d.current = utf16le.NewDEWHoder()
 			bomSize = 2
 		} else if src[0] == 0xFE && src[1] == 0xFF {
-			d.current = utf16be.NewDecoder()
+			d.current = utf16be.NewDEWHoder()
 			bomSize = 2
 		} else if len(src) >= 3 &&
 			src[0] == utf8BOM[0] &&

@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // +build !nopssprotocol
 
@@ -24,10 +24,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/protocols"
-	"github.com/DEC/go-DEC/rlp"
-	"github.com/DEC/go-DEC/swarm/log"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/protocols"
+	"github.com/DEWH/go-DEWH/rlp"
+	"github.com/DEWH/go-DEWH/swarm/log"
 )
 
 const (
@@ -180,7 +180,7 @@ func (p *Protocol) Handle(msg []byte, peer *p2p.Peer, asymmetric bool, keyid str
 
 	pmsg, err := ToP2pMsg(msg)
 	if err != nil {
-		return fmt.Errorf("could not decode pssmsg")
+		return fmt.Errorf("could not DEWHode pssmsg")
 	}
 	if asymmetric {
 		if p.pubKeyRWPool[keyid] == nil {
@@ -210,8 +210,8 @@ func (p *Protocol) isActiveAsymKey(key string, topic Topic) bool {
 // Creates a serialized (non-buffered) version of a p2p.Msg, used in the specialized internal p2p.MsgReadwriter implementations
 func ToP2pMsg(msg []byte) (p2p.Msg, error) {
 	payload := &ProtocolMsg{}
-	if err := rlp.DecodeBytes(msg, payload); err != nil {
-		return p2p.Msg{}, fmt.Errorf("pss protocol handler unable to decode payload as p2p message: %v", err)
+	if err := rlp.DEWHodeBytes(msg, payload); err != nil {
+		return p2p.Msg{}, fmt.Errorf("pss protocol handler unable to DEWHode payload as p2p message: %v", err)
 	}
 
 	return p2p.Msg{

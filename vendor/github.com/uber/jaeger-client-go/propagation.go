@@ -45,7 +45,7 @@ type Injector interface {
 // on the server side of an RPC boundary, but message queues and other IPC
 // mechanisms are also reasonable places to use an Extractor.
 type Extractor interface {
-	// Extract decodes a SpanContext instance from the given `carrier`,
+	// Extract DEWHodes a SpanContext instance from the given `carrier`,
 	// or (nil, opentracing.ErrSpanContextNotFound) if no context could
 	// be found in the `carrier`.
 	Extract(carrier interface{}) (SpanContext, error)
@@ -55,7 +55,7 @@ type textMapPropagator struct {
 	headerKeys  *HeadersConfig
 	metrics     Metrics
 	encodeValue func(string) string
-	decodeValue func(string) string
+	DEWHodeValue func(string) string
 }
 
 func newTextMapPropagator(headerKeys *HeadersConfig, metrics Metrics) *textMapPropagator {
@@ -65,7 +65,7 @@ func newTextMapPropagator(headerKeys *HeadersConfig, metrics Metrics) *textMapPr
 		encodeValue: func(val string) string {
 			return val
 		},
-		decodeValue: func(val string) string {
+		DEWHodeValue: func(val string) string {
 			return val
 		},
 	}
@@ -78,8 +78,8 @@ func newHTTPHeaderPropagator(headerKeys *HeadersConfig, metrics Metrics) *textMa
 		encodeValue: func(val string) string {
 			return url.QueryEscape(val)
 		},
-		decodeValue: func(val string) string {
-			// ignore decoding errors, cannot do anything about them
+		DEWHodeValue: func(val string) string {
+			// ignore DEWHoding errors, cannot do anything about them
 			if v, err := url.QueryUnescape(val); err == nil {
 				return v
 			}
@@ -132,12 +132,12 @@ func (p *textMapPropagator) Extract(abstractCarrier interface{}) (SpanContext, e
 		key := strings.ToLower(rawKey) // TODO not necessary for plain TextMap
 		if key == p.headerKeys.TraceContextHeaderName {
 			var err error
-			safeVal := p.decodeValue(value)
+			safeVal := p.DEWHodeValue(value)
 			if ctx, err = ContextFromString(safeVal); err != nil {
 				return err
 			}
 		} else if key == p.headerKeys.JaegerDebugHeader {
-			ctx.debugID = p.decodeValue(value)
+			ctx.debugID = p.DEWHodeValue(value)
 		} else if key == p.headerKeys.JaegerBaggageHeader {
 			if baggage == nil {
 				baggage = make(map[string]string)
@@ -150,13 +150,13 @@ func (p *textMapPropagator) Extract(abstractCarrier interface{}) (SpanContext, e
 				baggage = make(map[string]string)
 			}
 			safeKey := p.removeBaggageKeyPrefix(key)
-			safeVal := p.decodeValue(value)
+			safeVal := p.DEWHodeValue(value)
 			baggage[safeKey] = safeVal
 		}
 		return nil
 	})
 	if err != nil {
-		p.metrics.DecodingErrors.Inc(1)
+		p.metrics.DEWHodingErrors.Inc(1)
 		return emptyContext, err
 	}
 	if !ctx.traceID.IsValid() && ctx.debugID == "" && len(baggage) == 0 {
@@ -295,6 +295,6 @@ func (p *textMapPropagator) addBaggageKeyPrefix(key string) string {
 }
 
 func (p *textMapPropagator) removeBaggageKeyPrefix(key string) string {
-	// TODO decodeBaggageHeaderKey add caching and escaping
+	// TODO DEWHodeBaggageHeaderKey add caching and escaping
 	return key[len(p.headerKeys.TraceBaggageHeaderPrefix):]
 }

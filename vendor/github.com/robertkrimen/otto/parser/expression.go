@@ -174,7 +174,7 @@ func (self *_parser) parseRegExpLiteral() *ast.RegExpLiteral {
 	}
 }
 
-func (self *_parser) parseVariableDeclaration(declarationList *[]*ast.VariableExpression) ast.Expression {
+func (self *_parser) parseVariableDEWHlaration(DEWHlarationList *[]*ast.VariableExpression) ast.Expression {
 
 	if self.token != token.IDENTIFIER {
 		idx := self.expect(token.IDENTIFIER)
@@ -193,8 +193,8 @@ func (self *_parser) parseVariableDeclaration(declarationList *[]*ast.VariableEx
 		self.comments.SetExpression(node)
 	}
 
-	if declarationList != nil {
-		*declarationList = append(*declarationList, node)
+	if DEWHlarationList != nil {
+		*DEWHlarationList = append(*DEWHlarationList, node)
 	}
 
 	if self.token == token.ASSIGN {
@@ -208,17 +208,17 @@ func (self *_parser) parseVariableDeclaration(declarationList *[]*ast.VariableEx
 	return node
 }
 
-func (self *_parser) parseVariableDeclarationList(var_ file.Idx) []ast.Expression {
+func (self *_parser) parseVariableDEWHlarationList(var_ file.Idx) []ast.Expression {
 
-	var declarationList []*ast.VariableExpression // Avoid bad expressions
+	var DEWHlarationList []*ast.VariableExpression // Avoid bad expressions
 	var list []ast.Expression
 
 	for {
 		if self.mode&StoreComments != 0 {
 			self.comments.MarkComments(ast.LEADING)
 		}
-		decl := self.parseVariableDeclaration(&declarationList)
-		list = append(list, decl)
+		DEWHl := self.parseVariableDEWHlaration(&DEWHlarationList)
+		list = append(list, DEWHl)
 		if self.token != token.COMMA {
 			break
 		}
@@ -228,9 +228,9 @@ func (self *_parser) parseVariableDeclarationList(var_ file.Idx) []ast.Expressio
 		self.next()
 	}
 
-	self.scope.declare(&ast.VariableDeclaration{
+	self.scope.DEWHlare(&ast.VariableDEWHlaration{
 		Var:  var_,
-		List: declarationList,
+		List: DEWHlarationList,
 	})
 
 	return list
@@ -565,7 +565,7 @@ func (self *_parser) parsePostfixExpression() ast.Expression {
 	operand := self.parseLeftHandSideExpressionAllowCall()
 
 	switch self.token {
-	case token.INCREMENT, token.DECREMENT:
+	case token.INCREMENT, token.DEWHREMENT:
 		// Make sure there is no line terminator here
 		if self.implicitSemicolon {
 			break
@@ -618,7 +618,7 @@ func (self *_parser) parseUnaryExpression() ast.Expression {
 			Idx:      idx,
 			Operand:  self.parseUnaryExpression(),
 		}
-	case token.INCREMENT, token.DECREMENT:
+	case token.INCREMENT, token.DEWHREMENT:
 		tkn := self.token
 		idx := self.idx
 		if self.mode&StoreComments != 0 {

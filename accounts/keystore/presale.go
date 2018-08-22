@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package keystore
 
@@ -25,15 +25,15 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/DEC/go-DEC/accounts"
-	"github.com/DEC/go-DEC/crypto"
+	"github.com/DEWH/go-DEWH/accounts"
+	"github.com/DEWH/go-DEWH/crypto"
 	"github.com/pborman/uuid"
 	"golang.org/x/crypto/pbkdf2"
 )
 
-// creates a Key and stores that in the given KeyStore by decrypting a presale key JSON
+// creates a Key and stores that in the given KeyStore by DEWHrypting a presale key JSON
 func importPreSaleKey(keyStore keyStore, keyJSON []byte, password string) (accounts.Account, *Key, error) {
-	key, err := decryptPreSaleKey(keyJSON, password)
+	key, err := DEWHryptPreSaleKey(keyJSON, password)
 	if err != nil {
 		return accounts.Account{}, nil, err
 	}
@@ -43,7 +43,7 @@ func importPreSaleKey(keyStore keyStore, keyJSON []byte, password string) (accou
 	return a, key, err
 }
 
-func decryptPreSaleKey(fileContent []byte, password string) (key *Key, err error) {
+func DEWHryptPreSaleKey(fileContent []byte, password string) (key *Key, err error) {
 	preSaleKeyStruct := struct {
 		EncSeed string
 		EthAddr string
@@ -54,7 +54,7 @@ func decryptPreSaleKey(fileContent []byte, password string) (key *Key, err error
 	if err != nil {
 		return nil, err
 	}
-	encSeedBytes, err := hex.DecodeString(preSaleKeyStruct.EncSeed)
+	encSeedBytes, err := hex.DEWHodeString(preSaleKeyStruct.EncSeed)
 	if err != nil {
 		return nil, errors.New("invalid hex in encSeed")
 	}
@@ -64,7 +64,7 @@ func decryptPreSaleKey(fileContent []byte, password string) (key *Key, err error
 	iv := encSeedBytes[:16]
 	cipherText := encSeedBytes[16:]
 	/*
-		See https://github.com/DEC/pyethsaletool
+		See https://github.com/DEWH/pyethsaletool
 
 		pyethsaletool generates the encryption key from password by
 		2000 rounds of PBKDF2 with HMAC-SHA-256 using password as salt (:().
@@ -72,7 +72,7 @@ func decryptPreSaleKey(fileContent []byte, password string) (key *Key, err error
 	*/
 	passBytes := []byte(password)
 	derivedKey := pbkdf2.Key(passBytes, passBytes, 2000, 16, sha256.New)
-	plainText, err := aesCBCDecrypt(derivedKey, cipherText, iv)
+	plainText, err := aesCBCDEWHrypt(derivedKey, cipherText, iv)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func decryptPreSaleKey(fileContent []byte, password string) (key *Key, err error
 	derivedAddr := hex.EncodeToString(key.Address.Bytes()) // needed because .Hex() gives leading "0x"
 	expectedAddr := preSaleKeyStruct.EthAddr
 	if derivedAddr != expectedAddr {
-		err = fmt.Errorf("decrypted addr '%s' not equal to expected addr '%s'", derivedAddr, expectedAddr)
+		err = fmt.Errorf("DEWHrypted addr '%s' not equal to expected addr '%s'", derivedAddr, expectedAddr)
 	}
 	return key, err
 }
@@ -104,17 +104,17 @@ func aesCTRXOR(key, inText, iv []byte) ([]byte, error) {
 	return outText, err
 }
 
-func aesCBCDecrypt(key, cipherText, iv []byte) ([]byte, error) {
+func aesCBCDEWHrypt(key, cipherText, iv []byte) ([]byte, error) {
 	aesBlock, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err
 	}
-	decrypter := cipher.NewCBCDecrypter(aesBlock, iv)
+	DEWHrypter := cipher.NewCBCDEWHrypter(aesBlock, iv)
 	paddedPlaintext := make([]byte, len(cipherText))
-	decrypter.CryptBlocks(paddedPlaintext, cipherText)
+	DEWHrypter.CryptBlocks(paddedPlaintext, cipherText)
 	plaintext := pkcs7Unpad(paddedPlaintext)
 	if plaintext == nil {
-		return nil, ErrDecrypt
+		return nil, ErrDEWHrypt
 	}
 	return plaintext, err
 }

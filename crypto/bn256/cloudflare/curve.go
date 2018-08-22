@@ -23,8 +23,8 @@ var curveGen = &curvePoint{
 func (c *curvePoint) String() string {
 	c.MakeAffine()
 	x, y := &gfP{}, &gfP{}
-	montDecode(x, &c.x)
-	montDecode(y, &c.y)
+	montDEWHode(x, &c.x)
+	montDEWHode(y, &c.y)
 	return "(" + x.String() + ", " + y.String() + ")"
 }
 

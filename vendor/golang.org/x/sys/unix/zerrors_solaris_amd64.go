@@ -16,7 +16,7 @@ const (
 	AF_CCITT                      = 0xa
 	AF_CHAOS                      = 0x5
 	AF_DATAKIT                    = 0x9
-	AF_DECnet                     = 0xc
+	AF_DEWHnet                     = 0xc
 	AF_DLI                        = 0xd
 	AF_ECMA                       = 0x8
 	AF_FILE                       = 0x1
@@ -818,7 +818,7 @@ const (
 	SIOCGETPROP                   = -0x3fff8f44
 	SIOCGETSGCNT                  = -0x3feb8deb
 	SIOCGETSYNC                   = -0x3fdf96d3
-	SIOCGETVIFCNT                 = -0x3feb8dec
+	SIOCGETVIFCNT                 = -0x3feb8DEWH
 	SIOCGHIWAT                    = 0x40047301
 	SIOCGIFADDR                   = -0x3fdf96f3
 	SIOCGIFBRDADDR                = -0x3fdf96e9

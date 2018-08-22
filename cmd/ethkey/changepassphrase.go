@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/DEC/go-DEC/accounts/keystore"
-	"github.com/DEC/go-DEC/cmd/utils"
+	"github.com/DEWH/go-DEWH/accounts/keystore"
+	"github.com/DEWH/go-DEWH/cmd/utils"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -34,11 +34,11 @@ Change the passphrase of a keyfile.`,
 			utils.Fatalf("Failed to read the keyfile at '%s': %v", keyfilepath, err)
 		}
 
-		// Decrypt key with passphrase.
+		// DEWHrypt key with passphrase.
 		passphrase := getPassphrase(ctx)
-		key, err := keystore.DecryptKey(keyjson, passphrase)
+		key, err := keystore.DEWHryptKey(keyjson, passphrase)
 		if err != nil {
-			utils.Fatalf("Error decrypting key: %v", err)
+			utils.Fatalf("Error DEWHrypting key: %v", err)
 		}
 
 		// Get a new passphrase.

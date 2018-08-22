@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package vm
 
@@ -20,7 +20,7 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/DEC/go-DEC/params"
+	"github.com/DEWH/go-DEWH/params"
 )
 
 type (
@@ -356,11 +356,11 @@ func newFrontierInstructionSet() [256]operation {
 			validateStack: makeStackFunc(0, 1),
 			valid:         true,
 		},
-		CODECOPY: {
-			execute:       opCodeCopy,
-			gasCost:       gasCodeCopy,
+		CODEWHOPY: {
+			execute:       opCoDEWHopy,
+			gasCost:       gasCoDEWHopy,
 			validateStack: makeStackFunc(3, 0),
-			memorySize:    memoryCodeCopy,
+			memorySize:    memoryCoDEWHopy,
 			valid:         true,
 		},
 		GASPRICE: {
@@ -375,11 +375,11 @@ func newFrontierInstructionSet() [256]operation {
 			validateStack: makeStackFunc(1, 1),
 			valid:         true,
 		},
-		EXTCODECOPY: {
-			execute:       opExtCodeCopy,
-			gasCost:       gasExtCodeCopy,
+		EXTCODEWHOPY: {
+			execute:       opExtCoDEWHopy,
+			gasCost:       gasExtCoDEWHopy,
 			validateStack: makeStackFunc(4, 0),
-			memorySize:    memoryExtCodeCopy,
+			memorySize:    memoryExtCoDEWHopy,
 			valid:         true,
 		},
 		BLOCKHASH: {

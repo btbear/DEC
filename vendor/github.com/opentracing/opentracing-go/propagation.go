@@ -104,7 +104,7 @@ type TextMapWriter interface {
 }
 
 // TextMapReader is the Extract() carrier for the TextMap builtin format. With it,
-// the caller can decode a propagated SpanContext as entries in a map of
+// the caller can DEWHode a propagated SpanContext as entries in a map of
 // unicode strings.
 type TextMapReader interface {
 	// ForeachKey returns TextMap contents via repeated calls to the `handler`

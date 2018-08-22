@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 package main
 
 import (
@@ -21,10 +21,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/DEC/go-DEC/cmd/utils"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/swarm/api"
-	swarm "github.com/DEC/go-DEC/swarm/api/client"
+	"github.com/DEWH/go-DEWH/cmd/utils"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/swarm/api"
+	swarm "github.com/DEWH/go-DEWH/swarm/api/client"
 	"gopkg.in/urfave/cli.v1"
 )
 

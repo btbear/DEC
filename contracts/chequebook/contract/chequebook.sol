@@ -2,8 +2,8 @@ pragma solidity ^0.4.18;
 
 import "./mortal.sol";
 
-/// @title Chequebook for DEC micropayments
-/// @author Daniel A. Nagy <daniel@DEC.org>
+/// @title Chequebook for DEWH micropayments
+/// @author Daniel A. Nagy <daniel@DEWH.org>
 contract chequebook is mortal {
     // Cumulative paid amount in wei to each beneficiary
     mapping (address => uint256) public sent;

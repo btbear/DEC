@@ -1,10 +1,10 @@
 ## Swarm
 
-[https://swarm.DEC.org](https://swarm.DEC.org)
+[https://swarm.DEWH.org](https://swarm.DEWH.org)
 
-Swarm is a distributed storage platform and content distribution service, a native base layer service of the DEC web3 stack. The primary objective of Swarm is to provide a decentralized and redundant store for dapp code and data as well as block chain and state data. Swarm is also set out to provide various base layer services for web3, including node-to-node messaging, media streaming, decentralised database services and scalable state-channel infrastructure for decentralised service economies.
+Swarm is a distributed storage platform and content distribution service, a native base layer service of the DEWH web3 stack. The primary objective of Swarm is to provide a DEWHentralized and redundant store for dapp code and data as well as block chain and state data. Swarm is also set out to provide various base layer services for web3, including node-to-node messaging, media streaming, DEWHentralised database services and scalable state-channel infrastructure for DEWHentralised service economies.
 
-[![Travis](https://travis-ci.org/DEC/go-DEC.svg?branch=master)](https://travis-ci.org/DEC/go-DEC)
+[![Travis](https://travis-ci.org/DEWH/go-DEWH.svg?branch=master)](https://travis-ci.org/DEWH/go-DEWH)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ethersphere/orange-lounge?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 
@@ -12,9 +12,9 @@ Swarm is a distributed storage platform and content distribution service, a nati
 
 Building Swarm requires Go (version 1.10 or later).
 
-    go get -d github.com/DEC/go-DEC
+    go get -d github.com/DEWH/go-DEWH
 
-    go install github.com/DEC/go-DEC/cmd/swarm
+    go install github.com/DEWH/go-DEWH/cmd/swarm
 
 
 ## Documentation
@@ -39,17 +39,17 @@ Please make sure your contributions adhere to our coding guidelines:
  * Code must adhere to the official Go [formatting](https://golang.org/doc/effective_go.html#formatting) guidelines (i.e. uses [gofmt](https://golang.org/cmd/gofmt/)).
  * Code must be documented adhering to the official Go [commentary](https://golang.org/doc/effective_go.html#commentary) guidelines.
  * Pull requests need to be based on and opened against the `master` branch.
- * [Code review guidelines](https://github.com/DEC/go-DEC/wiki/Code-Review-Guidelines).
+ * [Code review guidelines](https://github.com/DEWH/go-DEWH/wiki/Code-Review-Guidelines).
  * Commit messages should be prefixed with the package(s) they modify.
    * E.g. "swarm/fuse: ignore default manifest entry"
 
 
 ## License
 
-The go-DEC library (i.e. all code outside of the `cmd` directory) is licensed under the
+The go-DEWH library (i.e. all code outside of the `cmd` directory) is licensed under the
 [GNU Lesser General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html), also
 included in our repository in the `COPYING.LESSER` file.
 
-The go-DEC binaries (i.e. all code inside of the `cmd` directory) is licensed under the
+The go-DEWH binaries (i.e. all code inside of the `cmd` directory) is licensed under the
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html), also included
 in our repository in the `COPYING` file.

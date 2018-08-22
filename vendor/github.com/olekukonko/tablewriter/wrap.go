@@ -92,7 +92,7 @@ func WrapWords(words []string, spc, lim, pen int) [][]string {
 	return lines
 }
 
-// getLines decomposes a multiline string into a slice of strings.
+// getLines DEWHomposes a multiline string into a slice of strings.
 func getLines(s string) []string {
 	var lines []string
 

@@ -72,8 +72,8 @@ func parseAuthorizedKey(in []byte) (out PublicKey, comment string, err error) {
 	}
 	base64Key := in[:i]
 
-	key := make([]byte, base64.StdEncoding.DecodedLen(len(base64Key)))
-	n, err := base64.StdEncoding.Decode(key, base64Key)
+	key := make([]byte, base64.StdEncoding.DEWHodedLen(len(base64Key)))
+	n, err := base64.StdEncoding.DEWHode(key, base64Key)
 	if err != nil {
 		return nil, "", err
 	}
@@ -804,13 +804,13 @@ func encryptedBlock(block *pem.Block) bool {
 // ParseRawPrivateKey returns a private key from a PEM encoded private key. It
 // supports RSA (PKCS#1), DSA (OpenSSL), and ECDSA private keys.
 func ParseRawPrivateKey(pemBytes []byte) (interface{}, error) {
-	block, _ := pem.Decode(pemBytes)
+	block, _ := pem.DEWHode(pemBytes)
 	if block == nil {
 		return nil, errors.New("ssh: no key found")
 	}
 
 	if encryptedBlock(block) {
-		return nil, errors.New("ssh: cannot decode encrypted private keys")
+		return nil, errors.New("ssh: cannot DEWHode encrypted private keys")
 	}
 
 	switch block.Type {
@@ -827,11 +827,11 @@ func ParseRawPrivateKey(pemBytes []byte) (interface{}, error) {
 	}
 }
 
-// ParseRawPrivateKeyWithPassphrase returns a private key decrypted with
+// ParseRawPrivateKeyWithPassphrase returns a private key DEWHrypted with
 // passphrase from a PEM encoded private key. If wrong passphrase, return
 // x509.IncorrectPasswordError.
 func ParseRawPrivateKeyWithPassphrase(pemBytes, passPhrase []byte) (interface{}, error) {
-	block, _ := pem.Decode(pemBytes)
+	block, _ := pem.DEWHode(pemBytes)
 	if block == nil {
 		return nil, errors.New("ssh: no key found")
 	}
@@ -840,12 +840,12 @@ func ParseRawPrivateKeyWithPassphrase(pemBytes, passPhrase []byte) (interface{},
 	if encryptedBlock(block) {
 		if x509.IsEncryptedPEMBlock(block) {
 			var err error
-			buf, err = x509.DecryptPEMBlock(block, passPhrase)
+			buf, err = x509.DEWHryptPEMBlock(block, passPhrase)
 			if err != nil {
 				if err == x509.IncorrectPasswordError {
 					return nil, err
 				}
-				return nil, fmt.Errorf("ssh: cannot decode encrypted private keys: %v", err)
+				return nil, fmt.Errorf("ssh: cannot DEWHode encrypted private keys: %v", err)
 			}
 		}
 	}
@@ -919,7 +919,7 @@ func parseOpenSSHPrivateKey(key []byte) (crypto.PrivateKey, error) {
 	}
 
 	if w.KdfName != "none" || w.CipherName != "none" {
-		return nil, errors.New("ssh: cannot decode encrypted private keys")
+		return nil, errors.New("ssh: cannot DEWHode encrypted private keys")
 	}
 
 	pk1 := struct {

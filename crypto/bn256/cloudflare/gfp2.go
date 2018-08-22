@@ -10,10 +10,10 @@ type gfP2 struct {
 	x, y gfP // value is xi+y.
 }
 
-func gfP2Decode(in *gfP2) *gfP2 {
+func gfP2DEWHode(in *gfP2) *gfP2 {
 	out := &gfP2{}
-	montDecode(&out.x, &in.x)
-	montDecode(&out.y, &in.y)
+	montDEWHode(&out.x, &in.x)
+	montDEWHode(&out.y, &in.y)
 	return out
 }
 

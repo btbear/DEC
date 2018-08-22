@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package rpc
 
@@ -33,7 +33,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/DEC/go-DEC/log"
+	"github.com/DEWH/go-DEWH/log"
 )
 
 var (
@@ -675,11 +675,11 @@ func (c *Client) handleResponse(msg *jsonrpcMessage) {
 func (c *Client) read(conn net.Conn) error {
 	var (
 		buf json.RawMessage
-		dec = json.NewDecoder(conn)
+		DEWH = json.NewDEWHoder(conn)
 	)
 	readMessage := func() (rs []*jsonrpcMessage, err error) {
 		buf = buf[:0]
-		if err = dec.Decode(&buf); err != nil {
+		if err = DEWH.DEWHode(&buf); err != nil {
 			return nil, err
 		}
 		if isBatch(buf) {

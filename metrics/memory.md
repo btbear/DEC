@@ -189,7 +189,7 @@ VmSwap:     1544 kB
 
 **17.31016 kB virtual, 12.88936 kB resident per histogram.**
 
-1000 histograms with an exponentially-decaying sample size of 1028 and alpha of 0.015
+1000 histograms with an exponentially-DEWHaying sample size of 1028 and alpha of 0.015
 -------------------------------------------------------------------------------------
 
 ```
@@ -208,7 +208,7 @@ VmSwap:        0 kB
 
 **19.876 kB virtual, 10.452 kB resident per histogram.**
 
-10000 histograms with an exponentially-decaying sample size of 1028 and alpha of 0.015
+10000 histograms with an exponentially-DEWHaying sample size of 1028 and alpha of 0.015
 --------------------------------------------------------------------------------------
 
 ```
@@ -227,7 +227,7 @@ VmSwap:        0 kB
 
 **11.0692 kB virtual, 10.0056 kB resident per histogram.**
 
-50000 histograms with an exponentially-decaying sample size of 1028 and alpha of 0.015
+50000 histograms with an exponentially-DEWHaying sample size of 1028 and alpha of 0.015
 --------------------------------------------------------------------------------------
 
 ```

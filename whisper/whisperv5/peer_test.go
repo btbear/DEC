@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package whisperv5
 
@@ -24,11 +24,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/nat"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/nat"
 )
 
 var keys = []string{
@@ -90,9 +90,9 @@ var expectedMessage = []byte("per rectum ad astra")
 // This test does the following:
 // 1. creates a chain of whisper nodes,
 // 2. installs the filters with shared (predefined) parameters,
-// 3. each node sends a number of random (undecryptable) messages,
-// 4. first node sends one expected (decryptable) message,
-// 5. checks if each node have received and decrypted exactly one message.
+// 3. each node sends a number of random (unDEWHryptable) messages,
+// 4. first node sends one expected (DEWHryptable) message,
+// 5. checks if each node have received and DEWHrypted exactly one message.
 func TestSimulation(t *testing.T) {
 	initialize(t)
 

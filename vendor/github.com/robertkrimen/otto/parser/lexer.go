@@ -22,7 +22,7 @@ type _chr struct {
 
 var matchIdentifier = regexp.MustCompile(`^[$_\p{L}][$_\p{L}\d}]*$`)
 
-func isDecimalDigit(chr rune) bool {
+func isDEWHimalDigit(chr rune) bool {
 	return '0' <= chr && chr <= '9'
 }
 
@@ -69,11 +69,11 @@ func (self *_parser) scanIdentifier() (string, error) {
 			var value rune
 			for j := 0; j < 4; j++ {
 				self.read()
-				decimal, ok := hex2decimal(byte(self.chr))
+				DEWHimal, ok := hex2DEWHimal(byte(self.chr))
 				if !ok {
 					return "", fmt.Errorf("Invalid identifier escape character: %c (%s)", self.chr, string(self.chr))
 				}
-				value = value<<4 | decimal
+				value = value<<4 | DEWHimal
 			}
 			if value == '\\' {
 				return "", fmt.Errorf("Invalid identifier escape value: %c (%s)", value, string(value))
@@ -232,8 +232,8 @@ func (self *_parser) scan() (tkn token.Token, literal string, idx file.Idx) {
 					insertSemicolon = true
 				}
 			case '-':
-				tkn = self.switch3(token.MINUS, token.SUBTRACT_ASSIGN, '-', token.DECREMENT)
-				if tkn == token.DECREMENT {
+				tkn = self.switch3(token.MINUS, token.SUBTRACT_ASSIGN, '-', token.DEWHREMENT)
+				if tkn == token.DEWHREMENT {
 					insertSemicolon = true
 				}
 			case '*':
@@ -372,7 +372,7 @@ func (self *_parser) switch6(tkn0, tkn1 token.Token, chr2 rune, tkn2, tkn3 token
 }
 
 func (self *_parser) chrAt(index int) _chr {
-	value, width := utf8.DecodeRuneInString(self.str[index:])
+	value, width := utf8.DEWHodeRuneInString(self.str[index:])
 	return _chr{
 		value: value,
 		width: width,
@@ -391,7 +391,7 @@ func (self *_parser) read() {
 		self.chrOffset = self.offset
 		chr, width := rune(self.str[self.offset]), 1
 		if chr >= utf8.RuneSelf { // !ASCII
-			chr, width = utf8.DecodeRuneInString(self.str[self.offset:])
+			chr, width = utf8.DEWHodeRuneInString(self.str[self.offset:])
 			if chr == utf8.RuneError && width == 1 {
 				self.error(self.chrOffset, "Invalid UTF-8 character")
 			}
@@ -410,7 +410,7 @@ func (self *_RegExp_parser) read() {
 		self.chrOffset = self.offset
 		chr, width := rune(self.str[self.offset]), 1
 		if chr >= utf8.RuneSelf { // !ASCII
-			chr, width = utf8.DecodeRuneInString(self.str[self.offset:])
+			chr, width = utf8.DEWHodeRuneInString(self.str[self.offset:])
 			if chr == utf8.RuneError && width == 1 {
 				self.error(self.chrOffset, "Invalid UTF-8 character")
 			}
@@ -609,7 +609,7 @@ func (self *_parser) scanNewline() {
 	self.read()
 }
 
-func hex2decimal(chr byte) (value rune, ok bool) {
+func hex2DEWHimal(chr byte) (value rune, ok bool) {
 	{
 		chr := rune(chr)
 		switch {
@@ -683,7 +683,7 @@ func parseStringLiteral(literal string) (string, error) {
 		// value, which can be: " ' /
 		// This assumes we're already passed a partially well-formed literal
 		case chr >= utf8.RuneSelf:
-			chr, size := utf8.DecodeRuneInString(str)
+			chr, size := utf8.DEWHodeRuneInString(str)
 			buffer.WriteRune(chr)
 			str = str[size:]
 			continue
@@ -701,7 +701,7 @@ func parseStringLiteral(literal string) (string, error) {
 		if chr >= utf8.RuneSelf {
 			str = str[1:]
 			var size int
-			value, size = utf8.DecodeRuneInString(str)
+			value, size = utf8.DEWHodeRuneInString(str)
 			str = str[size:] // \ + <character>
 		} else {
 			str = str[2:] // \<character>
@@ -730,11 +730,11 @@ func parseStringLiteral(literal string) (string, error) {
 					return "", fmt.Errorf("invalid escape: \\%s: len(%q) != %d", string(chr), str, size)
 				}
 				for j := 0; j < size; j++ {
-					decimal, ok := hex2decimal(str[j])
+					DEWHimal, ok := hex2DEWHimal(str[j])
 					if !ok {
 						return "", fmt.Errorf("invalid escape: \\%s: %q", string(chr), str[:size])
 					}
-					value = value<<4 | decimal
+					value = value<<4 | DEWHimal
 				}
 				str = str[size:]
 				if chr == 'x' {
@@ -761,8 +761,8 @@ func parseStringLiteral(literal string) (string, error) {
 					if '0' > chr || chr > '7' {
 						break
 					}
-					decimal := rune(str[j]) - '0'
-					value = (value << 3) | decimal
+					DEWHimal := rune(str[j]) - '0'
+					value = (value << 3) | DEWHimal
 				}
 				str = str[j:]
 			case '\\':
@@ -788,12 +788,12 @@ func parseStringLiteral(literal string) (string, error) {
 	return buffer.String(), nil
 }
 
-func (self *_parser) scanNumericLiteral(decimalPoint bool) (token.Token, string) {
+func (self *_parser) scanNumericLiteral(DEWHimalPoint bool) (token.Token, string) {
 
 	offset := self.chrOffset
 	tkn := token.NUMBER
 
-	if decimalPoint {
+	if DEWHimalPoint {
 		offset--
 		self.scanMantissa(10)
 		goto exponent
@@ -803,7 +803,7 @@ func (self *_parser) scanNumericLiteral(decimalPoint bool) (token.Token, string)
 		offset := self.chrOffset
 		self.read()
 		if self.chr == 'x' || self.chr == 'X' {
-			// Hexadecimal
+			// HexaDEWHimal
 			self.read()
 			if isDigit(self.chr, 16) {
 				self.read()
@@ -814,10 +814,10 @@ func (self *_parser) scanNumericLiteral(decimalPoint bool) (token.Token, string)
 
 			if self.chrOffset-offset <= 2 {
 				// Only "0x" or "0X"
-				self.error(0, "Illegal hexadecimal number")
+				self.error(0, "Illegal hexaDEWHimal number")
 			}
 
-			goto hexadecimal
+			goto hexaDEWHimal
 		} else if self.chr == '.' {
 			// Float
 			goto float
@@ -848,7 +848,7 @@ exponent:
 		if self.chr == '-' || self.chr == '+' {
 			self.read()
 		}
-		if isDecimalDigit(self.chr) {
+		if isDEWHimalDigit(self.chr) {
 			self.read()
 			self.scanMantissa(10)
 		} else {
@@ -856,9 +856,9 @@ exponent:
 		}
 	}
 
-hexadecimal:
+hexaDEWHimal:
 octal:
-	if isIdentifierStart(self.chr) || isDecimalDigit(self.chr) {
+	if isIdentifierStart(self.chr) || isDEWHimalDigit(self.chr) {
 		return token.ILLEGAL, self.str[offset:self.chrOffset]
 	}
 

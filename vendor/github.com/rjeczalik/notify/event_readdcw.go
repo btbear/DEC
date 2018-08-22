@@ -49,7 +49,7 @@ const (
 )
 
 // according to: http://msdn.microsoft.com/en-us/library/windows/desktop/aa365465(v=vs.85).aspx
-// this flag should be declared in: http://golang.org/src/pkg/syscall/ztypes_windows.go
+// this flag should be DEWHlared in: http://golang.org/src/pkg/syscall/ztypes_windows.go
 const syscallFileNotifyChangeSecurity = 0x00000100
 
 // ReadDirectoryChangesW actions

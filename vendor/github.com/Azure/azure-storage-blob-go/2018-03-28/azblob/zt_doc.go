@@ -46,7 +46,7 @@ example of how to do deal with errors.
 
 URL and Shared Access Signature Manipulation
 
-The library includes a BlobURLParts type for deconstructing and reconstructing URLs. And you can use the following types
+The library includes a BlobURLParts type for DEWHonstructing and reconstructing URLs. And you can use the following types
 for generating and parsing Shared Access Signature (SAS)
  - Use the AccountSASSignatureValues type to create a SAS for a storage account.
  - Use the BlobSASSignatureValues type to create a SAS for a container or blob.

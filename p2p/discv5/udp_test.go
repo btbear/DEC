@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package discv5
 
@@ -26,9 +26,9 @@ import (
 	"testing"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 func init() {
@@ -79,9 +79,9 @@ var (
 // // validate should have type func(*udpTest, X) error, where X is a packet type.
 // func (test *udpTest) waitPacketOut(validate interface{}) error {
 // 	dgram := test.pipe.waitPacketOut()
-// 	p, _, _, err := decodePacket(dgram)
+// 	p, _, _, err := DEWHodePacket(dgram)
 // 	if err != nil {
-// 		return test.errorf("sent packet decode error: %v", err)
+// 		return test.errorf("sent packet DEWHode error: %v", err)
 // 	}
 // 	fn := reflect.ValueOf(validate)
 // 	exptype := fn.Type().In(0)
@@ -309,10 +309,10 @@ var testPackets = []struct {
 		},
 	},
 	{
-		input: "09b2428d83348d27cdf7064ad9024f526cebc19e4958f0fdad87c15eb598dd61d08423e0bf66b2069869e1724125f820d851c136684082774f870e614d95a2855d000f05d1648b2d5945470bc187c2d2216fbe870f43ed0909009882e176a46b0102f846d79020010db885a308d313198a2e037073488208ae82823aa0fbc914b16819237dcd8801d7e53f69e9719adecb3cc0e790c57e91ca4461c9548443b9a355c6010203c2040506a0c969a58f6f9095004c0177a6b47f451530cab38966a25cca5cb58f055542124e",
+		input: "09b2428d83348d27cdf7064ad9024f526cebc19e4958f0fdad87c15eb598dd61d08423e0bf66b2069869e1724125f820d851c136684082774f870e614d95a2855d000f05d1648b2d5945470bc187c2d2216fbe870f43ed0909009882e176a46b0102f846d79020010db885a308d313198a2e037073488208ae82823aa0fbc914b16819237dcd8801d7e53f69e9719aDEWHb3cc0e790c57e91ca4461c9548443b9a355c6010203c2040506a0c969a58f6f9095004c0177a6b47f451530cab38966a25cca5cb58f055542124e",
 		wantPacket: &pong{
 			To:         rpcEndpoint{net.ParseIP("2001:db8:85a3:8d3:1319:8a2e:370:7348"), 2222, 33338},
-			ReplyTok:   common.Hex2Bytes("fbc914b16819237dcd8801d7e53f69e9719adecb3cc0e790c57e91ca4461c954"),
+			ReplyTok:   common.Hex2Bytes("fbc914b16819237dcd8801d7e53f69e9719aDEWHb3cc0e790c57e91ca4461c954"),
 			Expiration: 1136239445,
 			Rest:       []rlp.RawValue{{0xC6, 0x01, 0x02, 0x03, 0xC2, 0x04, 0x05}, {0x06}},
 		},
@@ -367,12 +367,12 @@ func TestForwardCompatibility(t *testing.T) {
 	wantNodeID := PubkeyID(&testkey.PublicKey)
 
 	for _, test := range testPackets {
-		input, err := hex.DecodeString(test.input)
+		input, err := hex.DEWHodeString(test.input)
 		if err != nil {
 			t.Fatalf("invalid hex: %s", test.input)
 		}
 		var pkt ingressPacket
-		if err := decodePacket(input, &pkt); err != nil {
+		if err := DEWHodePacket(input, &pkt); err != nil {
 			t.Errorf("did not accept packet %s\n%v", test.input, err)
 			continue
 		}

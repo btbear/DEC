@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 //
 package core
 
@@ -27,13 +27,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/accounts/keystore"
-	"github.com/DEC/go-DEC/cmd/utils"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/internal/ethapi"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/accounts/keystore"
+	"github.com/DEWH/go-DEWH/cmd/utils"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/internal/ethapi"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 //Used for testing
@@ -230,7 +230,7 @@ func TestSignData(t *testing.T) {
 	if h != nil {
 		t.Errorf("Expected nil-data, got %x", h)
 	}
-	if err != keystore.ErrDecrypt {
+	if err != keystore.ErrDEWHrypt {
 		t.Errorf("Expected ErrLocked! %v", err)
 	}
 
@@ -298,7 +298,7 @@ func TestSignTx(t *testing.T) {
 	if res != nil {
 		t.Errorf("Expected nil-response, got %v", res)
 	}
-	if err != keystore.ErrDecrypt {
+	if err != keystore.ErrDEWHrypt {
 		t.Errorf("Expected ErrLocked! %v", err)
 	}
 
@@ -319,7 +319,7 @@ func TestSignTx(t *testing.T) {
 		t.Fatal(err)
 	}
 	parsedTx := &types.Transaction{}
-	rlp.Decode(bytes.NewReader(res.Raw), parsedTx)
+	rlp.DEWHode(bytes.NewReader(res.Raw), parsedTx)
 	//The tx should NOT be modified by the UI
 	if parsedTx.Value().Cmp(tx.Value.ToInt()) != 0 {
 		t.Errorf("Expected value to be unchanged, expected %v got %v", tx.Value, parsedTx.Value())
@@ -345,7 +345,7 @@ func TestSignTx(t *testing.T) {
 	}
 
 	parsedTx2 := &types.Transaction{}
-	rlp.Decode(bytes.NewReader(res.Raw), parsedTx2)
+	rlp.DEWHode(bytes.NewReader(res.Raw), parsedTx2)
 	//The tx should be modified by the UI
 	if parsedTx2.Value().Cmp(tx.Value.ToInt()) != 0 {
 		t.Errorf("Expected value to be unchanged, got %v", parsedTx.Value())

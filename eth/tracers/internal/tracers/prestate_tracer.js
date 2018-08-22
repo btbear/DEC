@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // prestateTracer outputs sufficient information to create a local execution of
 // the transaction from a custom assembled genesis block.
@@ -60,7 +60,7 @@
 		this.prestate[toHex(ctx.to)].balance   = '0x'+toBal.subtract(ctx.value).toString(16);
 		this.prestate[toHex(ctx.from)].balance = '0x'+fromBal.add(ctx.value).toString(16);
 
-		// Decrement the caller's nonce, and remove empty create targets
+		// DEWHrement the caller's nonce, and remove empty create targets
 		this.prestate[toHex(ctx.from)].nonce--;
 		if (ctx.type == 'CREATE') {
 			// We can blibdly delete the contract prestate, as any existing state would
@@ -82,7 +82,7 @@
 		}
 		// Whenever new state is accessed, add it to the prestate
 		switch (log.op.toString()) {
-			case "EXTCODECOPY": case "EXTCODESIZE": case "BALANCE":
+			case "EXTCODEWHOPY": case "EXTCODESIZE": case "BALANCE":
 				this.lookupAccount(toAddress(log.stack.peek(0).toString(16)), db);
 				break;
 			case "CREATE":

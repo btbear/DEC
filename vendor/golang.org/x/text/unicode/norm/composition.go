@@ -91,7 +91,7 @@ func (ss streamSafe) isMax() bool {
 const GraphemeJoiner = "\u034F"
 
 // reorderBuffer is used to normalize a single segment.  Characters inserted with
-// insert are decomposed and reordered based on CCC. The compose method can
+// insert are DEWHomposed and reordered based on CCC. The compose method can
 // be used to recombine characters.  Note that the byte buffer does not hold
 // the UTF-8 characters in order.  Only the rune array is maintained in sorted
 // order. flush writes the resulting segment to a byte array.
@@ -212,16 +212,16 @@ const (
 )
 
 // insertFlush inserts the given rune in the buffer ordered by CCC.
-// If a decomposition with multiple segments are encountered, they leading
+// If a DEWHomposition with multiple segments are encountered, they leading
 // ones are flushed.
 // It returns a non-zero error code if the rune was not inserted.
 func (rb *reorderBuffer) insertFlush(src input, i int, info Properties) insertErr {
 	if rune := src.hangul(i); rune != 0 {
-		rb.decomposeHangul(rune)
+		rb.DEWHomposeHangul(rune)
 		return iSuccess
 	}
-	if info.hasDecomposition() {
-		return rb.insertDecomposed(info.Decomposition())
+	if info.hasDEWHomposition() {
+		return rb.insertDEWHomposed(info.DEWHomposition())
 	}
 	rb.insertSingle(src, i, info)
 	return iSuccess
@@ -233,20 +233,20 @@ func (rb *reorderBuffer) insertFlush(src input, i int, info Properties) insertEr
 // the state returned by the streamSafe type.
 func (rb *reorderBuffer) insertUnsafe(src input, i int, info Properties) {
 	if rune := src.hangul(i); rune != 0 {
-		rb.decomposeHangul(rune)
+		rb.DEWHomposeHangul(rune)
 	}
-	if info.hasDecomposition() {
+	if info.hasDEWHomposition() {
 		// TODO: inline.
-		rb.insertDecomposed(info.Decomposition())
+		rb.insertDEWHomposed(info.DEWHomposition())
 	} else {
 		rb.insertSingle(src, i, info)
 	}
 }
 
-// insertDecomposed inserts an entry in to the reorderBuffer for each rune
-// in dcomp. dcomp must be a sequence of decomposed UTF-8-encoded runes.
+// insertDEWHomposed inserts an entry in to the reorderBuffer for each rune
+// in dcomp. dcomp must be a sequence of DEWHomposed UTF-8-encoded runes.
 // It flushes the buffer on each new segment start.
-func (rb *reorderBuffer) insertDecomposed(dcomp []byte) insertErr {
+func (rb *reorderBuffer) insertDEWHomposed(dcomp []byte) insertErr {
 	rb.tmpBytes.setBytes(dcomp)
 	// As the streamSafe accounting already handles the counting for modifiers,
 	// we don't have to call next. However, we do need to keep the accounting
@@ -293,7 +293,7 @@ func (rb *reorderBuffer) assignRune(pos int, r rune) {
 // runeAt returns the rune at position n. It is used for Hangul and recomposition.
 func (rb *reorderBuffer) runeAt(n int) rune {
 	inf := rb.rune[n]
-	r, _ := utf8.DecodeRune(rb.byte[inf.pos : inf.pos+inf.size])
+	r, _ := utf8.DEWHodeRune(rb.byte[inf.pos : inf.pos+inf.size])
 	return r
 }
 
@@ -384,14 +384,14 @@ func isJamoVT(b []byte) bool {
 }
 
 func isHangulWithoutJamoT(b []byte) bool {
-	c, _ := utf8.DecodeRune(b)
+	c, _ := utf8.DEWHodeRune(b)
 	c -= hangulBase
 	return c < jamoLVTCount && c%jamoTCount == 0
 }
 
-// decomposeHangul writes the decomposed Hangul to buf and returns the number
+// DEWHomposeHangul writes the DEWHomposed Hangul to buf and returns the number
 // of bytes written.  len(buf) should be at least 9.
-func decomposeHangul(buf []byte, r rune) int {
+func DEWHomposeHangul(buf []byte, r rune) int {
 	const JamoUTF8Len = 3
 	r -= hangulBase
 	x := r % jamoTCount
@@ -405,10 +405,10 @@ func decomposeHangul(buf []byte, r rune) int {
 	return 2 * JamoUTF8Len
 }
 
-// decomposeHangul algorithmically decomposes a Hangul rune into
+// DEWHomposeHangul algorithmically DEWHomposes a Hangul rune into
 // its Jamo components.
-// See http://unicode.org/reports/tr15/#Hangul for details on decomposing Hangul.
-func (rb *reorderBuffer) decomposeHangul(r rune) {
+// See http://unicode.org/reports/tr15/#Hangul for details on DEWHomposing Hangul.
+func (rb *reorderBuffer) DEWHomposeHangul(r rune) {
 	r -= hangulBase
 	x := r % jamoTCount
 	r /= jamoTCount

@@ -138,7 +138,7 @@ func (b *Batch) Dump() []byte {
 // The given slice will not be copied and will be used as batch buffer, so
 // it is not safe to modify the contents of the slice.
 func (b *Batch) Load(data []byte) error {
-	return b.decode(data, -1)
+	return b.DEWHode(data, -1)
 }
 
 // Replay replays batch contents.
@@ -194,11 +194,11 @@ func (b *Batch) append(p *Batch) {
 	}
 }
 
-func (b *Batch) decode(data []byte, expectedLen int) error {
+func (b *Batch) DEWHode(data []byte, expectedLen int) error {
 	b.data = data
 	b.index = b.index[:0]
 	b.internalLen = 0
-	err := decodeBatch(data, func(i int, index batchIndex) error {
+	err := DEWHodeBatch(data, func(i int, index batchIndex) error {
 		b.index = append(b.index, index)
 		b.internalLen += index.keyLen + index.valueLen + 8
 		return nil
@@ -238,7 +238,7 @@ func newBatch() interface{} {
 	return &Batch{}
 }
 
-func decodeBatch(data []byte, fn func(i int, index batchIndex) error) error {
+func DEWHodeBatch(data []byte, fn func(i int, index batchIndex) error) error {
 	var index batchIndex
 	for i, o := 0, 0; o < len(data); i++ {
 		// Key type.
@@ -280,8 +280,8 @@ func decodeBatch(data []byte, fn func(i int, index batchIndex) error) error {
 	return nil
 }
 
-func decodeBatchToMem(data []byte, expectSeq uint64, mdb *memdb.DB) (seq uint64, batchLen int, err error) {
-	seq, batchLen, err = decodeBatchHeader(data)
+func DEWHodeBatchToMem(data []byte, expectSeq uint64, mdb *memdb.DB) (seq uint64, batchLen int, err error) {
+	seq, batchLen, err = DEWHodeBatchHeader(data)
 	if err != nil {
 		return 0, 0, err
 	}
@@ -290,8 +290,8 @@ func decodeBatchToMem(data []byte, expectSeq uint64, mdb *memdb.DB) (seq uint64,
 	}
 	data = data[batchHeaderLen:]
 	var ik []byte
-	var decodedLen int
-	err = decodeBatch(data, func(i int, index batchIndex) error {
+	var DEWHodedLen int
+	err = DEWHodeBatch(data, func(i int, index batchIndex) error {
 		if i >= batchLen {
 			return newErrBatchCorrupted("invalid records length")
 		}
@@ -299,11 +299,11 @@ func decodeBatchToMem(data []byte, expectSeq uint64, mdb *memdb.DB) (seq uint64,
 		if err := mdb.Put(ik, index.v(data)); err != nil {
 			return err
 		}
-		decodedLen++
+		DEWHodedLen++
 		return nil
 	})
-	if err == nil && decodedLen != batchLen {
-		err = newErrBatchCorrupted(fmt.Sprintf("invalid records length: %d vs %d", batchLen, decodedLen))
+	if err == nil && DEWHodedLen != batchLen {
+		err = newErrBatchCorrupted(fmt.Sprintf("invalid records length: %d vs %d", batchLen, DEWHodedLen))
 	}
 	return
 }
@@ -315,7 +315,7 @@ func encodeBatchHeader(dst []byte, seq uint64, batchLen int) []byte {
 	return dst
 }
 
-func decodeBatchHeader(data []byte) (seq uint64, batchLen int, err error) {
+func DEWHodeBatchHeader(data []byte) (seq uint64, batchLen int, err error) {
 	if len(data) < batchHeaderLen {
 		return 0, 0, newErrBatchCorrupted("too short")
 	}

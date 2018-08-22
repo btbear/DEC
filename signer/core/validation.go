@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
@@ -22,7 +22,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/DEC/go-DEC/common"
+	"github.com/DEWH/go-DEWH/common"
 )
 
 // The validation package contains validation checks for transactions
@@ -47,7 +47,7 @@ type Validator struct {
 func NewValidator(db *AbiDb) *Validator {
 	return &Validator{db}
 }
-func testSelector(selector string, data []byte) (*decodedCallData, error) {
+func testSelector(selector string, data []byte) (*DEWHodedCallData, error) {
 	if selector == "" {
 		return nil, fmt.Errorf("selector not found")
 	}
@@ -73,7 +73,7 @@ func (v *Validator) validateCallData(msgs *ValidationMessages, data []byte, meth
 		return
 	}
 	var (
-		info *decodedCallData
+		info *DEWHodedCallData
 		err  error
 	)
 	// Check the provided one
@@ -124,7 +124,7 @@ func (v *Validator) validate(msgs *ValidationMessages, txargs *SendTxArgs, metho
 	if txargs.To == nil {
 		//Contract creation should contain sufficient data to deploy a contract
 		// A typical error is omitting sender due to some quirk in the javascript call
-		// e.g. https://github.com/DEC/go-DEC/issues/16106
+		// e.g. https://github.com/DEWH/go-DEWH/issues/16106
 		if len(data) == 0 {
 			if txargs.Value.ToInt().Cmp(big.NewInt(0)) > 0 {
 				// Sending ether into black hole

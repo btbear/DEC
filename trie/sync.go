@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package trie
 
@@ -20,8 +20,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/ethdb"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/ethdb"
 	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
 )
 
@@ -101,7 +101,7 @@ func (s *Sync) AddSubTrie(root common.Hash, depth int, parent common.Hash, callb
 	}
 	key := root.Bytes()
 	blob, _ := s.database.Get(key)
-	if local, err := decodeNode(key, blob, 0); local != nil && err == nil {
+	if local, err := DEWHodeNode(key, blob, 0); local != nil && err == nil {
 		return
 	}
 	// Assemble the new sub-trie sync request
@@ -186,8 +186,8 @@ func (s *Sync) Process(results []SyncResult) (bool, int, error) {
 			committed = true
 			continue
 		}
-		// Decode the node data content and update the request
-		node, err := decodeNode(item.Hash[:], item.Data, 0)
+		// DEWHode the node data content and update the request
+		node, err := DEWHodeNode(item.Hash[:], item.Data, 0)
 		if err != nil {
 			return committed, i, err
 		}

@@ -86,7 +86,7 @@ func UnixRights(fds ...int) []byte {
 	return b
 }
 
-// ParseUnixRights decodes a socket control message that contains an
+// ParseUnixRights DEWHodes a socket control message that contains an
 // integer array of open file descriptors from another process.
 func ParseUnixRights(m *SocketControlMessage) ([]int, error) {
 	if m.Header.Level != SOL_SOCKET {

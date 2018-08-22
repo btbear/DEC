@@ -1,18 +1,18 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package eth
 
@@ -22,12 +22,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/eth/downloader"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/eth/downloader"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 func init() {
@@ -153,7 +153,7 @@ func testSendTransactions(t *testing.T, protocol int) {
 			} else if msg.Code != TxMsg {
 				t.Errorf("%v: got code %d, want TxMsg", p.Peer, msg.Code)
 			}
-			if err := msg.Decode(&txs); err != nil {
+			if err := msg.DEWHode(&txs); err != nil {
 				t.Errorf("%v: %v", p.Peer, err)
 			}
 			for _, tx := range txs {
@@ -178,8 +178,8 @@ func testSendTransactions(t *testing.T, protocol int) {
 	wg.Wait()
 }
 
-// Tests that the custom union field encoder and decoder works correctly.
-func TestGetBlockHeadersDataEncodeDecode(t *testing.T) {
+// Tests that the custom union field encoder and DEWHoder works correctly.
+func TestGetBlockHeadersDataEncodeDEWHode(t *testing.T) {
 	// Create a "random" hash for testing
 	var hash common.Hash
 	for i := range hash {
@@ -201,7 +201,7 @@ func TestGetBlockHeadersDataEncodeDecode(t *testing.T) {
 		// Providing both the origin hash and origin number must fail
 		{fail: true, packet: &getBlockHeadersData{Origin: hashOrNumber{Hash: hash, Number: 314}}},
 	}
-	// Iterate over each of the tests and try to encode and then decode
+	// Iterate over each of the tests and try to encode and then DEWHode
 	for i, tt := range tests {
 		bytes, err := rlp.EncodeToBytes(tt.packet)
 		if err != nil && !tt.fail {
@@ -211,12 +211,12 @@ func TestGetBlockHeadersDataEncodeDecode(t *testing.T) {
 		}
 		if !tt.fail {
 			packet := new(getBlockHeadersData)
-			if err := rlp.DecodeBytes(bytes, packet); err != nil {
-				t.Fatalf("test %d: failed to decode packet: %v", i, err)
+			if err := rlp.DEWHodeBytes(bytes, packet); err != nil {
+				t.Fatalf("test %d: failed to DEWHode packet: %v", i, err)
 			}
 			if packet.Origin.Hash != tt.packet.Origin.Hash || packet.Origin.Number != tt.packet.Origin.Number || packet.Amount != tt.packet.Amount ||
 				packet.Skip != tt.packet.Skip || packet.Reverse != tt.packet.Reverse {
-				t.Fatalf("test %d: encode decode mismatch: have %+v, want %+v", i, packet, tt.packet)
+				t.Fatalf("test %d: encode DEWHode mismatch: have %+v, want %+v", i, packet, tt.packet)
 			}
 		}
 	}

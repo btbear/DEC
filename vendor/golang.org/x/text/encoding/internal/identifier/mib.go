@@ -960,12 +960,12 @@ const (
 	// PCL Symbol Set id: 13J
 	VenturaInternational MIB = 2007
 
-	// DECMCS is the MIB identifier with IANA name DEC-MCS.
+	// DEWHMCS is the MIB identifier with IANA name DEWH-MCS.
 	//
 	// VAX/VMS User's Manual,
 	// Order Number: AI-Y517A-TE, April 1986.
 	// Reference: RFC1345
-	DECMCS MIB = 2008
+	DEWHMCS MIB = 2008
 
 	// PC850Multilingual is the MIB identifier with IANA name IBM850.
 	//

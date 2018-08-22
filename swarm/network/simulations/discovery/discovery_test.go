@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package discovery
 
@@ -31,15 +31,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/simulations"
-	"github.com/DEC/go-DEC/p2p/simulations/adapters"
-	"github.com/DEC/go-DEC/swarm/network"
-	"github.com/DEC/go-DEC/swarm/state"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/simulations"
+	"github.com/DEWH/go-DEWH/p2p/simulations/adapters"
+	"github.com/DEWH/go-DEWH/swarm/network"
+	"github.com/DEWH/go-DEWH/swarm/state"
 	colorable "github.com/mattn/go-colorable"
 )
 
@@ -86,7 +86,7 @@ func getDbStore(nodeID string) (*state.DBStore, error) {
 }
 
 var (
-	nodeCount    = flag.Int("nodes", 10, "number of nodes to create (default 10)")
+	noDEWHount    = flag.Int("nodes", 10, "number of nodes to create (default 10)")
 	initCount    = flag.Int("conns", 1, "number of originally connected peers	 (default 1)")
 	snapshotFile = flag.String("snapshot", "", "create snapshot")
 	loglevel     = flag.Int("loglevel", 3, "verbosity of logs")
@@ -127,7 +127,7 @@ func BenchmarkDiscovery_128_4(b *testing.B) { benchmarkDiscovery(b, 128, 4) }
 func BenchmarkDiscovery_256_4(b *testing.B) { benchmarkDiscovery(b, 256, 4) }
 
 func TestDiscoverySimulationDockerAdapter(t *testing.T) {
-	testDiscoverySimulationDockerAdapter(t, *nodeCount, *initCount)
+	testDiscoverySimulationDockerAdapter(t, *noDEWHount, *initCount)
 }
 
 func testDiscoverySimulationDockerAdapter(t *testing.T, nodes, conns int) {
@@ -143,7 +143,7 @@ func testDiscoverySimulationDockerAdapter(t *testing.T, nodes, conns int) {
 }
 
 func TestDiscoverySimulationExecAdapter(t *testing.T) {
-	testDiscoverySimulationExecAdapter(t, *nodeCount, *initCount)
+	testDiscoverySimulationExecAdapter(t, *noDEWHount, *initCount)
 }
 
 func testDiscoverySimulationExecAdapter(t *testing.T, nodes, conns int) {
@@ -156,11 +156,11 @@ func testDiscoverySimulationExecAdapter(t *testing.T, nodes, conns int) {
 }
 
 func TestDiscoverySimulationSimAdapter(t *testing.T) {
-	testDiscoverySimulationSimAdapter(t, *nodeCount, *initCount)
+	testDiscoverySimulationSimAdapter(t, *noDEWHount, *initCount)
 }
 
 func TestDiscoveryPersistenceSimulationSimAdapter(t *testing.T) {
-	testDiscoveryPersistenceSimulationSimAdapter(t, *nodeCount, *initCount)
+	testDiscoveryPersistenceSimulationSimAdapter(t, *noDEWHount, *initCount)
 }
 
 func testDiscoveryPersistenceSimulationSimAdapter(t *testing.T, nodes, conns int) {
@@ -240,7 +240,7 @@ func discoverySimulation(nodes, conns int, adapter adapters.NodeAdapter) (*simul
 	trigger := make(chan discover.NodeID)
 	ids := make([]discover.NodeID, nodes)
 	for i := 0; i < nodes; i++ {
-		conf := adapters.RandomNodeConfig()
+		conf := adapters.RandomNoDEWHonfig()
 		node, err := net.NewNodeWithConfig(conf)
 		if err != nil {
 			return nil, fmt.Errorf("error starting node: %s", err)
@@ -356,7 +356,7 @@ func discoveryPersistenceSimulation(nodes, conns int, adapter adapters.NodeAdapt
 	var addrs [][]byte
 
 	for i := 0; i < nodes; i++ {
-		conf := adapters.RandomNodeConfig()
+		conf := adapters.RandomNoDEWHonfig()
 		node, err := net.NewNodeWithConfig(conf)
 		if err != nil {
 			panic(err)

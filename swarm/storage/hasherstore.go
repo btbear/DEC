@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package storage
 
@@ -21,8 +21,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/DEC/go-DEC/crypto/sha3"
-	"github.com/DEC/go-DEC/swarm/storage/encryption"
+	"github.com/DEWH/go-DEWH/crypto/sha3"
+	"github.com/DEWH/go-DEWH/swarm/storage/encryption"
 )
 
 type chunkEncryption struct {
@@ -49,7 +49,7 @@ func newChunkEncryption(chunkSize, refSize int64) *chunkEncryption {
 
 // NewHasherStore creates a hasherStore object, which implements Putter and Getter interfaces.
 // With the HasherStore you can put and get chunk data (which is just []byte) into a ChunkStore
-// and the hasherStore will take core of encryption/decryption of data if necessary
+// and the hasherStore will take core of encryption/DEWHryption of data if necessary
 func NewHasherStore(chunkStore ChunkStore, hashFunc SwarmHasher, toEncrypt bool) *hasherStore {
 	var chunkEncryption *chunkEncryption
 
@@ -93,14 +93,14 @@ func (h *hasherStore) Put(ctx context.Context, chunkData ChunkData) (Reference, 
 }
 
 // Get returns data of the chunk with the given reference (retrieved from the ChunkStore of hasherStore).
-// If the data is encrypted and the reference contains an encryption key, it will be decrypted before
+// If the data is encrypted and the reference contains an encryption key, it will be DEWHrypted before
 // return.
 func (h *hasherStore) Get(ctx context.Context, ref Reference) (ChunkData, error) {
 	key, encryptionKey, err := parseReference(ref, h.hashSize)
 	if err != nil {
 		return nil, err
 	}
-	toDecrypt := (encryptionKey != nil)
+	toDEWHrypt := (encryptionKey != nil)
 
 	chunk, err := h.store.Get(ctx, key)
 	if err != nil {
@@ -108,9 +108,9 @@ func (h *hasherStore) Get(ctx context.Context, ref Reference) (ChunkData, error)
 	}
 
 	chunkData := chunk.SData
-	if toDecrypt {
+	if toDEWHrypt {
 		var err error
-		chunkData, err = h.decryptChunkData(chunkData, encryptionKey)
+		chunkData, err = h.DEWHryptChunkData(chunkData, encryptionKey)
 		if err != nil {
 			return nil, err
 		}
@@ -173,23 +173,23 @@ func (h *hasherStore) encryptChunkData(chunkData ChunkData) (ChunkData, encrypti
 	return c, encryptionKey, nil
 }
 
-func (h *hasherStore) decryptChunkData(chunkData ChunkData, encryptionKey encryption.Key) (ChunkData, error) {
+func (h *hasherStore) DEWHryptChunkData(chunkData ChunkData, encryptionKey encryption.Key) (ChunkData, error) {
 	if len(chunkData) < 8 {
 		return nil, fmt.Errorf("Invalid ChunkData, min length 8 got %v", len(chunkData))
 	}
 
-	decryptedSpan, err := h.chunkEncryption.spanEncryption.Decrypt(chunkData[:8], encryptionKey)
+	DEWHryptedSpan, err := h.chunkEncryption.spanEncryption.DEWHrypt(chunkData[:8], encryptionKey)
 	if err != nil {
 		return nil, err
 	}
 
-	decryptedData, err := h.chunkEncryption.dataEncryption.Decrypt(chunkData[8:], encryptionKey)
+	DEWHryptedData, err := h.chunkEncryption.dataEncryption.DEWHrypt(chunkData[8:], encryptionKey)
 	if err != nil {
 		return nil, err
 	}
 
 	// removing extra bytes which were just added for padding
-	length := ChunkData(decryptedSpan).Size()
+	length := ChunkData(DEWHryptedSpan).Size()
 	for length > DefaultChunkSize {
 		length = length + (DefaultChunkSize - 1)
 		length = length / DefaultChunkSize
@@ -197,8 +197,8 @@ func (h *hasherStore) decryptChunkData(chunkData ChunkData, encryptionKey encryp
 	}
 
 	c := make(ChunkData, length+8)
-	copy(c[:8], decryptedSpan)
-	copy(c[8:], decryptedData[:length])
+	copy(c[:8], DEWHryptedSpan)
+	copy(c[8:], DEWHryptedData[:length])
 
 	return c[:length+8], nil
 }

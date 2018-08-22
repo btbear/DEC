@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package whisperv5
 
@@ -21,8 +21,8 @@ import (
 	mrand "math/rand"
 	"testing"
 
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 func generateMessageParams() (*MessageParams, error) {
@@ -79,31 +79,31 @@ func singleMessageTest(t *testing.T, symmetric bool) {
 		t.Fatalf("failed Wrap with seed %d: %s.", seed, err)
 	}
 
-	var decrypted *ReceivedMessage
+	var DEWHrypted *ReceivedMessage
 	if symmetric {
-		decrypted, err = env.OpenSymmetric(params.KeySym)
+		DEWHrypted, err = env.OpenSymmetric(params.KeySym)
 	} else {
-		decrypted, err = env.OpenAsymmetric(key)
+		DEWHrypted, err = env.OpenAsymmetric(key)
 	}
 
 	if err != nil {
 		t.Fatalf("failed to encrypt with seed %d: %s.", seed, err)
 	}
 
-	if !decrypted.Validate() {
+	if !DEWHrypted.Validate() {
 		t.Fatalf("failed to validate with seed %d.", seed)
 	}
 
-	if !bytes.Equal(text, decrypted.Payload) {
+	if !bytes.Equal(text, DEWHrypted.Payload) {
 		t.Fatalf("failed with seed %d: compare payload.", seed)
 	}
-	if !isMessageSigned(decrypted.Raw[0]) {
+	if !isMessageSigned(DEWHrypted.Raw[0]) {
 		t.Fatalf("failed with seed %d: unsigned.", seed)
 	}
-	if len(decrypted.Signature) != signatureLength {
-		t.Fatalf("failed with seed %d: signature len %d.", seed, len(decrypted.Signature))
+	if len(DEWHrypted.Signature) != signatureLength {
+		t.Fatalf("failed with seed %d: signature len %d.", seed, len(DEWHrypted.Signature))
 	}
-	if !IsPubKeyEqual(decrypted.Src, &params.Src.PublicKey) {
+	if !IsPubKeyEqual(DEWHrypted.Src, &params.Src.PublicKey) {
 		t.Fatalf("failed with seed %d: signature mismatch.", seed)
 	}
 }
@@ -243,34 +243,34 @@ func singleEnvelopeOpenTest(t *testing.T, symmetric bool) {
 	}
 
 	f := Filter{KeyAsym: key, KeySym: params.KeySym}
-	decrypted := env.Open(&f)
-	if decrypted == nil {
+	DEWHrypted := env.Open(&f)
+	if DEWHrypted == nil {
 		t.Fatalf("failed to open with seed %d.", seed)
 	}
 
-	if !bytes.Equal(text, decrypted.Payload) {
+	if !bytes.Equal(text, DEWHrypted.Payload) {
 		t.Fatalf("failed with seed %d: compare payload.", seed)
 	}
-	if !isMessageSigned(decrypted.Raw[0]) {
+	if !isMessageSigned(DEWHrypted.Raw[0]) {
 		t.Fatalf("failed with seed %d: unsigned.", seed)
 	}
-	if len(decrypted.Signature) != signatureLength {
-		t.Fatalf("failed with seed %d: signature len %d.", seed, len(decrypted.Signature))
+	if len(DEWHrypted.Signature) != signatureLength {
+		t.Fatalf("failed with seed %d: signature len %d.", seed, len(DEWHrypted.Signature))
 	}
-	if !IsPubKeyEqual(decrypted.Src, &params.Src.PublicKey) {
+	if !IsPubKeyEqual(DEWHrypted.Src, &params.Src.PublicKey) {
 		t.Fatalf("failed with seed %d: signature mismatch.", seed)
 	}
-	if decrypted.isAsymmetricEncryption() == symmetric {
-		t.Fatalf("failed with seed %d: asymmetric %v vs. %v.", seed, decrypted.isAsymmetricEncryption(), symmetric)
+	if DEWHrypted.isAsymmetricEncryption() == symmetric {
+		t.Fatalf("failed with seed %d: asymmetric %v vs. %v.", seed, DEWHrypted.isAsymmetricEncryption(), symmetric)
 	}
-	if decrypted.isSymmetricEncryption() != symmetric {
-		t.Fatalf("failed with seed %d: symmetric %v vs. %v.", seed, decrypted.isSymmetricEncryption(), symmetric)
+	if DEWHrypted.isSymmetricEncryption() != symmetric {
+		t.Fatalf("failed with seed %d: symmetric %v vs. %v.", seed, DEWHrypted.isSymmetricEncryption(), symmetric)
 	}
 	if !symmetric {
-		if decrypted.Dst == nil {
+		if DEWHrypted.Dst == nil {
 			t.Fatalf("failed with seed %d: dst is nil.", seed)
 		}
-		if !IsPubKeyEqual(decrypted.Dst, &key.PublicKey) {
+		if !IsPubKeyEqual(DEWHrypted.Dst, &key.PublicKey) {
 			t.Fatalf("failed with seed %d: Dst.", seed)
 		}
 	}
@@ -343,14 +343,14 @@ func TestRlpEncode(t *testing.T) {
 		t.Fatalf("RLP encode failed: %s.", err)
 	}
 
-	var decoded Envelope
-	rlp.DecodeBytes(raw, &decoded)
+	var DEWHoded Envelope
+	rlp.DEWHodeBytes(raw, &DEWHoded)
 	if err != nil {
-		t.Fatalf("RLP decode failed: %s.", err)
+		t.Fatalf("RLP DEWHode failed: %s.", err)
 	}
 
 	he := env.Hash()
-	hd := decoded.Hash()
+	hd := DEWHoded.Hash()
 
 	if he != hd {
 		t.Fatalf("Hashes are not equal: %x vs. %x", he, hd)
@@ -382,12 +382,12 @@ func singlePaddingTest(t *testing.T, padSize int) {
 		t.Fatalf("failed to wrap, seed: %d and sz=%d.", seed, padSize)
 	}
 	f := Filter{KeySym: params.KeySym}
-	decrypted := env.Open(&f)
-	if decrypted == nil {
+	DEWHrypted := env.Open(&f)
+	if DEWHrypted == nil {
 		t.Fatalf("failed to open, seed and sz=%d: %d.", seed, padSize)
 	}
-	if !bytes.Equal(pad, decrypted.Padding) {
-		t.Fatalf("padding is not retireved as expected with seed %d and sz=%d:\n[%x]\n[%x].", seed, padSize, pad, decrypted.Padding)
+	if !bytes.Equal(pad, DEWHrypted.Padding) {
+		t.Fatalf("padding is not retireved as expected with seed %d and sz=%d:\n[%x]\n[%x].", seed, padSize, pad, DEWHrypted.Padding)
 	}
 }
 

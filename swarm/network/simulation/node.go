@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package simulation
 
@@ -24,10 +24,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/simulations"
-	"github.com/DEC/go-DEC/p2p/simulations/adapters"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/simulations"
+	"github.com/DEWH/go-DEWH/p2p/simulations/adapters"
 )
 
 // NodeIDs returns NodeIDs for all nodes in the network.
@@ -64,12 +64,12 @@ func (s *Simulation) DownNodeIDs() (ids []discover.NodeID) {
 
 // AddNodeOption defines the option that can be passed
 // to Simulation.AddNode method.
-type AddNodeOption func(*adapters.NodeConfig)
+type AddNodeOption func(*adapters.NoDEWHonfig)
 
 // AddNodeWithMsgEvents sets the EnableMsgEvents option
-// to NodeConfig.
+// to NoDEWHonfig.
 func AddNodeWithMsgEvents(enable bool) AddNodeOption {
-	return func(o *adapters.NodeConfig) {
+	return func(o *adapters.NoDEWHonfig) {
 		o.EnableMsgEvents = enable
 	}
 }
@@ -79,7 +79,7 @@ func AddNodeWithMsgEvents(enable bool) AddNodeOption {
 // argument toe AddNode and other add node related methods.
 // If AddNodeWithService is not specified, all services will be started.
 func AddNodeWithService(serviceName string) AddNodeOption {
-	return func(o *adapters.NodeConfig) {
+	return func(o *adapters.NoDEWHonfig) {
 		o.Services = append(o.Services, serviceName)
 	}
 }
@@ -89,7 +89,7 @@ func AddNodeWithService(serviceName string) AddNodeOption {
 // By default all services will be started on a node. If one or more
 // AddNodeWithService option are provided, only specified services will be started.
 func (s *Simulation) AddNode(opts ...AddNodeOption) (id discover.NodeID, err error) {
-	conf := adapters.RandomNodeConfig()
+	conf := adapters.RandomNoDEWHonfig()
 	for _, o := range opts {
 		o(conf)
 	}

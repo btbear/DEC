@@ -52,10 +52,10 @@ func (tracerOptions) CustomHeaderKeys(headerKeys *HeadersConfig) TracerOption {
 			return
 		}
 		textPropagator := newTextMapPropagator(headerKeys.applyDefaults(), tracer.metrics)
-		tracer.addCodec(opentracing.TextMap, textPropagator, textPropagator)
+		tracer.addCoDEWH(opentracing.TextMap, textPropagator, textPropagator)
 
 		httpHeaderPropagator := newHTTPHeaderPropagator(headerKeys.applyDefaults(), tracer.metrics)
-		tracer.addCodec(opentracing.HTTPHeaders, httpHeaderPropagator, httpHeaderPropagator)
+		tracer.addCoDEWH(opentracing.HTTPHeaders, httpHeaderPropagator, httpHeaderPropagator)
 	}
 }
 

@@ -521,7 +521,7 @@ walk: // outer loop for walking the tree
 					for max := min(len(loNPath), 3); off < max; off++ {
 						if i := len(loNPath) - off; utf8.RuneStart(loOld[i]) {
 							// read rune from cached lowercase path
-							rv, _ = utf8.DecodeRuneInString(loOld[i:])
+							rv, _ = utf8.DEWHodeRuneInString(loOld[i:])
 							break
 						}
 					}

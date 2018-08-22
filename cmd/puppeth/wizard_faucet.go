@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -20,8 +20,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/DEC/go-DEC/accounts/keystore"
-	"github.com/DEC/go-DEC/log"
+	"github.com/DEWH/go-DEWH/accounts/keystore"
+	"github.com/DEWH/go-DEWH/log"
 )
 
 // deployFaucet queries the user for various input on deploying a faucet, after
@@ -58,7 +58,7 @@ func (w *wizard) deployFaucet() {
 
 	// Figure which virtual-host to deploy ethstats on
 	if infos.host, err = w.ensureVirtualHost(client, infos.port, infos.host); err != nil {
-		log.Error("Failed to decide on faucet host", "err", err)
+		log.Error("Failed to DEWHide on faucet host", "err", err)
 		return
 	}
 	// Port and proxy settings retrieved, figure out the funding amount per period configurations
@@ -127,7 +127,7 @@ func (w *wizard) deployFaucet() {
 	}
 	// Load up the credential needed to release funds
 	if infos.node.keyJSON != "" {
-		if key, err := keystore.DecryptKey([]byte(infos.node.keyJSON), infos.node.keyPass); err != nil {
+		if key, err := keystore.DEWHryptKey([]byte(infos.node.keyJSON), infos.node.keyPass); err != nil {
 			infos.node.keyJSON, infos.node.keyPass = "", ""
 		} else {
 			fmt.Println()
@@ -146,8 +146,8 @@ func (w *wizard) deployFaucet() {
 		fmt.Println("What's the unlock password for the account? (won't be echoed)")
 		infos.node.keyPass = w.readPassword()
 
-		if _, err := keystore.DecryptKey([]byte(infos.node.keyJSON), infos.node.keyPass); err != nil {
-			log.Error("Failed to decrypt key with given passphrase")
+		if _, err := keystore.DEWHryptKey([]byte(infos.node.keyJSON), infos.node.keyPass); err != nil {
+			log.Error("Failed to DEWHrypt key with given passphrase")
 			infos.node.keyJSON = ""
 			infos.node.keyPass = ""
 		}

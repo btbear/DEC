@@ -32,12 +32,12 @@ func (e *Encoding) ID() (mib identifier.MIB, other string) {
 
 // SimpleEncoding is an Encoding that combines two Transformers.
 type SimpleEncoding struct {
-	Decoder transform.Transformer
+	DEWHoder transform.Transformer
 	Encoder transform.Transformer
 }
 
-func (e *SimpleEncoding) NewDecoder() *encoding.Decoder {
-	return &encoding.Decoder{Transformer: e.Decoder}
+func (e *SimpleEncoding) NewDEWHoder() *encoding.DEWHoder {
+	return &encoding.DEWHoder{Transformer: e.DEWHoder}
 }
 
 func (e *SimpleEncoding) NewEncoder() *encoding.Encoder {
@@ -47,12 +47,12 @@ func (e *SimpleEncoding) NewEncoder() *encoding.Encoder {
 // FuncEncoding is an Encoding that combines two functions returning a new
 // Transformer.
 type FuncEncoding struct {
-	Decoder func() transform.Transformer
+	DEWHoder func() transform.Transformer
 	Encoder func() transform.Transformer
 }
 
-func (e FuncEncoding) NewDecoder() *encoding.Decoder {
-	return &encoding.Decoder{Transformer: e.Decoder()}
+func (e FuncEncoding) NewDEWHoder() *encoding.DEWHoder {
+	return &encoding.DEWHoder{Transformer: e.DEWHoder()}
 }
 
 func (e FuncEncoding) NewEncoder() *encoding.Encoder {

@@ -1,20 +1,20 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package les implements the Light DEC Subprotocol.
+// Package les implements the Light DEWH Subprotocol.
 package les
 
 import (
@@ -27,13 +27,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/common/mclock"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/discv5"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common/mclock"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/discv5"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 const (
@@ -63,7 +63,7 @@ const (
 	// drops a client without any specific reason
 	targetConnTime = time.Minute * 10
 	// new entry selection weight calculation based on most recent discovery time:
-	// unity until discoverExpireStart, then exponential decay with discoverExpireConst
+	// unity until discoverExpireStart, then exponential DEWHay with discoverExpireConst
 	discoverExpireStart = time.Minute * 20
 	discoverExpireConst = time.Minute * 20
 	// known entry selection weight is dropped by a factor of exp(-failDropLn) after
@@ -77,7 +77,7 @@ const (
 	// node address selection weight is dropped by a factor of exp(-addrFailDropLn) after
 	// each unsuccessful connection (restored after a successful one)
 	addrFailDropLn = math.Ln2
-	// responseScoreTC and delayScoreTC are exponential decay time constants for
+	// responseScoreTC and delayScoreTC are exponential DEWHay time constants for
 	// calculating selection chances from response times and block delay times
 	responseScoreTC = time.Millisecond * 100
 	delayScoreTC    = time.Second * 5
@@ -444,9 +444,9 @@ func (pool *serverPool) loadNodes() {
 		return
 	}
 	var list []*poolEntry
-	err = rlp.DecodeBytes(enc, &list)
+	err = rlp.DEWHodeBytes(enc, &list)
 	if err != nil {
-		log.Debug("Failed to decode node list", "err", err)
+		log.Debug("Failed to DEWHode node list", "err", err)
 		return
 	}
 	for _, e := range list {
@@ -624,7 +624,7 @@ func (e *poolEntry) EncodeRLP(w io.Writer) error {
 	return rlp.Encode(w, []interface{}{e.id, e.lastConnected.ip, e.lastConnected.port, e.lastConnected.fails, &e.connectStats, &e.delayStats, &e.responseStats, &e.timeoutStats})
 }
 
-func (e *poolEntry) DecodeRLP(s *rlp.Stream) error {
+func (e *poolEntry) DEWHodeRLP(s *rlp.Stream) error {
 	var entry struct {
 		ID                         discover.NodeID
 		IP                         net.IP
@@ -632,7 +632,7 @@ func (e *poolEntry) DecodeRLP(s *rlp.Stream) error {
 		Fails                      uint
 		CStat, DStat, RStat, TStat poolStats
 	}
-	if err := s.Decode(&entry); err != nil {
+	if err := s.DEWHode(&entry); err != nil {
 		return err
 	}
 	addr := &poolEntryAddress{ip: entry.IP, port: entry.Port, fails: entry.Fails, lastSeen: mclock.Now()}
@@ -752,11 +752,11 @@ func (s *poolStats) EncodeRLP(w io.Writer) error {
 	return rlp.Encode(w, []interface{}{math.Float64bits(s.sum), math.Float64bits(s.weight)})
 }
 
-func (s *poolStats) DecodeRLP(st *rlp.Stream) error {
+func (s *poolStats) DEWHodeRLP(st *rlp.Stream) error {
 	var stats struct {
 		SumUint, WeightUint uint64
 	}
-	if err := st.Decode(&stats); err != nil {
+	if err := st.DEWHode(&stats); err != nil {
 		return err
 	}
 	s.init(math.Float64frombits(stats.SumUint), math.Float64frombits(stats.WeightUint))

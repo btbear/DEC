@@ -18,7 +18,7 @@
 
 ### STATUS OF THIS DOCUMENT
 
-`pss` is under active development, and the first implementation is yet to be merged to the DEC main branch. Expect things to change.
+`pss` is under active development, and the first implementation is yet to be merged to the DEWH main branch. Expect things to change.
 
 Details on swarm routing and encryption schemes out of scope of this document.
 
@@ -38,7 +38,7 @@ Topic is the initial 4 bytes of a hash value.
 
 Message payload is an arbitrary byte slice of data.
 
-Upon sending the message it is encrypted and passed on from peer to peer. Any node along the route that can successfully decrypt the message is regarded as a recipient. Recipients continue to pass on the message to their peers, to make traffic analysis attacks more difficult.
+Upon sending the message it is encrypted and passed on from peer to peer. Any node along the route that can successfully DEWHrypt the message is regarded as a recipient. Recipients continue to pass on the message to their peers, to make traffic analysis attacks more difficult.
 
 The Address that is coupled with the encryption keys are used for routing the message. This does *not* need to be a full addresses; the network will route the message to the best of its ability with the information that is available. If *no* address is given (zero-length byte slice), routing is effectively deactivated, and the message is passed to all peers by all peers.
 
@@ -50,7 +50,7 @@ Due to the inherent properties of the `swarm` routing algorithm, a node may rece
 
 ## EXAMPLES
 
-The code tutorial [p2p programming in go-DEC](https://github.com/nolash/go-DEC-p2p-demo) by [@nolash](https://github.com/nolash) provides step-by-step code examples for usage of `pss` API with `go-DEC` nodes.
+The code tutorial [p2p programming in go-DEWH](https://github.com/nolash/go-DEWH-p2p-demo) by [@nolash](https://github.com/nolash) provides step-by-step code examples for usage of `pss` API with `go-DEWH` nodes.
 
 A quite unpolished example using `javascript` is available here: [https://github.com/nolash/pss-js/tree/withcrypt](https://github.com/nolash/pss-js/tree/withcrypt)
 
@@ -58,7 +58,7 @@ A quite unpolished example using `javascript` is available here: [https://github
 
 The `pss` API is available through IPC and Websockets. There is currently no `web3.js` implementation, as this does not support message subscription.
 
-For `golang` clients, please use the `rpc.Client` provided by the `go-DEC` repository. The return values may have special types in `golang`. Please refer to `godoc` for details.
+For `golang` clients, please use the `rpc.Client` provided by the `go-DEWH` repository. The return values may have special types in `golang`. Please refer to `godoc` for details.
 
 ### RETRIEVE NODE INFORMATION
 
@@ -161,14 +161,14 @@ none
 
 Register a symmetric key shared with a peer. This is done once for every topic that will be used with the peer. Address can be anything from 0 to 32 bytes inclusive of the peer's swarm overlay address.
 
-If the fourth parameter is false, the key will *not* be added to the list of symmetric keys used for decryption attempts.
+If the fourth parameter is false, the key will *not* be added to the list of symmetric keys used for DEWHryption attempts.
 
 ```
 parameters:
 1. symmetric key (hex)
 2. topic (4 bytes in hex)
 3. address of peer (hex)
-4. use for decryption (bool)
+4. use for DEWHryption (bool)
 
 returns:
 1. symmetric key id (string)
@@ -304,7 +304,7 @@ returns:
 
 Invalidate the specified key.
 
-Normally, the key will be kept for a grace period to allow for decryption of delayed messages. If instant removal is set, this grace period is omitted, and the key removed instantaneously.
+Normally, the key will be kept for a grace period to allow for DEWHryption of delayed messages. If instant removal is set, this grace period is omitted, and the key removed instantaneously.
 
 ```
 parameters:

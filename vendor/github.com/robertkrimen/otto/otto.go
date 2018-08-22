@@ -554,10 +554,10 @@ func (self Otto) Call(source string, this interface{}, argumentList ...interface
 		program, err := self.runtime.cmpl_parse("", source+"()", nil)
 		if err == nil {
 			if node, ok := program.body[0].(*_nodeExpressionStatement); ok {
-				if node, ok := node.expression.(*_nodeCallExpression); ok {
+				if node, ok := node.expression.(*_noDEWHallExpression); ok {
 					var value Value
 					err := catchPanic(func() {
-						value = self.runtime.cmpl_evaluate_nodeCallExpression(node, argumentList)
+						value = self.runtime.cmpl_evaluate_noDEWHallExpression(node, argumentList)
 					})
 					if err != nil {
 						return Value{}, err

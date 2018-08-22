@@ -66,7 +66,7 @@ var (
 	ErrNotSupported         = &ProtocolError{"not supported"}
 )
 
-// ErrFrameTooLarge is returned by Codec's Receive method if payload size
+// ErrFrameTooLarge is returned by CoDEWH's Receive method if payload size
 // exceeds limit set by Conn.MaxPayloadBytes
 var ErrFrameTooLarge = errors.New("websocket: frame payload size exceeds limit")
 
@@ -180,7 +180,7 @@ type Conn struct {
 	defaultCloseStatus int
 
 	// MaxPayloadBytes limits the size of frame payload received over Conn
-	// by Codec's Receive method. If zero, DefaultMaxPayloadBytes is used.
+	// by CoDEWH's Receive method. If zero, DefaultMaxPayloadBytes is used.
 	MaxPayloadBytes int
 }
 
@@ -295,14 +295,14 @@ func (ws *Conn) Config() *Config { return ws.config }
 // It is nil for client side.
 func (ws *Conn) Request() *http.Request { return ws.request }
 
-// Codec represents a symmetric pair of functions that implement a codec.
-type Codec struct {
+// CoDEWH represents a symmetric pair of functions that implement a coDEWH.
+type CoDEWH struct {
 	Marshal   func(v interface{}) (data []byte, payloadType byte, err error)
 	Unmarshal func(data []byte, payloadType byte, v interface{}) (err error)
 }
 
 // Send sends v marshaled by cd.Marshal as single frame to ws.
-func (cd Codec) Send(ws *Conn, v interface{}) (err error) {
+func (cd CoDEWH) Send(ws *Conn, v interface{}) (err error) {
 	data, payloadType, err := cd.Marshal(v)
 	if err != nil {
 		return err
@@ -324,7 +324,7 @@ func (cd Codec) Send(ws *Conn, v interface{}) (err error) {
 // limit, ErrFrameTooLarge is returned; in this case frame is not read off wire
 // completely. The next call to Receive would read and discard leftover data of
 // previous oversized frame before processing next frame.
-func (cd Codec) Receive(ws *Conn, v interface{}) (err error) {
+func (cd CoDEWH) Receive(ws *Conn, v interface{}) (err error) {
 	ws.rio.Lock()
 	defer ws.rio.Unlock()
 	if ws.frameReader != nil {
@@ -390,7 +390,7 @@ func unmarshal(msg []byte, payloadType byte, v interface{}) (err error) {
 }
 
 /*
-Message is a codec to send/receive text/binary data in a frame on WebSocket connection.
+Message is a coDEWH to send/receive text/binary data in a frame on WebSocket connection.
 To send/receive text frame, use string type.
 To send/receive binary frame, use []byte type.
 
@@ -415,7 +415,7 @@ Trivial usage:
 	websocket.Message.Send(ws, data)
 
 */
-var Message = Codec{marshal, unmarshal}
+var Message = CoDEWH{marshal, unmarshal}
 
 func jsonMarshal(v interface{}) (msg []byte, payloadType byte, err error) {
 	msg, err = json.Marshal(v)
@@ -427,7 +427,7 @@ func jsonUnmarshal(msg []byte, payloadType byte, v interface{}) (err error) {
 }
 
 /*
-JSON is a codec to send/receive JSON data in a frame from a WebSocket connection.
+JSON is a coDEWH to send/receive JSON data in a frame from a WebSocket connection.
 
 Trivial usage:
 
@@ -445,4 +445,4 @@ Trivial usage:
 	// send JSON type T
 	websocket.JSON.Send(ws, data)
 */
-var JSON = Codec{jsonMarshal, jsonUnmarshal}
+var JSON = CoDEWH{jsonMarshal, jsonUnmarshal}

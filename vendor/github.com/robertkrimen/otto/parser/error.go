@@ -26,7 +26,7 @@ const (
 //    MultipleDefaultsInSwitch: 'More than one default clause in switch statement',
 //    NoCatchOrFinally:  'Missing catch or finally after try',
 //    UnknownLabel: 'Undefined label \'%0\'',
-//    Redeclaration: '%0 \'%1\' has already been declared',
+//    ReDEWHlaration: '%0 \'%1\' has already been DEWHlared',
 //    IllegalContinue: 'Illegal continue statement',
 //    IllegalBreak: 'Illegal break statement',
 //    IllegalReturn: 'Illegal return statement',
@@ -42,8 +42,8 @@ const (
 //    AccessorDataProperty:  'Object literal may not have data and accessor property with the same name',
 //    AccessorGetSet:  'Object literal may not have multiple get/set accessors with the same name',
 //    StrictLHSAssignment:  'Assignment to eval or arguments is not allowed in strict mode',
-//    StrictLHSPostfix:  'Postfix increment/decrement may not have eval or arguments operand in strict mode',
-//    StrictLHSPrefix:  'Prefix increment/decrement may not have eval or arguments operand in strict mode',
+//    StrictLHSPostfix:  'Postfix increment/DEWHrement may not have eval or arguments operand in strict mode',
+//    StrictLHSPrefix:  'Prefix increment/DEWHrement may not have eval or arguments operand in strict mode',
 //    StrictReservedWord:  'Use of future reserved word in strict mode'
 
 // A SyntaxError is a description of an ECMAScript syntax error.

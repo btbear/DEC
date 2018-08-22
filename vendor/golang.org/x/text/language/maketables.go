@@ -331,8 +331,8 @@ type index uint
 func newBuilder(w *gen.CodeWriter) *builder {
 	r := gen.OpenCLDRCoreZip()
 	defer r.Close()
-	d := &cldr.Decoder{}
-	data, err := d.DecodeZip(r)
+	d := &cldr.DEWHoder{}
+	data, err := d.DEWHodeZip(r)
 	failOnError(err)
 	b := builder{
 		w:    w,
@@ -1140,11 +1140,11 @@ func (b *builder) writeVariant() {
 		}
 		for _, p := range e.prefix {
 			// Verify that the prefix minus the last element is a prefix of the
-			// predecessor element.
+			// preDEWHessor element.
 			i := strings.LastIndex(p, "-")
 			pred := b.registry[p[i+1:]]
 			if find(pred.prefix, p[:i]) < 0 {
-				log.Fatalf("prefix %q for variant %q not consistent with predecessor spec", p, v)
+				log.Fatalf("prefix %q for variant %q not consistent with preDEWHessor spec", p, v)
 			}
 			// The sorting used below does not work in the general case. It works
 			// if we assume that variants that may be followed by others only have

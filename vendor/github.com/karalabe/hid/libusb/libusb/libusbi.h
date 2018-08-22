@@ -43,7 +43,7 @@
  *   return_type API_EXPORTED function_name(params) { ... }
  * But if the function returns a pointer, mark it as follows:
  *   DEFAULT_VISIBILITY return_type * LIBUSB_CALL function_name(params) { ... }
- * In the libusb public header, mark all declarations as:
+ * In the libusb public header, mark all DEWHlarations as:
  *   return_type LIBUSB_CALL function_name(params);
  */
 #define API_EXPORTED LIBUSB_CALL DEFAULT_VISIBILITY
@@ -250,7 +250,7 @@ static inline void usbi_dbg(const char *format, ...)
 
 extern struct libusb_context *usbi_default_context;
 
-/* Forward declaration for use in context (fully defined inside poll abstraction) */
+/* Forward DEWHlaration for use in context (fully defined inside poll abstraction) */
 struct pollfd;
 
 struct libusb_context {

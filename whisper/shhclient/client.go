@@ -1,28 +1,28 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package shhclient
 
 import (
 	"context"
 
-	"github.com/DEC/go-DEC"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/rpc"
-	whisper "github.com/DEC/go-DEC/whisper/whisperv6"
+	"github.com/DEWH/go-DEWH"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/rpc"
+	whisper "github.com/DEWH/go-DEWH/whisper/whisperv6"
 )
 
 // Client defines typed wrappers for the Whisper v6 RPC API.
@@ -83,7 +83,7 @@ func (sc *Client) MarkTrustedPeer(ctx context.Context, enode string) error {
 	return sc.c.CallContext(ctx, &ignored, "shh_markTrustedPeer", enode)
 }
 
-// NewKeyPair generates a new public and private key pair for message decryption and encryption.
+// NewKeyPair generates a new public and private key pair for message DEWHryption and encryption.
 // It returns an identifier that can be used to refer to the key.
 func (sc *Client) NewKeyPair(ctx context.Context) (string, error) {
 	var id string
@@ -122,7 +122,7 @@ func (sc *Client) PrivateKey(ctx context.Context, id string) ([]byte, error) {
 }
 
 // NewSymmetricKey generates a random symmetric key and returns its identifier.
-// Can be used encrypting and decrypting messages where the key is known to both parties.
+// Can be used encrypting and DEWHrypting messages where the key is known to both parties.
 func (sc *Client) NewSymmetricKey(ctx context.Context) (string, error) {
 	var id string
 	return id, sc.c.CallContext(ctx, &id, "shh_newSymKey")
@@ -167,7 +167,7 @@ func (sc *Client) Post(ctx context.Context, message whisper.NewMessage) (string,
 // SubscribeMessages subscribes to messages that match the given criteria. This method
 // is only supported on bi-directional connections such as websockets and IPC.
 // NewMessageFilter uses polling and is supported over HTTP.
-func (sc *Client) SubscribeMessages(ctx context.Context, criteria whisper.Criteria, ch chan<- *whisper.Message) (DEC.Subscription, error) {
+func (sc *Client) SubscribeMessages(ctx context.Context, criteria whisper.Criteria, ch chan<- *whisper.Message) (DEWH.Subscription, error) {
 	return sc.c.ShhSubscribe(ctx, ch, "messages", criteria)
 }
 

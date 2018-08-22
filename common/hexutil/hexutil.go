@@ -1,22 +1,22 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 /*
 Package hexutil implements hex encoding with 0x prefix.
-This encoding is used by the DEC RPC API to transport binary data in JSON payloads.
+This encoding is used by the DEWH RPC API to transport binary data in JSON payloads.
 
 Encoding Rules
 
@@ -41,43 +41,43 @@ const uintBits = 32 << (uint64(^uint(0)) >> 63)
 
 // Errors
 var (
-	ErrEmptyString   = &decError{"empty hex string"}
-	ErrSyntax        = &decError{"invalid hex string"}
-	ErrMissingPrefix = &decError{"hex string without 0x prefix"}
-	ErrOddLength     = &decError{"hex string of odd length"}
-	ErrEmptyNumber   = &decError{"hex string \"0x\""}
-	ErrLeadingZero   = &decError{"hex number with leading zero digits"}
-	ErrUint64Range   = &decError{"hex number > 64 bits"}
-	ErrUintRange     = &decError{fmt.Sprintf("hex number > %d bits", uintBits)}
-	ErrBig256Range   = &decError{"hex number > 256 bits"}
+	ErrEmptyString   = &DEWHError{"empty hex string"}
+	ErrSyntax        = &DEWHError{"invalid hex string"}
+	ErrMissingPrefix = &DEWHError{"hex string without 0x prefix"}
+	ErrOddLength     = &DEWHError{"hex string of odd length"}
+	ErrEmptyNumber   = &DEWHError{"hex string \"0x\""}
+	ErrLeadingZero   = &DEWHError{"hex number with leading zero digits"}
+	ErrUint64Range   = &DEWHError{"hex number > 64 bits"}
+	ErrUintRange     = &DEWHError{fmt.Sprintf("hex number > %d bits", uintBits)}
+	ErrBig256Range   = &DEWHError{"hex number > 256 bits"}
 )
 
-type decError struct{ msg string }
+type DEWHError struct{ msg string }
 
-func (err decError) Error() string { return err.msg }
+func (err DEWHError) Error() string { return err.msg }
 
-// Decode decodes a hex string with 0x prefix.
-func Decode(input string) ([]byte, error) {
+// DEWHode DEWHodes a hex string with 0x prefix.
+func DEWHode(input string) ([]byte, error) {
 	if len(input) == 0 {
 		return nil, ErrEmptyString
 	}
 	if !has0xPrefix(input) {
 		return nil, ErrMissingPrefix
 	}
-	b, err := hex.DecodeString(input[2:])
+	b, err := hex.DEWHodeString(input[2:])
 	if err != nil {
 		err = mapError(err)
 	}
 	return b, err
 }
 
-// MustDecode decodes a hex string with 0x prefix. It panics for invalid input.
-func MustDecode(input string) []byte {
-	dec, err := Decode(input)
+// MustDEWHode DEWHodes a hex string with 0x prefix. It panics for invalid input.
+func MustDEWHode(input string) []byte {
+	DEWH, err := DEWHode(input)
 	if err != nil {
 		panic(err)
 	}
-	return dec
+	return DEWH
 }
 
 // Encode encodes b as a hex string with 0x prefix.
@@ -88,27 +88,27 @@ func Encode(b []byte) string {
 	return string(enc)
 }
 
-// DecodeUint64 decodes a hex string with 0x prefix as a quantity.
-func DecodeUint64(input string) (uint64, error) {
+// DEWHodeUint64 DEWHodes a hex string with 0x prefix as a quantity.
+func DEWHodeUint64(input string) (uint64, error) {
 	raw, err := checkNumber(input)
 	if err != nil {
 		return 0, err
 	}
-	dec, err := strconv.ParseUint(raw, 16, 64)
+	DEWH, err := strconv.ParseUint(raw, 16, 64)
 	if err != nil {
 		err = mapError(err)
 	}
-	return dec, err
+	return DEWH, err
 }
 
-// MustDecodeUint64 decodes a hex string with 0x prefix as a quantity.
+// MustDEWHodeUint64 DEWHodes a hex string with 0x prefix as a quantity.
 // It panics for invalid input.
-func MustDecodeUint64(input string) uint64 {
-	dec, err := DecodeUint64(input)
+func MustDEWHodeUint64(input string) uint64 {
+	DEWH, err := DEWHodeUint64(input)
 	if err != nil {
 		panic(err)
 	}
-	return dec
+	return DEWH
 }
 
 // EncodeUint64 encodes i as a hex string with 0x prefix.
@@ -134,9 +134,9 @@ func init() {
 	}
 }
 
-// DecodeBig decodes a hex string with 0x prefix as a quantity.
+// DEWHodeBig DEWHodes a hex string with 0x prefix as a quantity.
 // Numbers larger than 256 bits are not accepted.
-func DecodeBig(input string) (*big.Int, error) {
+func DEWHodeBig(input string) (*big.Int, error) {
 	raw, err := checkNumber(input)
 	if err != nil {
 		return nil, err
@@ -152,7 +152,7 @@ func DecodeBig(input string) (*big.Int, error) {
 			start = 0
 		}
 		for ri := start; ri < end; ri++ {
-			nib := decodeNibble(raw[ri])
+			nib := DEWHodeNibble(raw[ri])
 			if nib == badNibble {
 				return nil, ErrSyntax
 			}
@@ -161,18 +161,18 @@ func DecodeBig(input string) (*big.Int, error) {
 		}
 		end = start
 	}
-	dec := new(big.Int).SetBits(words)
-	return dec, nil
+	DEWH := new(big.Int).SetBits(words)
+	return DEWH, nil
 }
 
-// MustDecodeBig decodes a hex string with 0x prefix as a quantity.
+// MustDEWHodeBig DEWHodes a hex string with 0x prefix as a quantity.
 // It panics for invalid input.
-func MustDecodeBig(input string) *big.Int {
-	dec, err := DecodeBig(input)
+func MustDEWHodeBig(input string) *big.Int {
+	DEWH, err := DEWHodeBig(input)
 	if err != nil {
 		panic(err)
 	}
-	return dec
+	return DEWH
 }
 
 // EncodeBig encodes bigint as a hex string with 0x prefix.
@@ -208,7 +208,7 @@ func checkNumber(input string) (raw string, err error) {
 
 const badNibble = ^uint64(0)
 
-func decodeNibble(in byte) uint64 {
+func DEWHodeNibble(in byte) uint64 {
 	switch {
 	case in >= '0' && in <= '9':
 		return uint64(in - '0')

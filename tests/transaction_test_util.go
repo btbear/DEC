@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package tests
 
@@ -22,58 +22,58 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/common/math"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/params"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/common/math"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/params"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
-// TransactionTest checks RLP decoding and sender derivation of transactions.
+// TransactionTest checks RLP DEWHoding and sender derivation of transactions.
 type TransactionTest struct {
 	json ttJSON
 }
 
 type ttJSON struct {
-	BlockNumber math.HexOrDecimal64 `json:"blockNumber"`
+	BlockNumber math.HexOrDEWHimal64 `json:"blockNumber"`
 	RLP         hexutil.Bytes       `json:"rlp"`
 	Sender      hexutil.Bytes       `json:"sender"`
 	Transaction *ttTransaction      `json:"transaction"`
 }
 
-//go:generate gencodec -type ttTransaction -field-override ttTransactionMarshaling -out gen_tttransaction.go
+//go:generate gencoDEWH -type ttTransaction -field-override ttTransactionMarshaling -out gen_tttransaction.go
 
 type ttTransaction struct {
-	Data     []byte         `gencodec:"required"`
-	GasLimit uint64         `gencodec:"required"`
-	GasPrice *big.Int       `gencodec:"required"`
-	Nonce    uint64         `gencodec:"required"`
-	Value    *big.Int       `gencodec:"required"`
-	R        *big.Int       `gencodec:"required"`
-	S        *big.Int       `gencodec:"required"`
-	V        *big.Int       `gencodec:"required"`
-	To       common.Address `gencodec:"required"`
+	Data     []byte         `gencoDEWH:"required"`
+	GasLimit uint64         `gencoDEWH:"required"`
+	GasPrice *big.Int       `gencoDEWH:"required"`
+	Nonce    uint64         `gencoDEWH:"required"`
+	Value    *big.Int       `gencoDEWH:"required"`
+	R        *big.Int       `gencoDEWH:"required"`
+	S        *big.Int       `gencoDEWH:"required"`
+	V        *big.Int       `gencoDEWH:"required"`
+	To       common.Address `gencoDEWH:"required"`
 }
 
 type ttTransactionMarshaling struct {
 	Data     hexutil.Bytes
-	GasLimit math.HexOrDecimal64
-	GasPrice *math.HexOrDecimal256
-	Nonce    math.HexOrDecimal64
-	Value    *math.HexOrDecimal256
-	R        *math.HexOrDecimal256
-	S        *math.HexOrDecimal256
-	V        *math.HexOrDecimal256
+	GasLimit math.HexOrDEWHimal64
+	GasPrice *math.HexOrDEWHimal256
+	Nonce    math.HexOrDEWHimal64
+	Value    *math.HexOrDEWHimal256
+	R        *math.HexOrDEWHimal256
+	S        *math.HexOrDEWHimal256
+	V        *math.HexOrDEWHimal256
 }
 
 func (tt *TransactionTest) Run(config *params.ChainConfig) error {
 	tx := new(types.Transaction)
-	if err := rlp.DecodeBytes(tt.json.RLP, tx); err != nil {
+	if err := rlp.DEWHodeBytes(tt.json.RLP, tx); err != nil {
 		if tt.json.Transaction == nil {
 			return nil
 		}
-		return fmt.Errorf("RLP decoding failed: %v", err)
+		return fmt.Errorf("RLP DEWHoding failed: %v", err)
 	}
 	// Check sender derivation.
 	signer := types.MakeSigner(config, new(big.Int).SetUint64(uint64(tt.json.BlockNumber)))
@@ -84,13 +84,13 @@ func (tt *TransactionTest) Run(config *params.ChainConfig) error {
 	if sender != common.BytesToAddress(tt.json.Sender) {
 		return fmt.Errorf("Sender mismatch: got %x, want %x", sender, tt.json.Sender)
 	}
-	// Check decoded fields.
+	// Check DEWHoded fields.
 	err = tt.json.Transaction.verify(signer, tx)
 	if tt.json.Sender == nil && err == nil {
 		return errors.New("field validations succeeded but should fail")
 	}
 	if tt.json.Sender != nil && err != nil {
-		return fmt.Errorf("field validations failed after RLP decoding: %s", err)
+		return fmt.Errorf("field validations failed after RLP DEWHoding: %s", err)
 	}
 	return nil
 }

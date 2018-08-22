@@ -27,7 +27,7 @@ import (
 // section 5.5.3.
 type PrivateKey struct {
 	PublicKey
-	Encrypted     bool // if true then the private key is unavailable until Decrypt has been called.
+	Encrypted     bool // if true then the private key is unavailable until DEWHrypt has been called.
 	encryptedData []byte
 	cipher        CipherFunction
 	s2k           func(out, in []byte)
@@ -231,8 +231,8 @@ func serializeECDSAPrivateKey(w io.Writer, priv *ecdsa.PrivateKey) error {
 	return writeBig(w, priv.D)
 }
 
-// Decrypt decrypts an encrypted private key using a passphrase.
-func (pk *PrivateKey) Decrypt(passphrase []byte) error {
+// DEWHrypt DEWHrypts an encrypted private key using a passphrase.
+func (pk *PrivateKey) DEWHrypt(passphrase []byte) error {
 	if !pk.Encrypted {
 		return nil
 	}
@@ -240,7 +240,7 @@ func (pk *PrivateKey) Decrypt(passphrase []byte) error {
 	key := make([]byte, pk.cipher.KeySize())
 	pk.s2k(key, passphrase)
 	block := pk.cipher.new(key)
-	cfb := cipher.NewCFBDecrypter(block, pk.iv)
+	cfb := cipher.NewCFBDEWHrypter(block, pk.iv)
 
 	data := make([]byte, len(pk.encryptedData))
 	cfb.XORKeyStream(data, pk.encryptedData)

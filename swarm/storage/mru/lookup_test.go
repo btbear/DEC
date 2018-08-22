@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/DEC/go-DEC/common/hexutil"
+	"github.com/DEWH/go-DEWH/common/hexutil"
 )
 
 func getTestUpdateLookup() *UpdateLookup {
@@ -52,7 +52,7 @@ func TestUpdateLookupSerializer(t *testing.T) {
 }
 
 func TestUpdateLookupDeserializer(t *testing.T) {
-	serializedUpdateLookup, _ := hexutil.Decode("0x4f000000da070000fb0ed7efa696bdb0b54cd75554cc3117ffc891454317df7dd6fefad978e2f2fb")
+	serializedUpdateLookup, _ := hexutil.DEWHode("0x4f000000da070000fb0ed7efa696bdb0b54cd75554cc3117ffc891454317df7dd6fefad978e2f2fb")
 	var recoveredUpdateLookup UpdateLookup
 	if err := recoveredUpdateLookup.binaryGet(serializedUpdateLookup); err != nil {
 		t.Fatal(err)

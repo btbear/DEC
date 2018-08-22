@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package math provides integer math utilities.
 package math
@@ -39,28 +39,28 @@ const (
 	wordBytes = wordBits / 8
 )
 
-// HexOrDecimal256 marshals big.Int as hex or decimal.
-type HexOrDecimal256 big.Int
+// HexOrDEWHimal256 marshals big.Int as hex or DEWHimal.
+type HexOrDEWHimal256 big.Int
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (i *HexOrDecimal256) UnmarshalText(input []byte) error {
+func (i *HexOrDEWHimal256) UnmarshalText(input []byte) error {
 	bigint, ok := ParseBig256(string(input))
 	if !ok {
-		return fmt.Errorf("invalid hex or decimal integer %q", input)
+		return fmt.Errorf("invalid hex or DEWHimal integer %q", input)
 	}
-	*i = HexOrDecimal256(*bigint)
+	*i = HexOrDEWHimal256(*bigint)
 	return nil
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (i *HexOrDecimal256) MarshalText() ([]byte, error) {
+func (i *HexOrDEWHimal256) MarshalText() ([]byte, error) {
 	if i == nil {
 		return []byte("0x0"), nil
 	}
 	return []byte(fmt.Sprintf("%#x", (*big.Int)(i))), nil
 }
 
-// ParseBig256 parses s as a 256 bit integer in decimal or hexadecimal syntax.
+// ParseBig256 parses s as a 256 bit integer in DEWHimal or hexaDEWHimal syntax.
 // Leading zeros are accepted. The empty string parses as zero.
 func ParseBig256(s string) (*big.Int, bool) {
 	if s == "" {

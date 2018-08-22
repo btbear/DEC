@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package whisperv5
 
@@ -24,12 +24,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/rpc"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/rpc"
 )
 
 var (
@@ -104,7 +104,7 @@ func (api *PublicWhisperAPI) MarkTrustedPeer(ctx context.Context, enode string) 
 	return true, api.w.AllowP2PMessagesFromPeer(n.ID[:])
 }
 
-// NewKeyPair generates a new public and private key pair for message decryption and encryption.
+// NewKeyPair generates a new public and private key pair for message DEWHryption and encryption.
 // It returns an ID that can be used to refer to the keypair.
 func (api *PublicWhisperAPI) NewKeyPair(ctx context.Context) (string, error) {
 	return api.w.NewKeyPair()
@@ -154,14 +154,14 @@ func (api *PublicWhisperAPI) GetPrivateKey(ctx context.Context, id string) (hexu
 
 // NewSymKey generate a random symmetric key.
 // It returns an ID that can be used to refer to the key.
-// Can be used encrypting and decrypting messages where the key is known to both parties.
+// Can be used encrypting and DEWHrypting messages where the key is known to both parties.
 func (api *PublicWhisperAPI) NewSymKey(ctx context.Context) (string, error) {
 	return api.w.GenerateSymKey()
 }
 
 // AddSymKey import a symmetric key.
 // It returns an ID that can be used to refer to the key.
-// Can be used encrypting and decrypting messages where the key is known to both parties.
+// Can be used encrypting and DEWHrypting messages where the key is known to both parties.
 func (api *PublicWhisperAPI) AddSymKey(ctx context.Context, key hexutil.Bytes) (string, error) {
 	return api.w.AddSymKeyDirect([]byte(key))
 }
@@ -186,7 +186,7 @@ func (api *PublicWhisperAPI) DeleteSymKey(ctx context.Context, id string) bool {
 	return api.w.DeleteSymKey(id)
 }
 
-//go:generate gencodec -type NewMessage -field-override newMessageOverride -out gen_newmessage_json.go
+//go:generate gencoDEWH -type NewMessage -field-override newMessageOverride -out gen_newmessage_json.go
 
 // NewMessage represents a new whisper message that is posted through the RPC.
 type NewMessage struct {
@@ -285,7 +285,7 @@ func (api *PublicWhisperAPI) Post(ctx context.Context, req NewMessage) (bool, er
 	return true, api.w.Send(env)
 }
 
-//go:generate gencodec -type Criteria -field-override criteriaOverride -out gen_criteria_json.go
+//go:generate gencoDEWH -type Criteria -field-override criteriaOverride -out gen_criteria_json.go
 
 // Criteria holds various filter options for inbound messages.
 type Criteria struct {
@@ -399,7 +399,7 @@ func (api *PublicWhisperAPI) Messages(ctx context.Context, crit Criteria) (*rpc.
 	return rpcSub, nil
 }
 
-//go:generate gencodec -type Message -field-override messageOverride -out gen_message_json.go
+//go:generate gencoDEWH -type Message -field-override messageOverride -out gen_message_json.go
 
 // Message is the RPC representation of a whisper message.
 type Message struct {

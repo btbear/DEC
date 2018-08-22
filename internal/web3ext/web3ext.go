@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // package web3ext contains geth specific web3.js extensions.
 package web3ext
@@ -45,7 +45,7 @@ web3._extend({
 		new web3._extend.Property({
 			name: 'balance',
 			getter: 'chequebook_balance',
-			outputFormatter: web3._extend.utils.toDecimal
+			outputFormatter: web3._extend.utils.toDEWHimal
 		}),
 		new web3._extend.Method({
 			name: 'cash',
@@ -404,7 +404,7 @@ web3._extend({
 			name: 'resend',
 			call: 'eth_resend',
 			params: 3,
-			inputFormatter: [web3._extend.formatters.inputTransactionFormatter, web3._extend.utils.fromDecimal, web3._extend.utils.fromDecimal]
+			inputFormatter: [web3._extend.formatters.inputTransactionFormatter, web3._extend.utils.fromDEWHimal, web3._extend.utils.fromDEWHimal]
 		}),
 		new web3._extend.Method({
 			name: 'signTransaction',
@@ -478,7 +478,7 @@ web3._extend({
 			name: 'setGasPrice',
 			call: 'miner_setGasPrice',
 			params: 1,
-			inputFormatter: [web3._extend.utils.fromDecimal]
+			inputFormatter: [web3._extend.utils.fromDEWHimal]
 		}),
 		new web3._extend.Method({
 			name: 'getHashrate',
@@ -571,7 +571,7 @@ web3._extend({
 		new web3._extend.Property({
 			name: 'version',
 			getter: 'shh_version',
-			outputFormatter: web3._extend.utils.toDecimal
+			outputFormatter: web3._extend.utils.toDEWHimal
 		}),
 		new web3._extend.Property({
 			name: 'info',
@@ -623,8 +623,8 @@ web3._extend({
 			name: 'status',
 			getter: 'txpool_status',
 			outputFormatter: function(status) {
-				status.pending = web3._extend.utils.toDecimal(status.pending);
-				status.queued = web3._extend.utils.toDecimal(status.queued);
+				status.pending = web3._extend.utils.toDEWHimal(status.pending);
+				status.queued = web3._extend.utils.toDEWHimal(status.queued);
 				return status;
 			}
 		}),

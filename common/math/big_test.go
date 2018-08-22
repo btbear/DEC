@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package math
 
@@ -22,10 +22,10 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/DEC/go-DEC/common"
+	"github.com/DEWH/go-DEWH/common"
 )
 
-func TestHexOrDecimal256(t *testing.T) {
+func TestHexOrDEWHimal256(t *testing.T) {
 	tests := []struct {
 		input string
 		num   *big.Int
@@ -49,7 +49,7 @@ func TestHexOrDecimal256(t *testing.T) {
 		{"115792089237316195423570985008687907853269984665640564039457584007913129639936", nil, false},
 	}
 	for _, test := range tests {
-		var num HexOrDecimal256
+		var num HexOrDEWHimal256
 		err := num.UnmarshalText([]byte(test.input))
 		if (err == nil) != test.ok {
 			t.Errorf("ParseBig(%q) -> (err == nil) == %t, want %t", test.input, err == nil, test.ok)
@@ -180,7 +180,7 @@ func BenchmarkByteAtOld(b *testing.B) {
 
 func TestReadBits(t *testing.T) {
 	check := func(input string) {
-		want, _ := hex.DecodeString(input)
+		want, _ := hex.DEWHodeString(input)
 		int, _ := new(big.Int).SetString(input, 16)
 		buf := make([]byte, len(want))
 		ReadBits(int, buf)

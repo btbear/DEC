@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package simulations
 
@@ -22,8 +22,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/simulations/adapters"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/simulations/adapters"
 )
 
 // TestNetworkSimulation creates a multi-node simulation network with each node
@@ -38,10 +38,10 @@ func TestNetworkSimulation(t *testing.T) {
 		DefaultService: "test",
 	})
 	defer network.Shutdown()
-	nodeCount := 20
-	ids := make([]discover.NodeID, nodeCount)
-	for i := 0; i < nodeCount; i++ {
-		conf := adapters.RandomNodeConfig()
+	noDEWHount := 20
+	ids := make([]discover.NodeID, noDEWHount)
+	for i := 0; i < noDEWHount; i++ {
+		conf := adapters.RandomNoDEWHonfig()
 		node, err := network.NewNodeWithConfig(conf)
 		if err != nil {
 			t.Fatalf("error creating node: %s", err)
@@ -122,11 +122,11 @@ func TestNetworkSimulation(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(snap.Nodes) != nodeCount {
-		t.Fatalf("expected snapshot to contain %d nodes, got %d", nodeCount, len(snap.Nodes))
+	if len(snap.Nodes) != noDEWHount {
+		t.Fatalf("expected snapshot to contain %d nodes, got %d", noDEWHount, len(snap.Nodes))
 	}
-	if len(snap.Conns) != nodeCount {
-		t.Fatalf("expected snapshot to contain %d connections, got %d", nodeCount, len(snap.Conns))
+	if len(snap.Conns) != noDEWHount {
+		t.Fatalf("expected snapshot to contain %d connections, got %d", noDEWHount, len(snap.Conns))
 	}
 	for i, id := range ids {
 		conn := snap.Conns[i]

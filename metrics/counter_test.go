@@ -19,17 +19,17 @@ func TestCounterClear(t *testing.T) {
 	}
 }
 
-func TestCounterDec1(t *testing.T) {
+func TestCounterDEWH1(t *testing.T) {
 	c := NewCounter()
-	c.Dec(1)
+	c.DEWH(1)
 	if count := c.Count(); -1 != count {
 		t.Errorf("c.Count(): -1 != %v\n", count)
 	}
 }
 
-func TestCounterDec2(t *testing.T) {
+func TestCounterDEWH2(t *testing.T) {
 	c := NewCounter()
-	c.Dec(2)
+	c.DEWH(2)
 	if count := c.Count(); -2 != count {
 		t.Errorf("c.Count(): -2 != %v\n", count)
 	}

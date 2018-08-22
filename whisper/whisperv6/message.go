@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Contains the Whisper protocol Message element.
 
@@ -28,10 +28,10 @@ import (
 	mrand "math/rand"
 	"strconv"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/crypto/ecies"
-	"github.com/DEC/go-DEC/log"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/crypto/ecies"
+	"github.com/DEWH/go-DEWH/log"
 )
 
 // MessageParams specifies the exact way a message should be wrapped
@@ -56,7 +56,7 @@ type sentMessage struct {
 }
 
 // ReceivedMessage represents a data packet to be received through the
-// Whisper protocol and successfully decrypted.
+// Whisper protocol and successfully DEWHrypted.
 type ReceivedMessage struct {
 	Raw []byte
 
@@ -68,8 +68,8 @@ type ReceivedMessage struct {
 	PoW   float64          // Proof of work as described in the Whisper spec
 	Sent  uint32           // Time when the message was posted into the network
 	TTL   uint32           // Maximum time to live allowed for the message
-	Src   *ecdsa.PublicKey // Message recipient (identity used to decode the message)
-	Dst   *ecdsa.PublicKey // Message recipient (identity used to decode the message)
+	Src   *ecdsa.PublicKey // Message recipient (identity used to DEWHode the message)
+	Dst   *ecdsa.PublicKey // Message recipient (identity used to DEWHode the message)
 	Topic TopicType
 
 	SymKeyHash   common.Hash // The Keccak256Hash of the key
@@ -261,9 +261,9 @@ func (msg *sentMessage) Wrap(options *MessageParams) (envelope *Envelope, err er
 	return envelope, nil
 }
 
-// decryptSymmetric decrypts a message with a topic key, using AES-GCM-256.
+// DEWHryptSymmetric DEWHrypts a message with a topic key, using AES-GCM-256.
 // nonce size should be 12 bytes (see cipher.gcmStandardNonceSize).
-func (msg *ReceivedMessage) decryptSymmetric(key []byte) error {
+func (msg *ReceivedMessage) DEWHryptSymmetric(key []byte) error {
 	// symmetric messages are expected to contain the 12-byte nonce at the end of the payload
 	if len(msg.Raw) < aesNonceLength {
 		return errors.New("missing salt or invalid payload in symmetric message")
@@ -278,20 +278,20 @@ func (msg *ReceivedMessage) decryptSymmetric(key []byte) error {
 	if err != nil {
 		return err
 	}
-	decrypted, err := aesgcm.Open(nil, salt, msg.Raw[:len(msg.Raw)-aesNonceLength], nil)
+	DEWHrypted, err := aesgcm.Open(nil, salt, msg.Raw[:len(msg.Raw)-aesNonceLength], nil)
 	if err != nil {
 		return err
 	}
-	msg.Raw = decrypted
+	msg.Raw = DEWHrypted
 	msg.Salt = salt
 	return nil
 }
 
-// decryptAsymmetric decrypts an encrypted payload with a private key.
-func (msg *ReceivedMessage) decryptAsymmetric(key *ecdsa.PrivateKey) error {
-	decrypted, err := ecies.ImportECDSA(key).Decrypt(msg.Raw, nil, nil)
+// DEWHryptAsymmetric DEWHrypts an encrypted payload with a private key.
+func (msg *ReceivedMessage) DEWHryptAsymmetric(key *ecdsa.PrivateKey) error {
+	DEWHrypted, err := ecies.ImportECDSA(key).DEWHrypt(msg.Raw, nil, nil)
 	if err == nil {
-		msg.Raw = decrypted
+		msg.Raw = DEWHrypted
 	}
 	return err
 }

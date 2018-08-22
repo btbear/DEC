@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 package stream
 
 import (
@@ -25,18 +25,18 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/simulations/adapters"
-	"github.com/DEC/go-DEC/swarm/network"
-	"github.com/DEC/go-DEC/swarm/network/simulation"
-	"github.com/DEC/go-DEC/swarm/pot"
-	"github.com/DEC/go-DEC/swarm/state"
-	"github.com/DEC/go-DEC/swarm/storage"
-	mockdb "github.com/DEC/go-DEC/swarm/storage/mock/db"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/simulations/adapters"
+	"github.com/DEWH/go-DEWH/swarm/network"
+	"github.com/DEWH/go-DEWH/swarm/network/simulation"
+	"github.com/DEWH/go-DEWH/swarm/pot"
+	"github.com/DEWH/go-DEWH/swarm/state"
+	"github.com/DEWH/go-DEWH/swarm/storage"
+	mockdb "github.com/DEWH/go-DEWH/swarm/storage/mock/db"
 )
 
 const testMinProxBinSize = 2
@@ -64,20 +64,20 @@ func TestSyncingViaGlobalSync(t *testing.T) {
 		log.Info(fmt.Sprintf("Running test with %d chunks and %d nodes...", *chunks, *nodes))
 		testSyncingViaGlobalSync(t, *chunks, *nodes)
 	} else {
-		var nodeCnt []int
+		var noDEWHnt []int
 		var chnkCnt []int
 		//if the `longrunning` flag has been provided
 		//run more test combinations
 		if *longrunning {
 			chnkCnt = []int{1, 8, 32, 256, 1024}
-			nodeCnt = []int{16, 32, 64, 128, 256}
+			noDEWHnt = []int{16, 32, 64, 128, 256}
 		} else {
 			//default test
 			chnkCnt = []int{4, 32}
-			nodeCnt = []int{32, 16}
+			noDEWHnt = []int{32, 16}
 		}
 		for _, chnk := range chnkCnt {
-			for _, n := range nodeCnt {
+			for _, n := range noDEWHnt {
 				log.Info(fmt.Sprintf("Long running test with %d chunks and %d nodes...", chnk, n))
 				testSyncingViaGlobalSync(t, chnk, n)
 			}
@@ -95,20 +95,20 @@ func TestSyncingViaDirectSubscribe(t *testing.T) {
 			t.Fatal(err)
 		}
 	} else {
-		var nodeCnt []int
+		var noDEWHnt []int
 		var chnkCnt []int
 		//if the `longrunning` flag has been provided
 		//run more test combinations
 		if *longrunning {
 			chnkCnt = []int{1, 8, 32, 256, 1024}
-			nodeCnt = []int{32, 16}
+			noDEWHnt = []int{32, 16}
 		} else {
 			//default test
 			chnkCnt = []int{4, 32}
-			nodeCnt = []int{32, 16}
+			noDEWHnt = []int{32, 16}
 		}
 		for _, chnk := range chnkCnt {
-			for _, n := range nodeCnt {
+			for _, n := range noDEWHnt {
 				log.Info(fmt.Sprintf("Long running test with %d chunks and %d nodes...", chnk, n))
 				err := testSyncingViaDirectSubscribe(chnk, n)
 				if err != nil {
@@ -119,7 +119,7 @@ func TestSyncingViaDirectSubscribe(t *testing.T) {
 	}
 }
 
-func testSyncingViaGlobalSync(t *testing.T, chunkCount int, nodeCount int) {
+func testSyncingViaGlobalSync(t *testing.T, chunkCount int, noDEWHount int) {
 	sim := simulation.New(map[string]simulation.ServiceFunc{
 		"streamer": func(ctx *adapters.ServiceContext, bucket *sync.Map) (s node.Service, cleanup func(), err error) {
 
@@ -161,7 +161,7 @@ func testSyncingViaGlobalSync(t *testing.T, chunkCount int, nodeCount int) {
 	//array where the generated chunk hashes will be stored
 	conf.hashes = make([]storage.Address, 0)
 
-	err := sim.UploadSnapshot(fmt.Sprintf("testing/snapshot_%d.json", nodeCount))
+	err := sim.UploadSnapshot(fmt.Sprintf("testing/snapshot_%d.json", noDEWHount))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -275,7 +275,7 @@ The test loads a snapshot file to construct the swarm network,
 assuming that the snapshot file identifies a healthy
 kademlia network. The snapshot should have 'streamer' in its service list.
 */
-func testSyncingViaDirectSubscribe(chunkCount int, nodeCount int) error {
+func testSyncingViaDirectSubscribe(chunkCount int, noDEWHount int) error {
 	sim := simulation.New(map[string]simulation.ServiceFunc{
 		"streamer": func(ctx *adapters.ServiceContext, bucket *sync.Map) (s node.Service, cleanup func(), err error) {
 
@@ -318,7 +318,7 @@ func testSyncingViaDirectSubscribe(chunkCount int, nodeCount int) error {
 	//array where the generated chunk hashes will be stored
 	conf.hashes = make([]storage.Address, 0)
 
-	err := sim.UploadSnapshot(fmt.Sprintf("testing/snapshot_%d.json", nodeCount))
+	err := sim.UploadSnapshot(fmt.Sprintf("testing/snapshot_%d.json", noDEWHount))
 	if err != nil {
 		return err
 	}

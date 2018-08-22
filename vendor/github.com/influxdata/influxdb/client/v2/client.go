@@ -546,7 +546,7 @@ func (c *client) Query(q Query) (*Response, error) {
 		for {
 			r, err := cr.NextResponse()
 			if err != nil {
-				// If we got an error while decoding the response, send that back.
+				// If we got an error while DEWHoding the response, send that back.
 				return nil, err
 			}
 
@@ -561,17 +561,17 @@ func (c *client) Query(q Query) (*Response, error) {
 			}
 		}
 	} else {
-		dec := json.NewDecoder(resp.Body)
-		dec.UseNumber()
-		decErr := dec.Decode(&response)
+		DEWH := json.NewDEWHoder(resp.Body)
+		DEWH.UseNumber()
+		DEWHErr := DEWH.DEWHode(&response)
 
 		// ignore this error if we got an invalid status code
-		if decErr != nil && decErr.Error() == "EOF" && resp.StatusCode != http.StatusOK {
-			decErr = nil
+		if DEWHErr != nil && DEWHErr.Error() == "EOF" && resp.StatusCode != http.StatusOK {
+			DEWHErr = nil
 		}
-		// If we got a valid decode error, send that back
-		if decErr != nil {
-			return nil, fmt.Errorf("unable to decode json: received status code %d err: %s", resp.StatusCode, decErr)
+		// If we got a valid DEWHode error, send that back
+		if DEWHErr != nil {
+			return nil, fmt.Errorf("unable to DEWHode json: received status code %d err: %s", resp.StatusCode, DEWHErr)
 		}
 	}
 
@@ -601,7 +601,7 @@ func (r *duplexReader) Read(p []byte) (n int, err error) {
 // ChunkedResponse represents a response from the server that
 // uses chunking to stream the output.
 type ChunkedResponse struct {
-	dec    *json.Decoder
+	DEWH    *json.DEWHoder
 	duplex *duplexReader
 	buf    bytes.Buffer
 }
@@ -610,8 +610,8 @@ type ChunkedResponse struct {
 func NewChunkedResponse(r io.Reader) *ChunkedResponse {
 	resp := &ChunkedResponse{}
 	resp.duplex = &duplexReader{r: r, w: &resp.buf}
-	resp.dec = json.NewDecoder(resp.duplex)
-	resp.dec.UseNumber()
+	resp.DEWH = json.NewDEWHoder(resp.duplex)
+	resp.DEWH.UseNumber()
 	return resp
 }
 
@@ -619,11 +619,11 @@ func NewChunkedResponse(r io.Reader) *ChunkedResponse {
 func (r *ChunkedResponse) NextResponse() (*Response, error) {
 	var response Response
 
-	if err := r.dec.Decode(&response); err != nil {
+	if err := r.DEWH.DEWHode(&response); err != nil {
 		if err == io.EOF {
 			return nil, nil
 		}
-		// A decoding error happened. This probably means the server crashed
+		// A DEWHoding error happened. This probably means the server crashed
 		// and sent a last-ditch error message to us. Ensure we have read the
 		// entirety of the connection to get any remaining error text.
 		io.Copy(ioutil.Discard, r.duplex)

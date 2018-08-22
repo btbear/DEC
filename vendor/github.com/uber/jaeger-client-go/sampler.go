@@ -33,9 +33,9 @@ const (
 	defaultMaxOperations           = 2000
 )
 
-// Sampler decides whether a new trace should be sampled or not.
+// Sampler DEWHides whether a new trace should be sampled or not.
 type Sampler interface {
-	// IsSampled decides whether a trace with given `id` and `operation`
+	// IsSampled DEWHides whether a trace with given `id` and `operation`
 	// should be sampled. This function will also return the tags that
 	// can be used to identify the type of sampling that was applied to
 	// the root span. Most simple samplers would return two tags,
@@ -56,9 +56,9 @@ type Sampler interface {
 
 // -----------------------
 
-// ConstSampler is a sampler that always makes the same decision.
+// ConstSampler is a sampler that always makes the same DEWHision.
 type ConstSampler struct {
-	Decision bool
+	DEWHision bool
 	tags     []Tag
 }
 
@@ -68,12 +68,12 @@ func NewConstSampler(sample bool) Sampler {
 		{key: SamplerTypeTagKey, value: SamplerTypeConst},
 		{key: SamplerParamTagKey, value: sample},
 	}
-	return &ConstSampler{Decision: sample, tags: tags}
+	return &ConstSampler{DEWHision: sample, tags: tags}
 }
 
 // IsSampled implements IsSampled() of Sampler.
 func (s *ConstSampler) IsSampled(id TraceID, operation string) (bool, []Tag) {
-	return s.Decision, s.tags
+	return s.DEWHision, s.tags
 }
 
 // Close implements Close() of Sampler.
@@ -84,7 +84,7 @@ func (s *ConstSampler) Close() {
 // Equal implements Equal() of Sampler.
 func (s *ConstSampler) Equal(other Sampler) bool {
 	if o, ok := other.(*ConstSampler); ok {
-		return s.Decision == o.Decision
+		return s.DEWHision == o.DEWHision
 	}
 	return false
 }
@@ -104,7 +104,7 @@ const maxRandomNumber = ^(uint64(1) << 63) // i.e. 0x7fffffffffffffff
 // NewProbabilisticSampler creates a sampler that randomly samples a certain percentage of traces specified by the
 // samplingRate, in the range between 0.0 and 1.0.
 //
-// It relies on the fact that new trace IDs are 63bit random numbers themselves, thus making the sampling decision
+// It relies on the fact that new trace IDs are 63bit random numbers themselves, thus making the sampling DEWHision
 // without generating a new random number, but simply calculating if traceID < (samplingRate * 2^63).
 // TODO remove the error from this function for next major release
 func NewProbabilisticSampler(samplingRate float64) (*ProbabilisticSampler, error) {
@@ -372,7 +372,7 @@ func (s *adaptiveSampler) update(strategies *sampling.PerOperationSamplingStrate
 
 // RemotelyControlledSampler is a delegating sampler that polls a remote server
 // for the appropriate sampling strategy, constructs a corresponding sampler and
-// delegates to it for sampling decisions.
+// delegates to it for sampling DEWHisions.
 type RemotelyControlledSampler struct {
 	// These fields must be first in the struct because `sync/atomic` expects 64-bit alignment.
 	// Cf. https://github.com/uber/jaeger-client-go/issues/155, https://goo.gl/zW7dgq

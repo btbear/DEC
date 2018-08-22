@@ -74,7 +74,7 @@ func stringToWchar2(s string) (*C.wchar_t, C.size_t) {
 	var slen int
 	s1 := s
 	for len(s1) > 0 {
-		r, size := utf8.DecodeRuneInString(s1)
+		r, size := utf8.DEWHodeRuneInString(s1)
 		if er, _ := utf16.EncodeRune(r); er == '\uFFFD' {
 			slen += 1
 		} else {
@@ -86,7 +86,7 @@ func stringToWchar2(s string) (*C.wchar_t, C.size_t) {
 	res := C.malloc(C.size_t(slen) * sizeofWcharT)
 	var i int
 	for len(s) > 0 {
-		r, size := utf8.DecodeRuneInString(s)
+		r, size := utf8.DEWHodeRuneInString(s)
 		if r1, r2 := utf16.EncodeRune(r); r1 != '\uFFFD' {
 			C.gowchar_set((*C.wchar_t)(res), C.int(i), C.wchar_t(r1))
 			i++
@@ -109,7 +109,7 @@ func stringToWchar4(s string) (*C.wchar_t, C.size_t) {
 	res := C.malloc(C.size_t(slen) * sizeofWcharT)
 	var i int
 	for len(s) > 0 {
-		r, size := utf8.DecodeRuneInString(s)
+		r, size := utf8.DEWHodeRuneInString(s)
 		C.gowchar_set((*C.wchar_t)(res), C.int(i), C.wchar_t(r))
 		s = s[size:]
 		i++
@@ -138,7 +138,7 @@ func wchar2ToString(s *C.wchar_t) (string, error) {
 		} else {
 			ch2 := C.gowchar_get(s, C.int(i))
 			r2 := rune(ch2)
-			r12 := utf16.DecodeRune(r, r2)
+			r12 := utf16.DEWHodeRune(r, r2)
 			if r12 == '\uFFFD' {
 				err := fmt.Errorf("Invalid surrogate pair at position %v", i-1)
 				return "", err
@@ -196,7 +196,7 @@ func wchar2NToString(s *C.wchar_t, size C.size_t) (string, error) {
 			}
 			ch2 := C.gowchar_get(s, C.int(i))
 			r2 := rune(ch2)
-			r12 := utf16.DecodeRune(r, r2)
+			r12 := utf16.DEWHodeRune(r, r2)
 			if r12 == '\uFFFD' {
 				err := fmt.Errorf("Invalid surrogate pair at position %v", i-1)
 				return "", err

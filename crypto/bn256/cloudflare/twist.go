@@ -32,7 +32,7 @@ var twistGen = &twistPoint{
 
 func (c *twistPoint) String() string {
 	c.MakeAffine()
-	x, y := gfP2Decode(&c.x), gfP2Decode(&c.y)
+	x, y := gfP2DEWHode(&c.x), gfP2DEWHode(&c.y)
 	return "(" + x.String() + ", " + y.String() + ")"
 }
 

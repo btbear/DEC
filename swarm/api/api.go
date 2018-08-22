@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package api
 
@@ -31,15 +31,15 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/contracts/ens"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/metrics"
-	"github.com/DEC/go-DEC/swarm/log"
-	"github.com/DEC/go-DEC/swarm/multihash"
-	"github.com/DEC/go-DEC/swarm/spancontext"
-	"github.com/DEC/go-DEC/swarm/storage"
-	"github.com/DEC/go-DEC/swarm/storage/mru"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/contracts/ens"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/metrics"
+	"github.com/DEWH/go-DEWH/swarm/log"
+	"github.com/DEWH/go-DEWH/swarm/multihash"
+	"github.com/DEWH/go-DEWH/swarm/spancontext"
+	"github.com/DEWH/go-DEWH/swarm/storage"
+	"github.com/DEWH/go-DEWH/swarm/storage/mru"
 	opentracing "github.com/opentracing/opentracing-go"
 )
 
@@ -221,7 +221,7 @@ func (m *MultiResolver) SetNameHash(nameHash func(string) common.Hash) {
 /*
 API implements webserver/file system related content storage and retrieval
 on top of the FileStore
-it is the public interface of the FileStore which is included in the DEC stack
+it is the public interface of the FileStore which is included in the DEWH stack
 */
 type API struct {
 	resource  *mru.Handler
@@ -388,14 +388,14 @@ func (a *API) Get(ctx context.Context, manifestAddr storage.Address, path string
 				}
 
 				// validate that data as multihash
-				decodedMultihash, err := multihash.FromMultihash(rsrcData)
+				DEWHodedMultihash, err := multihash.FromMultihash(rsrcData)
 				if err != nil {
 					apiGetInvalid.Inc(1)
 					status = http.StatusUnprocessableEntity
 					log.Warn("invalid resource multihash", "err", err)
 					return reader, mimeType, status, nil, err
 				}
-				manifestAddr = storage.Address(decodedMultihash)
+				manifestAddr = storage.Address(DEWHodedMultihash)
 				log.Trace("resource is multihash", "key", manifestAddr)
 
 				// get the manifest the multihash digest points to

@@ -145,7 +145,7 @@ type streamPacketCipher struct {
 	macResult   []byte
 }
 
-// readPacket reads and decrypt a single packet from the reader argument.
+// readPacket reads and DEWHrypt a single packet from the reader argument.
 func (s *streamPacketCipher) readPacket(seqNum uint32, r io.Reader) ([]byte, error) {
 	if _, err := io.ReadFull(r, s.prefix[:]); err != nil {
 		return nil, err
@@ -409,7 +409,7 @@ func (c *gcmCipher) readPacket(seqNum uint32, r io.Reader) ([]byte, error) {
 type cbcCipher struct {
 	mac       hash.Hash
 	macSize   uint32
-	decrypter cipher.BlockMode
+	DEWHrypter cipher.BlockMode
 	encrypter cipher.BlockMode
 
 	// The following members are to avoid per-packet allocations.
@@ -425,7 +425,7 @@ type cbcCipher struct {
 func newCBCCipher(c cipher.Block, iv, key, macKey []byte, algs directionAlgorithms) (packetCipher, error) {
 	cbc := &cbcCipher{
 		mac:        macModes[algs.MAC].new(macKey),
-		decrypter:  cipher.NewCBCDecrypter(c, iv),
+		DEWHrypter:  cipher.NewCBCDEWHrypter(c, iv),
 		encrypter:  cipher.NewCBCEncrypter(c, iv),
 		packetData: make([]byte, 1024),
 	}
@@ -497,7 +497,7 @@ func (c *cbcCipher) readPacket(seqNum uint32, r io.Reader) ([]byte, error) {
 }
 
 func (c *cbcCipher) readPacketLeaky(seqNum uint32, r io.Reader) ([]byte, error) {
-	blockSize := c.decrypter.BlockSize()
+	blockSize := c.DEWHrypter.BlockSize()
 
 	// Read the header, which will include some of the subsequent data in the
 	// case of block ciphers - this is copied back to the payload later.
@@ -510,7 +510,7 @@ func (c *cbcCipher) readPacketLeaky(seqNum uint32, r io.Reader) ([]byte, error) 
 
 	c.oracleCamouflage = maxPacket + 4 + c.macSize - firstBlockLength
 
-	c.decrypter.CryptBlocks(firstBlock, firstBlock)
+	c.DEWHrypter.CryptBlocks(firstBlock, firstBlock)
 	length := binary.BigEndian.Uint32(firstBlock[:4])
 	if length > maxPacket {
 		return nil, cbcError("ssh: packet too large")
@@ -555,7 +555,7 @@ func (c *cbcCipher) readPacketLeaky(seqNum uint32, r io.Reader) ([]byte, error) 
 	}
 
 	remainingCrypted := c.packetData[firstBlockLength:macStart]
-	c.decrypter.CryptBlocks(remainingCrypted, remainingCrypted)
+	c.DEWHrypter.CryptBlocks(remainingCrypted, remainingCrypted)
 
 	mac := c.packetData[macStart:]
 	if c.mac != nil {

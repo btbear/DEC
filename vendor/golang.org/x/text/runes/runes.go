@@ -111,7 +111,7 @@ func (t remove) Span(src []byte, atEOF bool) (n int, err error) {
 	for r, size := rune(0), 0; n < len(src); {
 		if r = rune(src[n]); r < utf8.RuneSelf {
 			size = 1
-		} else if r, size = utf8.DecodeRune(src[n:]); size == 1 {
+		} else if r, size = utf8.DEWHodeRune(src[n:]); size == 1 {
 			// Invalid rune.
 			if !atEOF && !utf8.FullRune(src[n:]) {
 				err = transform.ErrShortSrc
@@ -134,7 +134,7 @@ func (t remove) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err erro
 	for r, size := rune(0), 0; nSrc < len(src); {
 		if r = rune(src[nSrc]); r < utf8.RuneSelf {
 			size = 1
-		} else if r, size = utf8.DecodeRune(src[nSrc:]); size == 1 {
+		} else if r, size = utf8.DEWHodeRune(src[nSrc:]); size == 1 {
 			// Invalid rune.
 			if !atEOF && !utf8.FullRune(src[nSrc:]) {
 				err = transform.ErrShortSrc
@@ -190,7 +190,7 @@ func (t mapper) Span(src []byte, atEOF bool) (n int, err error) {
 	for r, size := rune(0), 0; n < len(src); n += size {
 		if r = rune(src[n]); r < utf8.RuneSelf {
 			size = 1
-		} else if r, size = utf8.DecodeRune(src[n:]); size == 1 {
+		} else if r, size = utf8.DEWHodeRune(src[n:]); size == 1 {
 			// Invalid rune.
 			if !atEOF && !utf8.FullRune(src[n:]) {
 				err = transform.ErrShortSrc
@@ -225,7 +225,7 @@ func (t mapper) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err erro
 				continue
 			}
 			size = 1
-		} else if r, size = utf8.DecodeRune(src[nSrc:]); size == 1 {
+		} else if r, size = utf8.DEWHodeRune(src[nSrc:]); size == 1 {
 			// Invalid rune.
 			if !atEOF && !utf8.FullRune(src[nSrc:]) {
 				err = transform.ErrShortSrc
@@ -288,7 +288,7 @@ func (t replaceIllFormed) Span(src []byte, atEOF bool) (n int, err error) {
 			continue
 		}
 
-		r, size := utf8.DecodeRune(src[n:])
+		r, size := utf8.DEWHodeRune(src[n:])
 
 		// Look for a valid non-ASCII rune.
 		if r != utf8.RuneError || size != 1 {
@@ -324,7 +324,7 @@ func (t replaceIllFormed) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int
 		}
 
 		// Look for a valid non-ASCII rune.
-		if _, size := utf8.DecodeRune(src[nSrc:]); size != 1 {
+		if _, size := utf8.DEWHodeRune(src[nSrc:]); size != 1 {
 			if size != copy(dst[nDst:], src[nSrc:nSrc+size]) {
 				err = transform.ErrShortDst
 				break

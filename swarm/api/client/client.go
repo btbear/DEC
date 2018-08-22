@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package client
 
@@ -34,8 +34,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/DEC/go-DEC/swarm/api"
-	"github.com/DEC/go-DEC/swarm/storage/mru"
+	"github.com/DEWH/go-DEWH/swarm/api"
+	"github.com/DEWH/go-DEWH/swarm/storage/mru"
 )
 
 var (
@@ -96,7 +96,7 @@ func (c *Client) DownloadRaw(hash string) (io.ReadCloser, bool, error) {
 		res.Body.Close()
 		return nil, false, fmt.Errorf("unexpected HTTP status: %s", res.Status)
 	}
-	isEncrypted := (res.Header.Get("X-Decrypted") == "true")
+	isEncrypted := (res.Header.Get("X-DEWHrypted") == "true")
 	return res.Body, isEncrypted, nil
 }
 
@@ -336,7 +336,7 @@ func (c *Client) DownloadManifest(hash string) (*api.Manifest, bool, error) {
 	}
 	defer res.Close()
 	var manifest api.Manifest
-	if err := json.NewDecoder(res).Decode(&manifest); err != nil {
+	if err := json.NewDEWHoder(res).DEWHode(&manifest); err != nil {
 		return nil, isEncrypted, err
 	}
 	return &manifest, isEncrypted, nil
@@ -369,7 +369,7 @@ func (c *Client) List(hash, prefix string) (*api.ManifestList, error) {
 		return nil, fmt.Errorf("unexpected HTTP status: %s", res.Status)
 	}
 	var list api.ManifestList
-	if err := json.NewDecoder(res.Body).Decode(&list); err != nil {
+	if err := json.NewDEWHoder(res.Body).DEWHode(&list); err != nil {
 		return nil, err
 	}
 	return &list, nil
@@ -447,7 +447,7 @@ func (c *Client) TarUpload(hash string, uploader Uploader, toEncrypt bool) (stri
 	addr := hash
 
 	// If there is a hash already (a manifest), then that manifest will determine if the upload has
-	// to be encrypted or not. If there is no manifest then the toEncrypt parameter decides if
+	// to be encrypted or not. If there is no manifest then the toEncrypt parameter DEWHides if
 	// there is encryption or not.
 	if hash == "" && toEncrypt {
 		// This is the built-in address for the encrypted upload endpoint

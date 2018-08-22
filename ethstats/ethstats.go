@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package ethstats implements the network stats reporting service.
 package ethstats
@@ -30,17 +30,17 @@ import (
 	"strings"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/mclock"
-	"github.com/DEC/go-DEC/consensus"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/eth"
-	"github.com/DEC/go-DEC/event"
-	"github.com/DEC/go-DEC/les"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/rpc"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/mclock"
+	"github.com/DEWH/go-DEWH/consensus"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/eth"
+	"github.com/DEWH/go-DEWH/event"
+	"github.com/DEWH/go-DEWH/les"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/rpc"
 	"golang.org/x/net/websocket"
 )
 
@@ -66,12 +66,12 @@ type blockChain interface {
 	SubscribeChainHeadEvent(ch chan<- core.ChainHeadEvent) event.Subscription
 }
 
-// Service implements an DEC netstats reporting daemon that pushes local
+// Service implements an DEWH netstats reporting daemon that pushes local
 // chain statistics up to a monitoring server.
 type Service struct {
 	server *p2p.Server        // Peer-to-peer server to retrieve networking infos
-	eth    *eth.DEC      // Full DEC service if monitoring a full node
-	les    *les.LightDEC // Light DEC service if monitoring a light node
+	eth    *eth.DEWH      // Full DEWH service if monitoring a full node
+	les    *les.LightDEWH // Light DEWH service if monitoring a light node
 	engine consensus.Engine   // Consensus engine to retrieve variadic block fields
 
 	node string // Name of the node to display on the monitoring page
@@ -83,7 +83,7 @@ type Service struct {
 }
 
 // New returns a monitoring service ready for stats reporting.
-func New(url string, ethServ *eth.DEC, lesServ *les.LightDEC) (*Service, error) {
+func New(url string, ethServ *eth.DEWH, lesServ *les.LightDEWH) (*Service, error) {
 	// Parse the netstats connection url
 	re := regexp.MustCompile("([^:@]*)(:([^@]*))?@(.+)")
 	parts := re.FindStringSubmatch(url)
@@ -232,7 +232,7 @@ func (s *Service) loop() {
 		}
 		go s.readLoop(conn)
 
-		// Send the initial stats so our node looks decent from the get go
+		// Send the initial stats so our node looks DEWHent from the get go
 		if err = s.report(conn); err != nil {
 			log.Warn("Initial stats report failed", "err", err)
 			conn.Close()
@@ -285,7 +285,7 @@ func (s *Service) readLoop(conn *websocket.Conn) {
 		// Retrieve the next generic network packet and bail out on error
 		var msg map[string][]interface{}
 		if err := websocket.JSON.Receive(conn, &msg); err != nil {
-			log.Warn("Failed to decode stats server message", "err", err)
+			log.Warn("Failed to DEWHode stats server message", "err", err)
 			return
 		}
 		log.Trace("Received message from stats server", "msg", msg)

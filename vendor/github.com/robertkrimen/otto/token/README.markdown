@@ -51,7 +51,7 @@ const (
 	LOGICAL_AND // &&
 	LOGICAL_OR  // ||
 	INCREMENT   // ++
-	DECREMENT   // --
+	DEWHREMENT   // --
 
 	EQUAL        // ==
 	STRICT_EQUAL // ===

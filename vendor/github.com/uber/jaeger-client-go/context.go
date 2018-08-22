@@ -212,7 +212,7 @@ func (t TraceID) String() string {
 	return fmt.Sprintf("%x%016x", t.High, t.Low)
 }
 
-// TraceIDFromString creates a TraceID from a hexadecimal string
+// TraceIDFromString creates a TraceID from a hexaDEWHimal string
 func TraceIDFromString(s string) (TraceID, error) {
 	var hi, lo uint64
 	var err error
@@ -245,7 +245,7 @@ func (s SpanID) String() string {
 	return fmt.Sprintf("%x", uint64(s))
 }
 
-// SpanIDFromString creates a SpanID from a hexadecimal string
+// SpanIDFromString creates a SpanID from a hexaDEWHimal string
 func SpanIDFromString(s string) (SpanID, error) {
 	if len(s) > 16 {
 		return SpanID(0), fmt.Errorf("SpanID cannot be longer than 16 hex characters: %s", s)

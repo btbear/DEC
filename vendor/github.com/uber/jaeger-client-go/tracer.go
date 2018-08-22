@@ -97,20 +97,20 @@ func NewTracer(
 
 	// register default injectors/extractors unless they are already provided via options
 	textPropagator := newTextMapPropagator(getDefaultHeadersConfig(), t.metrics)
-	t.addCodec(opentracing.TextMap, textPropagator, textPropagator)
+	t.addCoDEWH(opentracing.TextMap, textPropagator, textPropagator)
 
 	httpHeaderPropagator := newHTTPHeaderPropagator(getDefaultHeadersConfig(), t.metrics)
-	t.addCodec(opentracing.HTTPHeaders, httpHeaderPropagator, httpHeaderPropagator)
+	t.addCoDEWH(opentracing.HTTPHeaders, httpHeaderPropagator, httpHeaderPropagator)
 
 	binaryPropagator := newBinaryPropagator(t)
-	t.addCodec(opentracing.Binary, binaryPropagator, binaryPropagator)
+	t.addCoDEWH(opentracing.Binary, binaryPropagator, binaryPropagator)
 
 	// TODO remove after TChannel supports OpenTracing
 	interopPropagator := &jaegerTraceContextPropagator{tracer: t}
-	t.addCodec(SpanContextFormat, interopPropagator, interopPropagator)
+	t.addCoDEWH(SpanContextFormat, interopPropagator, interopPropagator)
 
 	zipkinPropagator := &zipkinPropagator{tracer: t}
-	t.addCodec(ZipkinSpanFormat, zipkinPropagator, zipkinPropagator)
+	t.addCoDEWH(ZipkinSpanFormat, zipkinPropagator, zipkinPropagator)
 
 	if t.baggageRestrictionManager != nil {
 		t.baggageSetter = newBaggageSetter(t.baggageRestrictionManager, &t.metrics)
@@ -168,8 +168,8 @@ func NewTracer(
 	return t, t
 }
 
-// addCodec adds registers injector and extractor for given propagation format if not already defined.
-func (t *Tracer) addCodec(format interface{}, injector Injector, extractor Extractor) {
+// addCoDEWH adds registers injector and extractor for given propagation format if not already defined.
+func (t *Tracer) addCoDEWH(format interface{}, injector Injector, extractor Extractor) {
 	if _, ok := t.injectors[format]; !ok {
 		t.injectors[format] = injector
 	}

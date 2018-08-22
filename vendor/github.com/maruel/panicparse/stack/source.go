@@ -100,7 +100,7 @@ func (c *cache) load(fileName string) {
 	c.parsed[fileName] = &parsedFile{offsets, parsed}
 }
 
-func (c *cache) getFuncAST(call *Call) *ast.FuncDecl {
+func (c *cache) getFuncAST(call *Call) *ast.FuncDEWHl {
 	if p := c.parsed[call.SourcePath]; p != nil {
 		return p.getFuncAST(call.Func.Name(), call.Line)
 	}
@@ -114,9 +114,9 @@ type parsedFile struct {
 
 // getFuncAST gets the callee site function AST representation for the code
 // inside the function f at line l.
-func (p *parsedFile) getFuncAST(f string, l int) (d *ast.FuncDecl) {
+func (p *parsedFile) getFuncAST(f string, l int) (d *ast.FuncDEWHl) {
 	// Walk the AST to find the lineToByteOffset that fits the line number.
-	var lastFunc *ast.FuncDecl
+	var lastFunc *ast.FuncDEWHl
 	var found ast.Node
 	// Inspect() goes depth first. This means for example that a function like:
 	// func a() {
@@ -146,7 +146,7 @@ func (p *parsedFile) getFuncAST(f string, l int) (d *ast.FuncDecl) {
 			d = lastFunc
 			//p.processNode(call, n)
 			return false
-		} else if f, ok := n.(*ast.FuncDecl); ok {
+		} else if f, ok := n.(*ast.FuncDEWHl); ok {
 			lastFunc = f
 		}
 		return true
@@ -196,7 +196,7 @@ func fieldToType(f *ast.Field) (string, bool) {
 }
 
 // extractArgumentsType returns the name of the type of each input argument.
-func extractArgumentsType(f *ast.FuncDecl) ([]string, bool) {
+func extractArgumentsType(f *ast.FuncDEWHl) ([]string, bool) {
 	var fields []*ast.Field
 	if f.Recv != nil {
 		if len(f.Recv.List) != 1 {
@@ -226,7 +226,7 @@ func extractArgumentsType(f *ast.FuncDecl) ([]string, bool) {
 }
 
 // processCall walks the function and populate call accordingly.
-func processCall(call *Call, f *ast.FuncDecl) {
+func processCall(call *Call, f *ast.FuncDEWHl) {
 	values := make([]uint64, len(call.Args.Values))
 	for i := range call.Args.Values {
 		values[i] = call.Args.Values[i].Value

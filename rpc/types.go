@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package rpc
 
@@ -23,8 +23,8 @@ import (
 	"strings"
 	"sync"
 
-	mapset "github.com/deckarep/golang-set"
-	"github.com/DEC/go-DEC/common/hexutil"
+	mapset "github.com/DEWHkarep/golang-set"
+	"github.com/DEWH/go-DEWH/common/hexutil"
 )
 
 // API describes the set of methods offered over the RPC interface
@@ -72,8 +72,8 @@ type Server struct {
 	services serviceRegistry
 
 	run      int32
-	codecsMu sync.Mutex
-	codecs   mapset.Set
+	coDEWHsMu sync.Mutex
+	coDEWHs   mapset.Set
 }
 
 // rpcRequest represents a raw incoming RPC request
@@ -92,10 +92,10 @@ type Error interface {
 	ErrorCode() int // returns the code
 }
 
-// ServerCodec implements reading, parsing and writing RPC messages for the server side of
-// a RPC session. Implementations must be go-routine safe since the codec can be called in
+// ServerCoDEWH implements reading, parsing and writing RPC messages for the server side of
+// a RPC session. Implementations must be go-routine safe since the coDEWH can be called in
 // multiple go-routines concurrently.
-type ServerCodec interface {
+type ServerCoDEWH interface {
 	// Read next request
 	ReadRequestHeaders() ([]rpcRequest, bool, Error)
 	// Parse request argument to the given types
@@ -148,7 +148,7 @@ func (bn *BlockNumber) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	blckNum, err := hexutil.DecodeUint64(input)
+	blckNum, err := hexutil.DEWHodeUint64(input)
 	if err != nil {
 		return err
 	}

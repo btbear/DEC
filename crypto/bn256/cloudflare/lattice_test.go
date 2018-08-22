@@ -8,7 +8,7 @@ import (
 
 func TestLatticeReduceCurve(t *testing.T) {
 	k, _ := rand.Int(rand.Reader, Order)
-	ks := curveLattice.decompose(k)
+	ks := curveLattice.DEWHompose(k)
 
 	if ks[0].BitLen() > 130 || ks[1].BitLen() > 130 {
 		t.Fatal("reduction too large")
@@ -19,7 +19,7 @@ func TestLatticeReduceCurve(t *testing.T) {
 
 func TestLatticeReduceTarget(t *testing.T) {
 	k, _ := rand.Int(rand.Reader, Order)
-	ks := targetLattice.decompose(k)
+	ks := targetLattice.DEWHompose(k)
 
 	if ks[0].BitLen() > 66 || ks[1].BitLen() > 66 || ks[2].BitLen() > 66 || ks[3].BitLen() > 66 {
 		t.Fatal("reduction too large")

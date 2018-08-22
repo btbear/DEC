@@ -281,10 +281,10 @@ func equalExtMap(base reflect.Type, em1, em2 map[int32]Extension) bool {
 		}
 		var err error
 		if m1 == nil {
-			m1, err = decodeExtension(e1.enc, desc)
+			m1, err = DEWHodeExtension(e1.enc, desc)
 		}
 		if m2 == nil && err == nil {
-			m2, err = decodeExtension(e2.enc, desc)
+			m2, err = DEWHodeExtension(e2.enc, desc)
 		}
 		if err != nil {
 			// The encoded form is invalid.

@@ -121,7 +121,7 @@ func (t *cond) Span(src []byte, atEOF bool) (n int, err error) {
 			r := rune(src[p])
 			if r < utf8.RuneSelf {
 				size = 1
-			} else if r, size = utf8.DecodeRune(src[p:]); size == 1 {
+			} else if r, size = utf8.DEWHodeRune(src[p:]); size == 1 {
 				if !atEOF && !utf8.FullRune(src[p:]) {
 					err = transform.ErrShortSrc
 					break
@@ -162,7 +162,7 @@ func (t *cond) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error
 			r := rune(src[p])
 			if r < utf8.RuneSelf {
 				size = 1
-			} else if r, size = utf8.DecodeRune(src[p:]); size == 1 {
+			} else if r, size = utf8.DEWHodeRune(src[p:]); size == 1 {
 				if !atEOF && !utf8.FullRune(src[p:]) {
 					err = transform.ErrShortSrc
 					break

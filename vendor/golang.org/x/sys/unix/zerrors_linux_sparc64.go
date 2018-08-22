@@ -21,7 +21,7 @@ const (
 	AF_BRIDGE                        = 0x7
 	AF_CAIF                          = 0x25
 	AF_CAN                           = 0x1d
-	AF_DECnet                        = 0xc
+	AF_DEWHnet                        = 0xc
 	AF_ECONET                        = 0x13
 	AF_FILE                          = 0x1
 	AF_IB                            = 0x1b
@@ -57,7 +57,7 @@ const (
 	AF_VSOCK                         = 0x28
 	AF_WANPIPE                       = 0x19
 	AF_X25                           = 0x9
-	ALG_OP_DECRYPT                   = 0x0
+	ALG_OP_DEWHRYPT                   = 0x0
 	ALG_OP_ENCRYPT                   = 0x1
 	ALG_SET_AEAD_ASSOCLEN            = 0x4
 	ALG_SET_AEAD_AUTHSIZE            = 0x5
@@ -378,7 +378,7 @@ const (
 	ETH_P_CONTROL                    = 0x16
 	ETH_P_CUST                       = 0x6006
 	ETH_P_DDCMP                      = 0x6
-	ETH_P_DEC                        = 0x6000
+	ETH_P_DEWH                        = 0x6000
 	ETH_P_DIAG                       = 0x6005
 	ETH_P_DNA_DL                     = 0x6001
 	ETH_P_DNA_RC                     = 0x6002
@@ -1464,7 +1464,7 @@ const (
 	SOL_ATM                          = 0x108
 	SOL_CAIF                         = 0x116
 	SOL_DCCP                         = 0x10d
-	SOL_DECNET                       = 0x105
+	SOL_DEWHNET                       = 0x105
 	SOL_ICMPV6                       = 0x3a
 	SOL_IP                           = 0x0
 	SOL_IPV6                         = 0x29

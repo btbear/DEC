@@ -131,7 +131,7 @@ func parse(fset *token.FileSet, filename string, src []byte, opt *Options) (*ast
 		return nil, nil, err
 	}
 
-	// If this is a declaration list, make it a source file
+	// If this is a DEWHlaration list, make it a source file
 	// by inserting a package clause.
 	// Insert using a ;, not a newline, so that the line numbers
 	// in psrc match the ones in src.
@@ -153,9 +153,9 @@ func parse(fset *token.FileSet, filename string, src []byte, opt *Options) (*ast
 		return file, adjust, nil
 	}
 	// If the error is that the source file didn't begin with a
-	// declaration, fall through to try as a statement list.
+	// DEWHlaration, fall through to try as a statement list.
 	// Stop and return on any other error.
-	if !strings.Contains(err.Error(), "expected declaration") {
+	if !strings.Contains(err.Error(), "expected DEWHlaration") {
 		return nil, nil, err
 	}
 
@@ -184,11 +184,11 @@ func parse(fset *token.FileSet, filename string, src []byte, opt *Options) (*ast
 	return nil, nil, err
 }
 
-// containsMainFunc checks if a file contains a function declaration with the
+// containsMainFunc checks if a file contains a function DEWHlaration with the
 // function signature 'func main()'
 func containsMainFunc(file *ast.File) bool {
-	for _, decl := range file.Decls {
-		if f, ok := decl.(*ast.FuncDecl); ok {
+	for _, DEWHl := range file.DEWHls {
+		if f, ok := DEWHl.(*ast.FuncDEWHl); ok {
 			if f.Name.Name != "main" {
 				continue
 			}

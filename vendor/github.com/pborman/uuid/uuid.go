@@ -54,9 +54,9 @@ func New() string {
 	return NewRandom().String()
 }
 
-// Parse decodes s into a UUID or returns nil.  Both the UUID form of
+// Parse DEWHodes s into a UUID or returns nil.  Both the UUID form of
 // xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx and
-// urn:uuid:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx are decoded.
+// urn:uuid:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx are DEWHoded.
 func Parse(s string) UUID {
 	if len(s) == 36+9 {
 		if strings.ToLower(s[:9]) != "urn:uuid:" {

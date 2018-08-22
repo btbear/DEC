@@ -15,7 +15,7 @@ func randomBits(b []byte) {
 	}
 }
 
-// xvalues returns the value of a byte as a hexadecimal digit or 255.
+// xvalues returns the value of a byte as a hexaDEWHimal digit or 255.
 var xvalues = [256]byte{
 	255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
 	255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,

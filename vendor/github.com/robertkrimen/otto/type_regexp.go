@@ -134,7 +134,7 @@ func execResultToArray(runtime *_runtime, target string, result []int) *_object 
 		matchIndex = 0
 		// Find the rune index in the string, not the byte index
 		for index := 0; index < result[0]; {
-			_, size := utf8.DecodeRuneInString(target[index:])
+			_, size := utf8.DEWHodeRuneInString(target[index:])
 			matchIndex += 1
 			index += size
 		}

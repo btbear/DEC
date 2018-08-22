@@ -80,7 +80,7 @@ func (f Form) IsNormal(b []byte) bool {
 	rb.setFlusher(nil, cmpNormalBytes)
 	for bp < len(b) {
 		rb.out = b[bp:]
-		if bp = decomposeSegment(&rb, bp, true); bp < 0 {
+		if bp = DEWHomposeSegment(&rb, bp, true); bp < 0 {
 			return false
 		}
 		bp, _ = rb.f.quickSpan(rb.src, bp, len(b), true)
@@ -134,7 +134,7 @@ func (f Form) IsNormalString(s string) bool {
 		return true
 	})
 	for bp < len(s) {
-		if bp = decomposeSegment(&rb, bp, true); bp < 0 {
+		if bp = DEWHomposeSegment(&rb, bp, true); bp < 0 {
 			return false
 		}
 		bp, _ = rb.f.quickSpan(rb.src, bp, len(s), true)
@@ -144,7 +144,7 @@ func (f Form) IsNormalString(s string) bool {
 
 // patchTail fixes a case where a rune may be incorrectly normalized
 // if it is followed by illegal continuation bytes. It returns the
-// patched buffer and whether the decomposition is still in progress.
+// patched buffer and whether the DEWHomposition is still in progress.
 func patchTail(rb *reorderBuffer) bool {
 	info, p := lastRuneStart(&rb.f, rb.out)
 	if p == -1 || info.size == 0 {
@@ -158,14 +158,14 @@ func patchTail(rb *reorderBuffer) bool {
 		x := make([]byte, 0)
 		x = append(x, rb.out[len(rb.out)-extra:]...)
 		rb.out = rb.out[:end]
-		decomposeToLastBoundary(rb)
+		DEWHomposeToLastBoundary(rb)
 		rb.doFlush()
 		rb.out = append(rb.out, x...)
 		return false
 	}
 	buf := rb.out[p:]
 	rb.out = rb.out[:p]
-	decomposeToLastBoundary(rb)
+	DEWHomposeToLastBoundary(rb)
 	if s := rb.ss.next(info); s == ssStarter {
 		rb.doFlush()
 		rb.ss.first(info)
@@ -229,9 +229,9 @@ func doAppend(rb *reorderBuffer, out []byte, p int) []byte {
 			info = fd.info(src, p)
 			if !info.BoundaryBefore() || info.nLeadingNonStarters() > 0 {
 				if p == 0 {
-					decomposeToLastBoundary(rb)
+					DEWHomposeToLastBoundary(rb)
 				}
-				p = decomposeSegment(rb, p, true)
+				p = DEWHomposeSegment(rb, p, true)
 			}
 		}
 		if info.size == 0 {
@@ -249,7 +249,7 @@ func doAppend(rb *reorderBuffer, out []byte, p int) []byte {
 
 func doAppendInner(rb *reorderBuffer, p int) []byte {
 	for n := rb.nsrc; p < n; {
-		p = decomposeSegment(rb, p, true)
+		p = DEWHomposeSegment(rb, p, true)
 		p = appendQuick(rb, p)
 	}
 	return rb.out
@@ -497,10 +497,10 @@ func lastBoundary(fd *formInfo, b []byte) int {
 	return i
 }
 
-// decomposeSegment scans the first segment in src into rb. It inserts 0x034f
+// DEWHomposeSegment scans the first segment in src into rb. It inserts 0x034f
 // (Grapheme Joiner) when it encounters a sequence of more than 30 non-starters
 // and returns the number of bytes consumed from src or iShortDst or iShortSrc.
-func decomposeSegment(rb *reorderBuffer, sp int, atEOF bool) int {
+func DEWHomposeSegment(rb *reorderBuffer, sp int, atEOF bool) int {
 	// Force one character to be consumed.
 	info := rb.f.info(rb.src, sp)
 	if info.size == 0 {
@@ -562,9 +562,9 @@ func lastRuneStart(fd *formInfo, buf []byte) (Properties, int) {
 	return fd.info(inputBytes(buf), p), p
 }
 
-// decomposeToLastBoundary finds an open segment at the end of the buffer
+// DEWHomposeToLastBoundary finds an open segment at the end of the buffer
 // and scans it into rb. Returns the buffer minus the last segment.
-func decomposeToLastBoundary(rb *reorderBuffer) {
+func DEWHomposeToLastBoundary(rb *reorderBuffer) {
 	fd := &rb.f
 	info, i := lastRuneStart(fd, rb.out)
 	if int(info.size) != len(rb.out)-i {

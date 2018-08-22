@@ -2,6 +2,6 @@
 
 package ole
 
-func getClassInfo(disp *IProvideClassInfo) (tinfo *ITypeInfo, err error) {
+func getClassInfo(disp *IProviDEWHlassInfo) (tinfo *ITypeInfo, err error) {
 	return nil, NewError(E_NOTIMPL)
 }

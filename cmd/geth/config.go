@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -27,12 +27,12 @@ import (
 
 	cli "gopkg.in/urfave/cli.v1"
 
-	"github.com/DEC/go-DEC/cmd/utils"
-	"github.com/DEC/go-DEC/dashboard"
-	"github.com/DEC/go-DEC/eth"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/params"
-	whisper "github.com/DEC/go-DEC/whisper/whisperv6"
+	"github.com/DEWH/go-DEWH/cmd/utils"
+	"github.com/DEWH/go-DEWH/dashboard"
+	"github.com/DEWH/go-DEWH/eth"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/params"
+	whisper "github.com/DEWH/go-DEWH/whisper/whisperv6"
 	"github.com/naoina/toml"
 )
 
@@ -89,7 +89,7 @@ func loadConfig(file string, cfg *gethConfig) error {
 	}
 	defer f.Close()
 
-	err = tomlSettings.NewDecoder(bufio.NewReader(f)).Decode(cfg)
+	err = tomlSettings.NewDEWHoder(bufio.NewReader(f)).DEWHode(cfg)
 	// Add file name to errors that have a line number.
 	if _, ok := err.(*toml.LineError); ok {
 		err = errors.New(file + ", " + err.Error())
@@ -97,7 +97,7 @@ func loadConfig(file string, cfg *gethConfig) error {
 	return err
 }
 
-func defaultNodeConfig() node.Config {
+func defaultNoDEWHonfig() node.Config {
 	cfg := node.DefaultConfig
 	cfg.Name = clientIdentifier
 	cfg.Version = params.VersionWithCommit(gitCommit)
@@ -112,7 +112,7 @@ func makeConfigNode(ctx *cli.Context) (*node.Node, gethConfig) {
 	cfg := gethConfig{
 		Eth:       eth.DefaultConfig,
 		Shh:       whisper.DefaultConfig,
-		Node:      defaultNodeConfig(),
+		Node:      defaultNoDEWHonfig(),
 		Dashboard: dashboard.DefaultConfig,
 	}
 
@@ -124,7 +124,7 @@ func makeConfigNode(ctx *cli.Context) (*node.Node, gethConfig) {
 	}
 
 	// Apply flags.
-	utils.SetNodeConfig(ctx, &cfg.Node)
+	utils.SetNoDEWHonfig(ctx, &cfg.Node)
 	stack, err := node.New(&cfg.Node)
 	if err != nil {
 		utils.Fatalf("Failed to create the protocol stack: %v", err)
@@ -171,7 +171,7 @@ func makeFullNode(ctx *cli.Context) *node.Node {
 		utils.RegisterShhService(stack, &cfg.Shh)
 	}
 
-	// Add the DEC Stats daemon if requested.
+	// Add the DEWH Stats daemon if requested.
 	if cfg.Ethstats.URL != "" {
 		utils.RegisterEthStatsService(stack, cfg.Ethstats.URL)
 	}

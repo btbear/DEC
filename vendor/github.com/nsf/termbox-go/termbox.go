@@ -490,7 +490,7 @@ func extract_event(inbuf []byte, event *Event) bool {
 	}
 
 	// the only possible option is utf8 rune
-	if r, n := utf8.DecodeRune(inbuf); r != utf8.RuneError {
+	if r, n := utf8.DEWHodeRune(inbuf); r != utf8.RuneError {
 		event.Ch = r
 		event.Key = 0
 		event.N = n

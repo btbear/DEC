@@ -21,16 +21,16 @@ var All = []encoding.Encoding{EUCKR}
 var EUCKR encoding.Encoding = &eucKR
 
 var eucKR = internal.Encoding{
-	&internal.SimpleEncoding{eucKRDecoder{}, eucKREncoder{}},
+	&internal.SimpleEncoding{eucKRDEWHoder{}, eucKREncoder{}},
 	"EUC-KR",
 	identifier.EUCKR,
 }
 
 var errInvalidEUCKR = errors.New("korean: invalid EUC-KR encoding")
 
-type eucKRDecoder struct{ transform.NopResetter }
+type eucKRDEWHoder struct{ transform.NopResetter }
 
-func (eucKRDecoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (eucKRDEWHoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	r, size := rune(0), 0
 loop:
 	for ; nSrc < len(src); nSrc += size {
@@ -63,8 +63,8 @@ loop:
 				err = errInvalidEUCKR
 				break loop
 			}
-			if int(r) < len(decode) {
-				r = rune(decode[r])
+			if int(r) < len(DEWHode) {
+				r = rune(DEWHode[r])
 				if r == 0 {
 					r = '\ufffd'
 				}
@@ -97,7 +97,7 @@ func (eucKREncoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err 
 	for ; nSrc < len(src); nSrc += size {
 		r = rune(src[nSrc])
 
-		// Decode a 1-byte rune.
+		// DEWHode a 1-byte rune.
 		if r < utf8.RuneSelf {
 			size = 1
 
@@ -110,8 +110,8 @@ func (eucKREncoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err 
 			continue
 
 		} else {
-			// Decode a multi-byte rune.
-			r, size = utf8.DecodeRune(src[nSrc:])
+			// DEWHode a multi-byte rune.
+			r, size = utf8.DEWHodeRune(src[nSrc:])
 			if size == 1 {
 				// All valid runes of size 1 (those below utf8.RuneSelf) were
 				// handled above. We have invalid UTF-8 or we haven't seen the

@@ -18,16 +18,16 @@ import (
 var EUCJP encoding.Encoding = &eucJP
 
 var eucJP = internal.Encoding{
-	&internal.SimpleEncoding{eucJPDecoder{}, eucJPEncoder{}},
+	&internal.SimpleEncoding{eucJPDEWHoder{}, eucJPEncoder{}},
 	"EUC-JP",
 	identifier.EUCPkdFmtJapanese,
 }
 
 var errInvalidEUCJP = errors.New("japanese: invalid EUC-JP encoding")
 
-type eucJPDecoder struct{ transform.NopResetter }
+type eucJPDEWHoder struct{ transform.NopResetter }
 
-func (eucJPDecoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (eucJPDEWHoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	r, size := rune(0), 0
 loop:
 	for ; nSrc < len(src); nSrc += size {
@@ -63,8 +63,8 @@ loop:
 				break loop
 			}
 			r, size = '\ufffd', 3
-			if i := int(c1-0xa1)*94 + int(c2-0xa1); i < len(jis0212Decode) {
-				r = rune(jis0212Decode[i])
+			if i := int(c1-0xa1)*94 + int(c2-0xa1); i < len(jis0212DEWHode) {
+				r = rune(jis0212DEWHode[i])
 				if r == 0 {
 					r = '\ufffd'
 				}
@@ -81,8 +81,8 @@ loop:
 				break loop
 			}
 			r, size = '\ufffd', 2
-			if i := int(c0-0xa1)*94 + int(c1-0xa1); i < len(jis0208Decode) {
-				r = rune(jis0208Decode[i])
+			if i := int(c0-0xa1)*94 + int(c1-0xa1); i < len(jis0208DEWHode) {
+				r = rune(jis0208DEWHode[i])
 				if r == 0 {
 					r = '\ufffd'
 				}
@@ -112,13 +112,13 @@ func (eucJPEncoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err 
 	for ; nSrc < len(src); nSrc += size {
 		r = rune(src[nSrc])
 
-		// Decode a 1-byte rune.
+		// DEWHode a 1-byte rune.
 		if r < utf8.RuneSelf {
 			size = 1
 
 		} else {
-			// Decode a multi-byte rune.
-			r, size = utf8.DecodeRune(src[nSrc:])
+			// DEWHode a multi-byte rune.
+			r, size = utf8.DEWHodeRune(src[nSrc:])
 			if size == 1 {
 				// All valid runes of size 1 (those below utf8.RuneSelf) were
 				// handled above. We have invalid UTF-8 or we haven't seen the

@@ -16,7 +16,7 @@ var (
 	sizeofMemoryStatusEx          = uint32(unsafe.Sizeof(MemoryStatusEx{}))
 )
 
-// Process-specific access rights. Others are declared in the syscall package.
+// Process-specific access rights. Others are DEWHlared in the syscall package.
 // https://msdn.microsoft.com/en-us/library/windows/desktop/ms684880(v=vs.85).aspx
 const (
 	PROCESS_QUERY_LIMITED_INFORMATION uint32 = 0x1000

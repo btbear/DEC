@@ -172,9 +172,9 @@ func (t *trg) singlewatch(p string, e Event, direct mode, fi os.FileInfo) (err e
 	return errAlreadyWatched
 }
 
-// decode converts event received from native to notify.Event
+// DEWHode converts event received from native to notify.Event
 // representation taking into account requested events (w).
-func decode(o int64, w Event) (e Event) {
+func DEWHode(o int64, w Event) (e Event) {
 	for f, n := range nat2not {
 		if o&int64(f) != 0 {
 			if w&f != 0 {
@@ -420,7 +420,7 @@ func (t *trg) process(n interface{}) (evn []event) {
 		return
 	}
 
-	e := decode(ge, w.eDir|w.eNonDir)
+	e := DEWHode(ge, w.eDir|w.eNonDir)
 	if ge&int64(not2nat[Remove]|not2nat[Rename]) == 0 {
 		switch fi, err := os.Stat(w.p); {
 		case err != nil:

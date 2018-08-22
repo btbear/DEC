@@ -11,8 +11,8 @@ func (self *_runtime) cmpl_evaluate_nodeProgram(node *_nodeProgram, eval bool) V
 			self.leaveScope()
 		}()
 	}
-	self.cmpl_functionDeclaration(node.functionList)
-	self.cmpl_variableDeclaration(node.varList)
+	self.cmpl_functionDEWHlaration(node.functionList)
+	self.cmpl_variableDEWHlaration(node.varList)
 	self.scope.frame.file = node.file
 	return self.cmpl_evaluate_nodeStatementList(node.body)
 }
@@ -55,8 +55,8 @@ func (self *_runtime) cmpl_call_nodeFunction(function *_object, stash *_fnStash,
 		}
 	}
 
-	self.cmpl_functionDeclaration(node.functionList)
-	self.cmpl_variableDeclaration(node.varList)
+	self.cmpl_functionDEWHlaration(node.functionList)
+	self.cmpl_variableDEWHlaration(node.varList)
 
 	result := self.cmpl_evaluate_nodeStatement(node.body)
 	if result.kind == valueResult {
@@ -66,7 +66,7 @@ func (self *_runtime) cmpl_call_nodeFunction(function *_object, stash *_fnStash,
 	return Value{}
 }
 
-func (self *_runtime) cmpl_functionDeclaration(list []*_nodeFunctionLiteral) {
+func (self *_runtime) cmpl_functionDEWHlaration(list []*_nodeFunctionLiteral) {
 	executionContext := self.scope
 	eval := executionContext.eval
 	stash := executionContext.variable
@@ -83,7 +83,7 @@ func (self *_runtime) cmpl_functionDeclaration(list []*_nodeFunctionLiteral) {
 	}
 }
 
-func (self *_runtime) cmpl_variableDeclaration(list []string) {
+func (self *_runtime) cmpl_variableDEWHlaration(list []string) {
 	executionContext := self.scope
 	eval := executionContext.eval
 	stash := executionContext.variable

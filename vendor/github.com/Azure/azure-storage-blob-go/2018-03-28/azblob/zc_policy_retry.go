@@ -237,7 +237,7 @@ func NewRetryPolicyFactory(o RetryOptions) pipeline.Factory {
 					if err != nil {
 						tryCancel() // If we're returning an error, cancel this current/last per-retry timeout context
 					} else {
-						// TODO: Right now, we've decided to leak the per-try Context until the user's Context is canceled.
+						// TODO: Right now, we've DEWHided to leak the per-try Context until the user's Context is canceled.
 						// Another option is that we wrap the last per-try context in a body and overwrite the Response's Body field with our wrapper.
 						// So, when the user closes the Body, the our per-try context gets closed too.
 						// Another option, is that the Last Policy do this wrapping for a per-retry context (not for the user's context)

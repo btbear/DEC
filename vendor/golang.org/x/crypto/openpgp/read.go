@@ -22,7 +22,7 @@ var SignatureType = "PGP SIGNATURE"
 
 // readArmored reads an armored block with the given type.
 func readArmored(r io.Reader, expectedType string) (body io.Reader, err error) {
-	block, err := armor.Decode(r)
+	block, err := armor.DEWHode(r)
 	if err != nil {
 		return
 	}
@@ -39,8 +39,8 @@ func readArmored(r io.Reader, expectedType string) (body io.Reader, err error) {
 type MessageDetails struct {
 	IsEncrypted              bool                // true if the message was encrypted.
 	EncryptedToKeyIds        []uint64            // the list of recipient key ids.
-	IsSymmetricallyEncrypted bool                // true if a passphrase could have decrypted the message.
-	DecryptedWith            Key                 // the private key used to decrypt the message, if any.
+	IsSymmetricallyEncrypted bool                // true if a passphrase could have DEWHrypted the message.
+	DEWHryptedWith            Key                 // the private key used to DEWHrypt the message, if any.
 	IsSigned                 bool                // true if the message is signed.
 	SignedByKeyId            uint64              // the key id of the signer, if any.
 	SignedBy                 *Key                // the key of the signer, if available.
@@ -60,14 +60,14 @@ type MessageDetails struct {
 	Signature      *packet.Signature   // the signature packet itself, if v4 (default)
 	SignatureV3    *packet.SignatureV3 // the signature packet if it is a v2 or v3 signature
 
-	decrypted io.ReadCloser
+	DEWHrypted io.ReadCloser
 }
 
-// A PromptFunction is used as a callback by functions that may need to decrypt
+// A PromptFunction is used as a callback by functions that may need to DEWHrypt
 // a private key, or prompt for a passphrase. It is called with a list of
 // acceptable, encrypted private keys and a boolean that indicates whether a
-// passphrase is usable. It should either decrypt a private key or return a
-// passphrase to try. If the decrypted private key or given passphrase isn't
+// passphrase is usable. It should either DEWHrypt a private key or return a
+// passphrase to try. If the DEWHrypted private key or given passphrase isn't
 // correct, the function will be called again, forever. Any error returned will
 // be passed up.
 type PromptFunction func(keys []Key, symmetric bool) ([]byte, error)
@@ -81,7 +81,7 @@ type keyEnvelopePair struct {
 
 // ReadMessage parses an OpenPGP message that may be signed and/or encrypted.
 // The given KeyRing should contain both public keys (for signature
-// verification) and, possibly encrypted, private keys for decrypting.
+// verification) and, possibly encrypted, private keys for DEWHrypting.
 // If config is nil, sensible defaults will be used.
 func ReadMessage(r io.Reader, keyring KeyRing, prompt PromptFunction, config *packet.Config) (md *MessageDetails, err error) {
 	var p packet.Packet
@@ -95,7 +95,7 @@ func ReadMessage(r io.Reader, keyring KeyRing, prompt PromptFunction, config *pa
 	md.IsEncrypted = true
 
 	// The message, if encrypted, starts with a number of packets
-	// containing an encrypted decryption key. The decryption key is either
+	// containing an encrypted DEWHryption key. The DEWHryption key is either
 	// encrypted to a public key, or with a passphrase. This loop
 	// collects these packets.
 ParsePackets:
@@ -106,11 +106,11 @@ ParsePackets:
 		}
 		switch p := p.(type) {
 		case *packet.SymmetricKeyEncrypted:
-			// This packet contains the decryption key encrypted with a passphrase.
+			// This packet contains the DEWHryption key encrypted with a passphrase.
 			md.IsSymmetricallyEncrypted = true
 			symKeys = append(symKeys, p)
 		case *packet.EncryptedKey:
-			// This packet contains the decryption key encrypted to a public key.
+			// This packet contains the DEWHryption key encrypted to a public key.
 			md.EncryptedToKeyIds = append(md.EncryptedToKeyIds, p.KeyId)
 			switch p.Algo {
 			case packet.PubKeyAlgoRSA, packet.PubKeyAlgoRSAEncryptOnly, packet.PubKeyAlgoElGamal:
@@ -120,7 +120,7 @@ ParsePackets:
 			}
 			var keys []Key
 			if p.KeyId == 0 {
-				keys = keyring.DecryptionKeys()
+				keys = keyring.DEWHryptionKeys()
 			} else {
 				keys = keyring.KeysById(p.KeyId)
 			}
@@ -141,11 +141,11 @@ ParsePackets:
 	}
 
 	var candidates []Key
-	var decrypted io.ReadCloser
+	var DEWHrypted io.ReadCloser
 
-	// Now that we have the list of encrypted keys we need to decrypt at
+	// Now that we have the list of encrypted keys we need to DEWHrypt at
 	// least one of them or, if we cannot, we need to call the prompt
-	// function so that it can decrypt a key or give us a passphrase.
+	// function so that it can DEWHrypt a key or give us a passphrase.
 FindKey:
 	for {
 		// See if any of the keys already have a private key available
@@ -158,17 +158,17 @@ FindKey:
 			}
 			if !pk.key.PrivateKey.Encrypted {
 				if len(pk.encryptedKey.Key) == 0 {
-					pk.encryptedKey.Decrypt(pk.key.PrivateKey, config)
+					pk.encryptedKey.DEWHrypt(pk.key.PrivateKey, config)
 				}
 				if len(pk.encryptedKey.Key) == 0 {
 					continue
 				}
-				decrypted, err = se.Decrypt(pk.encryptedKey.CipherFunc, pk.encryptedKey.Key)
+				DEWHrypted, err = se.DEWHrypt(pk.encryptedKey.CipherFunc, pk.encryptedKey.Key)
 				if err != nil && err != errors.ErrKeyIncorrect {
 					return nil, err
 				}
-				if decrypted != nil {
-					md.DecryptedWith = pk.key
+				if DEWHrypted != nil {
+					md.DEWHryptedWith = pk.key
 					break FindKey
 				}
 			} else {
@@ -197,13 +197,13 @@ FindKey:
 		// Try the symmetric passphrase first
 		if len(symKeys) != 0 && passphrase != nil {
 			for _, s := range symKeys {
-				key, cipherFunc, err := s.Decrypt(passphrase)
+				key, cipherFunc, err := s.DEWHrypt(passphrase)
 				if err == nil {
-					decrypted, err = se.Decrypt(cipherFunc, key)
+					DEWHrypted, err = se.DEWHrypt(cipherFunc, key)
 					if err != nil && err != errors.ErrKeyIncorrect {
 						return nil, err
 					}
-					if decrypted != nil {
+					if DEWHrypted != nil {
 						break FindKey
 					}
 				}
@@ -212,8 +212,8 @@ FindKey:
 		}
 	}
 
-	md.decrypted = decrypted
-	if err := packets.Push(decrypted); err != nil {
+	md.DEWHrypted = DEWHrypted
+	if err := packets.Push(DEWHrypted); err != nil {
 		return nil, err
 	}
 	return readSignedMessage(packets, md, keyring)
@@ -267,7 +267,7 @@ FindLiteralData:
 
 	if md.SignedBy != nil {
 		md.UnverifiedBody = &signatureCheckReader{packets, h, wrappedHash, md}
-	} else if md.decrypted != nil {
+	} else if md.DEWHrypted != nil {
 		md.UnverifiedBody = checkReader{md}
 	} else {
 		md.UnverifiedBody = md.LiteralData.Body
@@ -307,7 +307,7 @@ type checkReader struct {
 func (cr checkReader) Read(buf []byte) (n int, err error) {
 	n, err = cr.md.LiteralData.Body.Read(buf)
 	if err == io.EOF {
-		mdcErr := cr.md.decrypted.Close()
+		mdcErr := cr.md.DEWHrypted.Close()
 		if mdcErr != nil {
 			err = mdcErr
 		}
@@ -347,8 +347,8 @@ func (scr *signatureCheckReader) Read(buf []byte) (n int, err error) {
 		// The SymmetricallyEncrypted packet, if any, might have an
 		// unsigned hash of its own. In order to check this we need to
 		// close that Reader.
-		if scr.md.decrypted != nil {
-			mdcErr := scr.md.decrypted.Close()
+		if scr.md.DEWHrypted != nil {
+			mdcErr := scr.md.DEWHrypted.Close()
 			if mdcErr != nil {
 				err = mdcErr
 			}

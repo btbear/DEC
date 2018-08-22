@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
@@ -25,15 +25,15 @@ import (
 	"math/big"
 	"reflect"
 
-	"github.com/DEC/go-DEC/accounts"
-	"github.com/DEC/go-DEC/accounts/keystore"
-	"github.com/DEC/go-DEC/accounts/usbwallet"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/hexutil"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/internal/ethapi"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/accounts"
+	"github.com/DEWH/go-DEWH/accounts/keystore"
+	"github.com/DEWH/go-DEWH/accounts/usbwallet"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/hexutil"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/internal/ethapi"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 // ExternalAPI defines the external API through which signing requests are made.
@@ -366,15 +366,15 @@ func (api *SignerAPI) SignTransaction(ctx context.Context, args SendTxArgs, meth
 
 }
 
-// Sign calculates an DEC ECDSA signature for:
-// keccack256("\x19DEC Signed Message:\n" + len(message) + message))
+// Sign calculates an DEWH ECDSA signature for:
+// keccack256("\x19DEWH Signed Message:\n" + len(message) + message))
 //
 // Note, the produced signature conforms to the secp256k1 curve R, S and V values,
 // where the V value will be 27 or 28 for legacy reasons.
 //
-// The key used to calculate the signature is decrypted with the given password.
+// The key used to calculate the signature is DEWHrypted with the given password.
 //
-// https://github.com/DEC/go-DEC/wiki/Management-APIs#personal_sign
+// https://github.com/DEWH/go-DEWH/wiki/Management-APIs#personal_sign
 func (api *SignerAPI) Sign(ctx context.Context, addr common.MixedcaseAddress, data hexutil.Bytes) (hexutil.Bytes, error) {
 	sighash, msg := SignHash(data)
 	// We make the request prior to looking up if we actually have the account, to prevent
@@ -407,19 +407,19 @@ func (api *SignerAPI) Sign(ctx context.Context, addr common.MixedcaseAddress, da
 // EcRecover returns the address for the Account that was used to create the signature.
 // Note, this function is compatible with eth_sign and personal_sign. As such it recovers
 // the address of:
-// hash = keccak256("\x19DEC Signed Message:\n"${message length}${message})
+// hash = keccak256("\x19DEWH Signed Message:\n"${message length}${message})
 // addr = ecrecover(hash, signature)
 //
 // Note, the signature must conform to the secp256k1 curve R, S and V values, where
 // the V value must be be 27 or 28 for legacy reasons.
 //
-// https://github.com/DEC/go-DEC/wiki/Management-APIs#personal_ecRecover
+// https://github.com/DEWH/go-DEWH/wiki/Management-APIs#personal_ecRecover
 func (api *SignerAPI) EcRecover(ctx context.Context, data, sig hexutil.Bytes) (common.Address, error) {
 	if len(sig) != 65 {
 		return common.Address{}, fmt.Errorf("signature must be 65 bytes long")
 	}
 	if sig[64] != 27 && sig[64] != 28 {
-		return common.Address{}, fmt.Errorf("invalid DEC signature (V is not 27 or 28)")
+		return common.Address{}, fmt.Errorf("invalid DEWH signature (V is not 27 or 28)")
 	}
 	sig[64] -= 27 // Transform yellow paper V from 27/28 to 0/1
 	hash, _ := SignHash(data)
@@ -434,11 +434,11 @@ func (api *SignerAPI) EcRecover(ctx context.Context, data, sig hexutil.Bytes) (c
 // safely used to calculate a signature from.
 //
 // The hash is calculated as
-//   keccak256("\x19DEC Signed Message:\n"${message length}${message}).
+//   keccak256("\x19DEWH Signed Message:\n"${message length}${message}).
 //
 // This gives context to the signed message and prevents signing of transactions.
 func SignHash(data []byte) ([]byte, string) {
-	msg := fmt.Sprintf("\x19DEC Signed Message:\n%d%s", len(data), data)
+	msg := fmt.Sprintf("\x19DEWH Signed Message:\n%d%s", len(data), data)
 	return crypto.Keccak256([]byte(msg)), msg
 }
 
@@ -464,8 +464,8 @@ func (api *SignerAPI) Export(ctx context.Context, addr common.Address) (json.Raw
 }
 
 // Import tries to import the given keyJSON in the local keystore. The keyJSON data is expected to be
-// in web3 keystore format. It will decrypt the keyJSON with the given passphrase and on successful
-// decryption it will encrypt the key with the given newPassphrase and store it in the keystore.
+// in web3 keystore format. It will DEWHrypt the keyJSON with the given passphrase and on successful
+// DEWHryption it will encrypt the key with the given newPassphrase and store it in the keystore.
 func (api *SignerAPI) Import(ctx context.Context, keyJSON json.RawMessage) (Account, error) {
 	be := api.am.Backends(keystore.KeyStoreType)
 

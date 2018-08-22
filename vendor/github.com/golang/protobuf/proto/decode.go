@@ -32,7 +32,7 @@
 package proto
 
 /*
- * Routines for decoding protocol buffer data to construct in-memory representations.
+ * Routines for DEWHoding protocol buffer data to construct in-memory representations.
  */
 
 import (
@@ -50,17 +50,17 @@ var errOverflow = errors.New("proto: integer overflow")
 // wire type is encountered. It does not get returned to user code.
 var ErrInternalBadWireType = errors.New("proto: internal error: bad wiretype for oneof")
 
-// The fundamental decoders that interpret bytes on the wire.
+// The fundamental DEWHoders that interpret bytes on the wire.
 // Those that take integer types all return uint64 and are
-// therefore of type valueDecoder.
+// therefore of type valueDEWHoder.
 
-// DecodeVarint reads a varint-encoded integer from the slice.
+// DEWHodeVarint reads a varint-encoded integer from the slice.
 // It returns the integer and the number of bytes consumed, or
 // zero if there is not enough.
 // This is the format for the
 // int32, int64, uint32, uint64, bool, and enum
 // protocol buffer types.
-func DecodeVarint(buf []byte) (x uint64, n int) {
+func DEWHodeVarint(buf []byte) (x uint64, n int) {
 	for shift := uint(0); shift < 64; shift += 7 {
 		if n >= len(buf) {
 			return 0, 0
@@ -77,7 +77,7 @@ func DecodeVarint(buf []byte) (x uint64, n int) {
 	return 0, 0
 }
 
-func (p *Buffer) decodeVarintSlow() (x uint64, err error) {
+func (p *Buffer) DEWHodeVarintSlow() (x uint64, err error) {
 	i := p.index
 	l := len(p.buf)
 
@@ -100,11 +100,11 @@ func (p *Buffer) decodeVarintSlow() (x uint64, err error) {
 	return
 }
 
-// DecodeVarint reads a varint-encoded integer from the Buffer.
+// DEWHodeVarint reads a varint-encoded integer from the Buffer.
 // This is the format for the
 // int32, int64, uint32, uint64, bool, and enum
 // protocol buffer types.
-func (p *Buffer) DecodeVarint() (x uint64, err error) {
+func (p *Buffer) DEWHodeVarint() (x uint64, err error) {
 	i := p.index
 	buf := p.buf
 
@@ -114,7 +114,7 @@ func (p *Buffer) DecodeVarint() (x uint64, err error) {
 		p.index++
 		return uint64(buf[i]), nil
 	} else if len(buf)-i < 10 {
-		return p.decodeVarintSlow()
+		return p.DEWHodeVarintSlow()
 	}
 
 	var b uint64
@@ -201,10 +201,10 @@ done:
 	return x, nil
 }
 
-// DecodeFixed64 reads a 64-bit integer from the Buffer.
+// DEWHodeFixed64 reads a 64-bit integer from the Buffer.
 // This is the format for the
 // fixed64, sfixed64, and double protocol buffer types.
-func (p *Buffer) DecodeFixed64() (x uint64, err error) {
+func (p *Buffer) DEWHodeFixed64() (x uint64, err error) {
 	// x, err already 0
 	i := p.index + 8
 	if i < 0 || i > len(p.buf) {
@@ -224,10 +224,10 @@ func (p *Buffer) DecodeFixed64() (x uint64, err error) {
 	return
 }
 
-// DecodeFixed32 reads a 32-bit integer from the Buffer.
+// DEWHodeFixed32 reads a 32-bit integer from the Buffer.
 // This is the format for the
 // fixed32, sfixed32, and float protocol buffer types.
-func (p *Buffer) DecodeFixed32() (x uint64, err error) {
+func (p *Buffer) DEWHodeFixed32() (x uint64, err error) {
 	// x, err already 0
 	i := p.index + 4
 	if i < 0 || i > len(p.buf) {
@@ -243,11 +243,11 @@ func (p *Buffer) DecodeFixed32() (x uint64, err error) {
 	return
 }
 
-// DecodeZigzag64 reads a zigzag-encoded 64-bit integer
+// DEWHodeZigzag64 reads a zigzag-encoded 64-bit integer
 // from the Buffer.
 // This is the format used for the sint64 protocol buffer type.
-func (p *Buffer) DecodeZigzag64() (x uint64, err error) {
-	x, err = p.DecodeVarint()
+func (p *Buffer) DEWHodeZigzag64() (x uint64, err error) {
+	x, err = p.DEWHodeVarint()
 	if err != nil {
 		return
 	}
@@ -255,11 +255,11 @@ func (p *Buffer) DecodeZigzag64() (x uint64, err error) {
 	return
 }
 
-// DecodeZigzag32 reads a zigzag-encoded 32-bit integer
+// DEWHodeZigzag32 reads a zigzag-encoded 32-bit integer
 // from  the Buffer.
 // This is the format used for the sint32 protocol buffer type.
-func (p *Buffer) DecodeZigzag32() (x uint64, err error) {
-	x, err = p.DecodeVarint()
+func (p *Buffer) DEWHodeZigzag32() (x uint64, err error) {
+	x, err = p.DEWHodeVarint()
 	if err != nil {
 		return
 	}
@@ -267,14 +267,14 @@ func (p *Buffer) DecodeZigzag32() (x uint64, err error) {
 	return
 }
 
-// These are not ValueDecoders: they produce an array of bytes or a string.
+// These are not ValueDEWHoders: they produce an array of bytes or a string.
 // bytes, embedded messages
 
-// DecodeRawBytes reads a count-delimited byte buffer from the Buffer.
+// DEWHodeRawBytes reads a count-delimited byte buffer from the Buffer.
 // This is the format used for the bytes protocol buffer
 // type and for embedded messages.
-func (p *Buffer) DecodeRawBytes(alloc bool) (buf []byte, err error) {
-	n, err := p.DecodeVarint()
+func (p *Buffer) DEWHodeRawBytes(alloc bool) (buf []byte, err error) {
+	n, err := p.DEWHodeVarint()
 	if err != nil {
 		return nil, err
 	}
@@ -301,17 +301,17 @@ func (p *Buffer) DecodeRawBytes(alloc bool) (buf []byte, err error) {
 	return
 }
 
-// DecodeStringBytes reads an encoded string from the Buffer.
+// DEWHodeStringBytes reads an encoded string from the Buffer.
 // This is the format used for the proto2 string type.
-func (p *Buffer) DecodeStringBytes() (s string, err error) {
-	buf, err := p.DecodeRawBytes(false)
+func (p *Buffer) DEWHodeStringBytes() (s string, err error) {
+	buf, err := p.DEWHodeRawBytes(false)
 	if err != nil {
 		return
 	}
 	return string(buf), nil
 }
 
-// Skip the next item in the buffer. Its wire type is decoded and presented as an argument.
+// Skip the next item in the buffer. Its wire type is DEWHoded and presented as an argument.
 // If the protocol buffer has extensions, and the field matches, add it as an extension.
 // Otherwise, if the XXX_unrecognized field exists, append the skipped data there.
 func (o *Buffer) skipAndSave(t reflect.Type, tag, wire int, base structPointer, unrecField field) error {
@@ -340,7 +340,7 @@ func (o *Buffer) skipAndSave(t reflect.Type, tag, wire int, base structPointer, 
 	return nil
 }
 
-// Skip the next item in the buffer. Its wire type is decoded and presented as an argument.
+// Skip the next item in the buffer. Its wire type is DEWHoded and presented as an argument.
 func (o *Buffer) skip(t reflect.Type, tag, wire int) error {
 
 	var u uint64
@@ -348,16 +348,16 @@ func (o *Buffer) skip(t reflect.Type, tag, wire int) error {
 
 	switch wire {
 	case WireVarint:
-		_, err = o.DecodeVarint()
+		_, err = o.DEWHodeVarint()
 	case WireFixed64:
-		_, err = o.DecodeFixed64()
+		_, err = o.DEWHodeFixed64()
 	case WireBytes:
-		_, err = o.DecodeRawBytes(false)
+		_, err = o.DEWHodeRawBytes(false)
 	case WireFixed32:
-		_, err = o.DecodeFixed32()
+		_, err = o.DEWHodeFixed32()
 	case WireStartGroup:
 		for {
-			u, err = o.DecodeVarint()
+			u, err = o.DEWHodeVarint()
 			if err != nil {
 				break
 			}
@@ -379,7 +379,7 @@ func (o *Buffer) skip(t reflect.Type, tag, wire int) error {
 
 // Unmarshaler is the interface representing objects that can
 // unmarshal themselves.  The method should reset the receiver before
-// decoding starts.  The argument points to data that may be
+// DEWHoding starts.  The argument points to data that may be
 // overwritten, so implementations should not keep references to the
 // buffer.
 type Unmarshaler interface {
@@ -387,7 +387,7 @@ type Unmarshaler interface {
 }
 
 // Unmarshal parses the protocol buffer representation in buf and places the
-// decoded result in pb.  If the struct underlying pb does not match
+// DEWHoded result in pb.  If the struct underlying pb does not match
 // the data in buf, the results can be unpredictable.
 //
 // Unmarshal resets pb before starting to unmarshal, so any
@@ -399,7 +399,7 @@ func Unmarshal(buf []byte, pb Message) error {
 }
 
 // UnmarshalMerge parses the protocol buffer representation in buf and
-// writes the decoded result to pb.  If the struct underlying pb does not match
+// writes the DEWHoded result to pb.  If the struct underlying pb does not match
 // the data in buf, the results can be unpredictable.
 //
 // UnmarshalMerge merges into existing data in pb.
@@ -412,17 +412,17 @@ func UnmarshalMerge(buf []byte, pb Message) error {
 	return NewBuffer(buf).Unmarshal(pb)
 }
 
-// DecodeMessage reads a count-delimited message from the Buffer.
-func (p *Buffer) DecodeMessage(pb Message) error {
-	enc, err := p.DecodeRawBytes(false)
+// DEWHodeMessage reads a count-delimited message from the Buffer.
+func (p *Buffer) DEWHodeMessage(pb Message) error {
+	enc, err := p.DEWHodeRawBytes(false)
 	if err != nil {
 		return err
 	}
 	return NewBuffer(enc).Unmarshal(pb)
 }
 
-// DecodeGroup reads a tag-delimited group from the Buffer.
-func (p *Buffer) DecodeGroup(pb Message) error {
+// DEWHodeGroup reads a tag-delimited group from the Buffer.
+func (p *Buffer) DEWHodeGroup(pb Message) error {
 	typ, base, err := getbase(pb)
 	if err != nil {
 		return err
@@ -431,7 +431,7 @@ func (p *Buffer) DecodeGroup(pb Message) error {
 }
 
 // Unmarshal parses the protocol buffer representation in the
-// Buffer and places the decoded result in pb.  If the struct
+// Buffer and places the DEWHoded result in pb.  If the struct
 // underlying pb does not match the data in the buffer, the results can be
 // unpredictable.
 //
@@ -452,7 +452,7 @@ func (p *Buffer) Unmarshal(pb Message) error {
 	err = p.unmarshalType(typ.Elem(), GetProperties(typ.Elem()), false, base)
 
 	if collectStats {
-		stats.Decode++
+		stats.DEWHode++
 	}
 
 	return err
@@ -467,7 +467,7 @@ func (o *Buffer) unmarshalType(st reflect.Type, prop *StructProperties, is_group
 	for err == nil && o.index < len(o.buf) {
 		oi := o.index
 		var u uint64
-		u, err = o.DecodeVarint()
+		u, err = o.DEWHodeVarint()
 		if err != nil {
 			break
 		}
@@ -487,7 +487,7 @@ func (o *Buffer) unmarshalType(st reflect.Type, prop *StructProperties, is_group
 		if tag <= 0 {
 			return fmt.Errorf("proto: %s: illegal tag %d (wire type %d)", st, tag, wire)
 		}
-		fieldnum, ok := prop.decoderTags.get(tag)
+		fieldnum, ok := prop.DEWHoderTags.get(tag)
 		if !ok {
 			// Maybe it's an extension?
 			if prop.extendable {
@@ -520,26 +520,26 @@ func (o *Buffer) unmarshalType(st reflect.Type, prop *StructProperties, is_group
 		}
 		p := prop.Prop[fieldnum]
 
-		if p.dec == nil {
-			fmt.Fprintf(os.Stderr, "proto: no protobuf decoder for %s.%s\n", st, st.Field(fieldnum).Name)
+		if p.DEWH == nil {
+			fmt.Fprintf(os.Stderr, "proto: no protobuf DEWHoder for %s.%s\n", st, st.Field(fieldnum).Name)
 			continue
 		}
-		dec := p.dec
+		DEWH := p.DEWH
 		if wire != WireStartGroup && wire != p.WireType {
-			if wire == WireBytes && p.packedDec != nil {
+			if wire == WireBytes && p.packedDEWH != nil {
 				// a packable field
-				dec = p.packedDec
+				DEWH = p.packedDEWH
 			} else {
 				err = fmt.Errorf("proto: bad wiretype for field %s.%s: got wiretype %d, want %d", st, st.Field(fieldnum).Name, wire, p.WireType)
 				continue
 			}
 		}
-		decErr := dec(o, p, base)
-		if decErr != nil && !state.shouldContinue(decErr, p) {
-			err = decErr
+		DEWHErr := DEWH(o, p, base)
+		if DEWHErr != nil && !state.shouldContinue(DEWHErr, p) {
+			err = DEWHErr
 		}
 		if err == nil && p.Required {
-			// Successfully decoded a required field.
+			// Successfully DEWHoded a required field.
 			if tag <= 64 {
 				// use bitmap for fields 1-64 to catch field reuse.
 				var mask uint64 = 1 << uint64(tag-1)
@@ -574,9 +574,9 @@ func (o *Buffer) unmarshalType(st reflect.Type, prop *StructProperties, is_group
 	return err
 }
 
-// Individual type decoders
+// Individual type DEWHoders
 // For each,
-//	u is the decoded value,
+//	u is the DEWHoded value,
 //	v is a pointer to the field (pointer) in the struct
 
 // Sizes of the pools to allocate inside the Buffer.
@@ -588,9 +588,9 @@ const (
 	uint64PoolSize = 4
 )
 
-// Decode a bool.
-func (o *Buffer) dec_bool(p *Properties, base structPointer) error {
-	u, err := p.valDec(o)
+// DEWHode a bool.
+func (o *Buffer) DEWH_bool(p *Properties, base structPointer) error {
+	u, err := p.valDEWH(o)
 	if err != nil {
 		return err
 	}
@@ -603,8 +603,8 @@ func (o *Buffer) dec_bool(p *Properties, base structPointer) error {
 	return nil
 }
 
-func (o *Buffer) dec_proto3_bool(p *Properties, base structPointer) error {
-	u, err := p.valDec(o)
+func (o *Buffer) DEWH_proto3_bool(p *Properties, base structPointer) error {
+	u, err := p.valDEWH(o)
 	if err != nil {
 		return err
 	}
@@ -612,9 +612,9 @@ func (o *Buffer) dec_proto3_bool(p *Properties, base structPointer) error {
 	return nil
 }
 
-// Decode an int32.
-func (o *Buffer) dec_int32(p *Properties, base structPointer) error {
-	u, err := p.valDec(o)
+// DEWHode an int32.
+func (o *Buffer) DEWH_int32(p *Properties, base structPointer) error {
+	u, err := p.valDEWH(o)
 	if err != nil {
 		return err
 	}
@@ -622,8 +622,8 @@ func (o *Buffer) dec_int32(p *Properties, base structPointer) error {
 	return nil
 }
 
-func (o *Buffer) dec_proto3_int32(p *Properties, base structPointer) error {
-	u, err := p.valDec(o)
+func (o *Buffer) DEWH_proto3_int32(p *Properties, base structPointer) error {
+	u, err := p.valDEWH(o)
 	if err != nil {
 		return err
 	}
@@ -631,9 +631,9 @@ func (o *Buffer) dec_proto3_int32(p *Properties, base structPointer) error {
 	return nil
 }
 
-// Decode an int64.
-func (o *Buffer) dec_int64(p *Properties, base structPointer) error {
-	u, err := p.valDec(o)
+// DEWHode an int64.
+func (o *Buffer) DEWH_int64(p *Properties, base structPointer) error {
+	u, err := p.valDEWH(o)
 	if err != nil {
 		return err
 	}
@@ -641,8 +641,8 @@ func (o *Buffer) dec_int64(p *Properties, base structPointer) error {
 	return nil
 }
 
-func (o *Buffer) dec_proto3_int64(p *Properties, base structPointer) error {
-	u, err := p.valDec(o)
+func (o *Buffer) DEWH_proto3_int64(p *Properties, base structPointer) error {
+	u, err := p.valDEWH(o)
 	if err != nil {
 		return err
 	}
@@ -650,9 +650,9 @@ func (o *Buffer) dec_proto3_int64(p *Properties, base structPointer) error {
 	return nil
 }
 
-// Decode a string.
-func (o *Buffer) dec_string(p *Properties, base structPointer) error {
-	s, err := o.DecodeStringBytes()
+// DEWHode a string.
+func (o *Buffer) DEWH_string(p *Properties, base structPointer) error {
+	s, err := o.DEWHodeStringBytes()
 	if err != nil {
 		return err
 	}
@@ -660,8 +660,8 @@ func (o *Buffer) dec_string(p *Properties, base structPointer) error {
 	return nil
 }
 
-func (o *Buffer) dec_proto3_string(p *Properties, base structPointer) error {
-	s, err := o.DecodeStringBytes()
+func (o *Buffer) DEWH_proto3_string(p *Properties, base structPointer) error {
+	s, err := o.DEWHodeStringBytes()
 	if err != nil {
 		return err
 	}
@@ -669,9 +669,9 @@ func (o *Buffer) dec_proto3_string(p *Properties, base structPointer) error {
 	return nil
 }
 
-// Decode a slice of bytes ([]byte).
-func (o *Buffer) dec_slice_byte(p *Properties, base structPointer) error {
-	b, err := o.DecodeRawBytes(true)
+// DEWHode a slice of bytes ([]byte).
+func (o *Buffer) DEWH_slice_byte(p *Properties, base structPointer) error {
+	b, err := o.DEWHodeRawBytes(true)
 	if err != nil {
 		return err
 	}
@@ -679,9 +679,9 @@ func (o *Buffer) dec_slice_byte(p *Properties, base structPointer) error {
 	return nil
 }
 
-// Decode a slice of bools ([]bool).
-func (o *Buffer) dec_slice_bool(p *Properties, base structPointer) error {
-	u, err := p.valDec(o)
+// DEWHode a slice of bools ([]bool).
+func (o *Buffer) DEWH_slice_bool(p *Properties, base structPointer) error {
+	u, err := p.valDEWH(o)
 	if err != nil {
 		return err
 	}
@@ -690,11 +690,11 @@ func (o *Buffer) dec_slice_bool(p *Properties, base structPointer) error {
 	return nil
 }
 
-// Decode a slice of bools ([]bool) in packed format.
-func (o *Buffer) dec_slice_packed_bool(p *Properties, base structPointer) error {
+// DEWHode a slice of bools ([]bool) in packed format.
+func (o *Buffer) DEWH_slice_packed_bool(p *Properties, base structPointer) error {
 	v := structPointer_BoolSlice(base, p.field)
 
-	nn, err := o.DecodeVarint()
+	nn, err := o.DEWHodeVarint()
 	if err != nil {
 		return err
 	}
@@ -706,7 +706,7 @@ func (o *Buffer) dec_slice_packed_bool(p *Properties, base structPointer) error 
 
 	y := *v
 	for o.index < fin {
-		u, err := p.valDec(o)
+		u, err := p.valDEWH(o)
 		if err != nil {
 			return err
 		}
@@ -717,9 +717,9 @@ func (o *Buffer) dec_slice_packed_bool(p *Properties, base structPointer) error 
 	return nil
 }
 
-// Decode a slice of int32s ([]int32).
-func (o *Buffer) dec_slice_int32(p *Properties, base structPointer) error {
-	u, err := p.valDec(o)
+// DEWHode a slice of int32s ([]int32).
+func (o *Buffer) DEWH_slice_int32(p *Properties, base structPointer) error {
+	u, err := p.valDEWH(o)
 	if err != nil {
 		return err
 	}
@@ -727,11 +727,11 @@ func (o *Buffer) dec_slice_int32(p *Properties, base structPointer) error {
 	return nil
 }
 
-// Decode a slice of int32s ([]int32) in packed format.
-func (o *Buffer) dec_slice_packed_int32(p *Properties, base structPointer) error {
+// DEWHode a slice of int32s ([]int32) in packed format.
+func (o *Buffer) DEWH_slice_packed_int32(p *Properties, base structPointer) error {
 	v := structPointer_Word32Slice(base, p.field)
 
-	nn, err := o.DecodeVarint()
+	nn, err := o.DEWHodeVarint()
 	if err != nil {
 		return err
 	}
@@ -742,7 +742,7 @@ func (o *Buffer) dec_slice_packed_int32(p *Properties, base structPointer) error
 		return errOverflow
 	}
 	for o.index < fin {
-		u, err := p.valDec(o)
+		u, err := p.valDEWH(o)
 		if err != nil {
 			return err
 		}
@@ -751,9 +751,9 @@ func (o *Buffer) dec_slice_packed_int32(p *Properties, base structPointer) error
 	return nil
 }
 
-// Decode a slice of int64s ([]int64).
-func (o *Buffer) dec_slice_int64(p *Properties, base structPointer) error {
-	u, err := p.valDec(o)
+// DEWHode a slice of int64s ([]int64).
+func (o *Buffer) DEWH_slice_int64(p *Properties, base structPointer) error {
+	u, err := p.valDEWH(o)
 	if err != nil {
 		return err
 	}
@@ -762,11 +762,11 @@ func (o *Buffer) dec_slice_int64(p *Properties, base structPointer) error {
 	return nil
 }
 
-// Decode a slice of int64s ([]int64) in packed format.
-func (o *Buffer) dec_slice_packed_int64(p *Properties, base structPointer) error {
+// DEWHode a slice of int64s ([]int64) in packed format.
+func (o *Buffer) DEWH_slice_packed_int64(p *Properties, base structPointer) error {
 	v := structPointer_Word64Slice(base, p.field)
 
-	nn, err := o.DecodeVarint()
+	nn, err := o.DEWHodeVarint()
 	if err != nil {
 		return err
 	}
@@ -777,7 +777,7 @@ func (o *Buffer) dec_slice_packed_int64(p *Properties, base structPointer) error
 		return errOverflow
 	}
 	for o.index < fin {
-		u, err := p.valDec(o)
+		u, err := p.valDEWH(o)
 		if err != nil {
 			return err
 		}
@@ -786,9 +786,9 @@ func (o *Buffer) dec_slice_packed_int64(p *Properties, base structPointer) error
 	return nil
 }
 
-// Decode a slice of strings ([]string).
-func (o *Buffer) dec_slice_string(p *Properties, base structPointer) error {
-	s, err := o.DecodeStringBytes()
+// DEWHode a slice of strings ([]string).
+func (o *Buffer) DEWH_slice_string(p *Properties, base structPointer) error {
+	s, err := o.DEWHodeStringBytes()
 	if err != nil {
 		return err
 	}
@@ -797,9 +797,9 @@ func (o *Buffer) dec_slice_string(p *Properties, base structPointer) error {
 	return nil
 }
 
-// Decode a slice of slice of bytes ([][]byte).
-func (o *Buffer) dec_slice_slice_byte(p *Properties, base structPointer) error {
-	b, err := o.DecodeRawBytes(true)
+// DEWHode a slice of slice of bytes ([][]byte).
+func (o *Buffer) DEWH_slice_slice_byte(p *Properties, base structPointer) error {
+	b, err := o.DEWHodeRawBytes(true)
 	if err != nil {
 		return err
 	}
@@ -808,9 +808,9 @@ func (o *Buffer) dec_slice_slice_byte(p *Properties, base structPointer) error {
 	return nil
 }
 
-// Decode a map field.
-func (o *Buffer) dec_new_map(p *Properties, base structPointer) error {
-	raw, err := o.DecodeRawBytes(false)
+// DEWHode a map field.
+func (o *Buffer) DEWH_new_map(p *Properties, base structPointer) error {
+	raw, err := o.DEWHodeRawBytes(false)
 	if err != nil {
 		return err
 	}
@@ -847,7 +847,7 @@ func (o *Buffer) dec_new_map(p *Properties, base structPointer) error {
 		valbase = toStructPointer(valptr.Addr())                   // **V
 	}
 
-	// Decode.
+	// DEWHode.
 	// This parses a restricted wire format, namely the encoding of a message
 	// with two fields. See enc_new_map for the format.
 	for o.index < oi {
@@ -857,11 +857,11 @@ func (o *Buffer) dec_new_map(p *Properties, base structPointer) error {
 		o.index++
 		switch tagcode {
 		case p.mkeyprop.tagcode[0]:
-			if err := p.mkeyprop.dec(o, p.mkeyprop, keybase); err != nil {
+			if err := p.mkeyprop.DEWH(o, p.mkeyprop, keybase); err != nil {
 				return err
 			}
 		case p.mvalprop.tagcode[0]:
-			if err := p.mvalprop.dec(o, p.mvalprop, valbase); err != nil {
+			if err := p.mvalprop.DEWH(o, p.mvalprop, valbase); err != nil {
 				return err
 			}
 		default:
@@ -881,8 +881,8 @@ func (o *Buffer) dec_new_map(p *Properties, base structPointer) error {
 	return nil
 }
 
-// Decode a group.
-func (o *Buffer) dec_struct_group(p *Properties, base structPointer) error {
+// DEWHode a group.
+func (o *Buffer) DEWH_struct_group(p *Properties, base structPointer) error {
 	bas := structPointer_GetStructPointer(base, p.field)
 	if structPointer_IsNil(bas) {
 		// allocate new nested message
@@ -892,9 +892,9 @@ func (o *Buffer) dec_struct_group(p *Properties, base structPointer) error {
 	return o.unmarshalType(p.stype, p.sprop, true, bas)
 }
 
-// Decode an embedded message.
-func (o *Buffer) dec_struct_message(p *Properties, base structPointer) (err error) {
-	raw, e := o.DecodeRawBytes(false)
+// DEWHode an embedded message.
+func (o *Buffer) DEWH_struct_message(p *Properties, base structPointer) (err error) {
+	raw, e := o.DEWHodeRawBytes(false)
 	if e != nil {
 		return e
 	}
@@ -924,18 +924,18 @@ func (o *Buffer) dec_struct_message(p *Properties, base structPointer) (err erro
 	return err
 }
 
-// Decode a slice of embedded messages.
-func (o *Buffer) dec_slice_struct_message(p *Properties, base structPointer) error {
-	return o.dec_slice_struct(p, false, base)
+// DEWHode a slice of embedded messages.
+func (o *Buffer) DEWH_slice_struct_message(p *Properties, base structPointer) error {
+	return o.DEWH_slice_struct(p, false, base)
 }
 
-// Decode a slice of embedded groups.
-func (o *Buffer) dec_slice_struct_group(p *Properties, base structPointer) error {
-	return o.dec_slice_struct(p, true, base)
+// DEWHode a slice of embedded groups.
+func (o *Buffer) DEWH_slice_struct_group(p *Properties, base structPointer) error {
+	return o.DEWH_slice_struct(p, true, base)
 }
 
-// Decode a slice of structs ([]*struct).
-func (o *Buffer) dec_slice_struct(p *Properties, is_group bool, base structPointer) error {
+// DEWHode a slice of structs ([]*struct).
+func (o *Buffer) DEWH_slice_struct(p *Properties, is_group bool, base structPointer) error {
 	v := reflect.New(p.stype)
 	bas := toStructPointer(v)
 	structPointer_StructPointerSlice(base, p.field).Append(bas)
@@ -945,7 +945,7 @@ func (o *Buffer) dec_slice_struct(p *Properties, is_group bool, base structPoint
 		return err
 	}
 
-	raw, err := o.DecodeRawBytes(false)
+	raw, err := o.DEWHodeRawBytes(false)
 	if err != nil {
 		return err
 	}

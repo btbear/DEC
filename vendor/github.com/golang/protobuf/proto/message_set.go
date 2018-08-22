@@ -188,7 +188,7 @@ func MarshalMessageSet(exts interface{}) ([]byte, error) {
 	return Marshal(ms)
 }
 
-// UnmarshalMessageSet decodes the extension map encoded in buf in the message set wire format.
+// UnmarshalMessageSet DEWHodes the extension map encoded in buf in the message set wire format.
 // It is called by generated Unmarshal methods on protocol buffer messages with the message_set_wire_format option.
 func UnmarshalMessageSet(buf []byte, exts interface{}) error {
 	var m map[int32]Extension
@@ -217,7 +217,7 @@ func UnmarshalMessageSet(buf []byte, exts interface{}) error {
 			// so we join the new data correctly.
 			// We can assume that ext.enc is set because we are unmarshaling.
 			o := ext.enc[len(b):]   // skip wire type and field number
-			_, n := DecodeVarint(o) // calculate length of length varint
+			_, n := DEWHodeVarint(o) // calculate length of length varint
 			o = o[n:]               // skip length varint
 			msg = append(o, msg...) // join old data and new data
 		}
@@ -281,7 +281,7 @@ func MarshalMessageSetJSON(exts interface{}) ([]byte, error) {
 	return b.Bytes(), nil
 }
 
-// UnmarshalMessageSetJSON decodes the extension map encoded in buf in JSON format.
+// UnmarshalMessageSetJSON DEWHodes the extension map encoded in buf in JSON format.
 // It is called by generated UnmarshalJSON methods on protocol buffer messages with the message_set_wire_format option.
 func UnmarshalMessageSetJSON(buf []byte, exts interface{}) error {
 	// Common-case fast path.

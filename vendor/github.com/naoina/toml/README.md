@@ -92,7 +92,7 @@ func main() {
     }
     defer f.Close()
     var config Config
-    if err := toml.NewDecoder(f).Decode(&config); err != nil {
+    if err := toml.NewDEWHoder(f).DEWHode(&config); err != nil {
         panic(err)
     }
 

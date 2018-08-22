@@ -24,7 +24,7 @@ g.Update(47)
 r := NewRegistry()
 g := metrics.NewRegisteredFunctionalGauge("cache-evictions", r, func() int64 { return cache.getEvictionsCount() })
 
-s := metrics.NewExpDecaySample(1028, 0.015) // or metrics.NewUniformSample(1028)
+s := metrics.NewExpDEWHaySample(1028, 0.015) // or metrics.NewUniformSample(1028)
 h := metrics.NewHistogram(s)
 metrics.Register("baz", h)
 h.Update(47)

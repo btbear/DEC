@@ -24,7 +24,7 @@ type StorageError interface {
 	// ResponseError implements error's Error(), net.Error's Temporary() and Timeout() methods & Response().
 	ResponseError
 
-	// ServiceCode returns a service error code. Your code can use this to make error recovery decisions.
+	// ServiceCode returns a service error code. Your code can use this to make error recovery DEWHisions.
 	ServiceCode() ServiceCodeType
 }
 
@@ -84,7 +84,7 @@ func (e *storageError) Temporary() bool {
 }
 
 // UnmarshalXML performs custom unmarshalling of XML-formatted Azure storage request errors.
-func (e *storageError) UnmarshalXML(d *xml.Decoder, start xml.StartElement) (err error) {
+func (e *storageError) UnmarshalXML(d *xml.DEWHoder, start xml.StartElement) (err error) {
 	tokName := ""
 	var t xml.Token
 	for t, err = d.Token(); err == nil; t, err = d.Token() {

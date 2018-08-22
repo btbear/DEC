@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package swarm
 
@@ -28,15 +28,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/simulations/adapters"
-	"github.com/DEC/go-DEC/swarm/api"
-	"github.com/DEC/go-DEC/swarm/network"
-	"github.com/DEC/go-DEC/swarm/network/simulation"
-	"github.com/DEC/go-DEC/swarm/storage"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/simulations/adapters"
+	"github.com/DEWH/go-DEWH/swarm/api"
+	"github.com/DEWH/go-DEWH/swarm/network"
+	"github.com/DEWH/go-DEWH/swarm/network/simulation"
+	"github.com/DEWH/go-DEWH/swarm/storage"
 	colorable "github.com/mattn/go-colorable"
 )
 
@@ -68,7 +68,7 @@ func TestSwarmNetwork(t *testing.T) {
 			name: "10_nodes",
 			steps: []testSwarmNetworkStep{
 				{
-					nodeCount: 10,
+					noDEWHount: 10,
 				},
 			},
 			options: &testSwarmNetworkOptions{
@@ -79,7 +79,7 @@ func TestSwarmNetwork(t *testing.T) {
 			name: "10_nodes_skip_check",
 			steps: []testSwarmNetworkStep{
 				{
-					nodeCount: 10,
+					noDEWHount: 10,
 				},
 			},
 			options: &testSwarmNetworkOptions{
@@ -91,7 +91,7 @@ func TestSwarmNetwork(t *testing.T) {
 			name: "100_nodes",
 			steps: []testSwarmNetworkStep{
 				{
-					nodeCount: 100,
+					noDEWHount: 100,
 				},
 			},
 			options: &testSwarmNetworkOptions{
@@ -103,7 +103,7 @@ func TestSwarmNetwork(t *testing.T) {
 			name: "100_nodes_skip_check",
 			steps: []testSwarmNetworkStep{
 				{
-					nodeCount: 100,
+					noDEWHount: 100,
 				},
 			},
 			options: &testSwarmNetworkOptions{
@@ -116,31 +116,13 @@ func TestSwarmNetwork(t *testing.T) {
 			name: "inc_node_count",
 			steps: []testSwarmNetworkStep{
 				{
-					nodeCount: 2,
+					noDEWHount: 2,
 				},
 				{
-					nodeCount: 5,
+					noDEWHount: 5,
 				},
 				{
-					nodeCount: 10,
-				},
-			},
-			options: &testSwarmNetworkOptions{
-				Timeout: 90 * time.Second,
-			},
-			disabled: !*longrunning,
-		},
-		{
-			name: "dec_node_count",
-			steps: []testSwarmNetworkStep{
-				{
-					nodeCount: 10,
-				},
-				{
-					nodeCount: 6,
-				},
-				{
-					nodeCount: 3,
+					noDEWHount: 10,
 				},
 			},
 			options: &testSwarmNetworkOptions{
@@ -149,16 +131,34 @@ func TestSwarmNetwork(t *testing.T) {
 			disabled: !*longrunning,
 		},
 		{
-			name: "dec_inc_node_count",
+			name: "DEWH_node_count",
 			steps: []testSwarmNetworkStep{
 				{
-					nodeCount: 5,
+					noDEWHount: 10,
 				},
 				{
-					nodeCount: 3,
+					noDEWHount: 6,
 				},
 				{
-					nodeCount: 10,
+					noDEWHount: 3,
+				},
+			},
+			options: &testSwarmNetworkOptions{
+				Timeout: 90 * time.Second,
+			},
+			disabled: !*longrunning,
+		},
+		{
+			name: "DEWH_inc_node_count",
+			steps: []testSwarmNetworkStep{
+				{
+					noDEWHount: 5,
+				},
+				{
+					noDEWHount: 3,
+				},
+				{
+					noDEWHount: 10,
 				},
 			},
 			options: &testSwarmNetworkOptions{
@@ -166,22 +166,22 @@ func TestSwarmNetwork(t *testing.T) {
 			},
 		},
 		{
-			name: "inc_dec_node_count",
+			name: "inc_DEWH_node_count",
 			steps: []testSwarmNetworkStep{
 				{
-					nodeCount: 3,
+					noDEWHount: 3,
 				},
 				{
-					nodeCount: 5,
+					noDEWHount: 5,
 				},
 				{
-					nodeCount: 25,
+					noDEWHount: 25,
 				},
 				{
-					nodeCount: 10,
+					noDEWHount: 10,
 				},
 				{
-					nodeCount: 4,
+					noDEWHount: 4,
 				},
 			},
 			options: &testSwarmNetworkOptions{
@@ -190,22 +190,22 @@ func TestSwarmNetwork(t *testing.T) {
 			disabled: !*longrunning,
 		},
 		{
-			name: "inc_dec_node_count_skip_check",
+			name: "inc_DEWH_node_count_skip_check",
 			steps: []testSwarmNetworkStep{
 				{
-					nodeCount: 3,
+					noDEWHount: 3,
 				},
 				{
-					nodeCount: 5,
+					noDEWHount: 5,
 				},
 				{
-					nodeCount: 25,
+					noDEWHount: 25,
 				},
 				{
-					nodeCount: 10,
+					noDEWHount: 10,
 				},
 				{
-					nodeCount: 4,
+					noDEWHount: 4,
 				},
 			},
 			options: &testSwarmNetworkOptions{
@@ -228,7 +228,7 @@ func TestSwarmNetwork(t *testing.T) {
 // for the state of the simulation network.
 type testSwarmNetworkStep struct {
 	// number of swarm nodes that must be in the Up state
-	nodeCount int
+	noDEWHount int
 }
 
 // file represents the file uploaded on a particular node.
@@ -310,9 +310,9 @@ func testSwarmNetwork(t *testing.T, o *testSwarmNetworkOptions, steps ...testSwa
 	files := make([]file, 0)
 
 	for i, step := range steps {
-		log.Debug("test sync step", "n", i+1, "nodes", step.nodeCount)
+		log.Debug("test sync step", "n", i+1, "nodes", step.noDEWHount)
 
-		change := step.nodeCount - len(sim.UpNodeIDs())
+		change := step.noDEWHount - len(sim.UpNodeIDs())
 
 		if change > 0 {
 			_, err := sim.AddNodesAndConnectChain(change)
@@ -369,7 +369,7 @@ func testSwarmNetwork(t *testing.T, o *testSwarmNetworkOptions, steps ...testSwa
 		if result.Error != nil {
 			t.Fatal(result.Error)
 		}
-		log.Debug("done: test sync step", "n", i+1, "nodes", step.nodeCount)
+		log.Debug("done: test sync step", "n", i+1, "nodes", step.noDEWHount)
 	}
 }
 

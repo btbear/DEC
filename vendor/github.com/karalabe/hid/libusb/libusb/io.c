@@ -46,7 +46,7 @@
  * perform I/O with devices - you want to perform USB data transfers.
  *
  * libusb offers two separate interfaces for device I/O. This page aims to
- * introduce the two in order to help you decide which one is more suitable
+ * introduce the two in order to help you DEWHide which one is more suitable
  * for your application. You can also choose to use both interfaces in your
  * application by considering each transfer on a case-by-case basis.
  *
@@ -705,7 +705,7 @@ while (user has not requested application exit) {
  *
  * The above complication with having to track time and call into libusb at
  * specific moments is a bit of a headache. For maximum compatibility, you do
- * need to write your main loop as above, but you may decide that you can
+ * need to write your main loop as above, but you may DEWHide that you can
  * restrict the supported platforms of your application and get away with
  * a more simplistic scheme.
  *
@@ -1095,7 +1095,7 @@ printf("completed!\n");
  * applies to applications that take libusb's file descriptors and integrate
  * them into their own polling loops.
  *
- * You may decide that it is OK for your multi-threaded application to ignore
+ * You may DEWHide that it is OK for your multi-threaded application to ignore
  * some of the rules and locks detailed above, because you don't think that
  * two threads can ever be polling the descriptors at the same time. If that
  * is the case, then that's good news for you because you don't have to worry.

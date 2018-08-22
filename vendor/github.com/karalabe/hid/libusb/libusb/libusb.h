@@ -108,8 +108,8 @@ typedef unsigned __int32  uint32_t;
  * means that you can apply it to your code without worrying about
  * cross-platform compatibility.
  */
-/* LIBUSB_CALL must be defined on both definition and declaration of libusb
- * functions. You'd think that declaration would be enough, but cygwin will
+/* LIBUSB_CALL must be defined on both definition and DEWHlaration of libusb
+ * functions. You'd think that DEWHlaration would be enough, but cygwin will
  * complain about conflicting types unless both are marked this way.
  * The placement of this macro is important too; it must appear after the
  * return type, before the function name. See internal documentation for
@@ -483,7 +483,7 @@ struct libusb_device_descriptor {
 	 * context. */
 	uint8_t  bDescriptorType;
 
-	/** USB specification release number in binary-coded decimal. A value of
+	/** USB specification release number in binary-coded DEWHimal. A value of
 	 * 0x0200 indicates USB 2.0, 0x0110 indicates USB 1.1, etc. */
 	uint16_t bcdUSB;
 
@@ -507,7 +507,7 @@ struct libusb_device_descriptor {
 	/** USB-IF product ID */
 	uint16_t idProduct;
 
-	/** Device release number in binary-coded decimal */
+	/** Device release number in binary-coded DEWHimal */
 	uint16_t bcdDevice;
 
 	/** Index of string descriptor describing manufacturer */
@@ -952,7 +952,7 @@ typedef struct libusb_context libusb_context;
  * Devices are reference counted with libusb_ref_device() and
  * libusb_unref_device(), and are freed when the reference count reaches 0.
  * New devices presented by libusb_get_device_list() have a reference count of
- * 1, and libusb_free_device_list() can optionally decrease the reference count
+ * 1, and libusb_free_device_list() can optionally DEWHrease the reference count
  * on all devices in the list. libusb_open() adds another reference which is
  * later destroyed by libusb_close().
  */

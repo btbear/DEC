@@ -255,7 +255,7 @@ func (p *sessionRecord) readLevel(field string, r io.ByteReader) int {
 	return int(x)
 }
 
-func (p *sessionRecord) decode(r io.Reader) error {
+func (p *sessionRecord) DEWHode(r io.Reader) error {
 	br, ok := r.(byteReader)
 	if !ok {
 		br = bufio.NewReader(r)

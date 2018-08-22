@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package node
 
@@ -24,16 +24,16 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/rpc"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/rpc"
 )
 
 var (
 	testNodeKey, _ = crypto.GenerateKey()
 )
 
-func testNodeConfig() *Config {
+func testNoDEWHonfig() *Config {
 	return &Config{
 		Name: "test node",
 		P2P:  p2p.Config{PrivateKey: testNodeKey},
@@ -42,7 +42,7 @@ func testNodeConfig() *Config {
 
 // Tests that an empty protocol stack can be started, restarted and stopped.
 func TestNodeLifeCycle(t *testing.T) {
-	stack, err := New(testNodeConfig())
+	stack, err := New(testNoDEWHonfig())
 	if err != nil {
 		t.Fatalf("failed to create protocol stack: %v", err)
 	}
@@ -105,7 +105,7 @@ func TestNodeUsedDataDir(t *testing.T) {
 
 // Tests whether services can be registered and duplicates caught.
 func TestServiceRegistry(t *testing.T) {
-	stack, err := New(testNodeConfig())
+	stack, err := New(testNoDEWHonfig())
 	if err != nil {
 		t.Fatalf("failed to create protocol stack: %v", err)
 	}
@@ -137,7 +137,7 @@ func TestServiceRegistry(t *testing.T) {
 
 // Tests that registered services get started and stopped correctly.
 func TestServiceLifeCycle(t *testing.T) {
-	stack, err := New(testNodeConfig())
+	stack, err := New(testNoDEWHonfig())
 	if err != nil {
 		t.Fatalf("failed to create protocol stack: %v", err)
 	}
@@ -187,7 +187,7 @@ func TestServiceLifeCycle(t *testing.T) {
 
 // Tests that services are restarted cleanly as new instances.
 func TestServiceRestarts(t *testing.T) {
-	stack, err := New(testNodeConfig())
+	stack, err := New(testNoDEWHonfig())
 	if err != nil {
 		t.Fatalf("failed to create protocol stack: %v", err)
 	}
@@ -235,7 +235,7 @@ func TestServiceRestarts(t *testing.T) {
 // Tests that if a service fails to initialize itself, none of the other services
 // will be allowed to even start.
 func TestServiceConstructionAbortion(t *testing.T) {
-	stack, err := New(testNodeConfig())
+	stack, err := New(testNoDEWHonfig())
 	if err != nil {
 		t.Fatalf("failed to create protocol stack: %v", err)
 	}
@@ -282,7 +282,7 @@ func TestServiceConstructionAbortion(t *testing.T) {
 // Tests that if a service fails to start, all others started before it will be
 // shut down.
 func TestServiceStartupAbortion(t *testing.T) {
-	stack, err := New(testNodeConfig())
+	stack, err := New(testNoDEWHonfig())
 	if err != nil {
 		t.Fatalf("failed to create protocol stack: %v", err)
 	}
@@ -335,7 +335,7 @@ func TestServiceStartupAbortion(t *testing.T) {
 // Tests that even if a registered service fails to shut down cleanly, it does
 // not influece the rest of the shutdown invocations.
 func TestServiceTerminationGuarantee(t *testing.T) {
-	stack, err := New(testNodeConfig())
+	stack, err := New(testNoDEWHonfig())
 	if err != nil {
 		t.Fatalf("failed to create protocol stack: %v", err)
 	}
@@ -410,7 +410,7 @@ func TestServiceTerminationGuarantee(t *testing.T) {
 // TestServiceRetrieval tests that individual services can be retrieved.
 func TestServiceRetrieval(t *testing.T) {
 	// Create a simple stack and register two service types
-	stack, err := New(testNodeConfig())
+	stack, err := New(testNoDEWHonfig())
 	if err != nil {
 		t.Fatalf("failed to create protocol stack: %v", err)
 	}
@@ -445,7 +445,7 @@ func TestServiceRetrieval(t *testing.T) {
 
 // Tests that all protocols defined by individual services get launched.
 func TestProtocolGather(t *testing.T) {
-	stack, err := New(testNodeConfig())
+	stack, err := New(testNoDEWHonfig())
 	if err != nil {
 		t.Fatalf("failed to create protocol stack: %v", err)
 	}
@@ -501,7 +501,7 @@ func TestProtocolGather(t *testing.T) {
 
 // Tests that all APIs defined by individual services get exposed.
 func TestAPIGather(t *testing.T) {
-	stack, err := New(testNodeConfig())
+	stack, err := New(testNoDEWHonfig())
 	if err != nil {
 		t.Fatalf("failed to create protocol stack: %v", err)
 	}

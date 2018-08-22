@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -30,9 +30,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/log"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/log"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
@@ -73,7 +73,7 @@ type wizard struct {
 	conf    config // Configurations from previous runs
 
 	servers  map[string]*sshClient // SSH connections to servers to administer
-	services map[string][]string   // DEC services known to be running on servers
+	services map[string][]string   // DEWH services known to be running on servers
 
 	in   *bufio.Reader // Wrapper around stdin to allow reading user input
 	lock sync.Mutex    // Lock to protect configs during concurrent service discovery
@@ -240,7 +240,7 @@ func (w *wizard) readPassword() string {
 }
 
 // readAddress reads a single line from stdin, trimming if from spaces and converts
-// it to an DEC address.
+// it to an DEWH address.
 func (w *wizard) readAddress() *common.Address {
 	for {
 		// Read the address from the user
@@ -264,7 +264,7 @@ func (w *wizard) readAddress() *common.Address {
 }
 
 // readDefaultAddress reads a single line from stdin, trimming if from spaces and
-// converts it to an DEC address. If an empty line is entered, the default
+// converts it to an DEWH address. If an empty line is entered, the default
 // value is returned.
 func (w *wizard) readDefaultAddress(def common.Address) common.Address {
 	for {
@@ -293,7 +293,7 @@ func (w *wizard) readJSON() string {
 
 	for {
 		fmt.Printf("> ")
-		if err := json.NewDecoder(w.in).Decode(&blob); err != nil {
+		if err := json.NewDEWHoder(w.in).DEWHode(&blob); err != nil {
 			log.Error("Invalid JSON, please try again", "err", err)
 			continue
 		}

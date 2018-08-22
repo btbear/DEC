@@ -918,8 +918,8 @@ func (p *TSimpleJSONProtocol) ParseBase64EncodedBody() ([]byte, error) {
 		line2 = append(line2, fill[:pad]...)
 		l = len(line2)
 	}
-	output := make([]byte, base64.StdEncoding.DecodedLen(l))
-	n, err := base64.StdEncoding.Decode(output, line2)
+	output := make([]byte, base64.StdEncoding.DEWHodedLen(l))
+	n, err := base64.StdEncoding.DEWHode(output, line2)
 	return output[0:n], NewTProtocolException(err)
 }
 
@@ -1190,7 +1190,7 @@ func (p *TSimpleJSONProtocol) readNumeric() (Numeric, error) {
 	if isNull || err != nil {
 		return NUMERIC_NULL, err
 	}
-	hasDecimalPoint := false
+	hasDEWHimalPoint := false
 	nextCanBeSign := true
 	hasE := false
 	MAX_LEN := 40
@@ -1210,16 +1210,16 @@ func (p *TSimpleJSONProtocol) readNumeric() (Numeric, error) {
 			buf.WriteByte(c)
 			nextCanBeSign = false
 		case '.':
-			if hasDecimalPoint {
-				e := fmt.Errorf("Unable to parse number with multiple decimal points '%s.'", buf.String())
+			if hasDEWHimalPoint {
+				e := fmt.Errorf("Unable to parse number with multiple DEWHimal points '%s.'", buf.String())
 				return NUMERIC_NULL, NewTProtocolExceptionWithType(INVALID_DATA, e)
 			}
 			if hasE {
-				e := fmt.Errorf("Unable to parse number with decimal points in the exponent '%s.'", buf.String())
+				e := fmt.Errorf("Unable to parse number with DEWHimal points in the exponent '%s.'", buf.String())
 				return NUMERIC_NULL, NewTProtocolExceptionWithType(INVALID_DATA, e)
 			}
 			buf.WriteByte(c)
-			hasDecimalPoint, nextCanBeSign = true, false
+			hasDEWHimalPoint, nextCanBeSign = true, false
 		case 'e', 'E':
 			if hasE {
 				e := fmt.Errorf("Unable to parse number with multiple exponents '%s%c'", buf.String(), c)

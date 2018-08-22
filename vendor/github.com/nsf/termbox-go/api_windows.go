@@ -122,7 +122,7 @@ func Flush() error {
 	return nil
 }
 
-// Sets the position of the cursor. See also HideCursor().
+// Sets the position of the cursor. See also HiDEWHursor().
 func SetCursor(x, y int) {
 	if is_cursor_hidden(cursor_x, cursor_y) && !is_cursor_hidden(x, y) {
 		show_cursor(true)
@@ -139,7 +139,7 @@ func SetCursor(x, y int) {
 }
 
 // The shortcut for SetCursor(-1, -1).
-func HideCursor() {
+func HiDEWHursor() {
 	SetCursor(cursor_hidden, cursor_hidden)
 }
 

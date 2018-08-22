@@ -5,9 +5,9 @@ This allows DApps not to depend on geth's account management. When a DApp wants 
 the signer, the signer will then provide the user with context and asks the user for permission to sign the data. If
 the users grants the signing request the signer will send the signature back to the DApp.
   
-This setup allows a DApp to connect to a remote DEC node and send transactions that are locally signed. This can
-help in situations when a DApp is connected to a remote node because a local DEC node is not available, not
-synchronised with the chain or a particular DEC node that has no built-in (or limited) account management.
+This setup allows a DApp to connect to a remote DEWH node and send transactions that are locally signed. This can
+help in situations when a DApp is connected to a remote node because a local DEWH node is not available, not
+synchronised with the chain or a particular DEWH node that has no built-in (or limited) account management.
   
 Clef can run as a daemon on the same machine, or off a usb-stick like [usb armory](https://inversepath.com/usbarmory),
 or a separate VM in a [QubesOS](https://www.qubes-os.org/) type os setup.
@@ -29,7 +29,7 @@ COMMANDS:
 
 GLOBAL OPTIONS:
    --loglevel value        log level to emit to the screen (default: 4)
-   --keystore value        Directory for the keystore (default: "$HOME/.DEC/keystore")
+   --keystore value        Directory for the keystore (default: "$HOME/.DEWH/keystore")
    --configdir value       Directory for clef configuration (default: "$HOME/.clef")
    --networkid value       Network identifier (integer, 1=Frontier, 2=Morden (disused), 3=Ropsten, 4=Rinkeby) (default: 1)
    --lightkdf              Reduce key-derivation RAM & CPU usage at some expense of KDF strength
@@ -59,7 +59,7 @@ signer -keystore /my/keystore -chainid 4
 
 The security model of the signer is as follows:
 
-* One critical component (the signer binary / daemon) is responsible for handling cryptographic operations: signing, private keys, encryption/decryption of keystore files.
+* One critical component (the signer binary / daemon) is responsible for handling cryptographic operations: signing, private keys, encryption/DEWHryption of keystore files.
 * The signer binary has a well-defined 'external' API.
 * The 'external' API is considered UNTRUSTED.
 * The signer binary also communicates with whatever process that invoked the binary, via stdin/stdout.
@@ -129,7 +129,7 @@ The signer listens to HTTP requests on `rpcaddr`:`rpcport`, with the same JSONRP
 expected to be JSON [jsonrpc 2.0 standard](http://www.jsonrpc.org/specification).
 
 Some of these call can require user interaction. Clients must be aware that responses
-may be delayed significanlty or may never be received if a users decides to ignore the confirmation request.
+may be delayed significanlty or may never be received if a users DEWHides to ignore the confirmation request.
 
 The External API is **untrusted** : it does not accept credentials over this api, nor does it expect
 that requests have any authority.
@@ -170,7 +170,7 @@ All hex encoded values must be prefixed with `0x`.
 
 #### Create new password protected account
 
-The signer will generate a new private key, encrypts it according to [web3 keystore spec](https://github.com/DEC/wiki/wiki/Web3-Secret-Storage-Definition) and stores it in the keystore directory.
+The signer will generate a new private key, encrypts it according to [web3 keystore spec](https://github.com/DEWH/wiki/wiki/Web3-Secret-Storage-Definition) and stores it in the keystore directory.
 The client is responsible for creating a backup of the keystore. If the keystore is lost there is no method of retrieving lost accounts.
 
 #### Arguments
@@ -256,7 +256,7 @@ None
      - `data` [data:optional]:  input data
      - `nonce` [number]: account nonce
   3. method signature [string:optional]
-     - The method signature, if present, is to aid decoding the calldata. Should consist of `methodname(paramtype,...)`, e.g. `transfer(uint256,address)`. The signer may use this data to parse the supplied calldata, and show the user. The data, however, is considered totally untrusted, and reliability is not expected.
+     - The method signature, if present, is to aid DEWHoding the calldata. Should consist of `methodname(paramtype,...)`, e.g. `transfer(uint256,address)`. The signer may use this data to parse the supplied calldata, and show the user. The data, however, is considered totally untrusted, and reliability is not expected.
 
 
 #### Result
@@ -423,7 +423,7 @@ Response
    format.
    
 #### Arguments
-  - account [object]: key in [web3 keystore format](https://github.com/DEC/wiki/wiki/Web3-Secret-Storage-Definition) (retrieved with account_export) 
+  - account [object]: key in [web3 keystore format](https://github.com/DEWH/wiki/wiki/Web3-Secret-Storage-Definition) (retrieved with account_export) 
 
 #### Result
   - imported key [object]:
@@ -486,7 +486,7 @@ Response
   - account [address]: export private key that is associated with this account
 
 #### Result
-  - exported key, see [web3 keystore format](https://github.com/DEC/wiki/wiki/Web3-Secret-Storage-Definition) for
+  - exported key, see [web3 keystore format](https://github.com/DEWH/wiki/wiki/Web3-Secret-Storage-Definition) for
   more information
   
 #### Sample call
@@ -726,12 +726,12 @@ Invoked when a request for account listing has been made.
       "accounts": [
         {
           "type": "Account",
-          "url": "keystore:///home/bazonk/.DEC/keystore/UTC--2017-11-20T14-44-54.089682944Z--123409812340981234098123409812deadbeef42",
+          "url": "keystore:///home/bazonk/.DEWH/keystore/UTC--2017-11-20T14-44-54.089682944Z--123409812340981234098123409812deadbeef42",
           "address": "0x123409812340981234098123409812deadbeef42"
         },
         {
           "type": "Account",
-          "url": "keystore:///home/bazonk/.DEC/keystore/UTC--2017-11-23T21-59-03.199240693Z--cafebabedeadbeef34098123409812deadbeef42",
+          "url": "keystore:///home/bazonk/.DEWH/keystore/UTC--2017-11-23T21-59-03.199240693Z--cafebabedeadbeef34098123409812deadbeef42",
           "address": "0xcafebabedeadbeef34098123409812deadbeef42"
         }
       ],
@@ -760,7 +760,7 @@ Invoked when a request for account listing has been made.
     {
       "address": "0x123409812340981234098123409812deadbeef42",
       "raw_data": "0x01020304",
-      "message": "\u0019DEC Signed Message:\n4\u0001\u0002\u0003\u0004",
+      "message": "\u0019DEWH Signed Message:\n4\u0001\u0002\u0003\u0004",
       "hash": "0x7e3a4e7a9d1744bc5c675c25e1234ca8ed9162bd17f78b9085e48047c15ac310",
       "meta": {
         "remote": "signer binary",
@@ -854,7 +854,7 @@ A UI should conform to the following rules.
 * A UI MUST NOT load any external resources that were not embedded/part of the UI package.
   * For example, not load icons, stylesheets from the internet
   * Not load files from the filesystem, unless they reside in the same local directory (e.g. config files)
-* A Graphical UI MUST show the blocky-identicon for DEC addresses.
+* A Graphical UI MUST show the blocky-identicon for DEWH addresses.
 * A UI MUST warn display approproate warning if the destination-account is formatted with invalid checksum.
 * A UI MUST NOT open any ports or services
   * The signer opens the public port

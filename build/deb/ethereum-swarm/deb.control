@@ -4,9 +4,9 @@ Priority: extra
 Maintainer: {{.Author}}
 Build-Depends: debhelper (>= 8.0.0), golang-1.10
 Standards-Version: 3.9.5
-Homepage: https://DEC.org
-Vcs-Git: git://github.com/DEC/go-DEC.git
-Vcs-Browser: https://github.com/DEC/go-DEC
+Homepage: https://DEWH.org
+Vcs-Git: git://github.com/DEWH/go-DEWH.git
+Vcs-Browser: https://github.com/DEWH/go-DEWH
 
 {{range .Executables}}
 Package: {{$.ExeName .}}

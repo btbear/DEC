@@ -657,10 +657,10 @@ func (z *Tokenizer) readUntilCloseAngle() {
 	}
 }
 
-// readMarkupDeclaration reads the next token starting with "<!". It might be
+// readMarkupDEWHlaration reads the next token starting with "<!". It might be
 // a "<!--comment-->", a "<!DOCTYPE foo>", a "<![CDATA[section]]>" or
 // "<!a bogus comment". The opening "<!" has already been consumed.
-func (z *Tokenizer) readMarkupDeclaration() TokenType {
+func (z *Tokenizer) readMarkupDEWHlaration() TokenType {
 	z.data.start = z.raw.end
 	var c [2]byte
 	for i := 0; i < 2; i++ {
@@ -687,7 +687,7 @@ func (z *Tokenizer) readMarkupDeclaration() TokenType {
 	return CommentToken
 }
 
-// readDoctype attempts to read a doctype declaration and returns true if
+// readDoctype attempts to read a doctype DEWHlaration and returns true if
 // successful. The opening "<!" has already been consumed.
 func (z *Tokenizer) readDoctype() bool {
 	const s = "DOCTYPE"
@@ -999,7 +999,7 @@ loop:
 			tokenType = EndTagToken
 		case c == '!' || c == '?':
 			// We use CommentToken to mean any of "<!--actual comments-->",
-			// "<!DOCTYPE declarations>" and "<?xml processing instructions?>".
+			// "<!DOCTYPE DEWHlarations>" and "<?xml processing instructions?>".
 			tokenType = CommentToken
 		default:
 			// Reconsume the current character.
@@ -1047,7 +1047,7 @@ loop:
 			return z.tt
 		case CommentToken:
 			if c == '!' {
-				z.tt = z.readMarkupDeclaration()
+				z.tt = z.readMarkupDEWHlaration()
 				return z.tt
 			}
 			z.raw.end--

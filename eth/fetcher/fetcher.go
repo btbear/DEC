@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package fetcher contains the block announcement based synchronisation.
 package fetcher
@@ -22,10 +22,10 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/consensus"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/log"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/consensus"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/log"
 	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
 )
 
@@ -684,7 +684,7 @@ func (f *Fetcher) insert(peer string, block *types.Block) {
 // forgetHash removes all traces of a block announcement from the fetcher's
 // internal state.
 func (f *Fetcher) forgetHash(hash common.Hash) {
-	// Remove all pending announces and decrement DOS counters
+	// Remove all pending announces and DEWHrement DOS counters
 	for _, announce := range f.announced[hash] {
 		f.announces[announce.origin]--
 		if f.announces[announce.origin] == 0 {
@@ -695,7 +695,7 @@ func (f *Fetcher) forgetHash(hash common.Hash) {
 	if f.announceChangeHook != nil {
 		f.announceChangeHook(hash, false)
 	}
-	// Remove any pending fetches and decrement the DOS counters
+	// Remove any pending fetches and DEWHrement the DOS counters
 	if announce := f.fetching[hash]; announce != nil {
 		f.announces[announce.origin]--
 		if f.announces[announce.origin] == 0 {
@@ -704,7 +704,7 @@ func (f *Fetcher) forgetHash(hash common.Hash) {
 		delete(f.fetching, hash)
 	}
 
-	// Remove any pending completion requests and decrement the DOS counters
+	// Remove any pending completion requests and DEWHrement the DOS counters
 	for _, announce := range f.fetched[hash] {
 		f.announces[announce.origin]--
 		if f.announces[announce.origin] == 0 {
@@ -713,7 +713,7 @@ func (f *Fetcher) forgetHash(hash common.Hash) {
 	}
 	delete(f.fetched, hash)
 
-	// Remove any pending completions and decrement the DOS counters
+	// Remove any pending completions and DEWHrement the DOS counters
 	if announce := f.completing[hash]; announce != nil {
 		f.announces[announce.origin]--
 		if f.announces[announce.origin] == 0 {

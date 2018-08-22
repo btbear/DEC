@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package rpc
 
@@ -46,9 +46,9 @@ func TestJSONRequestParsing(t *testing.T) {
 	reply := bytes.NewBufferString(str)
 	rw := &RWC{bufio.NewReadWriter(bufio.NewReader(req), bufio.NewWriter(reply))}
 
-	codec := NewJSONCodec(rw)
+	coDEWH := NewJSONCoDEWH(rw)
 
-	requests, batch, err := codec.ReadRequestHeaders()
+	requests, batch, err := coDEWH.ReadRequestHeaders()
 	if err != nil {
 		t.Fatalf("%v", err)
 	}
@@ -84,7 +84,7 @@ func TestJSONRequestParsing(t *testing.T) {
 	var arg int
 	args := []reflect.Type{reflect.TypeOf(arg), reflect.TypeOf(arg)}
 
-	v, err := codec.ParseRequestArguments(args, requests[0].params)
+	v, err := coDEWH.ParseRequestArguments(args, requests[0].params)
 	if err != nil {
 		t.Fatalf("%v", err)
 	}
@@ -125,11 +125,11 @@ func TestJSONRequestParamsParsing(t *testing.T) {
 		{`[null,"abc",null]`, []reflect.Type{intPtrT, stringT, intPtrT}, []reflect.Value{intPtrV, stringV, intPtrV}},
 	}
 
-	codec := jsonCodec{}
+	coDEWH := jsonCoDEWH{}
 
 	for _, test := range validTests {
 		params := (json.RawMessage)([]byte(test.input))
-		args, err := codec.ParseRequestArguments(test.argTypes, params)
+		args, err := coDEWH.ParseRequestArguments(test.argTypes, params)
 
 		if err != nil {
 			t.Fatal(err)
@@ -171,7 +171,7 @@ func TestJSONRequestParamsParsing(t *testing.T) {
 	}
 
 	for i, test := range invalidTests {
-		if _, err := codec.ParseRequestArguments(test.argTypes, test.input); err == nil {
+		if _, err := coDEWH.ParseRequestArguments(test.argTypes, test.input); err == nil {
 			t.Errorf("expected test %d - %s to fail", i, test.input)
 		}
 	}

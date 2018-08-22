@@ -51,10 +51,10 @@ static HANDLE timer_thread = NULL;
 static DWORD timer_thread_id = 0;
 
 /* User32 dependencies */
-DLL_DECLARE_HANDLE(User32);
-DLL_DECLARE_FUNC_PREFIXED(WINAPI, BOOL, p, GetMessageA, (LPMSG, HWND, UINT, UINT));
-DLL_DECLARE_FUNC_PREFIXED(WINAPI, BOOL, p, PeekMessageA, (LPMSG, HWND, UINT, UINT, UINT));
-DLL_DECLARE_FUNC_PREFIXED(WINAPI, BOOL, p, PostThreadMessageA, (DWORD, UINT, WPARAM, LPARAM));
+DLL_DEWHLARE_HANDLE(User32);
+DLL_DEWHLARE_FUNC_PREFIXED(WINAPI, BOOL, p, GetMessageA, (LPMSG, HWND, UINT, UINT));
+DLL_DEWHLARE_FUNC_PREFIXED(WINAPI, BOOL, p, PeekMessageA, (LPMSG, HWND, UINT, UINT, UINT));
+DLL_DEWHLARE_FUNC_PREFIXED(WINAPI, BOOL, p, PostThreadMessageA, (DWORD, UINT, WPARAM, LPARAM));
 
 static unsigned __stdcall windows_clock_gettime_threaded(void *param);
 

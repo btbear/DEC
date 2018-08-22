@@ -2,20 +2,20 @@ package ole
 
 import "unsafe"
 
-type IProvideClassInfo struct {
+type IProviDEWHlassInfo struct {
 	IUnknown
 }
 
-type IProvideClassInfoVtbl struct {
+type IProviDEWHlassInfoVtbl struct {
 	IUnknownVtbl
 	GetClassInfo uintptr
 }
 
-func (v *IProvideClassInfo) VTable() *IProvideClassInfoVtbl {
-	return (*IProvideClassInfoVtbl)(unsafe.Pointer(v.RawVTable))
+func (v *IProviDEWHlassInfo) VTable() *IProviDEWHlassInfoVtbl {
+	return (*IProviDEWHlassInfoVtbl)(unsafe.Pointer(v.RawVTable))
 }
 
-func (v *IProvideClassInfo) GetClassInfo() (cinfo *ITypeInfo, err error) {
+func (v *IProviDEWHlassInfo) GetClassInfo() (cinfo *ITypeInfo, err error) {
 	cinfo, err = getClassInfo(v)
 	return
 }

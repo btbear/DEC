@@ -78,4 +78,4 @@ func (e *gfP) Unmarshal(in []byte) error {
 }
 
 func montEncode(c, a *gfP) { gfpMul(c, a, r2) }
-func montDecode(c, a *gfP) { gfpMul(c, a, &gfP{1}) }
+func montDEWHode(c, a *gfP) { gfpMul(c, a, &gfP{1}) }

@@ -230,7 +230,7 @@ func render1(w writer, n *Node) error {
 
 // writeQuoted writes s to w surrounded by quotes. Normally it will use double
 // quotes, but if s contains a double quote, it will use single quotes.
-// It is used for writing the identifiers in a doctype declaration.
+// It is used for writing the identifiers in a doctype DEWHlaration.
 // In valid HTML, they can't contain both types of quotes.
 func writeQuoted(w writer, s string) error {
 	var q byte = '"'

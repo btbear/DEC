@@ -4,14 +4,14 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.DEC</groupId>
+  <groupId>org.DEWH</groupId>
   <artifactId>geth</artifactId>
   <version>{{.Version}}</version>
   <packaging>aar</packaging>
 
-  <name>Android DEC Client</name>
-  <description>Android port of the go-DEC libraries and node</description>
-  <url>https://github.com/DEC/go-DEC</url>
+  <name>Android DEWH Client</name>
+  <description>Android port of the go-DEWH libraries and node</description>
+  <url>https://github.com/DEWH/go-DEWH</url>
   <inceptionYear>2015</inceptionYear>
 
   <licenses>
@@ -23,8 +23,8 @@
   </licenses>
 
   <organization>
-    <name>DEC</name>
-    <url>https://DEC.org</url>
+    <name>DEWH</name>
+    <url>https://DEWH.org</url>
   </organization>
 
   <developers>
@@ -48,10 +48,10 @@
 
   <issueManagement>
     <system>GitHub Issues</system>
-    <url>https://github.com/DEC/go-DEC/issues/</url>
+    <url>https://github.com/DEWH/go-DEWH/issues/</url>
   </issueManagement>
 
   <scm>
-    <url>https://github.com/DEC/go-DEC</url>
+    <url>https://github.com/DEWH/go-DEWH</url>
   </scm>
 </project>

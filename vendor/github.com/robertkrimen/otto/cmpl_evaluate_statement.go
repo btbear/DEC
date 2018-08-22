@@ -346,7 +346,7 @@ func (self *_runtime) cmpl_evaluate_nodeTryStatement(node *_nodeTryStatement) Va
 
 	if exception && node.catch != nil {
 		outer := self.scope.lexical
-		self.scope.lexical = self.newDeclarationStash(outer)
+		self.scope.lexical = self.newDEWHlarationStash(outer)
 		defer func() {
 			self.scope.lexical = outer
 		}()

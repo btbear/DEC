@@ -1,18 +1,18 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package rlp
 
@@ -284,33 +284,33 @@ func TestStreamRaw(t *testing.T) {
 	}
 }
 
-func TestDecodeErrors(t *testing.T) {
+func TestDEWHodeErrors(t *testing.T) {
 	r := bytes.NewReader(nil)
 
-	if err := Decode(r, nil); err != errDecodeIntoNil {
-		t.Errorf("Decode(r, nil) error mismatch, got %q, want %q", err, errDecodeIntoNil)
+	if err := DEWHode(r, nil); err != errDEWHodeIntoNil {
+		t.Errorf("DEWHode(r, nil) error mismatch, got %q, want %q", err, errDEWHodeIntoNil)
 	}
 
 	var nilptr *struct{}
-	if err := Decode(r, nilptr); err != errDecodeIntoNil {
-		t.Errorf("Decode(r, nilptr) error mismatch, got %q, want %q", err, errDecodeIntoNil)
+	if err := DEWHode(r, nilptr); err != errDEWHodeIntoNil {
+		t.Errorf("DEWHode(r, nilptr) error mismatch, got %q, want %q", err, errDEWHodeIntoNil)
 	}
 
-	if err := Decode(r, struct{}{}); err != errNoPointer {
-		t.Errorf("Decode(r, struct{}{}) error mismatch, got %q, want %q", err, errNoPointer)
+	if err := DEWHode(r, struct{}{}); err != errNoPointer {
+		t.Errorf("DEWHode(r, struct{}{}) error mismatch, got %q, want %q", err, errNoPointer)
 	}
 
 	expectErr := "rlp: type chan bool is not RLP-serializable"
-	if err := Decode(r, new(chan bool)); err == nil || err.Error() != expectErr {
-		t.Errorf("Decode(r, new(chan bool)) error mismatch, got %q, want %q", err, expectErr)
+	if err := DEWHode(r, new(chan bool)); err == nil || err.Error() != expectErr {
+		t.Errorf("DEWHode(r, new(chan bool)) error mismatch, got %q, want %q", err, expectErr)
 	}
 
-	if err := Decode(r, new(uint)); err != io.EOF {
-		t.Errorf("Decode(r, new(int)) error mismatch, got %q, want %q", err, io.EOF)
+	if err := DEWHode(r, new(uint)); err != io.EOF {
+		t.Errorf("DEWHode(r, new(int)) error mismatch, got %q, want %q", err, io.EOF)
 	}
 }
 
-type decodeTest struct {
+type DEWHodeTest struct {
 	input string
 	ptr   interface{}
 	value interface{}
@@ -360,7 +360,7 @@ type hasIgnoredField struct {
 	C uint
 }
 
-var decodeTests = []decodeTest{
+var DEWHodeTests = []DEWHodeTest{
 	// booleans
 	{input: "01", ptr: new(bool), value: true},
 	{input: "80", ptr: new(bool), value: false},
@@ -461,7 +461,7 @@ var decodeTests = []decodeTest{
 	{
 		input: "C7C50583343434C0",
 		ptr:   new([]*simplestruct),
-		error: "rlp: too few elements for rlp.simplestruct, decoding into ([]*rlp.simplestruct)[1]",
+		error: "rlp: too few elements for rlp.simplestruct, DEWHoding into ([]*rlp.simplestruct)[1]",
 	},
 	{
 		input: "83222222",
@@ -476,7 +476,7 @@ var decodeTests = []decodeTest{
 	{
 		input: "C501C3C00000",
 		ptr:   new(recstruct),
-		error: "rlp: expected input string or byte for uint, decoding into (rlp.recstruct).Child.I",
+		error: "rlp: expected input string or byte for uint, DEWHoding into (rlp.recstruct).Child.I",
 	},
 	{
 		input: "C0",
@@ -491,7 +491,7 @@ var decodeTests = []decodeTest{
 	{
 		input: "C50102C20102",
 		ptr:   new(tailUint),
-		error: "rlp: expected input string or byte for uint, decoding into (rlp.tailUint).Tail[1]",
+		error: "rlp: expected input string or byte for uint, DEWHoding into (rlp.tailUint).Tail[1]",
 	},
 
 	// struct tag "tail"
@@ -559,41 +559,41 @@ var decodeTests = []decodeTest{
 
 func uintp(i uint) *uint { return &i }
 
-func runTests(t *testing.T, decode func([]byte, interface{}) error) {
-	for i, test := range decodeTests {
-		input, err := hex.DecodeString(test.input)
+func runTests(t *testing.T, DEWHode func([]byte, interface{}) error) {
+	for i, test := range DEWHodeTests {
+		input, err := hex.DEWHodeString(test.input)
 		if err != nil {
 			t.Errorf("test %d: invalid hex input %q", i, test.input)
 			continue
 		}
-		err = decode(input, test.ptr)
+		err = DEWHode(input, test.ptr)
 		if err != nil && test.error == "" {
-			t.Errorf("test %d: unexpected Decode error: %v\ndecoding into %T\ninput %q",
+			t.Errorf("test %d: unexpected DEWHode error: %v\nDEWHoding into %T\ninput %q",
 				i, err, test.ptr, test.input)
 			continue
 		}
 		if test.error != "" && fmt.Sprint(err) != test.error {
-			t.Errorf("test %d: Decode error mismatch\ngot  %v\nwant %v\ndecoding into %T\ninput %q",
+			t.Errorf("test %d: DEWHode error mismatch\ngot  %v\nwant %v\nDEWHoding into %T\ninput %q",
 				i, err, test.error, test.ptr, test.input)
 			continue
 		}
 		deref := reflect.ValueOf(test.ptr).Elem().Interface()
 		if err == nil && !reflect.DeepEqual(deref, test.value) {
-			t.Errorf("test %d: value mismatch\ngot  %#v\nwant %#v\ndecoding into %T\ninput %q",
+			t.Errorf("test %d: value mismatch\ngot  %#v\nwant %#v\nDEWHoding into %T\ninput %q",
 				i, deref, test.value, test.ptr, test.input)
 		}
 	}
 }
 
-func TestDecodeWithByteReader(t *testing.T) {
+func TestDEWHodeWithByteReader(t *testing.T) {
 	runTests(t, func(input []byte, into interface{}) error {
-		return Decode(bytes.NewReader(input), into)
+		return DEWHode(bytes.NewReader(input), into)
 	})
 }
 
 // plainReader reads from a byte slice but does not
 // implement ReadByte. It is also not recognized by the
-// size validation. This is useful to test how the decoder
+// size validation. This is useful to test how the DEWHoder
 // behaves on a non-buffered input stream.
 type plainReader []byte
 
@@ -610,23 +610,23 @@ func (r *plainReader) Read(buf []byte) (n int, err error) {
 	return n, nil
 }
 
-func TestDecodeWithNonByteReader(t *testing.T) {
+func TestDEWHodeWithNonByteReader(t *testing.T) {
 	runTests(t, func(input []byte, into interface{}) error {
-		return Decode(newPlainReader(input), into)
+		return DEWHode(newPlainReader(input), into)
 	})
 }
 
-func TestDecodeStreamReset(t *testing.T) {
+func TestDEWHodeStreamReset(t *testing.T) {
 	s := NewStream(nil, 0)
 	runTests(t, func(input []byte, into interface{}) error {
 		s.Reset(bytes.NewReader(input), 0)
-		return s.Decode(into)
+		return s.DEWHode(into)
 	})
 }
 
-type testDecoder struct{ called bool }
+type testDEWHoder struct{ called bool }
 
-func (t *testDecoder) DecodeRLP(s *Stream) error {
+func (t *testDEWHoder) DEWHodeRLP(s *Stream) error {
 	if _, err := s.Uint(); err != nil {
 		return err
 	}
@@ -634,65 +634,65 @@ func (t *testDecoder) DecodeRLP(s *Stream) error {
 	return nil
 }
 
-func TestDecodeDecoder(t *testing.T) {
+func TestDEWHodeDEWHoder(t *testing.T) {
 	var s struct {
-		T1 testDecoder
-		T2 *testDecoder
-		T3 **testDecoder
+		T1 testDEWHoder
+		T2 *testDEWHoder
+		T3 **testDEWHoder
 	}
-	if err := Decode(bytes.NewReader(unhex("C3010203")), &s); err != nil {
-		t.Fatalf("Decode error: %v", err)
+	if err := DEWHode(bytes.NewReader(unhex("C3010203")), &s); err != nil {
+		t.Fatalf("DEWHode error: %v", err)
 	}
 
 	if !s.T1.called {
-		t.Errorf("DecodeRLP was not called for (non-pointer) testDecoder")
+		t.Errorf("DEWHodeRLP was not called for (non-pointer) testDEWHoder")
 	}
 
 	if s.T2 == nil {
-		t.Errorf("*testDecoder has not been allocated")
+		t.Errorf("*testDEWHoder has not been allocated")
 	} else if !s.T2.called {
-		t.Errorf("DecodeRLP was not called for *testDecoder")
+		t.Errorf("DEWHodeRLP was not called for *testDEWHoder")
 	}
 
 	if s.T3 == nil || *s.T3 == nil {
-		t.Errorf("**testDecoder has not been allocated")
+		t.Errorf("**testDEWHoder has not been allocated")
 	} else if !(*s.T3).called {
-		t.Errorf("DecodeRLP was not called for **testDecoder")
+		t.Errorf("DEWHodeRLP was not called for **testDEWHoder")
 	}
 }
 
-type byteDecoder byte
+type byteDEWHoder byte
 
-func (bd *byteDecoder) DecodeRLP(s *Stream) error {
+func (bd *byteDEWHoder) DEWHodeRLP(s *Stream) error {
 	_, err := s.Uint()
 	*bd = 255
 	return err
 }
 
-func (bd byteDecoder) called() bool {
+func (bd byteDEWHoder) called() bool {
 	return bd == 255
 }
 
 // This test verifies that the byte slice/byte array logic
-// does not kick in for element types implementing Decoder.
-func TestDecoderInByteSlice(t *testing.T) {
-	var slice []byteDecoder
-	if err := Decode(bytes.NewReader(unhex("C101")), &slice); err != nil {
-		t.Errorf("unexpected Decode error %v", err)
+// does not kick in for element types implementing DEWHoder.
+func TestDEWHoderInByteSlice(t *testing.T) {
+	var slice []byteDEWHoder
+	if err := DEWHode(bytes.NewReader(unhex("C101")), &slice); err != nil {
+		t.Errorf("unexpected DEWHode error %v", err)
 	} else if !slice[0].called() {
-		t.Errorf("DecodeRLP not called for slice element")
+		t.Errorf("DEWHodeRLP not called for slice element")
 	}
 
-	var array [1]byteDecoder
-	if err := Decode(bytes.NewReader(unhex("C101")), &array); err != nil {
-		t.Errorf("unexpected Decode error %v", err)
+	var array [1]byteDEWHoder
+	if err := DEWHode(bytes.NewReader(unhex("C101")), &array); err != nil {
+		t.Errorf("unexpected DEWHode error %v", err)
 	} else if !array[0].called() {
-		t.Errorf("DecodeRLP not called for array element")
+		t.Errorf("DEWHodeRLP not called for array element")
 	}
 }
 
-func ExampleDecode() {
-	input, _ := hex.DecodeString("C90A1486666F6F626172")
+func ExampleDEWHode() {
+	input, _ := hex.DEWHodeString("C90A1486666F6F626172")
 
 	type example struct {
 		A, B    uint
@@ -701,36 +701,36 @@ func ExampleDecode() {
 	}
 
 	var s example
-	err := Decode(bytes.NewReader(input), &s)
+	err := DEWHode(bytes.NewReader(input), &s)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 	} else {
-		fmt.Printf("Decoded value: %#v\n", s)
+		fmt.Printf("DEWHoded value: %#v\n", s)
 	}
 	// Output:
-	// Decoded value: rlp.example{A:0xa, B:0x14, private:0x0, String:"foobar"}
+	// DEWHoded value: rlp.example{A:0xa, B:0x14, private:0x0, String:"foobar"}
 }
 
-func ExampleDecode_structTagNil() {
+func ExampleDEWHode_structTagNil() {
 	// In this example, we'll use the "nil" struct tag to change
-	// how a pointer-typed field is decoded. The input contains an RLP
+	// how a pointer-typed field is DEWHoded. The input contains an RLP
 	// list of one element, an empty string.
 	input := []byte{0xC1, 0x80}
 
 	// This type uses the normal rules.
-	// The empty input string is decoded as a pointer to an empty Go string.
+	// The empty input string is DEWHoded as a pointer to an empty Go string.
 	var normalRules struct {
 		String *string
 	}
-	Decode(bytes.NewReader(input), &normalRules)
+	DEWHode(bytes.NewReader(input), &normalRules)
 	fmt.Printf("normal: String = %q\n", *normalRules.String)
 
 	// This type uses the struct tag.
-	// The empty input string is decoded as a nil pointer.
+	// The empty input string is DEWHoded as a nil pointer.
 	var withEmptyOK struct {
 		String *string `rlp:"nil"`
 	}
-	Decode(bytes.NewReader(input), &withEmptyOK)
+	DEWHode(bytes.NewReader(input), &withEmptyOK)
 	fmt.Printf("with nil tag: String = %v\n", withEmptyOK.String)
 
 	// Output:
@@ -739,7 +739,7 @@ func ExampleDecode_structTagNil() {
 }
 
 func ExampleStream() {
-	input, _ := hex.DecodeString("C90A1486666F6F626172")
+	input, _ := hex.DEWHodeString("C90A1486666F6F626172")
 	s := NewStream(bytes.NewReader(input), 0)
 
 	// Check what kind of value lies ahead
@@ -752,7 +752,7 @@ func ExampleStream() {
 		return
 	}
 
-	// Decode elements
+	// DEWHode elements
 	fmt.Println(s.Uint())
 	fmt.Println(s.Uint())
 	fmt.Println(s.Bytes())
@@ -768,7 +768,7 @@ func ExampleStream() {
 	// [102 111 111 98 97 114] <nil>
 }
 
-func BenchmarkDecode(b *testing.B) {
+func BenchmarkDEWHode(b *testing.B) {
 	enc := encodeTestSlice(90000)
 	b.SetBytes(int64(len(enc)))
 	b.ReportAllocs()
@@ -777,13 +777,13 @@ func BenchmarkDecode(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		var s []uint
 		r := bytes.NewReader(enc)
-		if err := Decode(r, &s); err != nil {
-			b.Fatalf("Decode error: %v", err)
+		if err := DEWHode(r, &s); err != nil {
+			b.Fatalf("DEWHode error: %v", err)
 		}
 	}
 }
 
-func BenchmarkDecodeIntSliceReuse(b *testing.B) {
+func BenchmarkDEWHodeIntSliceReuse(b *testing.B) {
 	enc := encodeTestSlice(100000)
 	b.SetBytes(int64(len(enc)))
 	b.ReportAllocs()
@@ -792,8 +792,8 @@ func BenchmarkDecodeIntSliceReuse(b *testing.B) {
 	var s []uint
 	for i := 0; i < b.N; i++ {
 		r := bytes.NewReader(enc)
-		if err := Decode(r, &s); err != nil {
-			b.Fatalf("Decode error: %v", err)
+		if err := DEWHode(r, &s); err != nil {
+			b.Fatalf("DEWHode error: %v", err)
 		}
 	}
 }
@@ -811,7 +811,7 @@ func encodeTestSlice(n uint) []byte {
 }
 
 func unhex(str string) []byte {
-	b, err := hex.DecodeString(strings.Replace(str, " ", "", -1))
+	b, err := hex.DEWHodeString(strings.Replace(str, " ", "", -1))
 	if err != nil {
 		panic(fmt.Sprintf("invalid hex string: %q", str))
 	}

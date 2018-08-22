@@ -41,8 +41,8 @@ type Metrics struct {
 	// Number of spans finished by this tracer
 	SpansFinished metrics.Counter `metric:"finished_spans"`
 
-	// Number of errors decoding tracing context
-	DecodingErrors metrics.Counter `metric:"span_context_decoding_errors"`
+	// Number of errors DEWHoding tracing context
+	DEWHodingErrors metrics.Counter `metric:"span_context_DEWHoding_errors"`
 
 	// Number of spans successfully reported
 	ReporterSuccess metrics.Counter `metric:"reporter_spans" tags:"result=ok"`

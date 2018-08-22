@@ -1017,7 +1017,7 @@
 #define DUK_VA_COPY(dest,src) __va_copy(dest,src)
 #endif
 
-#define DUK_NORETURN(decl)  decl __attribute__((noreturn))
+#define DUK_NORETURN(DEWHl)  DEWHl __attribute__((noreturn))
 
 #if defined(__clang__) && defined(__has_builtin)
 #if __has_builtin(__builtin_unreachable)
@@ -1044,51 +1044,51 @@
 /* DUK_COLD */
 
 #if defined(DUK_F_DLL_BUILD) && defined(DUK_F_WINDOWS)
-/* MSVC dllexport/dllimport: appropriate __declspec depends on whether we're
+/* MSVC dllexport/dllimport: appropriate __DEWHlspec depends on whether we're
  * compiling Duktape or the application.
  */
 #if defined(DUK_COMPILING_DUKTAPE)
-#define DUK_EXTERNAL_DECL  extern __declspec(dllexport)
-#define DUK_EXTERNAL       __declspec(dllexport)
+#define DUK_EXTERNAL_DEWHL  extern __DEWHlspec(dllexport)
+#define DUK_EXTERNAL       __DEWHlspec(dllexport)
 #else
-#define DUK_EXTERNAL_DECL  extern __declspec(dllimport)
+#define DUK_EXTERNAL_DEWHL  extern __DEWHlspec(dllimport)
 #define DUK_EXTERNAL       should_not_happen
 #endif
 #if defined(DUK_SINGLE_FILE)
-#define DUK_INTERNAL_DECL  static
+#define DUK_INTERNAL_DEWHL  static
 #define DUK_INTERNAL       static
 #else
-#define DUK_INTERNAL_DECL  extern
+#define DUK_INTERNAL_DEWHL  extern
 #define DUK_INTERNAL       /*empty*/
 #endif
-#define DUK_LOCAL_DECL     static
+#define DUK_LOCAL_DEWHL     static
 #define DUK_LOCAL          static
 #else
-#define DUK_EXTERNAL_DECL  __attribute__ ((visibility("default"))) extern
+#define DUK_EXTERNAL_DEWHL  __attribute__ ((visibility("default"))) extern
 #define DUK_EXTERNAL       __attribute__ ((visibility("default")))
 #if defined(DUK_SINGLE_FILE)
 #if (defined(DUK_F_GCC_VERSION) && DUK_F_GCC_VERSION >= 30101) || defined(DUK_F_CLANG)
 /* Minimize warnings for unused internal functions with GCC >= 3.1.1 and
  * Clang.  Based on documentation it should suffice to have the attribute
- * in the declaration only, but in practice some warnings are generated unless
+ * in the DEWHlaration only, but in practice some warnings are generated unless
  * the attribute is also applied to the definition.
  */
-#define DUK_INTERNAL_DECL  static __attribute__ ((unused))
+#define DUK_INTERNAL_DEWHL  static __attribute__ ((unused))
 #define DUK_INTERNAL       static __attribute__ ((unused))
 #else
-#define DUK_INTERNAL_DECL  static
+#define DUK_INTERNAL_DEWHL  static
 #define DUK_INTERNAL       static
 #endif
 #else
 #if (defined(DUK_F_GCC_VERSION) && DUK_F_GCC_VERSION >= 30101) || defined(DUK_F_CLANG)
-#define DUK_INTERNAL_DECL  __attribute__ ((visibility("hidden"))) __attribute__ ((unused)) extern
+#define DUK_INTERNAL_DEWHL  __attribute__ ((visibility("hidden"))) __attribute__ ((unused)) extern
 #define DUK_INTERNAL       __attribute__ ((visibility("hidden"))) __attribute__ ((unused))
 #else
-#define DUK_INTERNAL_DECL  __attribute__ ((visibility("hidden"))) extern
+#define DUK_INTERNAL_DEWHL  __attribute__ ((visibility("hidden"))) extern
 #define DUK_INTERNAL       __attribute__ ((visibility("hidden")))
 #endif
 #endif
-#define DUK_LOCAL_DECL     static
+#define DUK_LOCAL_DEWHL     static
 #define DUK_LOCAL          static
 #endif
 
@@ -1128,7 +1128,7 @@
 
 #if defined(DUK_F_GCC_VERSION) && (DUK_F_GCC_VERSION >= 20500L)
 /* since gcc-2.5 */
-#define DUK_NORETURN(decl)  decl __attribute__((noreturn))
+#define DUK_NORETURN(DEWHl)  DEWHl __attribute__((noreturn))
 #endif
 
 #if defined(DUK_F_GCC_VERSION) && (DUK_F_GCC_VERSION >= 40500L)
@@ -1160,51 +1160,51 @@
 #endif
 
 #if defined(DUK_F_DLL_BUILD) && defined(DUK_F_WINDOWS)
-/* MSVC dllexport/dllimport: appropriate __declspec depends on whether we're
+/* MSVC dllexport/dllimport: appropriate __DEWHlspec depends on whether we're
  * compiling Duktape or the application.
  */
 #if defined(DUK_COMPILING_DUKTAPE)
-#define DUK_EXTERNAL_DECL  extern __declspec(dllexport)
-#define DUK_EXTERNAL       __declspec(dllexport)
+#define DUK_EXTERNAL_DEWHL  extern __DEWHlspec(dllexport)
+#define DUK_EXTERNAL       __DEWHlspec(dllexport)
 #else
-#define DUK_EXTERNAL_DECL  extern __declspec(dllimport)
+#define DUK_EXTERNAL_DEWHL  extern __DEWHlspec(dllimport)
 #define DUK_EXTERNAL       should_not_happen
 #endif
 #if defined(DUK_SINGLE_FILE)
-#define DUK_INTERNAL_DECL  static
+#define DUK_INTERNAL_DEWHL  static
 #define DUK_INTERNAL       static
 #else
-#define DUK_INTERNAL_DECL  extern
+#define DUK_INTERNAL_DEWHL  extern
 #define DUK_INTERNAL       /*empty*/
 #endif
-#define DUK_LOCAL_DECL     static
+#define DUK_LOCAL_DEWHL     static
 #define DUK_LOCAL          static
 #elif defined(DUK_F_GCC_VERSION) && (DUK_F_GCC_VERSION >= 40000)
-#define DUK_EXTERNAL_DECL  __attribute__ ((visibility("default"))) extern
+#define DUK_EXTERNAL_DEWHL  __attribute__ ((visibility("default"))) extern
 #define DUK_EXTERNAL       __attribute__ ((visibility("default")))
 #if defined(DUK_SINGLE_FILE)
 #if (defined(DUK_F_GCC_VERSION) && DUK_F_GCC_VERSION >= 30101) || defined(DUK_F_CLANG)
 /* Minimize warnings for unused internal functions with GCC >= 3.1.1 and
  * Clang.  Based on documentation it should suffice to have the attribute
- * in the declaration only, but in practice some warnings are generated unless
+ * in the DEWHlaration only, but in practice some warnings are generated unless
  * the attribute is also applied to the definition.
  */
-#define DUK_INTERNAL_DECL  static __attribute__ ((unused))
+#define DUK_INTERNAL_DEWHL  static __attribute__ ((unused))
 #define DUK_INTERNAL       static __attribute__ ((unused))
 #else
-#define DUK_INTERNAL_DECL  static
+#define DUK_INTERNAL_DEWHL  static
 #define DUK_INTERNAL       static
 #endif
 #else
 #if (defined(DUK_F_GCC_VERSION) && DUK_F_GCC_VERSION >= 30101) || defined(DUK_F_CLANG)
-#define DUK_INTERNAL_DECL  __attribute__ ((visibility("hidden"))) __attribute__ ((unused)) extern
+#define DUK_INTERNAL_DEWHL  __attribute__ ((visibility("hidden"))) __attribute__ ((unused)) extern
 #define DUK_INTERNAL       __attribute__ ((visibility("hidden"))) __attribute__ ((unused))
 #else
-#define DUK_INTERNAL_DECL  __attribute__ ((visibility("hidden"))) extern
+#define DUK_INTERNAL_DEWHL  __attribute__ ((visibility("hidden"))) extern
 #define DUK_INTERNAL       __attribute__ ((visibility("hidden")))
 #endif
 #endif
-#define DUK_LOCAL_DECL     static
+#define DUK_LOCAL_DEWHL     static
 #define DUK_LOCAL          static
 #endif
 
@@ -1248,7 +1248,7 @@
 #elif defined(DUK_F_MSVC)
 /* --- MSVC --- */
 /* http://msdn.microsoft.com/en-us/library/aa235362(VS.60).aspx */
-#define DUK_NORETURN(decl)  __declspec(noreturn) decl
+#define DUK_NORETURN(DEWHl)  __DEWHlspec(noreturn) DEWHl
 
 /* XXX: DUK_UNREACHABLE for msvc? */
 
@@ -1258,24 +1258,24 @@
 /* XXX: DUK_NOINLINE, DUK_INLINE, DUK_ALWAYS_INLINE for msvc? */
 
 #if defined(DUK_F_DLL_BUILD) && defined(DUK_F_WINDOWS)
-/* MSVC dllexport/dllimport: appropriate __declspec depends on whether we're
+/* MSVC dllexport/dllimport: appropriate __DEWHlspec depends on whether we're
  * compiling Duktape or the application.
  */
 #if defined(DUK_COMPILING_DUKTAPE)
-#define DUK_EXTERNAL_DECL  extern __declspec(dllexport)
-#define DUK_EXTERNAL       __declspec(dllexport)
+#define DUK_EXTERNAL_DEWHL  extern __DEWHlspec(dllexport)
+#define DUK_EXTERNAL       __DEWHlspec(dllexport)
 #else
-#define DUK_EXTERNAL_DECL  extern __declspec(dllimport)
+#define DUK_EXTERNAL_DEWHL  extern __DEWHlspec(dllimport)
 #define DUK_EXTERNAL       should_not_happen
 #endif
 #if defined(DUK_SINGLE_FILE)
-#define DUK_INTERNAL_DECL  static
+#define DUK_INTERNAL_DEWHL  static
 #define DUK_INTERNAL       static
 #else
-#define DUK_INTERNAL_DECL  extern
+#define DUK_INTERNAL_DEWHL  extern
 #define DUK_INTERNAL       /*empty*/
 #endif
-#define DUK_LOCAL_DECL     static
+#define DUK_LOCAL_DEWHL     static
 #define DUK_LOCAL          static
 #endif
 
@@ -1321,7 +1321,7 @@
  * too but not enabled by default.
  */
 #if defined(_MSC_VER) && (_MSC_VER >= 1500)
-#define DUK_NOINLINE        __declspec(noinline)
+#define DUK_NOINLINE        __DEWHlspec(noinline)
 #define DUK_INLINE          __inline
 #define DUK_ALWAYS_INLINE   __forceinline
 #endif
@@ -1351,7 +1351,7 @@
 #define DUK_I64_CONSTANT(x) x##i64
 #elif defined(DUK_F_EMSCRIPTEN)
 /* --- Emscripten --- */
-#define DUK_NORETURN(decl)  decl __attribute__((noreturn))
+#define DUK_NORETURN(DEWHl)  DEWHl __attribute__((noreturn))
 
 #if defined(__clang__) && defined(__has_builtin)
 #if __has_builtin(__builtin_unreachable)
@@ -1374,31 +1374,31 @@
 #define DUK_ALWAYS_INLINE   inline __attribute__((always_inline))
 #endif
 
-#define DUK_EXTERNAL_DECL  __attribute__ ((visibility("default"))) extern
+#define DUK_EXTERNAL_DEWHL  __attribute__ ((visibility("default"))) extern
 #define DUK_EXTERNAL       __attribute__ ((visibility("default")))
 #if defined(DUK_SINGLE_FILE)
 #if (defined(DUK_F_GCC_VERSION) && DUK_F_GCC_VERSION >= 30101) || defined(DUK_F_CLANG)
 /* Minimize warnings for unused internal functions with GCC >= 3.1.1 and
  * Clang.  Based on documentation it should suffice to have the attribute
- * in the declaration only, but in practice some warnings are generated unless
+ * in the DEWHlaration only, but in practice some warnings are generated unless
  * the attribute is also applied to the definition.
  */
-#define DUK_INTERNAL_DECL  static __attribute__ ((unused))
+#define DUK_INTERNAL_DEWHL  static __attribute__ ((unused))
 #define DUK_INTERNAL       static __attribute__ ((unused))
 #else
-#define DUK_INTERNAL_DECL  static
+#define DUK_INTERNAL_DEWHL  static
 #define DUK_INTERNAL       static
 #endif
 #else
 #if (defined(DUK_F_GCC_VERSION) && DUK_F_GCC_VERSION >= 30101) || defined(DUK_F_CLANG)
-#define DUK_INTERNAL_DECL  __attribute__ ((visibility("hidden"))) __attribute__ ((unused)) extern
+#define DUK_INTERNAL_DEWHL  __attribute__ ((visibility("hidden"))) __attribute__ ((unused)) extern
 #define DUK_INTERNAL       __attribute__ ((visibility("hidden"))) __attribute__ ((unused))
 #else
-#define DUK_INTERNAL_DECL  __attribute__ ((visibility("hidden"))) extern
+#define DUK_INTERNAL_DEWHL  __attribute__ ((visibility("hidden"))) extern
 #define DUK_INTERNAL       __attribute__ ((visibility("hidden")))
 #endif
 #endif
-#define DUK_LOCAL_DECL     static
+#define DUK_LOCAL_DEWHL     static
 #define DUK_LOCAL          static
 
 #define DUK_USE_COMPILER_STRING "emscripten"
@@ -2043,7 +2043,7 @@ typedef duk_int_t duk_errcode_t;
 /* Codepoint type.  Must be 32 bits or more because it is used also for
  * internal codepoints.  The type is signed because negative codepoints
  * are used as internal markers (e.g. to mark EOF or missing argument).
- * (X)UTF-8/CESU-8 encode/decode take and return an unsigned variant to
+ * (X)UTF-8/CESU-8 encode/DEWHode take and return an unsigned variant to
  * ensure duk_uint32_t casts back and forth nicely.  Almost everything
  * else uses the signed one.
  */
@@ -2075,7 +2075,7 @@ typedef double duk_double_t;
 #endif
 #endif
 
-/* Type used in public API declarations and user code.  Typedef maps to
+/* Type used in public API DEWHlarations and user code.  Typedef maps to
  * 'struct duk_hthread' like the 'duk_hthread' typedef which is used
  * exclusively in internals.
  */
@@ -2605,10 +2605,10 @@ typedef struct duk_hthread duk_context;
 #define DUK_UNREF(x)  do { (void) (x); } while (0)
 #endif
 #if !defined(DUK_NORETURN)
-#define DUK_NORETURN(decl)  decl
+#define DUK_NORETURN(DEWHl)  DEWHl
 #endif
 #if !defined(DUK_UNREACHABLE)
-/* Don't know how to declare unreachable point, so don't do it; this
+/* Don't know how to DEWHlare unreachable point, so don't do it; this
  * may cause some spurious compilation warnings (e.g. "variable used
  * uninitialized").
  */
@@ -2649,17 +2649,17 @@ typedef struct duk_hthread duk_context;
 #define DUK_COLD           /*nop*/
 #endif
 
-#if !defined(DUK_EXTERNAL_DECL)
-#define DUK_EXTERNAL_DECL  extern
+#if !defined(DUK_EXTERNAL_DEWHL)
+#define DUK_EXTERNAL_DEWHL  extern
 #endif
 #if !defined(DUK_EXTERNAL)
 #define DUK_EXTERNAL       /*empty*/
 #endif
-#if !defined(DUK_INTERNAL_DECL)
+#if !defined(DUK_INTERNAL_DEWHL)
 #if defined(DUK_SINGLE_FILE)
-#define DUK_INTERNAL_DECL  static
+#define DUK_INTERNAL_DEWHL  static
 #else
-#define DUK_INTERNAL_DECL  extern
+#define DUK_INTERNAL_DEWHL  extern
 #endif
 #endif
 #if !defined(DUK_INTERNAL)
@@ -2669,8 +2669,8 @@ typedef struct duk_hthread duk_context;
 #define DUK_INTERNAL       /*empty*/
 #endif
 #endif
-#if !defined(DUK_LOCAL_DECL)
-#define DUK_LOCAL_DECL     static
+#if !defined(DUK_LOCAL_DEWHL)
+#define DUK_LOCAL_DEWHL     static
 #endif
 #if !defined(DUK_LOCAL)
 #define DUK_LOCAL          static
@@ -2837,7 +2837,7 @@ typedef struct duk_hthread duk_context;
 #define DUK_USE_COROUTINE_SUPPORT
 #undef DUK_USE_CPP_EXCEPTIONS
 #undef DUK_USE_DATAPTR16
-#undef DUK_USE_DATAPTR_DEC16
+#undef DUK_USE_DATAPTR_DEWH16
 #undef DUK_USE_DATAPTR_ENC16
 #define DUK_USE_DATE_BUILTIN
 #undef DUK_USE_DATE_FORMAT_STRING
@@ -2888,7 +2888,7 @@ typedef struct duk_hthread duk_context;
 #define DUK_USE_FINALIZER_SUPPORT
 #undef DUK_USE_FINALIZER_TORTURE
 #undef DUK_USE_FUNCPTR16
-#undef DUK_USE_FUNCPTR_DEC16
+#undef DUK_USE_FUNCPTR_DEWH16
 #undef DUK_USE_FUNCPTR_ENC16
 #define DUK_USE_FUNCTION_BUILTIN
 #define DUK_USE_FUNC_FILENAME_PROPERTY
@@ -2899,7 +2899,7 @@ typedef struct duk_hthread duk_context;
 #undef DUK_USE_GLOBAL_BINDING
 #define DUK_USE_GLOBAL_BUILTIN
 #undef DUK_USE_HEAPPTR16
-#undef DUK_USE_HEAPPTR_DEC16
+#undef DUK_USE_HEAPPTR_DEWH16
 #undef DUK_USE_HEAPPTR_ENC16
 #define DUK_USE_HEX_FASTPATH
 #define DUK_USE_HOBJECT_ARRAY_ABANDON_LIMIT 2
@@ -2921,9 +2921,9 @@ typedef struct duk_hthread duk_context;
 #undef DUK_USE_INTERRUPT_DEBUG_FIXUP
 #define DUK_USE_JC
 #define DUK_USE_JSON_BUILTIN
-#define DUK_USE_JSON_DECNUMBER_FASTPATH
-#define DUK_USE_JSON_DECSTRING_FASTPATH
-#define DUK_USE_JSON_DEC_RECLIMIT 1000
+#define DUK_USE_JSON_DEWHNUMBER_FASTPATH
+#define DUK_USE_JSON_DEWHSTRING_FASTPATH
+#define DUK_USE_JSON_DEWH_RECLIMIT 1000
 #define DUK_USE_JSON_EATWHITE_FASTPATH
 #define DUK_USE_JSON_ENC_RECLIMIT 1000
 #define DUK_USE_JSON_QUOTESTRING_FASTPATH
@@ -2976,7 +2976,7 @@ typedef struct duk_hthread duk_context;
 #undef DUK_USE_STRHASH16
 #undef DUK_USE_STRHASH_DENSE
 #define DUK_USE_STRHASH_SKIP_SHIFT 5
-#define DUK_USE_STRICT_DECL
+#define DUK_USE_STRICT_DEWHL
 #undef DUK_USE_STRICT_UTF8_SOURCE
 #define DUK_USE_STRING_BUILTIN
 #undef DUK_USE_STRLEN16
@@ -2992,7 +2992,7 @@ typedef struct duk_hthread duk_context;
 #define DUK_USE_TARGET_INFO "unknown"
 #define DUK_USE_TRACEBACKS
 #define DUK_USE_TRACEBACK_DEPTH 10
-#define DUK_USE_USER_DECLARE() /* no user declarations */
+#define DUK_USE_USER_DEWHLARE() /* no user DEWHlarations */
 #define DUK_USE_VALSTACK_GROW_SHIFT 2
 #define DUK_USE_VALSTACK_LIMIT 1000000L
 #define DUK_USE_VALSTACK_SHRINK_CHECK_SHIFT 2
@@ -3094,8 +3094,8 @@ typedef struct duk_hthread duk_context;
 #if defined(DUK_OPT_DATAPTR16)
 #error unsupported legacy feature option DUK_OPT_DATAPTR16 used
 #endif
-#if defined(DUK_OPT_DATAPTR_DEC16)
-#error unsupported legacy feature option DUK_OPT_DATAPTR_DEC16 used
+#if defined(DUK_OPT_DATAPTR_DEWH16)
+#error unsupported legacy feature option DUK_OPT_DATAPTR_DEWH16 used
 #endif
 #if defined(DUK_OPT_DATAPTR_ENC16)
 #error unsupported legacy feature option DUK_OPT_DATAPTR_ENC16 used
@@ -3127,8 +3127,8 @@ typedef struct duk_hthread duk_context;
 #if defined(DUK_OPT_DEBUG_BUFSIZE)
 #error unsupported legacy feature option DUK_OPT_DEBUG_BUFSIZE used
 #endif
-#if defined(DUK_OPT_DECLARE)
-#error unsupported legacy feature option DUK_OPT_DECLARE used
+#if defined(DUK_OPT_DEWHLARE)
+#error unsupported legacy feature option DUK_OPT_DEWHLARE used
 #endif
 #if defined(DUK_OPT_DEEP_C_STACK)
 #error unsupported legacy feature option DUK_OPT_DEEP_C_STACK used
@@ -3169,8 +3169,8 @@ typedef struct duk_hthread duk_context;
 #if defined(DUK_OPT_FUNCPTR16)
 #error unsupported legacy feature option DUK_OPT_FUNCPTR16 used
 #endif
-#if defined(DUK_OPT_FUNCPTR_DEC16)
-#error unsupported legacy feature option DUK_OPT_FUNCPTR_DEC16 used
+#if defined(DUK_OPT_FUNCPTR_DEWH16)
+#error unsupported legacy feature option DUK_OPT_FUNCPTR_DEWH16 used
 #endif
 #if defined(DUK_OPT_FUNCPTR_ENC16)
 #error unsupported legacy feature option DUK_OPT_FUNCPTR_ENC16 used
@@ -3190,8 +3190,8 @@ typedef struct duk_hthread duk_context;
 #if defined(DUK_OPT_HEAPPTR16)
 #error unsupported legacy feature option DUK_OPT_HEAPPTR16 used
 #endif
-#if defined(DUK_OPT_HEAPPTR_DEC16)
-#error unsupported legacy feature option DUK_OPT_HEAPPTR_DEC16 used
+#if defined(DUK_OPT_HEAPPTR_DEWH16)
+#error unsupported legacy feature option DUK_OPT_HEAPPTR_DEWH16 used
 #endif
 #if defined(DUK_OPT_HEAPPTR_ENC16)
 #error unsupported legacy feature option DUK_OPT_HEAPPTR_ENC16 used
@@ -3310,8 +3310,8 @@ typedef struct duk_hthread duk_context;
 #if defined(DUK_OPT_NO_SOURCE_NONBMP)
 #error unsupported legacy feature option DUK_OPT_NO_SOURCE_NONBMP used
 #endif
-#if defined(DUK_OPT_NO_STRICT_DECL)
-#error unsupported legacy feature option DUK_OPT_NO_STRICT_DECL used
+#if defined(DUK_OPT_NO_STRICT_DEWHL)
+#error unsupported legacy feature option DUK_OPT_NO_STRICT_DEWHL used
 #endif
 #if defined(DUK_OPT_NO_TRACEBACKS)
 #error unsupported legacy feature option DUK_OPT_NO_TRACEBACKS used
@@ -3399,8 +3399,8 @@ typedef struct duk_hthread duk_context;
 #if defined(DUK_USE_BYTEORDER_FORCED)
 #error unsupported config option used (option has been removed): DUK_USE_BYTEORDER_FORCED
 #endif
-#if defined(DUK_USE_DATAPTR_DEC16) && !defined(DUK_USE_DATAPTR16)
-#error config option DUK_USE_DATAPTR_DEC16 requires option DUK_USE_DATAPTR16 (which is missing)
+#if defined(DUK_USE_DATAPTR_DEWH16) && !defined(DUK_USE_DATAPTR16)
+#error config option DUK_USE_DATAPTR_DEWH16 requires option DUK_USE_DATAPTR16 (which is missing)
 #endif
 #if defined(DUK_USE_DATAPTR_ENC16) && !defined(DUK_USE_DATAPTR16)
 #error config option DUK_USE_DATAPTR_ENC16 requires option DUK_USE_DATAPTR16 (which is missing)
@@ -3489,8 +3489,8 @@ typedef struct duk_hthread duk_context;
 #if defined(DUK_USE_FULL_TVAL)
 #error unsupported config option used (option has been removed): DUK_USE_FULL_TVAL
 #endif
-#if defined(DUK_USE_FUNCPTR_DEC16) && !defined(DUK_USE_FUNCPTR16)
-#error config option DUK_USE_FUNCPTR_DEC16 requires option DUK_USE_FUNCPTR16 (which is missing)
+#if defined(DUK_USE_FUNCPTR_DEWH16) && !defined(DUK_USE_FUNCPTR16)
+#error config option DUK_USE_FUNCPTR_DEWH16 requires option DUK_USE_FUNCPTR16 (which is missing)
 #endif
 #if defined(DUK_USE_FUNCPTR_ENC16) && !defined(DUK_USE_FUNCPTR16)
 #error config option DUK_USE_FUNCPTR_ENC16 requires option DUK_USE_FUNCPTR16 (which is missing)
@@ -3501,8 +3501,8 @@ typedef struct duk_hthread duk_context;
 #if defined(DUK_USE_HEAPPTR16) && defined(DUK_USE_DEBUG)
 #error config option DUK_USE_HEAPPTR16 conflicts with option DUK_USE_DEBUG (which is also defined)
 #endif
-#if defined(DUK_USE_HEAPPTR_DEC16) && !defined(DUK_USE_HEAPPTR16)
-#error config option DUK_USE_HEAPPTR_DEC16 requires option DUK_USE_HEAPPTR16 (which is missing)
+#if defined(DUK_USE_HEAPPTR_DEWH16) && !defined(DUK_USE_HEAPPTR16)
+#error config option DUK_USE_HEAPPTR_DEWH16 requires option DUK_USE_HEAPPTR16 (which is missing)
 #endif
 #if defined(DUK_USE_HEAPPTR_ENC16) && !defined(DUK_USE_HEAPPTR16)
 #error config option DUK_USE_HEAPPTR_ENC16 requires option DUK_USE_HEAPPTR16 (which is missing)

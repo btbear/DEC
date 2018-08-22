@@ -21,7 +21,7 @@ func TestGetOrRegisterMeter(t *testing.T) {
 	}
 }
 
-func TestMeterDecay(t *testing.T) {
+func TestMeterDEWHay(t *testing.T) {
 	ma := meterArbiter{
 		ticker: time.NewTicker(time.Millisecond),
 		meters: make(map[*StandardMeter]struct{}),
@@ -33,7 +33,7 @@ func TestMeterDecay(t *testing.T) {
 	rateMean := m.RateMean()
 	time.Sleep(100 * time.Millisecond)
 	if m.RateMean() >= rateMean {
-		t.Error("m.RateMean() didn't decrease")
+		t.Error("m.RateMean() didn't DEWHrease")
 	}
 }
 

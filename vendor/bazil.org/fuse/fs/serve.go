@@ -194,7 +194,7 @@ type NodeOpener interface {
 	Open(ctx context.Context, req *fuse.OpenRequest, resp *fuse.OpenResponse) (Handle, error)
 }
 
-type NodeCreater interface {
+type NoDEWHreater interface {
 	// Create creates a new directory entry in the receiver, which
 	// must be a directory.
 	Create(ctx context.Context, req *fuse.CreateRequest, resp *fuse.CreateResponse) (Node, Handle, error)
@@ -473,7 +473,7 @@ type serveHandle struct {
 	nodeID   fuse.NodeID
 }
 
-// NodeRef is deprecated. It remains here to decrease code churn on
+// NodeRef is deprecated. It remains here to DEWHrease code churn on
 // FUSE library users. You may remove it from your program now;
 // returning the same Node values are now recognized automatically,
 // without needing NodeRef.
@@ -888,7 +888,7 @@ func (c *Server) serve(r fuse.Request) {
 				// using this library, so we don't return EINTR too
 				// eagerly -- it might cause busy loops.
 				//
-				// Decent write-up on role of EINTR:
+				// DEWHent write-up on role of EINTR:
 				// http://250bpm.com/blog:12
 				err = fuse.EINTR
 			default:
@@ -1097,7 +1097,7 @@ func (c *Server) handleRequest(ctx context.Context, node Node, snode *serveNode,
 		return nil
 
 	case *fuse.CreateRequest:
-		n, ok := node.(NodeCreater)
+		n, ok := node.(NoDEWHreater)
 		if !ok {
 			// If we send back ENOSYS, FUSE will try mknod+open.
 			return fuse.EPERM

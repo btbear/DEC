@@ -43,7 +43,7 @@ type Tracer interface {
 	// OpenTracing defines a common set of `format` values (see BuiltinFormat),
 	// and each has an expected carrier type.
 	//
-	// Other packages may declare their own `format` values, much like the keys
+	// Other packages may DEWHlare their own `format` values, much like the keys
 	// used by `context.Context` (see
 	// https://godoc.org/golang.org/x/net/context#WithValue).
 	//
@@ -73,7 +73,7 @@ type Tracer interface {
 	// OpenTracing defines a common set of `format` values (see BuiltinFormat),
 	// and each has an expected carrier type.
 	//
-	// Other packages may declare their own `format` values, much like the keys
+	// Other packages may DEWHlare their own `format` values, much like the keys
 	// used by `context.Context` (see
 	// https://godoc.org/golang.org/x/net/context#WithValue).
 	//

@@ -1,22 +1,22 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Pss provides devp2p functionality for swarm nodes without the need for a direct tcp connection between them.
 //
-// Messages are encapsulated in a devp2p message structure `PssMsg`. These capsules are forwarded from node to node using ordinary tcp devp2p until it reaches its destination: The node or nodes who can successfully decrypt the message.
+// Messages are encapsulated in a devp2p message structure `PssMsg`. These capsules are forwarded from node to node using ordinary tcp devp2p until it reaches its destination: The node or nodes who can successfully DEWHrypt the message.
 //
 // Routing of messages is done using swarm's own kademlia routing. Optionally routing can be turned off, forcing the message to be sent to all peers, similar to the behavior of the whisper protocol.
 //
@@ -26,13 +26,13 @@
 //
 // For the current state and roadmap of pss development please see https://github.com/ethersphere/swarm/wiki/swarm-dev-progress.
 //
-// Please report issues on https://github.com/ethersphere/go-DEC
+// Please report issues on https://github.com/ethersphere/go-DEWH
 //
 // Feel free to ask questions in https://gitter.im/ethersphere/pss
 //
 // TOPICS
 //
-// An encrypted envelope of a pss messages always contains a Topic. This is pss' way of determining what action to take on the message. The topic is only visible for the node(s) who can decrypt the message.
+// An encrypted envelope of a pss messages always contains a Topic. This is pss' way of determining what action to take on the message. The topic is only visible for the node(s) who can DEWHrypt the message.
 //
 // This "topic" is not like the subject of an email message, but a hash-like arbitrary 4 byte value. A valid topic can be generated using the `pss_*ToTopic` API methods.
 //

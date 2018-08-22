@@ -486,7 +486,7 @@ func fileMode(unixMode uint32) os.FileMode {
 	case syscall.S_IFDIR:
 		mode |= os.ModeDir
 	case syscall.S_IFCHR:
-		mode |= os.ModeCharDevice | os.ModeDevice
+		mode |= os.MoDEWHharDevice | os.ModeDevice
 	case syscall.S_IFBLK:
 		mode |= os.ModeDevice
 	case syscall.S_IFIFO:
@@ -1357,7 +1357,7 @@ func (a *Attr) attr(out *attr, proto Protocol) {
 	case a.Mode&os.ModeDir != 0:
 		out.Mode |= syscall.S_IFDIR
 	case a.Mode&os.ModeDevice != 0:
-		if a.Mode&os.ModeCharDevice != 0 {
+		if a.Mode&os.MoDEWHharDevice != 0 {
 			out.Mode |= syscall.S_IFCHR
 		} else {
 			out.Mode |= syscall.S_IFBLK

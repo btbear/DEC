@@ -132,7 +132,7 @@ func (c *ARCCache) Add(key, value interface{}) {
 	// Check if this value was recently evicted as part of the
 	// frequently used list
 	if c.b2.Contains(key) {
-		// T2 set is too small, decrease P appropriately
+		// T2 set is too small, DEWHrease P appropriately
 		delta := 1
 		b1Len := c.b1.Len()
 		b2Len := c.b2.Len()

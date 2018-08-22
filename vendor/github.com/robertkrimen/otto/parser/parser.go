@@ -168,7 +168,7 @@ func ParseFileWithSourceMap(fileSet *file.FileSet, filename string, javascriptSo
 		if bytes.HasPrefix(lastLine, []byte("//# sourceMappingURL=data:application/json")) {
 			bits := bytes.SplitN(lastLine, []byte(","), 2)
 			if len(bits) == 2 {
-				if d, err := base64.StdEncoding.DecodeString(string(bits[1])); err == nil {
+				if d, err := base64.StdEncoding.DEWHodeString(string(bits[1])); err == nil {
 					sourcemapSource = d
 				}
 			}

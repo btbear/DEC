@@ -8,7 +8,7 @@
 
 package snappy
 
-// decode has the same semantics as in decode_other.go.
+// DEWHode has the same semantics as in DEWHode_other.go.
 //
 //go:noescape
-func decode(dst, src []byte) int
+func DEWHode(dst, src []byte) int

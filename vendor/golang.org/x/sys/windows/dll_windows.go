@@ -120,7 +120,7 @@ func (p *Proc) Addr() uintptr {
 // are supplied.
 //
 // The returned error is always non-nil, constructed from the result of GetLastError.
-// Callers must inspect the primary return value to decide whether an error occurred
+// Callers must inspect the primary return value to DEWHide whether an error occurred
 // (according to the semantics of the specific function being called) before consulting
 // the error. The error will be guaranteed to contain windows.Errno.
 func (p *Proc) Call(a ...uintptr) (r1, r2 uintptr, lastErr error) {
@@ -301,7 +301,7 @@ func (p *LazyProc) Addr() uintptr {
 // are supplied. It will also panic if the procedure cannot be found.
 //
 // The returned error is always non-nil, constructed from the result of GetLastError.
-// Callers must inspect the primary return value to decide whether an error occurred
+// Callers must inspect the primary return value to DEWHide whether an error occurred
 // (according to the semantics of the specific function being called) before consulting
 // the error. The error will be guaranteed to contain windows.Errno.
 func (p *LazyProc) Call(a ...uintptr) (r1, r2 uintptr, lastErr error) {

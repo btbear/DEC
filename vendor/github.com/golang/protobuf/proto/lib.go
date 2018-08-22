@@ -68,7 +68,7 @@ for a protocol buffer variable v:
 	and SetExtension are functions for manipulating extensions.
   - Oneof field sets are given a single field in their message,
 	with distinguished wrapper types for each possible field value.
-  - Marshal and Unmarshal are functions to encode and decode the wire format.
+  - Marshal and Unmarshal are functions to encode and DEWHode the wire format.
 
 When the .proto file specifies `syntax="proto3"`, there are some differences:
 
@@ -281,12 +281,12 @@ type Message interface {
 }
 
 // Stats records allocation details about the protocol buffer encoders
-// and decoders.  Useful for tuning the library itself.
+// and DEWHoders.  Useful for tuning the library itself.
 type Stats struct {
 	Emalloc uint64 // mallocs in encode
-	Dmalloc uint64 // mallocs in decode
+	Dmalloc uint64 // mallocs in DEWHode
 	Encode  uint64 // number of encodes
-	Decode  uint64 // number of decodes
+	DEWHode  uint64 // number of DEWHodes
 	Chit    uint64 // number of cache hits
 	Cmiss   uint64 // number of cache misses
 	Size    uint64 // number of sizes
@@ -306,7 +306,7 @@ func GetStats() Stats { return stats }
 // the global functions Marshal and Unmarshal create a
 // temporary Buffer and are fine for most applications.
 type Buffer struct {
-	buf   []byte // encode/decode byte stream
+	buf   []byte // encode/DEWHode byte stream
 	index int    // read point
 
 	// pools of basic types to amortize allocation.
@@ -465,7 +465,7 @@ out:
 			break
 		}
 
-		op, err := p.DecodeVarint()
+		op, err := p.DEWHodeVarint()
 		if err != nil {
 			fmt.Printf("%3d: fetching op err %v\n", index, err)
 			break out
@@ -482,7 +482,7 @@ out:
 		case WireBytes:
 			var r []byte
 
-			r, err = p.DecodeRawBytes(false)
+			r, err = p.DEWHodeRawBytes(false)
 			if err != nil {
 				break out
 			}
@@ -503,7 +503,7 @@ out:
 			fmt.Printf("\n")
 
 		case WireFixed32:
-			u, err = p.DecodeFixed32()
+			u, err = p.DEWHodeFixed32()
 			if err != nil {
 				fmt.Printf("%3d: t=%3d fix32 err %v\n", index, tag, err)
 				break out
@@ -511,7 +511,7 @@ out:
 			fmt.Printf("%3d: t=%3d fix32 %d\n", index, tag, u)
 
 		case WireFixed64:
-			u, err = p.DecodeFixed64()
+			u, err = p.DEWHodeFixed64()
 			if err != nil {
 				fmt.Printf("%3d: t=%3d fix64 err %v\n", index, tag, err)
 				break out
@@ -519,7 +519,7 @@ out:
 			fmt.Printf("%3d: t=%3d fix64 %d\n", index, tag, u)
 
 		case WireVarint:
-			u, err = p.DecodeVarint()
+			u, err = p.DEWHodeVarint()
 			if err != nil {
 				fmt.Printf("%3d: t=%3d varint err %v\n", index, tag, err)
 				break out
@@ -687,7 +687,7 @@ func setDefaults(v reflect.Value, recur, zeros bool) {
 
 var (
 	// defaults maps a protocol buffer struct type to a slice of the fields,
-	// with its scalar fields set to their proto-declared non-zero default values.
+	// with its scalar fields set to their proto-DEWHlared non-zero default values.
 	defaultMu sync.RWMutex
 	defaults  = make(map[reflect.Type]defaultMessage)
 
@@ -703,14 +703,14 @@ type defaultMessage struct {
 type scalarField struct {
 	index int          // struct field index
 	kind  reflect.Kind // element type (the T in *T or []T)
-	value interface{}  // the proto-declared default value, or nil
+	value interface{}  // the proto-DEWHlared default value, or nil
 }
 
 // t is a struct type.
 func buildDefaultMessage(t reflect.Type) (dm defaultMessage) {
 	sprop := GetProperties(t)
 	for _, prop := range sprop.Prop {
-		fi, ok := sprop.decoderTags.get(prop.Tag)
+		fi, ok := sprop.DEWHoderTags.get(prop.Tag)
 		if !ok {
 			// XXX_unrecognized
 			continue

@@ -1,18 +1,18 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package state
 
@@ -20,9 +20,9 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/rlp"
-	"github.com/DEC/go-DEC/trie"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/rlp"
+	"github.com/DEWH/go-DEWH/trie"
 )
 
 type DumpAccount struct {
@@ -49,7 +49,7 @@ func (self *StateDB) RawDump() Dump {
 	for it.Next() {
 		addr := self.trie.GetKey(it.Key)
 		var data Account
-		if err := rlp.DecodeBytes(it.Value, &data); err != nil {
+		if err := rlp.DEWHodeBytes(it.Value, &data); err != nil {
 			panic(err)
 		}
 

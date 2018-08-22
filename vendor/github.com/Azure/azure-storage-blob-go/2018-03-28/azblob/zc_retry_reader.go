@@ -28,7 +28,7 @@ type HTTPGetterInfo struct {
 	ETag ETag
 }
 
-// RetryReaderOptions contains properties which can help to decide when to do retry.
+// RetryReaderOptions contains properties which can help to DEWHide when to do retry.
 type RetryReaderOptions struct {
 	// MaxRetryRequests specifies the maximum number of HTTP GET requests that will be made
 	// while reading from a RetryReader. A value of zero means that no additional HTTP
@@ -94,14 +94,14 @@ func (s *retryReader) Read(p []byte) (n int, err error) {
 		if err == nil || err == io.EOF {
 			s.info.Offset += int64(n) // Increments the start offset in case we need to make a new HTTP request in the future
 			if s.info.Count != CountToEnd {
-				s.info.Count -= int64(n) // Decrement the count in case we need to make a new HTTP request in the future
+				s.info.Count -= int64(n) // DEWHrement the count in case we need to make a new HTTP request in the future
 			}
 			return n, err // Return the return to the caller
 		}
 		s.Close()        // Error, close stream
 		s.response = nil // Our stream is no longer good
 
-		// Check the retry count and error code, and decide whether to retry.
+		// Check the retry count and error code, and DEWHide whether to retry.
 		if try >= s.o.MaxRetryRequests {
 			return n, err // All retries exhausted
 		}

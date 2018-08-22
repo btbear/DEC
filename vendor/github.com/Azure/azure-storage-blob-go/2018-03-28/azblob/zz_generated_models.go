@@ -34,7 +34,7 @@ const mdPrefix = "x-ms-meta-"
 const mdPrefixLen = len(mdPrefix)
 
 // UnmarshalXML implements the xml.Unmarshaler interface for Metadata.
-func (md *Metadata) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+func (md *Metadata) UnmarshalXML(d *xml.DEWHoder, start xml.StartElement) error {
 	tokName := ""
 	for t, err := d.Token(); err == nil; t, err = d.Token() {
 		switch tt := t.(type) {
@@ -66,9 +66,9 @@ func (m Marker) NotDone() bool {
 }
 
 // UnmarshalXML implements the xml.Unmarshaler interface for Marker.
-func (m *Marker) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+func (m *Marker) UnmarshalXML(d *xml.DEWHoder, start xml.StartElement) error {
 	var out string
-	err := d.DecodeElement(&out, &start)
+	err := d.DEWHodeElement(&out, &start)
 	m.val = &out
 	return err
 }
@@ -394,28 +394,28 @@ const (
 	StorageErrorCodeBlockCountExceedsLimit StorageErrorCodeType = "BlockCountExceedsLimit"
 	// StorageErrorCodeBlockListTooLong ...
 	StorageErrorCodeBlockListTooLong StorageErrorCodeType = "BlockListTooLong"
-	// StorageErrorCodeCannotChangeToLowerTier ...
-	StorageErrorCodeCannotChangeToLowerTier StorageErrorCodeType = "CannotChangeToLowerTier"
-	// StorageErrorCodeCannotVerifyCopySource ...
-	StorageErrorCodeCannotVerifyCopySource StorageErrorCodeType = "CannotVerifyCopySource"
-	// StorageErrorCodeConditionHeadersNotSupported ...
-	StorageErrorCodeConditionHeadersNotSupported StorageErrorCodeType = "ConditionHeadersNotSupported"
-	// StorageErrorCodeConditionNotMet ...
-	StorageErrorCodeConditionNotMet StorageErrorCodeType = "ConditionNotMet"
-	// StorageErrorCodeContainerAlreadyExists ...
-	StorageErrorCodeContainerAlreadyExists StorageErrorCodeType = "ContainerAlreadyExists"
-	// StorageErrorCodeContainerBeingDeleted ...
-	StorageErrorCodeContainerBeingDeleted StorageErrorCodeType = "ContainerBeingDeleted"
-	// StorageErrorCodeContainerDisabled ...
-	StorageErrorCodeContainerDisabled StorageErrorCodeType = "ContainerDisabled"
-	// StorageErrorCodeContainerNotFound ...
-	StorageErrorCodeContainerNotFound StorageErrorCodeType = "ContainerNotFound"
-	// StorageErrorCodeContentLengthLargerThanTierLimit ...
-	StorageErrorCodeContentLengthLargerThanTierLimit StorageErrorCodeType = "ContentLengthLargerThanTierLimit"
-	// StorageErrorCodeCopyAcrossAccountsNotSupported ...
-	StorageErrorCodeCopyAcrossAccountsNotSupported StorageErrorCodeType = "CopyAcrossAccountsNotSupported"
-	// StorageErrorCodeCopyIDMismatch ...
-	StorageErrorCodeCopyIDMismatch StorageErrorCodeType = "CopyIdMismatch"
+	// StorageErrorCoDEWHannotChangeToLowerTier ...
+	StorageErrorCoDEWHannotChangeToLowerTier StorageErrorCodeType = "CannotChangeToLowerTier"
+	// StorageErrorCoDEWHannotVerifyCopySource ...
+	StorageErrorCoDEWHannotVerifyCopySource StorageErrorCodeType = "CannotVerifyCopySource"
+	// StorageErrorCoDEWHonditionHeadersNotSupported ...
+	StorageErrorCoDEWHonditionHeadersNotSupported StorageErrorCodeType = "ConditionHeadersNotSupported"
+	// StorageErrorCoDEWHonditionNotMet ...
+	StorageErrorCoDEWHonditionNotMet StorageErrorCodeType = "ConditionNotMet"
+	// StorageErrorCoDEWHontainerAlreadyExists ...
+	StorageErrorCoDEWHontainerAlreadyExists StorageErrorCodeType = "ContainerAlreadyExists"
+	// StorageErrorCoDEWHontainerBeingDeleted ...
+	StorageErrorCoDEWHontainerBeingDeleted StorageErrorCodeType = "ContainerBeingDeleted"
+	// StorageErrorCoDEWHontainerDisabled ...
+	StorageErrorCoDEWHontainerDisabled StorageErrorCodeType = "ContainerDisabled"
+	// StorageErrorCoDEWHontainerNotFound ...
+	StorageErrorCoDEWHontainerNotFound StorageErrorCodeType = "ContainerNotFound"
+	// StorageErrorCoDEWHontentLengthLargerThanTierLimit ...
+	StorageErrorCoDEWHontentLengthLargerThanTierLimit StorageErrorCodeType = "ContentLengthLargerThanTierLimit"
+	// StorageErrorCoDEWHopyAcrossAccountsNotSupported ...
+	StorageErrorCoDEWHopyAcrossAccountsNotSupported StorageErrorCodeType = "CopyAcrossAccountsNotSupported"
+	// StorageErrorCoDEWHopyIDMismatch ...
+	StorageErrorCoDEWHopyIDMismatch StorageErrorCodeType = "CopyIdMismatch"
 	// StorageErrorCodeEmptyMetadataKey ...
 	StorageErrorCodeEmptyMetadataKey StorageErrorCodeType = "EmptyMetadataKey"
 	// StorageErrorCodeFeatureVersionMismatch ...
@@ -580,7 +580,7 @@ const (
 
 // PossibleStorageErrorCodeTypeValues returns an array of possible values for the StorageErrorCodeType const type.
 func PossibleStorageErrorCodeTypeValues() []StorageErrorCodeType {
-	return []StorageErrorCodeType{StorageErrorCodeAccountAlreadyExists, StorageErrorCodeAccountBeingCreated, StorageErrorCodeAccountIsDisabled, StorageErrorCodeAppendPositionConditionNotMet, StorageErrorCodeAuthenticationFailed, StorageErrorCodeBlobAlreadyExists, StorageErrorCodeBlobArchived, StorageErrorCodeBlobBeingRehydrated, StorageErrorCodeBlobNotArchived, StorageErrorCodeBlobNotFound, StorageErrorCodeBlobOverwritten, StorageErrorCodeBlobTierInadequateForContentLength, StorageErrorCodeBlockCountExceedsLimit, StorageErrorCodeBlockListTooLong, StorageErrorCodeCannotChangeToLowerTier, StorageErrorCodeCannotVerifyCopySource, StorageErrorCodeConditionHeadersNotSupported, StorageErrorCodeConditionNotMet, StorageErrorCodeContainerAlreadyExists, StorageErrorCodeContainerBeingDeleted, StorageErrorCodeContainerDisabled, StorageErrorCodeContainerNotFound, StorageErrorCodeContentLengthLargerThanTierLimit, StorageErrorCodeCopyAcrossAccountsNotSupported, StorageErrorCodeCopyIDMismatch, StorageErrorCodeEmptyMetadataKey, StorageErrorCodeFeatureVersionMismatch, StorageErrorCodeIncrementalCopyBlobMismatch, StorageErrorCodeIncrementalCopyOfEralierVersionSnapshotNotAllowed, StorageErrorCodeIncrementalCopySourceMustBeSnapshot, StorageErrorCodeInfiniteLeaseDurationRequired, StorageErrorCodeInsufficientAccountPermissions, StorageErrorCodeInternalError, StorageErrorCodeInvalidAuthenticationInfo, StorageErrorCodeInvalidBlobOrBlock, StorageErrorCodeInvalidBlobTier, StorageErrorCodeInvalidBlobType, StorageErrorCodeInvalidBlockID, StorageErrorCodeInvalidBlockList, StorageErrorCodeInvalidHeaderValue, StorageErrorCodeInvalidHTTPVerb, StorageErrorCodeInvalidInput, StorageErrorCodeInvalidMd5, StorageErrorCodeInvalidMetadata, StorageErrorCodeInvalidOperation, StorageErrorCodeInvalidPageRange, StorageErrorCodeInvalidQueryParameterValue, StorageErrorCodeInvalidRange, StorageErrorCodeInvalidResourceName, StorageErrorCodeInvalidSourceBlobType, StorageErrorCodeInvalidSourceBlobURL, StorageErrorCodeInvalidURI, StorageErrorCodeInvalidVersionForPageBlobOperation, StorageErrorCodeInvalidXMLDocument, StorageErrorCodeInvalidXMLNodeValue, StorageErrorCodeLeaseAlreadyBroken, StorageErrorCodeLeaseAlreadyPresent, StorageErrorCodeLeaseIDMismatchWithBlobOperation, StorageErrorCodeLeaseIDMismatchWithContainerOperation, StorageErrorCodeLeaseIDMismatchWithLeaseOperation, StorageErrorCodeLeaseIDMissing, StorageErrorCodeLeaseIsBreakingAndCannotBeAcquired, StorageErrorCodeLeaseIsBreakingAndCannotBeChanged, StorageErrorCodeLeaseIsBrokenAndCannotBeRenewed, StorageErrorCodeLeaseLost, StorageErrorCodeLeaseNotPresentWithBlobOperation, StorageErrorCodeLeaseNotPresentWithContainerOperation, StorageErrorCodeLeaseNotPresentWithLeaseOperation, StorageErrorCodeMaxBlobSizeConditionNotMet, StorageErrorCodeMd5Mismatch, StorageErrorCodeMetadataTooLarge, StorageErrorCodeMissingContentLengthHeader, StorageErrorCodeMissingRequiredHeader, StorageErrorCodeMissingRequiredQueryParameter, StorageErrorCodeMissingRequiredXMLNode, StorageErrorCodeMultipleConditionHeadersNotSupported, StorageErrorCodeNone, StorageErrorCodeNoPendingCopyOperation, StorageErrorCodeOperationNotAllowedOnIncrementalCopyBlob, StorageErrorCodeOperationTimedOut, StorageErrorCodeOutOfRangeInput, StorageErrorCodeOutOfRangeQueryParameterValue, StorageErrorCodePendingCopyOperation, StorageErrorCodePreviousSnapshotCannotBeNewer, StorageErrorCodePreviousSnapshotNotFound, StorageErrorCodePreviousSnapshotOperationNotSupported, StorageErrorCodeRequestBodyTooLarge, StorageErrorCodeRequestURLFailedToParse, StorageErrorCodeResourceAlreadyExists, StorageErrorCodeResourceNotFound, StorageErrorCodeResourceTypeMismatch, StorageErrorCodeSequenceNumberConditionNotMet, StorageErrorCodeSequenceNumberIncrementTooLarge, StorageErrorCodeServerBusy, StorageErrorCodeSnaphotOperationRateExceeded, StorageErrorCodeSnapshotCountExceeded, StorageErrorCodeSnapshotsPresent, StorageErrorCodeSourceConditionNotMet, StorageErrorCodeSystemInUse, StorageErrorCodeTargetConditionNotMet, StorageErrorCodeUnauthorizedBlobOverwrite, StorageErrorCodeUnsupportedHeader, StorageErrorCodeUnsupportedHTTPVerb, StorageErrorCodeUnsupportedQueryParameter, StorageErrorCodeUnsupportedXMLNode}
+	return []StorageErrorCodeType{StorageErrorCodeAccountAlreadyExists, StorageErrorCodeAccountBeingCreated, StorageErrorCodeAccountIsDisabled, StorageErrorCodeAppendPositionConditionNotMet, StorageErrorCodeAuthenticationFailed, StorageErrorCodeBlobAlreadyExists, StorageErrorCodeBlobArchived, StorageErrorCodeBlobBeingRehydrated, StorageErrorCodeBlobNotArchived, StorageErrorCodeBlobNotFound, StorageErrorCodeBlobOverwritten, StorageErrorCodeBlobTierInadequateForContentLength, StorageErrorCodeBlockCountExceedsLimit, StorageErrorCodeBlockListTooLong, StorageErrorCoDEWHannotChangeToLowerTier, StorageErrorCoDEWHannotVerifyCopySource, StorageErrorCoDEWHonditionHeadersNotSupported, StorageErrorCoDEWHonditionNotMet, StorageErrorCoDEWHontainerAlreadyExists, StorageErrorCoDEWHontainerBeingDeleted, StorageErrorCoDEWHontainerDisabled, StorageErrorCoDEWHontainerNotFound, StorageErrorCoDEWHontentLengthLargerThanTierLimit, StorageErrorCoDEWHopyAcrossAccountsNotSupported, StorageErrorCoDEWHopyIDMismatch, StorageErrorCodeEmptyMetadataKey, StorageErrorCodeFeatureVersionMismatch, StorageErrorCodeIncrementalCopyBlobMismatch, StorageErrorCodeIncrementalCopyOfEralierVersionSnapshotNotAllowed, StorageErrorCodeIncrementalCopySourceMustBeSnapshot, StorageErrorCodeInfiniteLeaseDurationRequired, StorageErrorCodeInsufficientAccountPermissions, StorageErrorCodeInternalError, StorageErrorCodeInvalidAuthenticationInfo, StorageErrorCodeInvalidBlobOrBlock, StorageErrorCodeInvalidBlobTier, StorageErrorCodeInvalidBlobType, StorageErrorCodeInvalidBlockID, StorageErrorCodeInvalidBlockList, StorageErrorCodeInvalidHeaderValue, StorageErrorCodeInvalidHTTPVerb, StorageErrorCodeInvalidInput, StorageErrorCodeInvalidMd5, StorageErrorCodeInvalidMetadata, StorageErrorCodeInvalidOperation, StorageErrorCodeInvalidPageRange, StorageErrorCodeInvalidQueryParameterValue, StorageErrorCodeInvalidRange, StorageErrorCodeInvalidResourceName, StorageErrorCodeInvalidSourceBlobType, StorageErrorCodeInvalidSourceBlobURL, StorageErrorCodeInvalidURI, StorageErrorCodeInvalidVersionForPageBlobOperation, StorageErrorCodeInvalidXMLDocument, StorageErrorCodeInvalidXMLNodeValue, StorageErrorCodeLeaseAlreadyBroken, StorageErrorCodeLeaseAlreadyPresent, StorageErrorCodeLeaseIDMismatchWithBlobOperation, StorageErrorCodeLeaseIDMismatchWithContainerOperation, StorageErrorCodeLeaseIDMismatchWithLeaseOperation, StorageErrorCodeLeaseIDMissing, StorageErrorCodeLeaseIsBreakingAndCannotBeAcquired, StorageErrorCodeLeaseIsBreakingAndCannotBeChanged, StorageErrorCodeLeaseIsBrokenAndCannotBeRenewed, StorageErrorCodeLeaseLost, StorageErrorCodeLeaseNotPresentWithBlobOperation, StorageErrorCodeLeaseNotPresentWithContainerOperation, StorageErrorCodeLeaseNotPresentWithLeaseOperation, StorageErrorCodeMaxBlobSizeConditionNotMet, StorageErrorCodeMd5Mismatch, StorageErrorCodeMetadataTooLarge, StorageErrorCodeMissingContentLengthHeader, StorageErrorCodeMissingRequiredHeader, StorageErrorCodeMissingRequiredQueryParameter, StorageErrorCodeMissingRequiredXMLNode, StorageErrorCodeMultipleConditionHeadersNotSupported, StorageErrorCodeNone, StorageErrorCodeNoPendingCopyOperation, StorageErrorCodeOperationNotAllowedOnIncrementalCopyBlob, StorageErrorCodeOperationTimedOut, StorageErrorCodeOutOfRangeInput, StorageErrorCodeOutOfRangeQueryParameterValue, StorageErrorCodePendingCopyOperation, StorageErrorCodePreviousSnapshotCannotBeNewer, StorageErrorCodePreviousSnapshotNotFound, StorageErrorCodePreviousSnapshotOperationNotSupported, StorageErrorCodeRequestBodyTooLarge, StorageErrorCodeRequestURLFailedToParse, StorageErrorCodeResourceAlreadyExists, StorageErrorCodeResourceNotFound, StorageErrorCodeResourceTypeMismatch, StorageErrorCodeSequenceNumberConditionNotMet, StorageErrorCodeSequenceNumberIncrementTooLarge, StorageErrorCodeServerBusy, StorageErrorCodeSnaphotOperationRateExceeded, StorageErrorCodeSnapshotCountExceeded, StorageErrorCodeSnapshotsPresent, StorageErrorCodeSourceConditionNotMet, StorageErrorCodeSystemInUse, StorageErrorCodeTargetConditionNotMet, StorageErrorCodeUnauthorizedBlobOverwrite, StorageErrorCodeUnsupportedHeader, StorageErrorCodeUnsupportedHTTPVerb, StorageErrorCodeUnsupportedQueryParameter, StorageErrorCodeUnsupportedXMLNode}
 }
 
 // AccessPolicy - An Access policy
@@ -603,12 +603,12 @@ func (ap AccessPolicy) MarshalXML(e *xml.Encoder, start xml.StartElement) error 
 }
 
 // UnmarshalXML implements the xml.Unmarshaler interface for AccessPolicy.
-func (ap *AccessPolicy) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+func (ap *AccessPolicy) UnmarshalXML(d *xml.DEWHoder, start xml.StartElement) error {
 	if reflect.TypeOf((*AccessPolicy)(nil)).Elem().Size() != reflect.TypeOf((*accessPolicy)(nil)).Elem().Size() {
 		panic("size mismatch between AccessPolicy and accessPolicy")
 	}
 	ap2 := (*accessPolicy)(unsafe.Pointer(ap))
-	return d.DecodeElement(ap2, &start)
+	return d.DEWHodeElement(ap2, &start)
 }
 
 // AppendBlobAppendBlockResponse ...
@@ -655,7 +655,7 @@ func (ababr AppendBlobAppendBlockResponse) ContentMD5() []byte {
 	if s == "" {
 		return nil
 	}
-	b, err := base64.StdEncoding.DecodeString(s)
+	b, err := base64.StdEncoding.DEWHodeString(s)
 	if err != nil {
 		panic(err)
 	}
@@ -734,7 +734,7 @@ func (abcr AppendBlobCreateResponse) ContentMD5() []byte {
 	if s == "" {
 		return nil
 	}
-	b, err := base64.StdEncoding.DecodeString(s)
+	b, err := base64.StdEncoding.DEWHodeString(s)
 	if err != nil {
 		panic(err)
 	}
@@ -1308,7 +1308,7 @@ func (bgpr BlobGetPropertiesResponse) ContentMD5() []byte {
 	if s == "" {
 		return nil
 	}
-	b, err := base64.StdEncoding.DecodeString(s)
+	b, err := base64.StdEncoding.DEWHodeString(s)
 	if err != nil {
 		panic(err)
 	}
@@ -1504,12 +1504,12 @@ func (bp BlobProperties) MarshalXML(e *xml.Encoder, start xml.StartElement) erro
 }
 
 // UnmarshalXML implements the xml.Unmarshaler interface for BlobProperties.
-func (bp *BlobProperties) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+func (bp *BlobProperties) UnmarshalXML(d *xml.DEWHoder, start xml.StartElement) error {
 	if reflect.TypeOf((*BlobProperties)(nil)).Elem().Size() != reflect.TypeOf((*blobProperties)(nil)).Elem().Size() {
 		panic("size mismatch between BlobProperties and blobProperties")
 	}
 	bp2 := (*blobProperties)(unsafe.Pointer(bp))
-	return d.DecodeElement(bp2, &start)
+	return d.DEWHodeElement(bp2, &start)
 }
 
 // BlobReleaseLeaseResponse ...
@@ -1992,7 +1992,7 @@ func (bbcblr BlockBlobCommitBlockListResponse) ContentMD5() []byte {
 	if s == "" {
 		return nil
 	}
-	b, err := base64.StdEncoding.DecodeString(s)
+	b, err := base64.StdEncoding.DEWHodeString(s)
 	if err != nil {
 		panic(err)
 	}
@@ -2076,7 +2076,7 @@ func (bbsbfur BlockBlobStageBlockFromURLResponse) ContentMD5() []byte {
 	if s == "" {
 		return nil
 	}
-	b, err := base64.StdEncoding.DecodeString(s)
+	b, err := base64.StdEncoding.DEWHodeString(s)
 	if err != nil {
 		panic(err)
 	}
@@ -2142,7 +2142,7 @@ func (bbsbr BlockBlobStageBlockResponse) ContentMD5() []byte {
 	if s == "" {
 		return nil
 	}
-	b, err := base64.StdEncoding.DecodeString(s)
+	b, err := base64.StdEncoding.DEWHodeString(s)
 	if err != nil {
 		panic(err)
 	}
@@ -2208,7 +2208,7 @@ func (bbur BlockBlobUploadResponse) ContentMD5() []byte {
 	if s == "" {
 		return nil
 	}
-	b, err := base64.StdEncoding.DecodeString(s)
+	b, err := base64.StdEncoding.DEWHodeString(s)
 	if err != nil {
 		panic(err)
 	}
@@ -2832,12 +2832,12 @@ func (cp ContainerProperties) MarshalXML(e *xml.Encoder, start xml.StartElement)
 }
 
 // UnmarshalXML implements the xml.Unmarshaler interface for ContainerProperties.
-func (cp *ContainerProperties) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+func (cp *ContainerProperties) UnmarshalXML(d *xml.DEWHoder, start xml.StartElement) error {
 	if reflect.TypeOf((*ContainerProperties)(nil)).Elem().Size() != reflect.TypeOf((*containerProperties)(nil)).Elem().Size() {
 		panic("size mismatch between ContainerProperties and containerProperties")
 	}
 	cp2 := (*containerProperties)(unsafe.Pointer(cp))
-	return d.DecodeElement(cp2, &start)
+	return d.DEWHodeElement(cp2, &start)
 }
 
 // ContainerReleaseLeaseResponse ...
@@ -3188,7 +3188,7 @@ func (dr downloadResponse) BlobContentMD5() []byte {
 	if s == "" {
 		return nil
 	}
-	b, err := base64.StdEncoding.DecodeString(s)
+	b, err := base64.StdEncoding.DEWHodeString(s)
 	if err != nil {
 		panic(err)
 	}
@@ -3252,7 +3252,7 @@ func (dr downloadResponse) ContentMD5() []byte {
 	if s == "" {
 		return nil
 	}
-	b, err := base64.StdEncoding.DecodeString(s)
+	b, err := base64.StdEncoding.DEWHodeString(s)
 	if err != nil {
 		panic(err)
 	}
@@ -3391,12 +3391,12 @@ func (gr GeoReplication) MarshalXML(e *xml.Encoder, start xml.StartElement) erro
 }
 
 // UnmarshalXML implements the xml.Unmarshaler interface for GeoReplication.
-func (gr *GeoReplication) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+func (gr *GeoReplication) UnmarshalXML(d *xml.DEWHoder, start xml.StartElement) error {
 	if reflect.TypeOf((*GeoReplication)(nil)).Elem().Size() != reflect.TypeOf((*geoReplication)(nil)).Elem().Size() {
 		panic("size mismatch between GeoReplication and geoReplication")
 	}
 	gr2 := (*geoReplication)(unsafe.Pointer(gr))
-	return d.DecodeElement(gr2, &start)
+	return d.DEWHodeElement(gr2, &start)
 }
 
 // ListBlobsFlatSegmentResponse - An enumeration of blobs
@@ -3631,7 +3631,7 @@ func (pbcpr PageBlobClearPagesResponse) ContentMD5() []byte {
 	if s == "" {
 		return nil
 	}
-	b, err := base64.StdEncoding.DecodeString(s)
+	b, err := base64.StdEncoding.DEWHodeString(s)
 	if err != nil {
 		panic(err)
 	}
@@ -3786,7 +3786,7 @@ func (pbcr PageBlobCreateResponse) ContentMD5() []byte {
 	if s == "" {
 		return nil
 	}
-	b, err := base64.StdEncoding.DecodeString(s)
+	b, err := base64.StdEncoding.DEWHodeString(s)
 	if err != nil {
 		panic(err)
 	}
@@ -4041,7 +4041,7 @@ func (pbupr PageBlobUploadPagesResponse) ContentMD5() []byte {
 	if s == "" {
 		return nil
 	}
-	b, err := base64.StdEncoding.DecodeString(s)
+	b, err := base64.StdEncoding.DEWHodeString(s)
 	if err != nil {
 		panic(err)
 	}

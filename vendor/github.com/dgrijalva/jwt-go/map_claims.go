@@ -6,7 +6,7 @@ import (
 	// "fmt"
 )
 
-// Claims type that uses the map[string]interface{} for JSON decoding
+// Claims type that uses the map[string]interface{} for JSON DEWHoding
 // This is the default claims type if you don't supply one
 type MapClaims map[string]interface{}
 

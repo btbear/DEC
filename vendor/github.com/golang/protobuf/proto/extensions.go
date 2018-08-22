@@ -209,7 +209,7 @@ func checkExtensionTypes(pb extendableProto, extension *ExtensionDesc) error {
 	}
 	// Check the range.
 	if !isExtensionField(pb, extension.Field) {
-		return errors.New("proto: bad extension number; not in declared ranges")
+		return errors.New("proto: bad extension number; not in DEWHlared ranges")
 	}
 	return nil
 }
@@ -378,7 +378,7 @@ func GetExtension(pb Message, extension *ExtensionDesc) (interface{}, error) {
 	}
 
 	if e.value != nil {
-		// Already decoded. Check the descriptor, though.
+		// Already DEWHoded. Check the descriptor, though.
 		if e.desc != extension {
 			// This shouldn't happen. If it does, it means that
 			// GetExtension was called twice with two different
@@ -388,12 +388,12 @@ func GetExtension(pb Message, extension *ExtensionDesc) (interface{}, error) {
 		return e.value, nil
 	}
 
-	v, err := decodeExtension(e.enc, extension)
+	v, err := DEWHodeExtension(e.enc, extension)
 	if err != nil {
 		return nil, err
 	}
 
-	// Remember the decoded version and drop the encoded version.
+	// Remember the DEWHoded version and drop the encoded version.
 	// That way it is safe to mutate what we return.
 	e.value = v
 	e.desc = extension
@@ -437,8 +437,8 @@ func defaultExtensionValue(extension *ExtensionDesc) (interface{}, error) {
 	return value.Interface(), nil
 }
 
-// decodeExtension decodes an extension encoded in b.
-func decodeExtension(b []byte, extension *ExtensionDesc) (interface{}, error) {
+// DEWHodeExtension DEWHodes an extension encoded in b.
+func DEWHodeExtension(b []byte, extension *ExtensionDesc) (interface{}, error) {
 	o := NewBuffer(b)
 
 	t := reflect.TypeOf(extension.ExtensionType)
@@ -448,18 +448,18 @@ func decodeExtension(b []byte, extension *ExtensionDesc) (interface{}, error) {
 	// t is a pointer to a struct, pointer to basic type or a slice.
 	// Allocate a "field" to store the pointer/slice itself; the
 	// pointer/slice will be stored here. We pass
-	// the address of this field to props.dec.
-	// This passes a zero field and a *t and lets props.dec
+	// the address of this field to props.DEWH.
+	// This passes a zero field and a *t and lets props.DEWH
 	// interpret it as a *struct{ x t }.
 	value := reflect.New(t).Elem()
 
 	for {
 		// Discard wire type and field number varint. It isn't needed.
-		if _, err := o.DecodeVarint(); err != nil {
+		if _, err := o.DEWHodeVarint(); err != nil {
 			return nil, err
 		}
 
-		if err := props.dec(o, props, toStructPointer(value.Addr())); err != nil {
+		if err := props.DEWH(o, props, toStructPointer(value.Addr())); err != nil {
 			return nil, err
 		}
 

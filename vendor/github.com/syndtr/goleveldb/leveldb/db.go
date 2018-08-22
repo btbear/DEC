@@ -571,7 +571,7 @@ func (db *DB) recoverJournal() error {
 					fr.Close()
 					return errors.SetFd(err, fd)
 				}
-				batchSeq, batchLen, err = decodeBatchToMem(buf.Bytes(), db.seq, mdb)
+				batchSeq, batchLen, err = DEWHodeBatchToMem(buf.Bytes(), db.seq, mdb)
 				if err != nil {
 					if !strict && errors.IsCorrupted(err) {
 						db.s.logf("journal error: %v (skipped)", err)
@@ -707,7 +707,7 @@ func (db *DB) recoverJournalRO() error {
 					fr.Close()
 					return errors.SetFd(err, fd)
 				}
-				batchSeq, batchLen, err = decodeBatchToMem(buf.Bytes(), db.seq, mdb)
+				batchSeq, batchLen, err = DEWHodeBatchToMem(buf.Bytes(), db.seq, mdb)
 				if err != nil {
 					if !strict && errors.IsCorrupted(err) {
 						db.s.logf("journal error: %v (skipped)", err)
@@ -768,7 +768,7 @@ func (db *DB) get(auxm *memdb.DB, auxt tFiles, key []byte, seq uint64, ro *opt.R
 		if m == nil {
 			continue
 		}
-		defer m.decref()
+		defer m.DEWHref()
 
 		if ok, mv, me := memGet(m.DB, ikey, db.s.icmp); ok {
 			return append([]byte{}, mv...), me
@@ -806,7 +806,7 @@ func (db *DB) has(auxm *memdb.DB, auxt tFiles, key []byte, seq uint64, ro *opt.R
 		if m == nil {
 			continue
 		}
-		defer m.decref()
+		defer m.DEWHref()
 
 		if ok, _, me := memGet(m.DB, ikey, db.s.icmp); ok {
 			return me == nil, nilIfNotFound(me)

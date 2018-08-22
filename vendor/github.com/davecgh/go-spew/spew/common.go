@@ -64,7 +64,7 @@ var (
 	capEqualsBytes        = []byte("cap=")
 )
 
-// hexDigits is used to map a decimal value to a hex digit.
+// hexDigits is used to map a DEWHimal value to a hex digit.
 var hexDigits = "0123456789abcdef"
 
 // catchPanic handles any panics that might occur during the handleMethods
@@ -180,7 +180,7 @@ func printComplex(w io.Writer, c complex128, floatPrecision int) {
 	w.Write(closeParenBytes)
 }
 
-// printHexPtr outputs a uintptr formatted as hexidecimal with a leading '0x'
+// printHexPtr outputs a uintptr formatted as hexiDEWHimal with a leading '0x'
 // prefix to Writer w.
 func printHexPtr(w io.Writer, p uintptr) {
 	// Null pointer.
@@ -224,7 +224,7 @@ type valuesSorter struct {
 
 // newValuesSorter initializes a valuesSorter instance, which holds a set of
 // surrogate keys on which the data should be sorted.  It uses flags in
-// ConfigState to decide if and how to populate those surrogate keys.
+// ConfigState to DEWHide if and how to populate those surrogate keys.
 func newValuesSorter(values []reflect.Value, cs *ConfigState) sort.Interface {
 	vs := &valuesSorter{values: values, cs: cs}
 	if canSortSimply(vs.values[0].Kind()) {

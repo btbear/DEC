@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package rpc
 
@@ -26,7 +26,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/DEC/go-DEC/log"
+	"github.com/DEWH/go-DEWH/log"
 )
 
 const (
@@ -73,13 +73,13 @@ type jsonNotification struct {
 	Params  jsonSubscription `json:"params"`
 }
 
-// jsonCodec reads and writes JSON-RPC messages to the underlying connection. It
+// jsonCoDEWH reads and writes JSON-RPC messages to the underlying connection. It
 // also has support for parsing arguments and serializing (result) objects.
-type jsonCodec struct {
+type jsonCoDEWH struct {
 	closer sync.Once                 // close closed channel once
 	closed chan interface{}          // closed on Close
-	decMu  sync.Mutex                // guards the decoder
-	decode func(v interface{}) error // decoder to allow multiple transports
+	DEWHMu  sync.Mutex                // guards the DEWHoder
+	DEWHode func(v interface{}) error // DEWHoder to allow multiple transports
 	encMu  sync.Mutex                // guards the encoder
 	encode func(v interface{}) error // encoder to allow multiple transports
 	rw     io.ReadWriteCloser        // connection
@@ -96,27 +96,27 @@ func (err *jsonError) ErrorCode() int {
 	return err.Code
 }
 
-// NewCodec creates a new RPC server codec with support for JSON-RPC 2.0 based
-// on explicitly given encoding and decoding methods.
-func NewCodec(rwc io.ReadWriteCloser, encode, decode func(v interface{}) error) ServerCodec {
-	return &jsonCodec{
+// NewCoDEWH creates a new RPC server coDEWH with support for JSON-RPC 2.0 based
+// on explicitly given encoding and DEWHoding methods.
+func NewCoDEWH(rwc io.ReadWriteCloser, encode, DEWHode func(v interface{}) error) ServerCoDEWH {
+	return &jsonCoDEWH{
 		closed: make(chan interface{}),
 		encode: encode,
-		decode: decode,
+		DEWHode: DEWHode,
 		rw:     rwc,
 	}
 }
 
-// NewJSONCodec creates a new RPC server codec with support for JSON-RPC 2.0.
-func NewJSONCodec(rwc io.ReadWriteCloser) ServerCodec {
+// NewJSONCoDEWH creates a new RPC server coDEWH with support for JSON-RPC 2.0.
+func NewJSONCoDEWH(rwc io.ReadWriteCloser) ServerCoDEWH {
 	enc := json.NewEncoder(rwc)
-	dec := json.NewDecoder(rwc)
-	dec.UseNumber()
+	DEWH := json.NewDEWHoder(rwc)
+	DEWH.UseNumber()
 
-	return &jsonCodec{
+	return &jsonCoDEWH{
 		closed: make(chan interface{}),
 		encode: enc.Encode,
-		decode: dec.Decode,
+		DEWHode: DEWH.DEWHode,
 		rw:     rwc,
 	}
 }
@@ -136,12 +136,12 @@ func isBatch(msg json.RawMessage) bool {
 // ReadRequestHeaders will read new requests without parsing the arguments. It will
 // return a collection of requests, an indication if these requests are in batch
 // form or an error when the incoming message could not be read/parsed.
-func (c *jsonCodec) ReadRequestHeaders() ([]rpcRequest, bool, Error) {
-	c.decMu.Lock()
-	defer c.decMu.Unlock()
+func (c *jsonCoDEWH) ReadRequestHeaders() ([]rpcRequest, bool, Error) {
+	c.DEWHMu.Lock()
+	defer c.DEWHMu.Unlock()
 
 	var incomingMsg json.RawMessage
-	if err := c.decode(&incomingMsg); err != nil {
+	if err := c.DEWHode(&incomingMsg); err != nil {
 		return nil, false, &invalidRequestError{err.Error()}
 	}
 	if isBatch(incomingMsg) {
@@ -272,7 +272,7 @@ func parseBatchRequest(incomingMsg json.RawMessage) ([]rpcRequest, bool, Error) 
 
 // ParseRequestArguments tries to parse the given params (json.RawMessage) with the given
 // types. It returns the parsed values or an error when the parsing failed.
-func (c *jsonCodec) ParseRequestArguments(argTypes []reflect.Type, params interface{}) ([]reflect.Value, Error) {
+func (c *jsonCoDEWH) ParseRequestArguments(argTypes []reflect.Type, params interface{}) ([]reflect.Value, Error) {
 	if args, ok := params.(json.RawMessage); !ok {
 		return nil, &invalidParamsError{"Invalid params supplied"}
 	} else {
@@ -285,18 +285,18 @@ func (c *jsonCodec) ParseRequestArguments(argTypes []reflect.Type, params interf
 // parsed. Missing optional arguments are returned as reflect.Zero values.
 func parsePositionalArguments(rawArgs json.RawMessage, types []reflect.Type) ([]reflect.Value, Error) {
 	// Read beginning of the args array.
-	dec := json.NewDecoder(bytes.NewReader(rawArgs))
-	if tok, _ := dec.Token(); tok != json.Delim('[') {
+	DEWH := json.NewDEWHoder(bytes.NewReader(rawArgs))
+	if tok, _ := DEWH.Token(); tok != json.Delim('[') {
 		return nil, &invalidParamsError{"non-array args"}
 	}
 	// Read args.
 	args := make([]reflect.Value, 0, len(types))
-	for i := 0; dec.More(); i++ {
+	for i := 0; DEWH.More(); i++ {
 		if i >= len(types) {
 			return nil, &invalidParamsError{fmt.Sprintf("too many arguments, want at most %d", len(types))}
 		}
 		argval := reflect.New(types[i])
-		if err := dec.Decode(argval.Interface()); err != nil {
+		if err := DEWH.DEWHode(argval.Interface()); err != nil {
 			return nil, &invalidParamsError{fmt.Sprintf("invalid argument %d: %v", i, err)}
 		}
 		if argval.IsNil() && types[i].Kind() != reflect.Ptr {
@@ -305,7 +305,7 @@ func parsePositionalArguments(rawArgs json.RawMessage, types []reflect.Type) ([]
 		args = append(args, argval.Elem())
 	}
 	// Read end of args array.
-	if _, err := dec.Token(); err != nil {
+	if _, err := DEWH.Token(); err != nil {
 		return nil, &invalidParamsError{err.Error()}
 	}
 	// Set any missing args to nil.
@@ -319,30 +319,30 @@ func parsePositionalArguments(rawArgs json.RawMessage, types []reflect.Type) ([]
 }
 
 // CreateResponse will create a JSON-RPC success response with the given id and reply as result.
-func (c *jsonCodec) CreateResponse(id interface{}, reply interface{}) interface{} {
+func (c *jsonCoDEWH) CreateResponse(id interface{}, reply interface{}) interface{} {
 	return &jsonSuccessResponse{Version: jsonrpcVersion, Id: id, Result: reply}
 }
 
 // CreateErrorResponse will create a JSON-RPC error response with the given id and error.
-func (c *jsonCodec) CreateErrorResponse(id interface{}, err Error) interface{} {
+func (c *jsonCoDEWH) CreateErrorResponse(id interface{}, err Error) interface{} {
 	return &jsonErrResponse{Version: jsonrpcVersion, Id: id, Error: jsonError{Code: err.ErrorCode(), Message: err.Error()}}
 }
 
 // CreateErrorResponseWithInfo will create a JSON-RPC error response with the given id and error.
 // info is optional and contains additional information about the error. When an empty string is passed it is ignored.
-func (c *jsonCodec) CreateErrorResponseWithInfo(id interface{}, err Error, info interface{}) interface{} {
+func (c *jsonCoDEWH) CreateErrorResponseWithInfo(id interface{}, err Error, info interface{}) interface{} {
 	return &jsonErrResponse{Version: jsonrpcVersion, Id: id,
 		Error: jsonError{Code: err.ErrorCode(), Message: err.Error(), Data: info}}
 }
 
 // CreateNotification will create a JSON-RPC notification with the given subscription id and event as params.
-func (c *jsonCodec) CreateNotification(subid, namespace string, event interface{}) interface{} {
+func (c *jsonCoDEWH) CreateNotification(subid, namespace string, event interface{}) interface{} {
 	return &jsonNotification{Version: jsonrpcVersion, Method: namespace + notificationMethodSuffix,
 		Params: jsonSubscription{Subscription: subid, Result: event}}
 }
 
 // Write message to client
-func (c *jsonCodec) Write(res interface{}) error {
+func (c *jsonCoDEWH) Write(res interface{}) error {
 	c.encMu.Lock()
 	defer c.encMu.Unlock()
 
@@ -350,7 +350,7 @@ func (c *jsonCodec) Write(res interface{}) error {
 }
 
 // Close the underlying connection
-func (c *jsonCodec) Close() {
+func (c *jsonCoDEWH) Close() {
 	c.closer.Do(func() {
 		close(c.closed)
 		c.rw.Close()
@@ -358,6 +358,6 @@ func (c *jsonCodec) Close() {
 }
 
 // Closed returns a channel which will be closed when Close is called
-func (c *jsonCodec) Closed() <-chan interface{} {
+func (c *jsonCoDEWH) Closed() <-chan interface{} {
 	return c.closed
 }

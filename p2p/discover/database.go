@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Contains the node database, storing previously seen nodes and any collected
 // metadata about them for QoS purposes.
@@ -27,9 +27,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/rlp"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/errors"
 	"github.com/syndtr/goleveldb/leveldb/iterator"
@@ -183,8 +183,8 @@ func (db *nodeDB) node(id NodeID) *Node {
 		return nil
 	}
 	node := new(Node)
-	if err := rlp.DecodeBytes(blob, node); err != nil {
-		log.Error("Failed to decode node RLP", "err", err)
+	if err := rlp.DEWHodeBytes(blob, node); err != nil {
+		log.Error("Failed to DEWHode node RLP", "err", err)
 		return nil
 	}
 	node.sha = crypto.Keccak256Hash(node.ID[:])
@@ -354,8 +354,8 @@ func nextNode(it iterator.Iterator) *Node {
 			continue
 		}
 		var n Node
-		if err := rlp.DecodeBytes(it.Value(), &n); err != nil {
-			log.Warn("Failed to decode node RLP", "id", id, "err", err)
+		if err := rlp.DEWHodeBytes(it.Value(), &n); err != nil {
+			log.Warn("Failed to DEWHode node RLP", "id", id, "err", err)
 			continue
 		}
 		return &n

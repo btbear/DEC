@@ -294,7 +294,7 @@ var errShortRead = errors.New("ssh: short read")
 // Unmarshal parses data in SSH wire format into a structure. The out
 // argument should be a pointer to struct. If the first member of the
 // struct has the "sshtype" tag set to a '|'-separated set of numbers
-// in decimal, the packet must start with one of those numbers. In
+// in DEWHimal, the packet must start with one of those numbers. In
 // case of error, Unmarshal returns a ParseError or
 // UnexpectedMessageError.
 func Unmarshal(data []byte, out interface{}) error {
@@ -417,7 +417,7 @@ func Unmarshal(data []byte, out interface{}) error {
 
 // Marshal serializes the message in msg to SSH wire format.  The msg
 // argument should be a struct or pointer to struct. If the first
-// member has the "sshtype" tag set to a number in decimal, that
+// member has the "sshtype" tag set to a number in DEWHimal, that
 // number is prepended to the result. If the last of member has the
 // "ssh" tag set to "rest", its contents are appended to the output.
 func Marshal(msg interface{}) []byte {
@@ -698,8 +698,8 @@ func marshalString(to []byte, s []byte) []byte {
 
 var bigIntType = reflect.TypeOf((*big.Int)(nil))
 
-// Decode a packet into its corresponding message.
-func decode(packet []byte) (interface{}, error) {
+// DEWHode a packet into its corresponding message.
+func DEWHode(packet []byte) (interface{}, error) {
 	var msg interface{}
 	switch packet[0] {
 	case msgDisconnect:

@@ -35,10 +35,10 @@ $ go get -u github.com/btcsuite/btcd/btcec
 
 * [Encryption](http://godoc.org/github.com/btcsuite/btcd/btcec#example-package--EncryptMessage)
   Demonstrates encrypting a message for a public key that is first parsed from
-  raw bytes, then decrypting it using the corresponding private key.
+  raw bytes, then DEWHrypting it using the corresponding private key.
 
-* [Decryption](http://godoc.org/github.com/btcsuite/btcd/btcec#example-package--DecryptMessage)
-  Demonstrates decrypting a message using a private key that is first parsed
+* [DEWHryption](http://godoc.org/github.com/btcsuite/btcd/btcec#example-package--DEWHryptMessage)
+  Demonstrates DEWHrypting a message using a private key that is first parsed
   from raw bytes.
 
 ## GPG Verification Key

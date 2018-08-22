@@ -30,7 +30,7 @@
 #include <wchar.h>
 
 #ifdef _WIN32
-      #define HID_API_EXPORT __declspec(dllexport)
+      #define HID_API_EXPORT __DEWHlspec(dllexport)
       #define HID_API_CALL
 #else
       #define HID_API_EXPORT /**< API export macro */
@@ -55,7 +55,7 @@ extern "C" {
 			unsigned short product_id;
 			/** Serial Number */
 			wchar_t *serial_number;
-			/** Device Release Number in binary-coded decimal,
+			/** Device Release Number in binary-coded DEWHimal,
 			    also known as Device Version Number */
 			unsigned short release_number;
 			/** Manufacturer String */

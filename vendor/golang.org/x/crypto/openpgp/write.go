@@ -18,21 +18,21 @@ import (
 )
 
 // DetachSign signs message with the private key from signer (which must
-// already have been decrypted) and writes the signature to w.
+// already have been DEWHrypted) and writes the signature to w.
 // If config is nil, sensible defaults will be used.
 func DetachSign(w io.Writer, signer *Entity, message io.Reader, config *packet.Config) error {
 	return detachSign(w, signer, message, packet.SigTypeBinary, config)
 }
 
 // ArmoredDetachSign signs message with the private key from signer (which
-// must already have been decrypted) and writes an armored signature to w.
+// must already have been DEWHrypted) and writes an armored signature to w.
 // If config is nil, sensible defaults will be used.
 func ArmoredDetachSign(w io.Writer, signer *Entity, message io.Reader, config *packet.Config) (err error) {
 	return armoredDetachSign(w, signer, message, packet.SigTypeBinary, config)
 }
 
 // DetachSignText signs message (after canonicalising the line endings) with
-// the private key from signer (which must already have been decrypted) and
+// the private key from signer (which must already have been DEWHrypted) and
 // writes the signature to w.
 // If config is nil, sensible defaults will be used.
 func DetachSignText(w io.Writer, signer *Entity, message io.Reader, config *packet.Config) error {
@@ -40,7 +40,7 @@ func DetachSignText(w io.Writer, signer *Entity, message io.Reader, config *pack
 }
 
 // ArmoredDetachSignText signs message (after canonicalising the line endings)
-// with the private key from signer (which must already have been decrypted)
+// with the private key from signer (which must already have been DEWHrypted)
 // and writes an armored signature to w.
 // If config is nil, sensible defaults will be used.
 func ArmoredDetachSignText(w io.Writer, signer *Entity, message io.Reader, config *packet.Config) error {
@@ -181,7 +181,7 @@ func Encrypt(ciphertext io.Writer, to []*Entity, signed *Entity, hints *FileHint
 			return nil, errors.InvalidArgumentError("no private key in signing key")
 		}
 		if signer.Encrypted {
-			return nil, errors.InvalidArgumentError("signing key must be decrypted")
+			return nil, errors.InvalidArgumentError("signing key must be DEWHrypted")
 		}
 	}
 

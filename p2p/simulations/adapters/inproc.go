@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package adapters
 
@@ -23,13 +23,13 @@ import (
 	"net"
 	"sync"
 
-	"github.com/DEC/go-DEC/event"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/simulations/pipes"
-	"github.com/DEC/go-DEC/rpc"
+	"github.com/DEWH/go-DEWH/event"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/simulations/pipes"
+	"github.com/DEWH/go-DEWH/rpc"
 )
 
 // SimAdapter is a NodeAdapter which creates in-memory simulation nodes and
@@ -43,7 +43,7 @@ type SimAdapter struct {
 
 // NewSimAdapter creates a SimAdapter which is capable of running in-memory
 // simulation nodes running any of the given services (the services to run on a
-// particular node are passed to the NewNode function in the NodeConfig)
+// particular node are passed to the NewNode function in the NoDEWHonfig)
 // the adapter uses a net.Pipe for in-memory simulated network connections
 func NewSimAdapter(services map[string]ServiceFunc) *SimAdapter {
 	return &SimAdapter{
@@ -67,7 +67,7 @@ func (s *SimAdapter) Name() string {
 }
 
 // NewNode returns a new SimNode using the given config
-func (s *SimAdapter) NewNode(config *NodeConfig) (Node, error) {
+func (s *SimAdapter) NewNode(config *NoDEWHonfig) (Node, error) {
 	s.mtx.Lock()
 	defer s.mtx.Unlock()
 
@@ -164,7 +164,7 @@ func (s *SimAdapter) GetNode(id discover.NodeID) (*SimNode, bool) {
 type SimNode struct {
 	lock         sync.RWMutex
 	ID           discover.NodeID
-	config       *NodeConfig
+	config       *NoDEWHonfig
 	adapter      *SimAdapter
 	node         *node.Node
 	running      map[string]node.Service
@@ -200,7 +200,7 @@ func (sn *SimNode) ServeRPC(conn net.Conn) error {
 	if err != nil {
 		return err
 	}
-	handler.ServeCodec(rpc.NewJSONCodec(conn), rpc.OptionMethodInvocation|rpc.OptionSubscriptions)
+	handler.ServeCoDEWH(rpc.NewJSONCoDEWH(conn), rpc.OptionMethodInvocation|rpc.OptionSubscriptions)
 	return nil
 }
 
@@ -234,10 +234,10 @@ func (sn *SimNode) Snapshots() (map[string][]byte, error) {
 // Start registers the services and starts the underlying devp2p node
 func (sn *SimNode) Start(snapshots map[string][]byte) error {
 	newService := func(name string) func(ctx *node.ServiceContext) (node.Service, error) {
-		return func(nodeCtx *node.ServiceContext) (node.Service, error) {
+		return func(noDEWHtx *node.ServiceContext) (node.Service, error) {
 			ctx := &ServiceContext{
 				RPCDialer:   sn.adapter,
-				NodeContext: nodeCtx,
+				NoDEWHontext: noDEWHtx,
 				Config:      sn.config,
 			}
 			if snapshots != nil {

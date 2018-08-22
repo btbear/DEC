@@ -1,25 +1,25 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package state
 
 import (
 	"math/big"
 
-	"github.com/DEC/go-DEC/common"
+	"github.com/DEWH/go-DEWH/common"
 )
 
 // journalEntry is a modification entry in the state change journal that can be
@@ -28,7 +28,7 @@ type journalEntry interface {
 	// revert undoes the changes introduced by this journal entry.
 	revert(*StateDB)
 
-	// dirtied returns the DEC address modified by this journal entry.
+	// dirtied returns the DEWH address modified by this journal entry.
 	dirtied() *common.Address
 }
 
@@ -92,7 +92,7 @@ type (
 	resetObjectChange struct {
 		prev *stateObject
 	}
-	suicideChange struct {
+	suiciDEWHhange struct {
 		account     *common.Address
 		prev        bool // whether account had already suicided
 		prevbalance *big.Int
@@ -111,7 +111,7 @@ type (
 		account       *common.Address
 		key, prevalue common.Hash
 	}
-	codeChange struct {
+	coDEWHhange struct {
 		account            *common.Address
 		prevcode, prevhash []byte
 	}
@@ -150,7 +150,7 @@ func (ch resetObjectChange) dirtied() *common.Address {
 	return nil
 }
 
-func (ch suicideChange) revert(s *StateDB) {
+func (ch suiciDEWHhange) revert(s *StateDB) {
 	obj := s.getStateObject(*ch.account)
 	if obj != nil {
 		obj.suicided = ch.prev
@@ -158,7 +158,7 @@ func (ch suicideChange) revert(s *StateDB) {
 	}
 }
 
-func (ch suicideChange) dirtied() *common.Address {
+func (ch suiciDEWHhange) dirtied() *common.Address {
 	return ch.account
 }
 
@@ -187,11 +187,11 @@ func (ch nonceChange) dirtied() *common.Address {
 	return ch.account
 }
 
-func (ch codeChange) revert(s *StateDB) {
+func (ch coDEWHhange) revert(s *StateDB) {
 	s.getStateObject(*ch.account).setCode(common.BytesToHash(ch.prevhash), ch.prevcode)
 }
 
-func (ch codeChange) dirtied() *common.Address {
+func (ch coDEWHhange) dirtied() *common.Address {
 	return ch.account
 }
 

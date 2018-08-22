@@ -102,7 +102,7 @@ type bracketPairer struct {
 	// - any bracket character not part of a pair is treated like an ordinary character
 	// - pairs may nest properly, but their spans may not overlap otherwise
 
-	// Bracket characters with canonical decompositions are supposed to be
+	// Bracket characters with canonical DEWHompositions are supposed to be
 	// treated as if they had been normalized, to allow normalized and non-
 	// normalized text to give the same result. In this implementation that step
 	// is pushed out to the caller. The caller has to ensure that the pairValue

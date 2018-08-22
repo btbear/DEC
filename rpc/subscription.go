@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package rpc
 
@@ -51,7 +51,7 @@ type notifierKey struct{}
 // Notifier is tight to a RPC connection that supports subscriptions.
 // Server callbacks use the notifier to send notifications.
 type Notifier struct {
-	codec    ServerCodec
+	coDEWH    ServerCoDEWH
 	subMu    sync.RWMutex // guards active and inactive maps
 	active   map[ID]*Subscription
 	inactive map[ID]*Subscription
@@ -59,9 +59,9 @@ type Notifier struct {
 
 // newNotifier creates a new notifier that can be used to send subscription
 // notifications to the client.
-func newNotifier(codec ServerCodec) *Notifier {
+func newNotifier(coDEWH ServerCoDEWH) *Notifier {
 	return &Notifier{
-		codec:    codec,
+		coDEWH:    coDEWH,
 		active:   make(map[ID]*Subscription),
 		inactive: make(map[ID]*Subscription),
 	}
@@ -93,9 +93,9 @@ func (n *Notifier) Notify(id ID, data interface{}) error {
 
 	sub, active := n.active[id]
 	if active {
-		notification := n.codec.CreateNotification(string(id), sub.namespace, data)
-		if err := n.codec.Write(notification); err != nil {
-			n.codec.Close()
+		notification := n.coDEWH.CreateNotification(string(id), sub.namespace, data)
+		if err := n.coDEWH.Write(notification); err != nil {
+			n.coDEWH.Close()
 			return err
 		}
 	}
@@ -104,7 +104,7 @@ func (n *Notifier) Notify(id ID, data interface{}) error {
 
 // Closed returns a channel that is closed when the RPC connection is closed.
 func (n *Notifier) Closed() <-chan interface{} {
-	return n.codec.Closed()
+	return n.coDEWH.Closed()
 }
 
 // unsubscribe a subscription.

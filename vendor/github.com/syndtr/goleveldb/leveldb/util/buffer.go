@@ -288,6 +288,6 @@ func (b *Buffer) readSlice(delim byte) (line []byte, err error) {
 // can also be used to size the internal buffer for writing. To do that,
 // buf should have the desired capacity but a length of zero.
 //
-// In most cases, new(Buffer) (or just declaring a Buffer variable) is
+// In most cases, new(Buffer) (or just DEWHlaring a Buffer variable) is
 // sufficient to initialize a Buffer.
 func NewBuffer(buf []byte) *Buffer { return &Buffer{buf: buf} }

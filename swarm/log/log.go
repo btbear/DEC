@@ -1,8 +1,8 @@
 package log
 
 import (
-	l "github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/metrics"
+	l "github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/metrics"
 )
 
 const (

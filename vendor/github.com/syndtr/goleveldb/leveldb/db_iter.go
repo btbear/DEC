@@ -29,7 +29,7 @@ type memdbReleaser struct {
 
 func (mr *memdbReleaser) Release() {
 	mr.once.Do(func() {
-		mr.m.decref()
+		mr.m.DEWHref()
 	})
 }
 

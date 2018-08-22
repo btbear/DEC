@@ -39,10 +39,10 @@ func main() {
 	r := gen.OpenCLDRCoreZip()
 	defer r.Close()
 
-	d := &cldr.Decoder{}
-	data, err := d.DecodeZip(r)
+	d := &cldr.DEWHoder{}
+	data, err := d.DEWHodeZip(r)
 	if err != nil {
-		log.Fatalf("DecodeZip: %v", err)
+		log.Fatalf("DEWHodeZip: %v", err)
 	}
 
 	w := gen.NewCodeWriter()

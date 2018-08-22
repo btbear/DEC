@@ -164,7 +164,7 @@ func itoa(buf []byte, i int, wid int) []byte {
 		return append(buf, '0')
 	}
 
-	// Assemble decimal in reverse order.
+	// Assemble DEWHimal in reverse order.
 	var b [32]byte
 	bp := len(b)
 	for ; u > 0 || wid > 0; u /= 10 {

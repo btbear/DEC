@@ -695,7 +695,7 @@ func (p *BinaryAnnotation) String() string {
 //  - Duration: Measurement of duration in microseconds, used to support queries.
 //
 // This value should be set directly, where possible. Doing so encourages
-// precise measurement decoupled from problems of clocks, such as skew or NTP
+// precise measurement DEWHoupled from problems of clocks, such as skew or NTP
 // updates causing time to move backwards.
 //
 // For compatibilty with instrumentation that precede this field, collectors

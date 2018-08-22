@@ -1,20 +1,20 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
-// Package utils contains internal helper functions for go-DEC commands.
+// Package utils contains internal helper functions for go-DEWH commands.
 package utils
 
 import (
@@ -27,16 +27,16 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/core/rawdb"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/internal/debug"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/node"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/core/rawdb"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/internal/debug"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/node"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 const (
@@ -136,7 +136,7 @@ func ImportChain(chain *core.BlockChain, fn string) error {
 		i := 0
 		for ; i < importBatchSize; i++ {
 			var b types.Block
-			if err := stream.Decode(&b); err == io.EOF {
+			if err := stream.DEWHode(&b); err == io.EOF {
 				break
 			} else if err != nil {
 				return fmt.Errorf("at block %d: %v", n, err)
@@ -263,7 +263,7 @@ func ImportPreimages(db *ethdb.LDBDatabase, fn string) error {
 		// Read the next entry and ensure it's not junk
 		var blob []byte
 
-		if err := stream.Decode(&blob); err != nil {
+		if err := stream.DEWHode(&blob); err != nil {
 			if err == io.EOF {
 				break
 			}

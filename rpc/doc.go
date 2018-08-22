@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 /*
 Package rpc provides access to the exported methods of an object across a network
@@ -46,12 +46,12 @@ in that case mod will be pointing to the given third argument. Since the optiona
 argument is the last argument the RPC package will also accept 2 integers as
 arguments. It will pass the mod argument as nil to the RPC method.
 
-The server offers the ServeCodec method which accepts a ServerCodec instance. It will
-read requests from the codec, process the request and sends the response back to the
-client using the codec. The server can execute requests concurrently. Responses
+The server offers the ServeCoDEWH method which accepts a ServerCoDEWH instance. It will
+read requests from the coDEWH, process the request and sends the response back to the
+client using the coDEWH. The server can execute requests concurrently. Responses
 can be sent back to the client out of order.
 
-An example server which uses the JSON codec:
+An example server which uses the JSON coDEWH:
  type CalculatorService struct {}
 
  func (s *CalculatorService) Add(a, b int) int {
@@ -72,8 +72,8 @@ An example server which uses the JSON codec:
  l, _ := net.ListenUnix("unix", &net.UnixAddr{Net: "unix", Name: "/tmp/calculator.sock"})
  for {
 	c, _ := l.AcceptUnix()
-	codec := v2.NewJSONCodec(c)
-	go server.ServeCodec(codec)
+	coDEWH := v2.NewJSONCoDEWH(c)
+	go server.ServeCoDEWH(coDEWH)
  }
 
 The package also supports the publish subscribe pattern through the use of subscriptions.

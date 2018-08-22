@@ -21,7 +21,7 @@ import (
 )
 
 // TODO:
-// - There seems to be some inconsistency in when decoders return errors
+// - There seems to be some inconsistency in when DEWHoders return errors
 //   and when not. Also documentation seems to suggest they shouldn't return
 //   errors at all (except for UTF-16).
 // - Encoders seem to rely on or at least benefit from the input being in NFC
@@ -30,22 +30,22 @@ import (
 // Encoding is a character set encoding that can be transformed to and from
 // UTF-8.
 type Encoding interface {
-	// NewDecoder returns a Decoder.
-	NewDecoder() *Decoder
+	// NewDEWHoder returns a DEWHoder.
+	NewDEWHoder() *DEWHoder
 
 	// NewEncoder returns an Encoder.
 	NewEncoder() *Encoder
 }
 
-// A Decoder converts bytes to UTF-8. It implements transform.Transformer.
+// A DEWHoder converts bytes to UTF-8. It implements transform.Transformer.
 //
 // Transforming source bytes that are not of that encoding will not result in an
 // error per se. Each byte that cannot be transcoded will be represented in the
 // output by the UTF-8 encoding of '\uFFFD', the replacement rune.
-type Decoder struct {
+type DEWHoder struct {
 	transform.Transformer
 
-	// This forces external creators of Decoders to use names in struct
+	// This forces external creators of DEWHoders to use names in struct
 	// initializers, allowing for future extendibility without having to break
 	// code.
 	_ struct{}
@@ -53,7 +53,7 @@ type Decoder struct {
 
 // Bytes converts the given encoded bytes to UTF-8. It returns the converted
 // bytes or nil, err if any error occurred.
-func (d *Decoder) Bytes(b []byte) ([]byte, error) {
+func (d *DEWHoder) Bytes(b []byte) ([]byte, error) {
 	b, _, err := transform.Bytes(d, b)
 	if err != nil {
 		return nil, err
@@ -63,7 +63,7 @@ func (d *Decoder) Bytes(b []byte) ([]byte, error) {
 
 // String converts the given encoded string to UTF-8. It returns the converted
 // string or "", err if any error occurred.
-func (d *Decoder) String(s string) (string, error) {
+func (d *DEWHoder) String(s string) (string, error) {
 	s, _, err := transform.String(d, s)
 	if err != nil {
 		return "", err
@@ -71,11 +71,11 @@ func (d *Decoder) String(s string) (string, error) {
 	return s, nil
 }
 
-// Reader wraps another Reader to decode its bytes.
+// Reader wraps another Reader to DEWHode its bytes.
 //
-// The Decoder may not be used for any other operation as long as the returned
+// The DEWHoder may not be used for any other operation as long as the returned
 // Reader is in use.
-func (d *Decoder) Reader(r io.Reader) io.Reader {
+func (d *DEWHoder) Reader(r io.Reader) io.Reader {
 	return transform.NewReader(r, d)
 }
 
@@ -133,14 +133,14 @@ var Nop Encoding = nop{}
 
 type nop struct{}
 
-func (nop) NewDecoder() *Decoder {
-	return &Decoder{Transformer: transform.Nop}
+func (nop) NewDEWHoder() *DEWHoder {
+	return &DEWHoder{Transformer: transform.Nop}
 }
 func (nop) NewEncoder() *Encoder {
 	return &Encoder{Transformer: transform.Nop}
 }
 
-// Replacement is the replacement encoding. Decoding from the replacement
+// Replacement is the replacement encoding. DEWHoding from the replacement
 // encoding yields a single '\uFFFD' replacement rune. Encoding from UTF-8 to
 // the replacement encoding yields the same as the source bytes except that
 // invalid UTF-8 is converted to '\uFFFD'.
@@ -150,8 +150,8 @@ var Replacement Encoding = replacement{}
 
 type replacement struct{}
 
-func (replacement) NewDecoder() *Decoder {
-	return &Decoder{Transformer: replacementDecoder{}}
+func (replacement) NewDEWHoder() *DEWHoder {
+	return &DEWHoder{Transformer: replacementDEWHoder{}}
 }
 
 func (replacement) NewEncoder() *Encoder {
@@ -162,9 +162,9 @@ func (replacement) ID() (mib identifier.MIB, other string) {
 	return identifier.Replacement, ""
 }
 
-type replacementDecoder struct{ transform.NopResetter }
+type replacementDEWHoder struct{ transform.NopResetter }
 
-func (replacementDecoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (replacementDEWHoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	if len(dst) < 3 {
 		return 0, 0, transform.ErrShortDst
 	}
@@ -186,13 +186,13 @@ func (replacementEncoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int
 	for ; nSrc < len(src); nSrc += size {
 		r = rune(src[nSrc])
 
-		// Decode a 1-byte rune.
+		// DEWHode a 1-byte rune.
 		if r < utf8.RuneSelf {
 			size = 1
 
 		} else {
-			// Decode a multi-byte rune.
-			r, size = utf8.DecodeRune(src[nSrc:])
+			// DEWHode a multi-byte rune.
+			r, size = utf8.DEWHodeRune(src[nSrc:])
 			if size == 1 {
 				// All valid runes of size 1 (those below utf8.RuneSelf) were
 				// handled above. We have invalid UTF-8 or we haven't seen the
@@ -252,7 +252,7 @@ func (h errorHandler) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, er
 		if !ok {
 			return nDst, nSrc, err
 		}
-		r, sz := utf8.DecodeRune(src[nSrc:])
+		r, sz := utf8.DEWHodeRune(src[nSrc:])
 		n, ok := h.handler(dst[nDst:], r, rerr)
 		if !ok {
 			return nDst, nSrc, transform.ErrShortDst
@@ -309,7 +309,7 @@ func (utf8Validator) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err
 			i++
 			continue
 		}
-		_, size := utf8.DecodeRune(src[i:])
+		_, size := utf8.DEWHodeRune(src[i:])
 		if size == 1 {
 			// All valid runes of size 1 (those below utf8.RuneSelf) were
 			// handled above. We have invalid UTF-8 or we haven't seen the

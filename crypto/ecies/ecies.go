@@ -228,9 +228,9 @@ func symEncrypt(rand io.Reader, params *ECIESParams, key, m []byte) (ct []byte, 
 	return
 }
 
-// symDecrypt carries out CTR decryption using the block cipher specified in
+// symDEWHrypt carries out CTR DEWHryption using the block cipher specified in
 // the parameters
-func symDecrypt(params *ECIESParams, key, ct []byte) (m []byte, err error) {
+func symDEWHrypt(params *ECIESParams, key, ct []byte) (m []byte, err error) {
 	c, err := params.Cipher(key)
 	if err != nil {
 		return
@@ -252,7 +252,7 @@ func Encrypt(rand io.Reader, pub *PublicKey, m, s1, s2 []byte) (ct []byte, err e
 	params := pub.Params
 	if params == nil {
 		if params = ParamsFromCurve(pub.Curve); params == nil {
-			err = ErrUnsupportedECIESParameters
+			err = ErrUnsupporteDEWHIESParameters
 			return
 		}
 	}
@@ -291,15 +291,15 @@ func Encrypt(rand io.Reader, pub *PublicKey, m, s1, s2 []byte) (ct []byte, err e
 	return
 }
 
-// Decrypt decrypts an ECIES ciphertext.
-func (prv *PrivateKey) Decrypt(c, s1, s2 []byte) (m []byte, err error) {
+// DEWHrypt DEWHrypts an ECIES ciphertext.
+func (prv *PrivateKey) DEWHrypt(c, s1, s2 []byte) (m []byte, err error) {
 	if len(c) == 0 {
 		return nil, ErrInvalidMessage
 	}
 	params := prv.PublicKey.Params
 	if params == nil {
 		if params = ParamsFromCurve(prv.PublicKey.Curve); params == nil {
-			err = ErrUnsupportedECIESParameters
+			err = ErrUnsupporteDEWHIESParameters
 			return
 		}
 	}
@@ -361,6 +361,6 @@ func (prv *PrivateKey) Decrypt(c, s1, s2 []byte) (m []byte, err error) {
 		return
 	}
 
-	m, err = symDecrypt(params, Ke, c[mStart:mEnd])
+	m, err = symDEWHrypt(params, Ke, c[mStart:mEnd])
 	return
 }

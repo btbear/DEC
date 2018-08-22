@@ -94,53 +94,53 @@ typedef enum {
 	IsochronousTransferType
 } USB_DK_TRANSFER_TYPE;
 
-typedef BOOL (__cdecl *USBDK_GET_DEVICES_LIST)(
+typedef BOOL (__cDEWHl *USBDK_GET_DEVICES_LIST)(
 	PUSB_DK_DEVICE_INFO *DeviceInfo,
 	PULONG DeviceNumber
 );
-typedef void (__cdecl *USBDK_RELEASE_DEVICES_LIST)(
+typedef void (__cDEWHl *USBDK_RELEASE_DEVICES_LIST)(
 	PUSB_DK_DEVICE_INFO DeviceInfo
 );
-typedef HANDLE (__cdecl *USBDK_START_REDIRECT)(
+typedef HANDLE (__cDEWHl *USBDK_START_REDIRECT)(
 	PUSB_DK_DEVICE_ID DeviceId
 );
-typedef BOOL (__cdecl *USBDK_STOP_REDIRECT)(
+typedef BOOL (__cDEWHl *USBDK_STOP_REDIRECT)(
 	HANDLE DeviceHandle
 );
-typedef BOOL (__cdecl *USBDK_GET_CONFIGURATION_DESCRIPTOR)(
+typedef BOOL (__cDEWHl *USBDK_GET_CONFIGURATION_DESCRIPTOR)(
 	PUSB_DK_CONFIG_DESCRIPTOR_REQUEST Request,
 	PUSB_CONFIGURATION_DESCRIPTOR *Descriptor,
 	PULONG Length
 );
-typedef void (__cdecl *USBDK_RELEASE_CONFIGURATION_DESCRIPTOR)(
+typedef void (__cDEWHl *USBDK_RELEASE_CONFIGURATION_DESCRIPTOR)(
 	PUSB_CONFIGURATION_DESCRIPTOR Descriptor
 );
-typedef TransferResult (__cdecl *USBDK_WRITE_PIPE)(
+typedef TransferResult (__cDEWHl *USBDK_WRITE_PIPE)(
 	HANDLE DeviceHandle,
 	PUSB_DK_TRANSFER_REQUEST Request,
 	LPOVERLAPPED lpOverlapped
 );
-typedef TransferResult (__cdecl *USBDK_READ_PIPE)(
+typedef TransferResult (__cDEWHl *USBDK_READ_PIPE)(
 	HANDLE DeviceHandle,
 	PUSB_DK_TRANSFER_REQUEST Request,
 	LPOVERLAPPED lpOverlapped
 );
-typedef BOOL (__cdecl *USBDK_ABORT_PIPE)(
+typedef BOOL (__cDEWHl *USBDK_ABORT_PIPE)(
 	HANDLE DeviceHandle,
 	ULONG64 PipeAddress
 );
-typedef BOOL (__cdecl *USBDK_RESET_PIPE)(
+typedef BOOL (__cDEWHl *USBDK_RESET_PIPE)(
 	HANDLE DeviceHandle,
 	ULONG64 PipeAddress
 );
-typedef BOOL (__cdecl *USBDK_SET_ALTSETTING)(
+typedef BOOL (__cDEWHl *USBDK_SET_ALTSETTING)(
 	HANDLE DeviceHandle,
 	ULONG64 InterfaceIdx,
 	ULONG64 AltSettingIdx
 );
-typedef BOOL (__cdecl *USBDK_RESET_DEVICE)(
+typedef BOOL (__cDEWHl *USBDK_RESET_DEVICE)(
 	HANDLE DeviceHandle
 );
-typedef HANDLE (__cdecl *USBDK_GET_REDIRECTOR_SYSTEM_HANDLE)(
+typedef HANDLE (__cDEWHl *USBDK_GET_REDIRECTOR_SYSTEM_HANDLE)(
 	HANDLE DeviceHandle
 );

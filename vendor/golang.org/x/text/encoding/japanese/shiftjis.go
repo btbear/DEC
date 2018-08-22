@@ -19,16 +19,16 @@ import (
 var ShiftJIS encoding.Encoding = &shiftJIS
 
 var shiftJIS = internal.Encoding{
-	&internal.SimpleEncoding{shiftJISDecoder{}, shiftJISEncoder{}},
+	&internal.SimpleEncoding{shiftJISDEWHoder{}, shiftJISEncoder{}},
 	"Shift JIS",
 	identifier.ShiftJIS,
 }
 
 var errInvalidShiftJIS = errors.New("japanese: invalid Shift JIS encoding")
 
-type shiftJISDecoder struct{ transform.NopResetter }
+type shiftJISDEWHoder struct{ transform.NopResetter }
 
-func (shiftJISDecoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (shiftJISDEWHoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	r, size := rune(0), 0
 loop:
 	for ; nSrc < len(src); nSrc += size {
@@ -72,8 +72,8 @@ loop:
 				break loop
 			}
 			r, size = '\ufffd', 2
-			if i := int(c0)*94 + int(c1); i < len(jis0208Decode) {
-				r = rune(jis0208Decode[i])
+			if i := int(c0)*94 + int(c1); i < len(jis0208DEWHode) {
+				r = rune(jis0208DEWHode[i])
 				if r == 0 {
 					r = '\ufffd'
 				}
@@ -104,13 +104,13 @@ loop:
 	for ; nSrc < len(src); nSrc += size {
 		r = rune(src[nSrc])
 
-		// Decode a 1-byte rune.
+		// DEWHode a 1-byte rune.
 		if r < utf8.RuneSelf {
 			size = 1
 
 		} else {
-			// Decode a multi-byte rune.
-			r, size = utf8.DecodeRune(src[nSrc:])
+			// DEWHode a multi-byte rune.
+			r, size = utf8.DEWHodeRune(src[nSrc:])
 			if size == 1 {
 				// All valid runes of size 1 (those below utf8.RuneSelf) were
 				// handled above. We have invalid UTF-8 or we haven't seen the

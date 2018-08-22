@@ -1,26 +1,26 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package enr implements DEC Node Records as defined in EIP-778. A node record holds
+// Package enr implements DEWH Node Records as defined in EIP-778. A node record holds
 // arbitrary information about a node on the peer-to-peer network.
 //
 // Records contain named keys. To store and retrieve key/values in a record, use the Entry
 // interface.
 //
-// Records must be signed before transmitting them to another node. Decoding a record verifies
+// Records must be signed before transmitting them to another node. DEWHoding a record verifies
 // its signature. When creating a record, set the entries you want, then call Sign to add the
 // signature. Modifying a record invalidates the signature.
 //
@@ -34,7 +34,7 @@ import (
 	"io"
 	"sort"
 
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 const SizeLimit = 300 // maximum encoded size of a node record in bytes
@@ -86,12 +86,12 @@ func (r *Record) SetSeq(s uint64) {
 // Load retrieves the value of a key/value pair. The given Entry must be a pointer and will
 // be set to the value of the entry in the record.
 //
-// Errors returned by Load are wrapped in KeyError. You can distinguish decoding errors
+// Errors returned by Load are wrapped in KeyError. You can distinguish DEWHoding errors
 // from missing keys using the IsNotFound function.
 func (r *Record) Load(e Entry) error {
 	i := sort.Search(len(r.pairs), func(i int) bool { return r.pairs[i].k >= e.ENRKey() })
 	if i < len(r.pairs) && r.pairs[i].k == e.ENRKey() {
-		if err := rlp.DecodeBytes(r.pairs[i].v, e); err != nil {
+		if err := rlp.DEWHodeBytes(r.pairs[i].v, e); err != nil {
 			return &KeyError{Key: e.ENRKey(), Err: err}
 		}
 		return nil
@@ -147,8 +147,8 @@ func (r Record) EncodeRLP(w io.Writer) error {
 	return err
 }
 
-// DecodeRLP implements rlp.Decoder. Decoding verifies the signature.
-func (r *Record) DecodeRLP(s *rlp.Stream) error {
+// DEWHodeRLP implements rlp.DEWHoder. DEWHoding verifies the signature.
+func (r *Record) DEWHodeRLP(s *rlp.Stream) error {
 	raw, err := s.Raw()
 	if err != nil {
 		return err
@@ -157,29 +157,29 @@ func (r *Record) DecodeRLP(s *rlp.Stream) error {
 		return errTooBig
 	}
 
-	// Decode the RLP container.
-	dec := Record{raw: raw}
+	// DEWHode the RLP container.
+	DEWH := Record{raw: raw}
 	s = rlp.NewStream(bytes.NewReader(raw), 0)
 	if _, err := s.List(); err != nil {
 		return err
 	}
-	if err = s.Decode(&dec.signature); err != nil {
+	if err = s.DEWHode(&DEWH.signature); err != nil {
 		return err
 	}
-	if err = s.Decode(&dec.seq); err != nil {
+	if err = s.DEWHode(&DEWH.seq); err != nil {
 		return err
 	}
 	// The rest of the record contains sorted k/v pairs.
 	var prevkey string
 	for i := 0; ; i++ {
 		var kv pair
-		if err := s.Decode(&kv.k); err != nil {
+		if err := s.DEWHode(&kv.k); err != nil {
 			if err == rlp.EOL {
 				break
 			}
 			return err
 		}
-		if err := s.Decode(&kv.v); err != nil {
+		if err := s.DEWHode(&kv.v); err != nil {
 			if err == rlp.EOL {
 				return errIncompletePair
 			}
@@ -193,21 +193,21 @@ func (r *Record) DecodeRLP(s *rlp.Stream) error {
 				return errNotSorted
 			}
 		}
-		dec.pairs = append(dec.pairs, kv)
+		DEWH.pairs = append(DEWH.pairs, kv)
 		prevkey = kv.k
 	}
 	if err := s.ListEnd(); err != nil {
 		return err
 	}
 
-	_, scheme := dec.idScheme()
+	_, scheme := DEWH.idScheme()
 	if scheme == nil {
 		return errNoID
 	}
-	if err := scheme.Verify(&dec, dec.signature); err != nil {
+	if err := scheme.Verify(&DEWH, DEWH.signature); err != nil {
 		return err
 	}
-	*r = dec
+	*r = DEWH
 	return nil
 }
 

@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package rpc
 
@@ -115,10 +115,10 @@ func TestNotifications(t *testing.T) {
 
 	clientConn, serverConn := net.Pipe()
 
-	go server.ServeCodec(NewJSONCodec(serverConn), OptionMethodInvocation|OptionSubscriptions)
+	go server.ServeCoDEWH(NewJSONCoDEWH(serverConn), OptionMethodInvocation|OptionSubscriptions)
 
 	out := json.NewEncoder(clientConn)
-	in := json.NewDecoder(clientConn)
+	in := json.NewDEWHoder(clientConn)
 
 	n := 5
 	val := 12345
@@ -136,7 +136,7 @@ func TestNotifications(t *testing.T) {
 
 	var subid string
 	response := jsonSuccessResponse{Result: subid}
-	if err := in.Decode(&response); err != nil {
+	if err := in.DEWHode(&response); err != nil {
 		t.Fatal(err)
 	}
 
@@ -147,7 +147,7 @@ func TestNotifications(t *testing.T) {
 
 	for i := 0; i < n; i++ {
 		var notification jsonNotification
-		if err := in.Decode(&notification); err != nil {
+		if err := in.DEWHode(&notification); err != nil {
 			t.Fatalf("%v", err)
 		}
 
@@ -164,13 +164,13 @@ func TestNotifications(t *testing.T) {
 	}
 }
 
-func waitForMessages(t *testing.T, in *json.Decoder, successes chan<- jsonSuccessResponse,
+func waitForMessages(t *testing.T, in *json.DEWHoder, successes chan<- jsonSuccessResponse,
 	failures chan<- jsonErrResponse, notifications chan<- jsonNotification, errors chan<- error) {
 
 	// read and parse server messages
 	for {
 		var rmsg json.RawMessage
-		if err := in.Decode(&rmsg); err != nil {
+		if err := in.DEWHode(&rmsg); err != nil {
 			return
 		}
 
@@ -233,7 +233,7 @@ func TestSubscriptionMultipleNamespaces(t *testing.T) {
 		clientConn, serverConn = net.Pipe()
 
 		out           = json.NewEncoder(clientConn)
-		in            = json.NewDecoder(clientConn)
+		in            = json.NewDEWHoder(clientConn)
 		successes     = make(chan jsonSuccessResponse)
 		failures      = make(chan jsonErrResponse)
 		notifications = make(chan jsonNotification)
@@ -248,7 +248,7 @@ func TestSubscriptionMultipleNamespaces(t *testing.T) {
 		}
 	}
 
-	go server.ServeCodec(NewJSONCodec(serverConn), OptionMethodInvocation|OptionSubscriptions)
+	go server.ServeCoDEWH(NewJSONCoDEWH(serverConn), OptionMethodInvocation|OptionSubscriptions)
 	defer server.Stop()
 
 	// wait for message and write them to the given channels

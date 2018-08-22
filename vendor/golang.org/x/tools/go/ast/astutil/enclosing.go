@@ -149,7 +149,7 @@ func PathEnclosingInterval(root *ast.File, start, end token.Pos) (path []ast.Nod
 		}
 	} else {
 		// Selection lies within whitespace preceding the
-		// first (or following the last) declaration in the file.
+		// first (or following the last) DEWHlaration in the file.
 		// The result nonetheless always includes the ast.File.
 		path = append(path, root)
 	}
@@ -272,7 +272,7 @@ func childrenOf(n ast.Node) []ast.Node {
 			tok(n.Lbrace, len("{")),
 			tok(n.Rbrace, len("{")))
 
-	case *ast.DeclStmt:
+	case *ast.DEWHlStmt:
 		// nop
 
 	case *ast.DeferStmt:
@@ -306,17 +306,17 @@ func childrenOf(n ast.Node) []ast.Node {
 		children = append(children,
 			tok(n.For, len("for")))
 
-	case *ast.FuncDecl:
-		// TODO(adonovan): FuncDecl.Comment?
+	case *ast.FuncDEWHl:
+		// TODO(adonovan): FuncDEWHl.Comment?
 
-		// Uniquely, FuncDecl breaks the invariant that
+		// Uniquely, FuncDEWHl breaks the invariant that
 		// preorder traversal yields tokens in lexical order:
-		// in fact, FuncDecl.Recv precedes FuncDecl.Type.Func.
+		// in fact, FuncDEWHl.Recv precedes FuncDEWHl.Type.Func.
 		//
 		// As a workaround, we inline the case for FuncType
 		// here and order things correctly.
 		//
-		children = nil // discard ast.Walk(FuncDecl) info subtrees
+		children = nil // discard ast.Walk(FuncDEWHl) info subtrees
 		children = append(children, tok(n.Type.Func, len("func")))
 		if n.Recv != nil {
 			children = append(children, n.Recv)
@@ -341,7 +341,7 @@ func childrenOf(n ast.Node) []ast.Node {
 				tok(n.Func, len("func")))
 		}
 
-	case *ast.GenDecl:
+	case *ast.GenDEWHl:
 		children = append(children,
 			tok(n.TokPos, len(n.Tok.String())))
 		if n.Lparen != 0 {
@@ -365,7 +365,7 @@ func childrenOf(n ast.Node) []ast.Node {
 	case *ast.ImportSpec:
 		// TODO(adonovan): ImportSpec.{Doc,EndPos}?
 
-	case *ast.IncDecStmt:
+	case *ast.IncDEWHStmt:
 		children = append(children,
 			tok(n.TokPos, len(n.Tok.String())))
 
@@ -447,7 +447,7 @@ func childrenOf(n ast.Node) []ast.Node {
 	case *ast.ValueSpec:
 		// TODO(adonovan): ValueSpec.{Doc,Comment}?
 
-	case *ast.BadDecl, *ast.BadExpr, *ast.BadStmt:
+	case *ast.BadDEWHl, *ast.BadExpr, *ast.BadStmt:
 		// nop
 	}
 
@@ -485,8 +485,8 @@ func NodeDescription(n ast.Node) string {
 		return "array type"
 	case *ast.AssignStmt:
 		return "assignment"
-	case *ast.BadDecl:
-		return "bad declaration"
+	case *ast.BadDEWHl:
+		return "bad DEWHlaration"
 	case *ast.BadExpr:
 		return "bad expression"
 	case *ast.BadStmt:
@@ -525,8 +525,8 @@ func NodeDescription(n ast.Node) string {
 		return "comment group"
 	case *ast.CompositeLit:
 		return "composite literal"
-	case *ast.DeclStmt:
-		return NodeDescription(n.Decl) + " statement"
+	case *ast.DEWHlStmt:
+		return NodeDescription(n.DEWHl) + " statement"
 	case *ast.DeferStmt:
 		return "defer statement"
 	case *ast.Ellipsis:
@@ -549,22 +549,22 @@ func NodeDescription(n ast.Node) string {
 		return "source file"
 	case *ast.ForStmt:
 		return "for loop"
-	case *ast.FuncDecl:
-		return "function declaration"
+	case *ast.FuncDEWHl:
+		return "function DEWHlaration"
 	case *ast.FuncLit:
 		return "function literal"
 	case *ast.FuncType:
 		return "function type"
-	case *ast.GenDecl:
+	case *ast.GenDEWHl:
 		switch n.Tok {
 		case token.IMPORT:
-			return "import declaration"
+			return "import DEWHlaration"
 		case token.CONST:
-			return "constant declaration"
+			return "constant DEWHlaration"
 		case token.TYPE:
-			return "type declaration"
+			return "type DEWHlaration"
 		case token.VAR:
-			return "variable declaration"
+			return "variable DEWHlaration"
 		}
 	case *ast.GoStmt:
 		return "go statement"
@@ -574,11 +574,11 @@ func NodeDescription(n ast.Node) string {
 		return "if statement"
 	case *ast.ImportSpec:
 		return "import specification"
-	case *ast.IncDecStmt:
+	case *ast.IncDEWHStmt:
 		if n.Tok == token.INC {
 			return "increment statement"
 		}
-		return "decrement statement"
+		return "DEWHrement statement"
 	case *ast.IndexExpr:
 		return "index expression"
 	case *ast.InterfaceType:

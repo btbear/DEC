@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package enr
 
@@ -24,8 +24,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/rlp"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -43,7 +43,7 @@ func randomString(strlen int) string {
 	return string(b)
 }
 
-// TestGetSetID tests encoding/decoding and setting/getting of the ID key.
+// TestGetSetID tests encoding/DEWHoding and setting/getting of the ID key.
 func TestGetSetID(t *testing.T) {
 	id := ID("someid")
 	var r Record
@@ -54,7 +54,7 @@ func TestGetSetID(t *testing.T) {
 	assert.Equal(t, id, id2)
 }
 
-// TestGetSetIP4 tests encoding/decoding and setting/getting of the IP key.
+// TestGetSetIP4 tests encoding/DEWHoding and setting/getting of the IP key.
 func TestGetSetIP4(t *testing.T) {
 	ip := IP{192, 168, 0, 3}
 	var r Record
@@ -65,7 +65,7 @@ func TestGetSetIP4(t *testing.T) {
 	assert.Equal(t, ip, ip2)
 }
 
-// TestGetSetIP6 tests encoding/decoding and setting/getting of the IP key.
+// TestGetSetIP6 tests encoding/DEWHoding and setting/getting of the IP key.
 func TestGetSetIP6(t *testing.T) {
 	ip := IP{0x20, 0x01, 0x48, 0x60, 0, 0, 0x20, 0x01, 0, 0, 0, 0, 0, 0, 0x00, 0x68}
 	var r Record
@@ -76,7 +76,7 @@ func TestGetSetIP6(t *testing.T) {
 	assert.Equal(t, ip, ip2)
 }
 
-// TestGetSetDiscPort tests encoding/decoding and setting/getting of the DiscPort key.
+// TestGetSetDiscPort tests encoding/DEWHoding and setting/getting of the DiscPort key.
 func TestGetSetUDP(t *testing.T) {
 	port := UDP(30309)
 	var r Record
@@ -87,7 +87,7 @@ func TestGetSetUDP(t *testing.T) {
 	assert.Equal(t, port, port2)
 }
 
-// TestGetSetSecp256k1 tests encoding/decoding and setting/getting of the Secp256k1 key.
+// TestGetSetSecp256k1 tests encoding/DEWHoding and setting/getting of the Secp256k1 key.
 func TestGetSetSecp256k1(t *testing.T) {
 	var r Record
 	if err := SignV4(&r, privkey); err != nil {
@@ -122,7 +122,7 @@ func TestLoadErrors(t *testing.T) {
 	assert.Equal(t, kerr.Key, ip4.ENRKey())
 	assert.Error(t, kerr.Err)
 	if IsNotFound(err) {
-		t.Error("IsNotFound should return false for decoding errors")
+		t.Error("IsNotFound should return false for DEWHoding errors")
 	}
 }
 
@@ -205,8 +205,8 @@ func TestGetSetOverwrite(t *testing.T) {
 	assert.Equal(t, ip2, ip3)
 }
 
-// TestSignEncodeAndDecode tests signing, RLP encoding and RLP decoding of a record.
-func TestSignEncodeAndDecode(t *testing.T) {
+// TestSignEncodeAndDEWHode tests signing, RLP encoding and RLP DEWHoding of a record.
+func TestSignEncodeAndDEWHode(t *testing.T) {
 	var r Record
 	r.Set(UDP(30303))
 	r.Set(IP{127, 0, 0, 1})
@@ -216,7 +216,7 @@ func TestSignEncodeAndDecode(t *testing.T) {
 	require.NoError(t, err)
 
 	var r2 Record
-	require.NoError(t, rlp.DecodeBytes(blob, &r2))
+	require.NoError(t, rlp.DEWHodeBytes(blob, &r2))
 	assert.Equal(t, r, r2)
 
 	blob2, err := rlp.EncodeToBytes(r2)
@@ -235,18 +235,18 @@ func TestNodeAddr(t *testing.T) {
 	assert.Equal(t, expected, hex.EncodeToString(r.NodeAddr()))
 }
 
-var pyRecord, _ = hex.DecodeString("f884b8407098ad865b00a582051940cb9cf36836572411a47278783077011599ed5cd16b76f2635f4e234738f30813a89eb9137e3e3df5266e3a1f11df72ecf1145ccb9c01826964827634826970847f00000189736563703235366b31a103ca634cae0d49acb401d8a4c6b6fe8c55b70d115bf400769cc1400f3258cd31388375647082765f")
+var pyRecord, _ = hex.DEWHodeString("f884b8407098ad865b00a582051940cb9cf36836572411a47278783077011599ed5cd16b76f2635f4e234738f30813a89eb9137e3e3df5266e3a1f11df72ecf1145ccb9c01826964827634826970847f00000189736563703235366b31a103ca634cae0d49acb401d8a4c6b6fe8c55b70d115bf400769cc1400f3258cd31388375647082765f")
 
-// TestPythonInterop checks that we can decode and verify a record produced by the Python
+// TestPythonInterop checks that we can DEWHode and verify a record produced by the Python
 // implementation.
 func TestPythonInterop(t *testing.T) {
 	var r Record
-	if err := rlp.DecodeBytes(pyRecord, &r); err != nil {
-		t.Fatalf("can't decode: %v", err)
+	if err := rlp.DEWHodeBytes(pyRecord, &r); err != nil {
+		t.Fatalf("can't DEWHode: %v", err)
 	}
 
 	var (
-		wantAddr, _ = hex.DecodeString("a448f24c6d18e575453db13171562b71999873db5b286df957af199ec94617f7")
+		wantAddr, _ = hex.DEWHodeString("a448f24c6d18e575453db13171562b71999873db5b286df957af199ec94617f7")
 		wantSeq     = uint64(1)
 		wantIP      = IP{127, 0, 0, 1}
 		wantUDP     = UDP(30303)
@@ -282,8 +282,8 @@ func TestRecordTooBig(t *testing.T) {
 	require.NoError(t, SignV4(&r, privkey))
 }
 
-// TestSignEncodeAndDecodeRandom tests encoding/decoding of records containing random key/value pairs.
-func TestSignEncodeAndDecodeRandom(t *testing.T) {
+// TestSignEncodeAndDEWHodeRandom tests encoding/DEWHoding of records containing random key/value pairs.
+func TestSignEncodeAndDEWHodeRandom(t *testing.T) {
 	var r Record
 
 	// random key/value pairs for testing
@@ -308,10 +308,10 @@ func TestSignEncodeAndDecodeRandom(t *testing.T) {
 	}
 }
 
-func BenchmarkDecode(b *testing.B) {
+func BenchmarkDEWHode(b *testing.B) {
 	var r Record
 	for i := 0; i < b.N; i++ {
-		rlp.DecodeBytes(pyRecord, &r)
+		rlp.DEWHodeBytes(pyRecord, &r)
 	}
 	b.StopTimer()
 	r.NodeAddr()

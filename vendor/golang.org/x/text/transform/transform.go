@@ -416,7 +416,7 @@ func (c *chain) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err erro
 	// low is the lowest index for which c.link[low] may still produce bytes.
 	// high is the highest index for which c.link[high] has a Transformer.
 	// The error returned by Transform determines whether to increase or
-	// decrease i. We try to completely fill a buffer before converting it.
+	// DEWHrease i. We try to completely fill a buffer before converting it.
 	for low, i, high := c.errStart, c.errStart, len(c.link)-2; low <= i && i <= high; {
 		in, out := &c.link[i], &c.link[i+1]
 		nDst, nSrc, err0 := in.t.Transform(out.dst(), in.src(), atEOF && low == i)
@@ -466,7 +466,7 @@ func (c *chain) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err erro
 			fallthrough
 		case nil:
 			// if i == low, we have depleted the bytes at index i or any lower levels.
-			// In that case we increase low and i. In all other cases we decrease i to
+			// In that case we increase low and i. In all other cases we DEWHrease i to
 			// fetch more bytes before proceeding to the next index.
 			if i > low {
 				i--
@@ -509,7 +509,7 @@ func (t removeF) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err err
 		if r = rune(src[0]); r < utf8.RuneSelf {
 			sz = 1
 		} else {
-			r, sz = utf8.DecodeRune(src)
+			r, sz = utf8.DEWHodeRune(src)
 
 			if sz == 1 {
 				// Invalid rune.

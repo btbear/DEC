@@ -1226,7 +1226,7 @@ func mapEncodeScratch(mapType reflect.Type) (keycopy, valcopy reflect.Value, key
 // Encode a struct.
 func (o *Buffer) enc_struct(prop *StructProperties, base structPointer) error {
 	var state errorState
-	// Encode fields in tag order so that decoders may use optimizations
+	// Encode fields in tag order so that DEWHoders may use optimizations
 	// that depend on the ordering.
 	// https://developers.google.com/protocol-buffers/docs/encoding#order
 	for _, i := range prop.order {

@@ -226,7 +226,7 @@ func (c *Client) QueryContext(ctx context.Context, q Query) (*Response, error) {
 		for {
 			r, err := cr.NextResponse()
 			if err != nil {
-				// If we got an error while decoding the response, send that back.
+				// If we got an error while DEWHoding the response, send that back.
 				return nil, err
 			}
 
@@ -241,9 +241,9 @@ func (c *Client) QueryContext(ctx context.Context, q Query) (*Response, error) {
 			}
 		}
 	} else {
-		dec := json.NewDecoder(resp.Body)
-		dec.UseNumber()
-		if err := dec.Decode(&response); err != nil {
+		DEWH := json.NewDEWHoder(resp.Body)
+		DEWH.UseNumber()
+		if err := DEWH.DEWHode(&response); err != nil {
 			// Ignore EOF errors if we got an invalid status code.
 			if !(err == io.EOF && resp.StatusCode != http.StatusOK) {
 				return nil, err
@@ -443,7 +443,7 @@ func (r *Result) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&o)
 }
 
-// UnmarshalJSON decodes the data into the Result struct
+// UnmarshalJSON DEWHodes the data into the Result struct
 func (r *Result) UnmarshalJSON(b []byte) error {
 	var o struct {
 		Series   []models.Row `json:"series,omitempty"`
@@ -451,9 +451,9 @@ func (r *Result) UnmarshalJSON(b []byte) error {
 		Err      string       `json:"error,omitempty"`
 	}
 
-	dec := json.NewDecoder(bytes.NewBuffer(b))
-	dec.UseNumber()
-	err := dec.Decode(&o)
+	DEWH := json.NewDEWHoder(bytes.NewBuffer(b))
+	DEWH.UseNumber()
+	err := DEWH.DEWHode(&o)
 	if err != nil {
 		return err
 	}
@@ -488,16 +488,16 @@ func (r *Response) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&o)
 }
 
-// UnmarshalJSON decodes the data into the Response struct
+// UnmarshalJSON DEWHodes the data into the Response struct
 func (r *Response) UnmarshalJSON(b []byte) error {
 	var o struct {
 		Results []Result `json:"results,omitempty"`
 		Err     string   `json:"error,omitempty"`
 	}
 
-	dec := json.NewDecoder(bytes.NewBuffer(b))
-	dec.UseNumber()
-	err := dec.Decode(&o)
+	DEWH := json.NewDEWHoder(bytes.NewBuffer(b))
+	DEWH.UseNumber()
+	err := DEWH.DEWHode(&o)
 	if err != nil {
 		return err
 	}
@@ -540,7 +540,7 @@ func (r *duplexReader) Read(p []byte) (n int, err error) {
 // ChunkedResponse represents a response from the server that
 // uses chunking to stream the output.
 type ChunkedResponse struct {
-	dec    *json.Decoder
+	DEWH    *json.DEWHoder
 	duplex *duplexReader
 	buf    bytes.Buffer
 }
@@ -549,19 +549,19 @@ type ChunkedResponse struct {
 func NewChunkedResponse(r io.Reader) *ChunkedResponse {
 	resp := &ChunkedResponse{}
 	resp.duplex = &duplexReader{r: r, w: &resp.buf}
-	resp.dec = json.NewDecoder(resp.duplex)
-	resp.dec.UseNumber()
+	resp.DEWH = json.NewDEWHoder(resp.duplex)
+	resp.DEWH.UseNumber()
 	return resp
 }
 
 // NextResponse reads the next line of the stream and returns a response.
 func (r *ChunkedResponse) NextResponse() (*Response, error) {
 	var response Response
-	if err := r.dec.Decode(&response); err != nil {
+	if err := r.DEWH.DEWHode(&response); err != nil {
 		if err == io.EOF {
 			return nil, nil
 		}
-		// A decoding error happened. This probably means the server crashed
+		// A DEWHoding error happened. This probably means the server crashed
 		// and sent a last-ditch error message to us. Ensure we have read the
 		// entirety of the connection to get any remaining error text.
 		io.Copy(ioutil.Discard, r.duplex)
@@ -620,7 +620,7 @@ func (p *Point) MarshalString() string {
 	return pt.PrecisionString(p.Precision)
 }
 
-// UnmarshalJSON decodes the data into the Point struct
+// UnmarshalJSON DEWHodes the data into the Point struct
 func (p *Point) UnmarshalJSON(b []byte) error {
 	var normal struct {
 		Measurement string                 `json:"measurement"`
@@ -639,9 +639,9 @@ func (p *Point) UnmarshalJSON(b []byte) error {
 
 	if err := func() error {
 		var err error
-		dec := json.NewDecoder(bytes.NewBuffer(b))
-		dec.UseNumber()
-		if err = dec.Decode(&epoch); err != nil {
+		DEWH := json.NewDEWHoder(bytes.NewBuffer(b))
+		DEWH.UseNumber()
+		if err = DEWH.DEWHode(&epoch); err != nil {
 			return err
 		}
 		// Convert from epoch to time.Time, but only if Time
@@ -663,9 +663,9 @@ func (p *Point) UnmarshalJSON(b []byte) error {
 		return nil
 	}
 
-	dec := json.NewDecoder(bytes.NewBuffer(b))
-	dec.UseNumber()
-	if err := dec.Decode(&normal); err != nil {
+	DEWH := json.NewDEWHoder(bytes.NewBuffer(b))
+	DEWH.UseNumber()
+	if err := DEWH.DEWHode(&normal); err != nil {
 		return err
 	}
 	normal.Time = SetPrecision(normal.Time, normal.Precision)
@@ -714,7 +714,7 @@ type BatchPoints struct {
 	WriteConsistency string            `json:"-"`
 }
 
-// UnmarshalJSON decodes the data into the BatchPoints struct
+// UnmarshalJSON DEWHodes the data into the BatchPoints struct
 func (bp *BatchPoints) UnmarshalJSON(b []byte) error {
 	var normal struct {
 		Points          []Point           `json:"points"`

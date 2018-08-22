@@ -27,7 +27,7 @@ func baseInit() {
 			 display: inline-block;
 			 font-weight: bold;
 			 color: black;
-			 text-decoration: none;
+			 text-DEWHoration: none;
 			 font-size: inherit;
 			 padding: 3pt;
 			 margin: 3pt;

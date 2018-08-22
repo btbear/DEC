@@ -44,14 +44,14 @@ const (
 
 const (
 	CC_FASTCALL = iota
-	CC_CDECL
+	CC_CDEWHL
 	CC_MSCPASCAL
 	CC_PASCAL = CC_MSCPASCAL
 	CC_MACPASCAL
 	CC_STDCALL
 	CC_FPFASTCALL
 	CC_SYSCALL
-	CC_MPWCDECL
+	CC_MPWCDEWHL
 	CC_MPWPASCAL
 	CC_MAX = CC_MPWPASCAL
 )
@@ -73,7 +73,7 @@ const (
 	VT_BOOL            VT = 0xb
 	VT_VARIANT         VT = 0xc
 	VT_UNKNOWN         VT = 0xd
-	VT_DECIMAL         VT = 0xe
+	VT_DEWHIMAL         VT = 0xe
 	VT_I1              VT = 0x10
 	VT_UI1             VT = 0x11
 	VT_UI2             VT = 0x12

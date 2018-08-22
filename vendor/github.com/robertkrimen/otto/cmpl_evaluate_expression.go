@@ -40,11 +40,11 @@ func (self *_runtime) cmpl_evaluate_nodeExpression(node _nodeExpression) Value {
 	case *_nodeBracketExpression:
 		return self.cmpl_evaluate_nodeBracketExpression(node)
 
-	case *_nodeCallExpression:
-		return self.cmpl_evaluate_nodeCallExpression(node, nil)
+	case *_noDEWHallExpression:
+		return self.cmpl_evaluate_noDEWHallExpression(node, nil)
 
-	case *_nodeConditionalExpression:
-		return self.cmpl_evaluate_nodeConditionalExpression(node)
+	case *_noDEWHonditionalExpression:
+		return self.cmpl_evaluate_noDEWHonditionalExpression(node)
 
 	case *_nodeDotExpression:
 		return self.cmpl_evaluate_nodeDotExpression(node)
@@ -52,7 +52,7 @@ func (self *_runtime) cmpl_evaluate_nodeExpression(node _nodeExpression) Value {
 	case *_nodeFunctionLiteral:
 		var local = self.scope.lexical
 		if node.name != "" {
-			local = self.newDeclarationStash(local)
+			local = self.newDEWHlarationStash(local)
 		}
 
 		value := toValue_object(self.newNodeFunction(node, local))
@@ -180,7 +180,7 @@ func (self *_runtime) cmpl_evaluate_nodeBracketExpression(node *_nodeBracketExpr
 	return toValue(newPropertyReference(self, object, memberValue.string(), false, _at(node.idx)))
 }
 
-func (self *_runtime) cmpl_evaluate_nodeCallExpression(node *_nodeCallExpression, withArgumentList []interface{}) Value {
+func (self *_runtime) cmpl_evaluate_noDEWHallExpression(node *_noDEWHallExpression, withArgumentList []interface{}) Value {
 	rt := self
 	this := Value{}
 	callee := self.cmpl_evaluate_nodeExpression(node.callee)
@@ -244,7 +244,7 @@ func (self *_runtime) cmpl_evaluate_nodeCallExpression(node *_nodeCallExpression
 	return vl._object().call(this, argumentList, eval, frame)
 }
 
-func (self *_runtime) cmpl_evaluate_nodeConditionalExpression(node *_nodeConditionalExpression) Value {
+func (self *_runtime) cmpl_evaluate_noDEWHonditionalExpression(node *_noDEWHonditionalExpression) Value {
 	test := self.cmpl_evaluate_nodeExpression(node.test)
 	testValue := test.resolve()
 	if testValue.bool() {
@@ -398,7 +398,7 @@ func (self *_runtime) cmpl_evaluate_nodeUnaryExpression(node *_nodeUnaryExpressi
 			self.putValue(target.reference(), newValue)
 			return newValue
 		}
-	case token.DECREMENT:
+	case token.DEWHREMENT:
 		targetValue := target.resolve()
 		if node.postfix {
 			// Postfix--

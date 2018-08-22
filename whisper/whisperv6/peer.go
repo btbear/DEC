@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package whisperv6
 
@@ -22,11 +22,11 @@ import (
 	"sync"
 	"time"
 
-	mapset "github.com/deckarep/golang-set"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/rlp"
+	mapset "github.com/DEWHkarep/golang-set"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 // Peer represents a whisper protocol peer connection.
@@ -101,7 +101,7 @@ func (peer *Peer) handshake() error {
 	}
 	peerVersion, err := s.Uint()
 	if err != nil {
-		return fmt.Errorf("peer [%x] sent bad status message (unable to decode version): %v", peer.ID(), err)
+		return fmt.Errorf("peer [%x] sent bad status message (unable to DEWHode version): %v", peer.ID(), err)
 	}
 	if peerVersion != ProtocolVersion {
 		return fmt.Errorf("peer [%x]: protocol version mismatch %d != %d", peer.ID(), peerVersion, ProtocolVersion)
@@ -117,7 +117,7 @@ func (peer *Peer) handshake() error {
 		peer.powRequirement = pow
 
 		var bloom []byte
-		err = s.Decode(&bloom)
+		err = s.DEWHode(&bloom)
 		if err == nil {
 			sz := len(bloom)
 			if sz != BloomFilterSize && sz != 0 {

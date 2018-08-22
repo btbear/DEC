@@ -83,7 +83,7 @@ each GOOS/GOARCH pair.
 
 Mksysnum is a script located at `${GOOS}/mksysnum.pl` (or `mksysnum_${GOOS}.pl`
 for the old system). This script takes in a list of header files containing the
-syscall number declarations and parses them to produce the corresponding list of
+syscall number DEWHlarations and parses them to produce the corresponding list of
 Go numeric constants. See `zsysnum_${GOOS}_${GOARCH}.go` for the generated
 constants.
 

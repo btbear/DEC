@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 package storage
 
 import (
@@ -24,9 +24,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/metrics"
-	"github.com/DEC/go-DEC/swarm/log"
-	"github.com/DEC/go-DEC/swarm/spancontext"
+	"github.com/DEWH/go-DEWH/metrics"
+	"github.com/DEWH/go-DEWH/swarm/log"
+	"github.com/DEWH/go-DEWH/swarm/spancontext"
 	opentracing "github.com/opentracing/opentracing-go"
 	olog "github.com/opentracing/opentracing-go/log"
 )
@@ -94,7 +94,7 @@ type JoinerParams struct {
 	ChunkerParams
 	addr   Address
 	getter Getter
-	// TODO: there is a bug, so depth can only be 0 today, see: https://github.com/ethersphere/go-DEC/issues/344
+	// TODO: there is a bug, so depth can only be 0 today, see: https://github.com/ethersphere/go-DEWH/issues/344
 	depth int
 	ctx   context.Context
 }
@@ -131,7 +131,7 @@ type TreeChunker struct {
 	As a result, partial reads from a document are possible even if other parts
 	are corrupt or lost.
 	The chunks are not meant to be validated by the chunker when joining. This
-	is because it is left to the DPA to decide which sources are trusted.
+	is because it is left to the DPA to DEWHide which sources are trusted.
 */
 func TreeJoin(ctx context.Context, addr Address, getter Getter, depth int) *LazyChunkReader {
 	jp := &JoinerParams{
@@ -228,7 +228,7 @@ func (tc *TreeChunker) getWorkerCount() int64 {
 	return tc.workerCount
 }
 
-func (tc *TreeChunker) decrementWorkerCount() {
+func (tc *TreeChunker) DEWHrementWorkerCount() {
 	tc.workerLock.Lock()
 	defer tc.workerLock.Unlock()
 	tc.workerCount -= 1
@@ -351,7 +351,7 @@ func (tc *TreeChunker) split(depth int, treeSize int64, addr Address, size int64
 func (tc *TreeChunker) runWorker() {
 	tc.incrementWorkerCount()
 	go func() {
-		defer tc.decrementWorkerCount()
+		defer tc.DEWHrementWorkerCount()
 		for {
 			select {
 

@@ -1,20 +1,20 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package les implements the Light DEC Subprotocol.
+// Package les implements the Light DEWH Subprotocol.
 package les
 
 import (
@@ -27,23 +27,23 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/consensus"
-	"github.com/DEC/go-DEC/core"
-	"github.com/DEC/go-DEC/core/rawdb"
-	"github.com/DEC/go-DEC/core/state"
-	"github.com/DEC/go-DEC/core/types"
-	"github.com/DEC/go-DEC/eth/downloader"
-	"github.com/DEC/go-DEC/ethdb"
-	"github.com/DEC/go-DEC/event"
-	"github.com/DEC/go-DEC/light"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/discv5"
-	"github.com/DEC/go-DEC/params"
-	"github.com/DEC/go-DEC/rlp"
-	"github.com/DEC/go-DEC/trie"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/consensus"
+	"github.com/DEWH/go-DEWH/core"
+	"github.com/DEWH/go-DEWH/core/rawdb"
+	"github.com/DEWH/go-DEWH/core/state"
+	"github.com/DEWH/go-DEWH/core/types"
+	"github.com/DEWH/go-DEWH/eth/downloader"
+	"github.com/DEWH/go-DEWH/ethdb"
+	"github.com/DEWH/go-DEWH/event"
+	"github.com/DEWH/go-DEWH/light"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/discv5"
+	"github.com/DEWH/go-DEWH/params"
+	"github.com/DEWH/go-DEWH/rlp"
+	"github.com/DEWH/go-DEWH/trie"
 )
 
 const (
@@ -127,8 +127,8 @@ type ProtocolManager struct {
 	wg *sync.WaitGroup
 }
 
-// NewProtocolManager returns a new DEC sub protocol manager. The DEC sub protocol manages peers capable
-// with the DEC network.
+// NewProtocolManager returns a new DEWH sub protocol manager. The DEWH sub protocol manages peers capable
+// with the DEWH network.
 func NewProtocolManager(chainConfig *params.ChainConfig, lightSync bool, protocolVersions []uint, networkId uint64, mux *event.TypeMux, engine consensus.Engine, peers *peerSet, blockchain BlockChain, txpool txPool, chainDb ethdb.Database, odr *LesOdr, txrelay *LesTxRelay, serverPool *serverPool, quitSync chan struct{}, wg *sync.WaitGroup) (*ProtocolManager, error) {
 	// Create the protocol manager with the base fields
 	manager := &ProtocolManager{
@@ -236,7 +236,7 @@ func (pm *ProtocolManager) Start(maxPeers int) {
 func (pm *ProtocolManager) Stop() {
 	// Showing a log message. During download / process this could actually
 	// take between 5 to 10 seconds and therefor feedback is required.
-	log.Info("Stopping light DEC protocol")
+	log.Info("Stopping light DEWH protocol")
 
 	// Quit the sync loop.
 	// After this send has completed, no new peers will be accepted.
@@ -253,7 +253,7 @@ func (pm *ProtocolManager) Stop() {
 	// Wait for any process action
 	pm.wg.Wait()
 
-	log.Info("Light DEC protocol stopped")
+	log.Info("Light DEWH protocol stopped")
 }
 
 func (pm *ProtocolManager) newPeer(pv int, nv uint64, p *p2p.Peer, rw p2p.MsgReadWriter) *peer {
@@ -268,7 +268,7 @@ func (pm *ProtocolManager) handle(p *peer) error {
 		return p2p.DiscTooManyPeers
 	}
 
-	p.Log().Debug("Light DEC peer connected", "name", p.Name())
+	p.Log().Debug("Light DEWH peer connected", "name", p.Name())
 
 	// Execute the LES handshake
 	var (
@@ -279,7 +279,7 @@ func (pm *ProtocolManager) handle(p *peer) error {
 		td      = pm.blockchain.GetTd(hash, number)
 	)
 	if err := p.Handshake(td, hash, number, genesis.Hash(), pm.server); err != nil {
-		p.Log().Debug("Light DEC handshake failed", "err", err)
+		p.Log().Debug("Light DEWH handshake failed", "err", err)
 		return err
 	}
 	if rw, ok := p.rw.(*meteredMsgReadWriter); ok {
@@ -287,7 +287,7 @@ func (pm *ProtocolManager) handle(p *peer) error {
 	}
 	// Register the peer locally
 	if err := pm.peers.Register(p); err != nil {
-		p.Log().Error("Light DEC peer registration failed", "err", err)
+		p.Log().Error("Light DEWH peer registration failed", "err", err)
 		return err
 	}
 	defer func() {
@@ -327,7 +327,7 @@ func (pm *ProtocolManager) handle(p *peer) error {
 	// main loop. handle incoming messages.
 	for {
 		if err := pm.handleMsg(p); err != nil {
-			p.Log().Debug("Light DEC message handling failed", "err", err)
+			p.Log().Debug("Light DEWH message handling failed", "err", err)
 			return err
 		}
 	}
@@ -343,7 +343,7 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 	if err != nil {
 		return err
 	}
-	p.Log().Trace("Light DEC message arrived", "code", msg.Code, "bytes", msg.Size)
+	p.Log().Trace("Light DEWH message arrived", "code", msg.Code, "bytes", msg.Size)
 
 	costs := p.fcCosts[msg.Code]
 	reject := func(reqCnt, maxCnt uint64) bool {
@@ -385,8 +385,8 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 		}
 
 		var req announceData
-		if err := msg.Decode(&req); err != nil {
-			return errResp(ErrDecode, "%v: %v", msg, err)
+		if err := msg.DEWHode(&req); err != nil {
+			return errResp(ErrDEWHode, "%v: %v", msg, err)
 		}
 
 		if p.requestAnnounceType == announceTypeSigned {
@@ -404,13 +404,13 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 
 	case GetBlockHeadersMsg:
 		p.Log().Trace("Received block header request")
-		// Decode the complex header query
+		// DEWHode the complex header query
 		var req struct {
 			ReqID uint64
 			Query getBlockHeadersData
 		}
-		if err := msg.Decode(&req); err != nil {
-			return errResp(ErrDecode, "%v: %v", msg, err)
+		if err := msg.DEWHode(&req); err != nil {
+			return errResp(ErrDEWHode, "%v: %v", msg, err)
 		}
 
 		query := req.Query
@@ -513,8 +513,8 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			ReqID, BV uint64
 			Headers   []*types.Header
 		}
-		if err := msg.Decode(&resp); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&resp); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		p.fcServer.GotReply(resp.ReqID, resp.BV)
 		if pm.fetcher != nil && pm.fetcher.requestedID(resp.ReqID) {
@@ -528,13 +528,13 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 
 	case GetBlockBodiesMsg:
 		p.Log().Trace("Received block bodies request")
-		// Decode the retrieval message
+		// DEWHode the retrieval message
 		var req struct {
 			ReqID  uint64
 			Hashes []common.Hash
 		}
-		if err := msg.Decode(&req); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&req); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		// Gather blocks until the fetch or network limits is reached
 		var (
@@ -572,8 +572,8 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			ReqID, BV uint64
 			Data      []*types.Body
 		}
-		if err := msg.Decode(&resp); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&resp); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		p.fcServer.GotReply(resp.ReqID, resp.BV)
 		deliverMsg = &Msg{
@@ -584,13 +584,13 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 
 	case GetCodeMsg:
 		p.Log().Trace("Received code request")
-		// Decode the retrieval message
+		// DEWHode the retrieval message
 		var req struct {
 			ReqID uint64
 			Reqs  []CodeReq
 		}
-		if err := msg.Decode(&req); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&req); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		// Gather state data until the fetch or network limits is reached
 		var (
@@ -637,8 +637,8 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			ReqID, BV uint64
 			Data      [][]byte
 		}
-		if err := msg.Decode(&resp); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&resp); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		p.fcServer.GotReply(resp.ReqID, resp.BV)
 		deliverMsg = &Msg{
@@ -649,13 +649,13 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 
 	case GetReceiptsMsg:
 		p.Log().Trace("Received receipts request")
-		// Decode the retrieval message
+		// DEWHode the retrieval message
 		var req struct {
 			ReqID  uint64
 			Hashes []common.Hash
 		}
-		if err := msg.Decode(&req); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&req); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		// Gather state data until the fetch or network limits is reached
 		var (
@@ -703,8 +703,8 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			ReqID, BV uint64
 			Receipts  []types.Receipts
 		}
-		if err := msg.Decode(&resp); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&resp); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		p.fcServer.GotReply(resp.ReqID, resp.BV)
 		deliverMsg = &Msg{
@@ -715,13 +715,13 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 
 	case GetProofsV1Msg:
 		p.Log().Trace("Received proofs request")
-		// Decode the retrieval message
+		// DEWHode the retrieval message
 		var req struct {
 			ReqID uint64
 			Reqs  []ProofReq
 		}
-		if err := msg.Decode(&req); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&req); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		// Gather state data until the fetch or network limits is reached
 		var (
@@ -768,13 +768,13 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 
 	case GetProofsV2Msg:
 		p.Log().Trace("Received les/2 proofs request")
-		// Decode the retrieval message
+		// DEWHode the retrieval message
 		var req struct {
 			ReqID uint64
 			Reqs  []ProofReq
 		}
-		if err := msg.Decode(&req); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&req); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		// Gather state data until the fetch or network limits is reached
 		var (
@@ -839,8 +839,8 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			ReqID, BV uint64
 			Data      []light.NodeList
 		}
-		if err := msg.Decode(&resp); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&resp); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		p.fcServer.GotReply(resp.ReqID, resp.BV)
 		deliverMsg = &Msg{
@@ -860,8 +860,8 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			ReqID, BV uint64
 			Data      light.NodeList
 		}
-		if err := msg.Decode(&resp); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&resp); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		p.fcServer.GotReply(resp.ReqID, resp.BV)
 		deliverMsg = &Msg{
@@ -872,13 +872,13 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 
 	case GetHeaderProofsMsg:
 		p.Log().Trace("Received headers proof request")
-		// Decode the retrieval message
+		// DEWHode the retrieval message
 		var req struct {
 			ReqID uint64
 			Reqs  []ChtReq
 		}
-		if err := msg.Decode(&req); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&req); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		// Gather state data until the fetch or network limits is reached
 		var (
@@ -917,13 +917,13 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 
 	case GetHelperTrieProofsMsg:
 		p.Log().Trace("Received helper trie proof request")
-		// Decode the retrieval message
+		// DEWHode the retrieval message
 		var req struct {
 			ReqID uint64
 			Reqs  []HelperTrieReq
 		}
-		if err := msg.Decode(&req); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&req); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		// Gather state data until the fetch or network limits is reached
 		var (
@@ -986,8 +986,8 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			ReqID, BV uint64
 			Data      []ChtResp
 		}
-		if err := msg.Decode(&resp); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&resp); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		p.fcServer.GotReply(resp.ReqID, resp.BV)
 		deliverMsg = &Msg{
@@ -1006,8 +1006,8 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			ReqID, BV uint64
 			Data      HelperTrieResps
 		}
-		if err := msg.Decode(&resp); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&resp); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 
 		p.fcServer.GotReply(resp.ReqID, resp.BV)
@@ -1023,8 +1023,8 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 		}
 		// Transactions arrived, parse all of them and deliver to the pool
 		var txs []*types.Transaction
-		if err := msg.Decode(&txs); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&txs); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		reqCnt := len(txs)
 		if reject(uint64(reqCnt), MaxTxSend) {
@@ -1044,8 +1044,8 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			ReqID uint64
 			Txs   []*types.Transaction
 		}
-		if err := msg.Decode(&req); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&req); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		reqCnt := len(req.Txs)
 		if reject(uint64(reqCnt), MaxTxSend) {
@@ -1081,8 +1081,8 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			ReqID  uint64
 			Hashes []common.Hash
 		}
-		if err := msg.Decode(&req); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&req); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 		reqCnt := len(req.Hashes)
 		if reject(uint64(reqCnt), MaxTxStatus) {
@@ -1103,8 +1103,8 @@ func (pm *ProtocolManager) handleMsg(p *peer) error {
 			ReqID, BV uint64
 			Status    []txStatus
 		}
-		if err := msg.Decode(&resp); err != nil {
-			return errResp(ErrDecode, "msg %v: %v", msg, err)
+		if err := msg.DEWHode(&resp); err != nil {
+			return errResp(ErrDEWHode, "msg %v: %v", msg, err)
 		}
 
 		p.fcServer.GotReply(resp.ReqID, resp.BV)
@@ -1137,7 +1137,7 @@ func (pm *ProtocolManager) getAccount(statedb *state.StateDB, root, hash common.
 		return state.Account{}, err
 	}
 	var account state.Account
-	if err = rlp.DecodeBytes(blob, &account); err != nil {
+	if err = rlp.DEWHodeBytes(blob, &account); err != nil {
 		return state.Account{}, err
 	}
 	return account, nil
@@ -1183,10 +1183,10 @@ func (pm *ProtocolManager) txStatus(hashes []common.Hash) []txStatus {
 	return stats
 }
 
-// NodeInfo represents a short summary of the DEC sub-protocol metadata
+// NodeInfo represents a short summary of the DEWH sub-protocol metadata
 // known about the host peer.
 type NodeInfo struct {
-	Network    uint64              `json:"network"`    // DEC network ID (1=Frontier, 2=Morden, Ropsten=3, Rinkeby=4)
+	Network    uint64              `json:"network"`    // DEWH network ID (1=Frontier, 2=Morden, Ropsten=3, Rinkeby=4)
 	Difficulty *big.Int            `json:"difficulty"` // Total difficulty of the host's blockchain
 	Genesis    common.Hash         `json:"genesis"`    // SHA3 hash of the host's genesis block
 	Config     *params.ChainConfig `json:"config"`     // Chain configuration for the fork rules

@@ -1,21 +1,21 @@
-## Go DEC
+## Go DEWH
 
-Official golang implementation of the DEC protocol.
+Official golang implementation of the DEWH protocol.
 
 [![API Reference](
 https://camo.githubusercontent.com/915b7be44ada53c290eb157634330494ebe3e30a/68747470733a2f2f676f646f632e6f72672f6769746875622e636f6d2f676f6c616e672f6764646f3f7374617475732e737667
-)](https://godoc.org/github.com/DEC/go-DEC)
-[![Go Report Card](https://goreportcard.com/badge/github.com/DEC/go-DEC)](https://goreportcard.com/report/github.com/DEC/go-DEC)
-[![Travis](https://travis-ci.org/DEC/go-DEC.svg?branch=master)](https://travis-ci.org/DEC/go-DEC)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/DEC/go-DEC?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+)](https://godoc.org/github.com/DEWH/go-DEWH)
+[![Go Report Card](https://goreportcard.com/badge/github.com/DEWH/go-DEWH)](https://goreportcard.com/report/github.com/DEWH/go-DEWH)
+[![Travis](https://travis-ci.org/DEWH/go-DEWH.svg?branch=master)](https://travis-ci.org/DEWH/go-DEWH)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/DEWH/go-DEWH?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 Automated builds are available for stable releases and the unstable master branch.
-Binary archives are published at https://geth.DEC.org/downloads/.
+Binary archives are published at https://geth.DEWH.org/downloads/.
 
 ## Building the source
 
 For prerequisites and detailed build instructions please read the
-[Installation Instructions](https://github.com/DEC/go-DEC/wiki/Building-DEC)
+[Installation Instructions](https://github.com/DEWH/go-DEWH/wiki/Building-DEWH)
 on the wiki.
 
 Building geth requires both a Go (version 1.7 or later) and a C compiler.
@@ -30,29 +30,29 @@ or, to build the full suite of utilities:
 
 ## Executables
 
-The go-DEC project comes with several wrappers/executables found in the `cmd` directory.
+The go-DEWH project comes with several wrappers/executables found in the `cmd` directory.
 
 | Command    | Description |
 |:----------:|-------------|
-| **`geth`** | Our main DEC CLI client. It is the entry point into the DEC network (main-, test- or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the DEC network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. `geth --help` and the [CLI Wiki page](https://github.com/DEC/go-DEC/wiki/Command-Line-Options) for command line options. |
-| `abigen` | Source code generator to convert DEC contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [DEC contract ABIs](https://github.com/DEC/wiki/wiki/DEC-Contract-ABI) with expanded functionality if the contract bytecode is also available. However it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/DEC/go-DEC/wiki/Native-DApps:-Go-bindings-to-DEC-contracts) wiki page for details. |
-| `bootnode` | Stripped down version of our DEC client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks. |
-| `evm` | Developer utility version of the EVM (DEC Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow isolated, fine-grained debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`). |
-| `gethrpctest` | Developer utility tool to support our [DEC/rpc-test](https://github.com/DEC/rpc-tests) test suite which validates baseline conformity to the [DEC JSON RPC](https://github.com/DEC/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/DEC/rpc-tests/blob/master/README.md) for details. |
-| `rlpdump` | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com/DEC/wiki/wiki/RLP)) dumps (data encoding used by the DEC protocol both network as well as consensus wise) to user friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`). |
-| `swarm`    | Swarm daemon and tools. This is the entrypoint for the Swarm network. `swarm --help` for command line options and subcommands. See [Swarm README](https://github.com/DEC/go-DEC/tree/master/swarm) for more information. |
-| `puppeth`    | a CLI wizard that aids in creating a new DEC network. |
+| **`geth`** | Our main DEWH CLI client. It is the entry point into the DEWH network (main-, test- or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the DEWH network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. `geth --help` and the [CLI Wiki page](https://github.com/DEWH/go-DEWH/wiki/Command-Line-Options) for command line options. |
+| `abigen` | Source code generator to convert DEWH contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [DEWH contract ABIs](https://github.com/DEWH/wiki/wiki/DEWH-Contract-ABI) with expanded functionality if the contract bytecode is also available. However it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/DEWH/go-DEWH/wiki/Native-DApps:-Go-bindings-to-DEWH-contracts) wiki page for details. |
+| `bootnode` | Stripped down version of our DEWH client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks. |
+| `evm` | Developer utility version of the EVM (DEWH Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow isolated, fine-grained debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`). |
+| `gethrpctest` | Developer utility tool to support our [DEWH/rpc-test](https://github.com/DEWH/rpc-tests) test suite which validates baseline conformity to the [DEWH JSON RPC](https://github.com/DEWH/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/DEWH/rpc-tests/blob/master/README.md) for details. |
+| `rlpdump` | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com/DEWH/wiki/wiki/RLP)) dumps (data encoding used by the DEWH protocol both network as well as consensus wise) to user friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`). |
+| `swarm`    | Swarm daemon and tools. This is the entrypoint for the Swarm network. `swarm --help` for command line options and subcommands. See [Swarm README](https://github.com/DEWH/go-DEWH/tree/master/swarm) for more information. |
+| `puppeth`    | a CLI wizard that aids in creating a new DEWH network. |
 
 ## Running geth
 
 Going through all the possible command line flags is out of scope here (please consult our
-[CLI Wiki page](https://github.com/DEC/go-DEC/wiki/Command-Line-Options)), but we've
+[CLI Wiki page](https://github.com/DEWH/go-DEWH/wiki/Command-Line-Options)), but we've
 enumerated a few common parameter combos to get you up to speed quickly on how you can run your
 own Geth instance.
 
-### Full node on the main DEC network
+### Full node on the main DEWH network
 
-By far the most common scenario is people wanting to simply interact with the DEC network:
+By far the most common scenario is people wanting to simply interact with the DEWH network:
 create accounts; transfer funds; deploy and interact with contracts. For this particular use-case
 the user doesn't care about years-old historical data, so we can fast-sync quickly to the current
 state of the network. To do so:
@@ -64,17 +64,17 @@ $ geth console
 This command will:
 
  * Start geth in fast sync mode (default, can be changed with the `--syncmode` flag), causing it to
-   download more data in exchange for avoiding processing the entire history of the DEC network,
+   download more data in exchange for avoiding processing the entire history of the DEWH network,
    which is very CPU intensive.
- * Start up Geth's built-in interactive [JavaScript console](https://github.com/DEC/go-DEC/wiki/JavaScript-Console),
-   (via the trailing `console` subcommand) through which you can invoke all official [`web3` methods](https://github.com/DEC/wiki/wiki/JavaScript-API)
-   as well as Geth's own [management APIs](https://github.com/DEC/go-DEC/wiki/Management-APIs).
+ * Start up Geth's built-in interactive [JavaScript console](https://github.com/DEWH/go-DEWH/wiki/JavaScript-Console),
+   (via the trailing `console` subcommand) through which you can invoke all official [`web3` methods](https://github.com/DEWH/wiki/wiki/JavaScript-API)
+   as well as Geth's own [management APIs](https://github.com/DEWH/go-DEWH/wiki/Management-APIs).
    This too is optional and if you leave it out you can always attach to an already running Geth instance
    with `geth attach`.
 
-### Full node on the DEC test network
+### Full node on the DEWH test network
 
-Transitioning towards developers, if you'd like to play around with creating DEC contracts, you
+Transitioning towards developers, if you'd like to play around with creating DEWH contracts, you
 almost certainly would like to do that without any real money involved until you get the hang of the
 entire system. In other words, instead of attaching to the main network, you want to join the **test**
 network with your node, which is fully equivalent to the main network, but with play-Ether only.
@@ -88,12 +88,12 @@ testnet too. Please see above for their explanations if you've skipped to here.
 
 Specifying the `--testnet` flag however will reconfigure your Geth instance a bit:
 
- * Instead of using the default data directory (`~/.DEC` on Linux for example), Geth will nest
-   itself one level deeper into a `testnet` subfolder (`~/.DEC/testnet` on Linux). Note, on OSX
+ * Instead of using the default data directory (`~/.DEWH` on Linux for example), Geth will nest
+   itself one level deeper into a `testnet` subfolder (`~/.DEWH/testnet` on Linux). Note, on OSX
    and Linux this also means that attaching to a running testnet node requires the use of a custom
    endpoint since `geth attach` will try to attach to a production node endpoint by default. E.g.
    `geth attach <datadir>/testnet/geth.ipc`. Windows users are not affected by this.
- * Instead of connecting the main DEC network, the client will connect to the test network,
+ * Instead of connecting the main DEWH network, the client will connect to the test network,
    which uses different P2P bootnodes, different network IDs and genesis states.
    
 *Note: Although there are some internal protective measures to prevent transactions from crossing
@@ -103,7 +103,7 @@ separate the two networks and will not make any accounts available between them.
 
 ### Full node on the Rinkeby test network
 
-The above test network is a cross client one based on the ethash proof-of-work consensus algorithm. As such, it has certain extra overhead and is more susceptible to reorganization attacks due to the network's low difficulty / security. Go DEC also supports connecting to a proof-of-authority based test network called [*Rinkeby*](https://www.rinkeby.io) (operated by members of the community). This network is lighter, more secure, but is only supported by go-DEC.
+The above test network is a cross client one based on the ethash proof-of-work consensus algorithm. As such, it has certain extra overhead and is more susceptible to reorganization attacks due to the network's low difficulty / security. Go DEWH also supports connecting to a proof-of-authority based test network called [*Rinkeby*](https://www.rinkeby.io) (operated by members of the community). This network is lighter, more secure, but is only supported by go-DEWH.
 
 ```
 $ geth --rinkeby console
@@ -127,12 +127,12 @@ $ geth --your-favourite-flags dumpconfig
 
 #### Docker quick start
 
-One of the quickest ways to get DEC up and running on your machine is by using Docker:
+One of the quickest ways to get DEWH up and running on your machine is by using Docker:
 
 ```
-docker run -d --name DEC-node -v /Users/alice/DEC:/root \
+docker run -d --name DEWH-node -v /Users/alice/DEWH:/root \
            -p 8545:8545 -p 30303:30303 \
-           DEC/client-go
+           DEWH/client-go
 ```
 
 This will start geth in fast-sync mode with a DB memory allowance of 1GB just as the above command does.  It will also create a persistent volume in your home directory for saving your blockchain as well as map the default ports. There is also an `alpine` tag available for a slim version of the image.
@@ -141,10 +141,10 @@ Do not forget `--rpcaddr 0.0.0.0`, if you want to access RPC from other containe
 
 ### Programatically interfacing Geth nodes
 
-As a developer, sooner rather than later you'll want to start interacting with Geth and the DEC
+As a developer, sooner rather than later you'll want to start interacting with Geth and the DEWH
 network via your own programs and not manually through the console. To aid this, Geth has built-in
-support for a JSON-RPC based APIs ([standard APIs](https://github.com/DEC/wiki/wiki/JSON-RPC) and
-[Geth specific APIs](https://github.com/DEC/go-DEC/wiki/Management-APIs)). These can be
+support for a JSON-RPC based APIs ([standard APIs](https://github.com/DEWH/wiki/wiki/JSON-RPC) and
+[Geth specific APIs](https://github.com/DEWH/go-DEWH/wiki/Management-APIs)). These can be
 exposed via HTTP, WebSockets and IPC (unix sockets on unix based platforms, and named pipes on Windows).
 
 The IPC interface is enabled by default and exposes all the APIs supported by Geth, whereas the HTTP
@@ -172,7 +172,7 @@ via HTTP, WS or IPC to a Geth node configured with the above flags and you'll ne
 on all transports. You can reuse the same connection for multiple requests!
 
 **Note: Please understand the security implications of opening up an HTTP/WS based transport before
-doing so! Hackers on the internet are actively trying to subvert DEC nodes with exposed APIs!
+doing so! Hackers on the internet are actively trying to subvert DEWH nodes with exposed APIs!
 Further, all browser tabs can access locally running webservers, so malicious webpages could try to
 subvert locally available APIs!**
 
@@ -236,7 +236,7 @@ $ bootnode --genkey=boot.key
 $ bootnode --nodekey=boot.key
 ```
 
-With the bootnode online, it will display an [`enode` URL](https://github.com/DEC/wiki/wiki/enode-url-format)
+With the bootnode online, it will display an [`enode` URL](https://github.com/DEWH/wiki/wiki/enode-url-format)
 that other nodes can use to connect to it and exchange peer information. Make sure to replace the
 displayed IP address information (most probably `[::]`) with your externally accessible IP to get the
 actual `enode` URL.
@@ -259,9 +259,9 @@ need to configure a miner to process transactions and create new blocks for you.
 
 #### Running a private miner
 
-Mining on the public DEC network is a complex task as it's only feasible using GPUs, requiring
+Mining on the public DEWH network is a complex task as it's only feasible using GPUs, requiring
 an OpenCL or CUDA enabled `ethminer` instance. For information on such a setup, please consult the
-[EtherMining subreddit](https://www.reddit.com/r/EtherMining/) and the [Genoil miner](https://github.com/Genoil/cpp-DEC)
+[EtherMining subreddit](https://www.reddit.com/r/EtherMining/) and the [Genoil miner](https://github.com/Genoil/cpp-DEWH)
 repository.
 
 In a private network setting however, a single CPU miner instance is more than enough for practical
@@ -282,9 +282,9 @@ limit blocks converge to (`--targetgaslimit`) and the price transactions are acc
 Thank you for considering to help out with the source code! We welcome contributions from
 anyone on the internet, and are grateful for even the smallest of fixes!
 
-If you'd like to contribute to go-DEC, please fork, fix, commit and send a pull request
+If you'd like to contribute to go-DEWH, please fork, fix, commit and send a pull request
 for the maintainers to review and merge into the main code base. If you wish to submit more
-complex changes though, please check up with the core devs first on [our gitter channel](https://gitter.im/DEC/go-DEC)
+complex changes though, please check up with the core devs first on [our gitter channel](https://gitter.im/DEWH/go-DEWH)
 to ensure those changes are in line with the general philosophy of the project and/or get some
 early feedback which can make both your efforts much lighter as well as our review and merge
 procedures quick and simple.
@@ -297,15 +297,15 @@ Please make sure your contributions adhere to our coding guidelines:
  * Commit messages should be prefixed with the package(s) they modify.
    * E.g. "eth, rpc: make trace configs optional"
 
-Please see the [Developers' Guide](https://github.com/DEC/go-DEC/wiki/Developers'-Guide)
+Please see the [Developers' Guide](https://github.com/DEWH/go-DEWH/wiki/Developers'-Guide)
 for more details on configuring your environment, managing project dependencies and testing procedures.
 
 ## License
 
-The go-DEC library (i.e. all code outside of the `cmd` directory) is licensed under the
+The go-DEWH library (i.e. all code outside of the `cmd` directory) is licensed under the
 [GNU Lesser General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html), also
 included in our repository in the `COPYING.LESSER` file.
 
-The go-DEC binaries (i.e. all code inside of the `cmd` directory) is licensed under the
+The go-DEWH binaries (i.e. all code inside of the `cmd` directory) is licensed under the
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html), also included
 in our repository in the `COPYING` file.

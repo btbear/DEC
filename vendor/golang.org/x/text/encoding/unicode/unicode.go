@@ -29,18 +29,18 @@ import (
 var UTF8 encoding.Encoding = utf8enc
 
 var utf8enc = &internal.Encoding{
-	&internal.SimpleEncoding{utf8Decoder{}, runes.ReplaceIllFormed()},
+	&internal.SimpleEncoding{utf8DEWHoder{}, runes.ReplaceIllFormed()},
 	"UTF-8",
 	identifier.UTF8,
 }
 
-type utf8Decoder struct{ transform.NopResetter }
+type utf8DEWHoder struct{ transform.NopResetter }
 
-func (utf8Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (utf8DEWHoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	var pSrc int // point from which to start copy in src
 	var accept utf8internal.AcceptRange
 
-	// The decoder can only make the input larger, not smaller.
+	// The DEWHoder can only make the input larger, not smaller.
 	n := len(src)
 	if len(dst) < n {
 		err = transform.ErrShortDst
@@ -125,9 +125,9 @@ func (utf8Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err e
 // UTF16 returns a UTF-16 Encoding for the given default endianness and byte
 // order mark (BOM) policy.
 //
-// When decoding from UTF-16 to UTF-8, if the BOMPolicy is IgnoreBOM then
+// When DEWHoding from UTF-16 to UTF-8, if the BOMPolicy is IgnoreBOM then
 // neither BOMs U+FEFF nor noncharacters U+FFFE in the input stream will affect
-// the endianness used for decoding, and will instead be output as their
+// the endianness used for DEWHoding, and will instead be output as their
 // standard UTF-8 encodings: "\xef\xbb\xbf" and "\xef\xbf\xbe". If the BOMPolicy
 // is UseBOM or ExpectBOM a staring BOM is not written to the UTF-8 output.
 // Instead, it overrides the default endianness e for the remainder of the
@@ -228,7 +228,7 @@ const (
 	LittleEndian Endianness = true
 )
 
-// ErrMissingBOM means that decoding UTF-16 input with ExpectBOM did not find a
+// ErrMissingBOM means that DEWHoding UTF-16 input with ExpectBOM did not find a
 // starting byte order mark.
 var ErrMissingBOM = errors.New("encoding: missing byte order mark")
 
@@ -242,8 +242,8 @@ type config struct {
 	bomPolicy  BOMPolicy
 }
 
-func (u utf16Encoding) NewDecoder() *encoding.Decoder {
-	return &encoding.Decoder{Transformer: &utf16Decoder{
+func (u utf16Encoding) NewDEWHoder() *encoding.DEWHoder {
+	return &encoding.DEWHoder{Transformer: &utf16DEWHoder{
 		initial: u.config,
 		current: u.config,
 	}}
@@ -277,16 +277,16 @@ func (u utf16Encoding) String() string {
 	return "UTF-16" + e + "E (" + b + " BOM)"
 }
 
-type utf16Decoder struct {
+type utf16DEWHoder struct {
 	initial config
 	current config
 }
 
-func (u *utf16Decoder) Reset() {
+func (u *utf16DEWHoder) Reset() {
 	u.current = u.initial
 }
 
-func (u *utf16Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
+func (u *utf16DEWHoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, err error) {
 	if len(src) == 0 {
 		if atEOF && u.current.bomPolicy&requireBOM != 0 {
 			return 0, 0, ErrMissingBOM
@@ -329,7 +329,7 @@ func (u *utf16Decoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, e
 					}
 					// Save for next iteration if it is not a high surrogate.
 					if isHighSurrogate(rune(x)) {
-						r, sSize = utf16.DecodeRune(r, rune(x)), 4
+						r, sSize = utf16.DEWHodeRune(r, rune(x)), 4
 					}
 				} else if !atEOF {
 					err = transform.ErrShortSrc
@@ -384,13 +384,13 @@ func (u *utf16Encoder) Transform(dst, src []byte, atEOF bool) (nDst, nSrc int, e
 	for nSrc < len(src) {
 		r = rune(src[nSrc])
 
-		// Decode a 1-byte rune.
+		// DEWHode a 1-byte rune.
 		if r < utf8.RuneSelf {
 			size = 1
 
 		} else {
-			// Decode a multi-byte rune.
-			r, size = utf8.DecodeRune(src[nSrc:])
+			// DEWHode a multi-byte rune.
+			r, size = utf8.DEWHodeRune(src[nSrc:])
 			if size == 1 {
 				// All valid runes of size 1 (those below utf8.RuneSelf) were
 				// handled above. We have invalid UTF-8 or we haven't seen the

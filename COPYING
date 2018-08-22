@@ -1,7 +1,7 @@
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
- Copyright (C) 2014 The go-DEC Authors.
+ Copyright (C) 2014 The go-DEWH Authors.
  Everyone is permitted to copy and distribute verbatim copies
  of this license document, but changing it is not allowed.
 
@@ -180,7 +180,7 @@ makes it unnecessary.
 
   No covered work shall be deemed part of an effective technological
 measure under any applicable law fulfilling obligations under article
-11 of the WIPO copyright treaty adopted on 20 December 1996, or
+11 of the WIPO copyright treaty adopted on 20 DEWHember 1996, or
 similar laws prohibiting or restricting circumvention of such
 measures.
 
@@ -376,7 +376,7 @@ that material) supplement the terms of this License with terms:
     d) Limiting the use for publicity purposes of names of licensors or
     authors of the material; or
 
-    e) Declining to grant rights under trademark law for use of some
+    e) DEWHlining to grant rights under trademark law for use of some
     trade names, trademarks, or service marks; or
 
     f) Requiring indemnification of licensors and authors of that
@@ -455,10 +455,10 @@ organization, or substantially all assets of one, or subdividing an
 organization, or merging organizations.  If propagation of a covered
 work results from an entity transaction, each party to that
 transaction who receives a copy of the work also receives whatever
-licenses to the work the party's predecessor in interest had or could
+licenses to the work the party's preDEWHessor in interest had or could
 give under the previous paragraph, plus a right to possession of the
-Corresponding Source of the work from the predecessor in interest, if
-the predecessor has it or can get it with reasonable efforts.
+Corresponding Source of the work from the preDEWHessor in interest, if
+the preDEWHessor has it or can get it with reasonable efforts.
 
   You may not impose any further restrictions on the exercise of the
 rights granted or affirmed under this License.  For example, you may
@@ -576,7 +576,7 @@ Foundation.  If the Program does not specify a version number of the
 GNU General Public License, you may choose any version ever published
 by the Free Software Foundation.
 
-  If the Program specifies that a proxy can decide which future
+  If the Program specifies that a proxy can DEWHide which future
 versions of the GNU General Public License can be used, that proxy's
 public statement of acceptance of a version permanently authorizes you
 to choose that version for the Program.

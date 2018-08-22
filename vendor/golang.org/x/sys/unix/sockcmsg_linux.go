@@ -21,7 +21,7 @@ func UnixCredentials(ucred *Ucred) []byte {
 	return b
 }
 
-// ParseUnixCredentials decodes a socket control message that contains
+// ParseUnixCredentials DEWHodes a socket control message that contains
 // credentials in a Ucred structure. To receive such a message, the
 // SO_PASSCRED option must be enabled on the socket.
 func ParseUnixCredentials(m *SocketControlMessage) (*Ucred, error) {

@@ -54,7 +54,7 @@ func LpOleStrToString(p *uint16) string {
 		ptr = unsafe.Pointer(uintptr(ptr) + 2)
 	}
 
-	return string(utf16.Decode(a))
+	return string(utf16.DEWHode(a))
 }
 
 // BstrToString converts COM binary string to Go string.
@@ -71,7 +71,7 @@ func BstrToString(p *uint16) string {
 		a[i] = *(*uint16)(ptr)
 		ptr = unsafe.Pointer(uintptr(ptr) + 2)
 	}
-	return string(utf16.Decode(a))
+	return string(utf16.DEWHode(a))
 }
 
 // lpOleStrLen returns the length of Unicode string.

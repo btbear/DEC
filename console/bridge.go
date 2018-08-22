@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package console
 
@@ -23,16 +23,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/DEC/go-DEC/accounts/usbwallet"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/rpc"
+	"github.com/DEWH/go-DEWH/accounts/usbwallet"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/rpc"
 	"github.com/robertkrimen/otto"
 )
 
 // bridge is a collection of JavaScript utility methods to bride the .js runtime
 // environment and the Go RPC connection backing the remote method calls.
 type bridge struct {
-	client   *rpc.Client  // RPC client to execute DEC requests through
+	client   *rpc.Client  // RPC client to execute DEWH requests through
 	prompter UserPrompter // Input prompter to allow interactive user feedback
 	printer  io.Writer    // Output writer to serialize any display strings to
 }
@@ -286,18 +286,18 @@ func (b *bridge) Send(call otto.FunctionCall) (response otto.Value) {
 	}
 	var (
 		rawReq = reqVal.String()
-		dec    = json.NewDecoder(strings.NewReader(rawReq))
+		DEWH    = json.NewDEWHoder(strings.NewReader(rawReq))
 		reqs   []jsonrpcCall
 		batch  bool
 	)
-	dec.UseNumber() // avoid float64s
+	DEWH.UseNumber() // avoid float64s
 	if rawReq[0] == '[' {
 		batch = true
-		dec.Decode(&reqs)
+		DEWH.DEWHode(&reqs)
 	} else {
 		batch = false
 		reqs = make([]jsonrpcCall, 1)
-		dec.Decode(&reqs[0])
+		DEWH.DEWHode(&reqs[0])
 	}
 
 	// Execute the requests.
@@ -310,7 +310,7 @@ func (b *bridge) Send(call otto.FunctionCall) (response otto.Value) {
 		switch err := err.(type) {
 		case nil:
 			if result == nil {
-				// Special case null because it is decoded as an empty
+				// Special case null because it is DEWHoded as an empty
 				// raw message for some reason.
 				resp.Set("result", otto.NullValue())
 			} else {

@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 // Command resource allows the user to create and update signed mutable resource updates
 package main
@@ -22,11 +22,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/DEC/go-DEC/common/hexutil"
+	"github.com/DEWH/go-DEWH/common/hexutil"
 
-	"github.com/DEC/go-DEC/cmd/utils"
-	swarm "github.com/DEC/go-DEC/swarm/api/client"
-	"github.com/DEC/go-DEC/swarm/storage/mru"
+	"github.com/DEWH/go-DEWH/cmd/utils"
+	swarm "github.com/DEWH/go-DEWH/swarm/api/client"
+	"github.com/DEWH/go-DEWH/swarm/storage/mru"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -70,7 +70,7 @@ func resourceCreate(ctx *cli.Context) {
 
 	var newResourceRequest *mru.Request
 	if initialData != "" {
-		initialDataBytes, err := hexutil.Decode(initialData)
+		initialDataBytes, err := hexutil.DEWHode(initialData)
 		if err != nil {
 			fmt.Printf("Error parsing data: %s\n", err.Error())
 			cli.ShowCommandHelpAndExit(ctx, "create", 1)
@@ -116,7 +116,7 @@ func resourceUpdate(ctx *cli.Context) {
 	}
 	signer := NewGenericSigner(ctx)
 	manifestAddressOrDomain := args[0]
-	data, err := hexutil.Decode(args[1])
+	data, err := hexutil.DEWHode(args[1])
 	if err != nil {
 		utils.Fatalf("Error parsing data: %s", err.Error())
 		return

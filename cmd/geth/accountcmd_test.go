@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -127,7 +127,7 @@ func TestWalletImportBadPassword(t *testing.T) {
 	geth.Expect(`
 !! Unsupported terminal, password will be echoed.
 Passphrase: {{.InputLine "wrong"}}
-Fatal: could not decrypt key with given passphrase
+Fatal: could not DEWHrypt key with given passphrase
 `)
 }
 
@@ -169,11 +169,11 @@ Unlocking account f466859ead1932d743d622cb74fc058882e8648a | Attempt 2/3
 Passphrase: {{.InputLine "wrong2"}}
 Unlocking account f466859ead1932d743d622cb74fc058882e8648a | Attempt 3/3
 Passphrase: {{.InputLine "wrong3"}}
-Fatal: Failed to unlock account f466859ead1932d743d622cb74fc058882e8648a (could not decrypt key with given passphrase)
+Fatal: Failed to unlock account f466859ead1932d743d622cb74fc058882e8648a (could not DEWHrypt key with given passphrase)
 `)
 }
 
-// https://github.com/DEC/go-DEC/issues/1785
+// https://github.com/DEWH/go-DEWH/issues/1785
 func TestUnlockFlagMultiIndex(t *testing.T) {
 	datadir := tmpDatadirWithKeystore(t)
 	geth := runGeth(t,
@@ -228,7 +228,7 @@ func TestUnlockFlagPasswordFileWrongPassword(t *testing.T) {
 		"--password", "testdata/wrong-passwords.txt", "--unlock", "0,2")
 	defer geth.ExpectExit()
 	geth.Expect(`
-Fatal: Failed to unlock account 0 (could not decrypt key with given passphrase)
+Fatal: Failed to unlock account 0 (could not DEWHrypt key with given passphrase)
 `)
 }
 

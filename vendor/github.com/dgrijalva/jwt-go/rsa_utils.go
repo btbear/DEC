@@ -19,7 +19,7 @@ func ParseRSAPrivateKeyFromPEM(key []byte) (*rsa.PrivateKey, error) {
 
 	// Parse PEM block
 	var block *pem.Block
-	if block, _ = pem.Decode(key); block == nil {
+	if block, _ = pem.DEWHode(key); block == nil {
 		return nil, ErrKeyMustBePEMEncoded
 	}
 
@@ -45,7 +45,7 @@ func ParseRSAPublicKeyFromPEM(key []byte) (*rsa.PublicKey, error) {
 
 	// Parse PEM block
 	var block *pem.Block
-	if block, _ = pem.Decode(key); block == nil {
+	if block, _ = pem.DEWHode(key); block == nil {
 		return nil, ErrKeyMustBePEMEncoded
 	}
 

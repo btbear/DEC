@@ -18,11 +18,11 @@ const (
 	// ServiceCodeAuthenticationFailed means the server failed to authenticate the request. Make sure the value of the Authorization header is formed correctly including the signature (403).
 	ServiceCodeAuthenticationFailed ServiceCodeType = "AuthenticationFailed"
 
-	// ServiceCodeConditionHeadersNotSupported means the condition headers are not supported (400).
-	ServiceCodeConditionHeadersNotSupported ServiceCodeType = "ConditionHeadersNotSupported"
+	// ServiceCoDEWHonditionHeadersNotSupported means the condition headers are not supported (400).
+	ServiceCoDEWHonditionHeadersNotSupported ServiceCodeType = "ConditionHeadersNotSupported"
 
-	// ServiceCodeConditionNotMet means the condition specified in the conditional header(s) was not met for a read/write operation (304/412).
-	ServiceCodeConditionNotMet ServiceCodeType = "ConditionNotMet"
+	// ServiceCoDEWHonditionNotMet means the condition specified in the conditional header(s) was not met for a read/write operation (304/412).
+	ServiceCoDEWHonditionNotMet ServiceCodeType = "ConditionNotMet"
 
 	// ServiceCodeEmptyMetadataKey means the key for one of the metadata key-value pairs is empty (400).
 	ServiceCodeEmptyMetadataKey ServiceCodeType = "EmptyMetadataKey"

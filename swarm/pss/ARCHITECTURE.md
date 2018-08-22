@@ -2,7 +2,7 @@
 
 Pss provides devp2p functionality for swarm nodes without the need for a direct tcp connection between them.
 
-Messages are encapsulated in a devp2p message structure `PssMsg`. These capsules are forwarded from node to node using ordinary tcp devp2p until they reach their destination: The node or nodes who can successfully decrypt the message.
+Messages are encapsulated in a devp2p message structure `PssMsg`. These capsules are forwarded from node to node using ordinary tcp devp2p until they reach their destination: The node or nodes who can successfully DEWHrypt the message.
 
 | Layer     | Contents        |
 |-----------|-----------------|
@@ -16,13 +16,13 @@ Pss is intended for messages of limited size, typically a couple of Kbytes at mo
 
 For the current state and roadmap of pss development please see https://github.com/ethersphere/swarm/wiki/swarm-dev-progress.
 
-Please report issues on https://github.com/ethersphere/go-DEC
+Please report issues on https://github.com/ethersphere/go-DEWH
 
 Feel free to ask questions in https://gitter.im/ethersphere/pss
 
 ## STATUS OF THIS DOCUMENT
 
-`pss` is under active development, and the first implementation is yet to be merged to the DEC main branch. Expect things to change.
+`pss` is under active development, and the first implementation is yet to be merged to the DEWH main branch. Expect things to change.
 
 ## CORE INTERFACES
 
@@ -30,13 +30,13 @@ The pss core provides low level control of key handling and message exchange.
 
 ### TOPICS
 
-An encrypted envelope of a pss message always contains a Topic. This is pss' way of determining which message handlers to dispatch messages to. The topic of a message is only visible for the node(s) who can decrypt the message.
+An encrypted envelope of a pss message always contains a Topic. This is pss' way of determining which message handlers to dispatch messages to. The topic of a message is only visible for the node(s) who can DEWHrypt the message.
 
 This "topic" is not like the subject of an email message, but a hash-like arbitrary 4 byte value. A valid topic can be generated using the `pss_*ToTopic` API methods.
 
 ### IDENTITY AND ENCRYPTION
 
-Pss aims to achieve perfect darkness. That means that the minimum requirement for two nodes to communicate using pss is a shared secret. This secret can be an arbitrary byte slice, or a ECDSA keypair. The end recipient of a message is defined as the node that can successfully decrypt that message using stored keys.
+Pss aims to achieve perfect darkness. That means that the minimum requirement for two nodes to communicate using pss is a shared secret. This secret can be an arbitrary byte slice, or a ECDSA keypair. The end recipient of a message is defined as the node that can successfully DEWHrypt that message using stored keys.
 
 A node's public key is derived from the private key passed to the `pss` constructor. Pss (currently) has no PKI.
 
@@ -105,11 +105,11 @@ Coming. Please refer to the tests for now.
 
 Pss implements the node.Service interface. It depends on a working kademlia overlay for routing.
 
-### DECRYPTION
+### DEWHRYPTION
 
 When processing an incoming message, `pss` detects whether it is encrypted symmetrically or asymmetrically.
 
-When decrypting symmetrically, `pss` iterates through all stored keys, and attempts to decrypt with each key in order.
+When DEWHrypting symmetrically, `pss` iterates through all stored keys, and attempts to DEWHrypt with each key in order.
 
 pss keeps a *cache* of these keys. The cache will only store a certain amount of keys, and the iterator will return keys in the order of most recently used key first. Abandoned keys will be garbage collected.
 

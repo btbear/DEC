@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package simulations
 
@@ -29,11 +29,11 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/DEC/go-DEC/event"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/simulations/adapters"
-	"github.com/DEC/go-DEC/rpc"
+	"github.com/DEWH/go-DEWH/event"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/simulations/adapters"
+	"github.com/DEWH/go-DEWH/rpc"
 	"github.com/julienschmidt/httprouter"
 	"golang.org/x/net/websocket"
 )
@@ -138,7 +138,7 @@ func (c *Client) SubscribeNetwork(events chan *Event, opts SubscribeOpts) (event
 			errC <- s.Err()
 		}()
 
-		// detect any lines which start with "data:", decode the data
+		// detect any lines which start with "data:", DEWHode the data
 		// into an event and send it to the events channel
 		for {
 			select {
@@ -149,7 +149,7 @@ func (c *Client) SubscribeNetwork(events chan *Event, opts SubscribeOpts) (event
 				data := strings.TrimSpace(strings.TrimPrefix(line, "data:"))
 				event := &Event{}
 				if err := json.Unmarshal([]byte(data), event); err != nil {
-					return fmt.Errorf("error decoding SSE event: %s", err)
+					return fmt.Errorf("error DEWHoding SSE event: %s", err)
 				}
 				select {
 				case events <- event:
@@ -174,7 +174,7 @@ func (c *Client) GetNodes() ([]*p2p.NodeInfo, error) {
 }
 
 // CreateNode creates a node in the network using the given configuration
-func (c *Client) CreateNode(config *adapters.NodeConfig) (*p2p.NodeInfo, error) {
+func (c *Client) CreateNode(config *adapters.NoDEWHonfig) (*p2p.NodeInfo, error) {
 	node := &p2p.NodeInfo{}
 	return node, c.Post("/nodes", config, node)
 }
@@ -211,14 +211,14 @@ func (c *Client) RPCClient(ctx context.Context, nodeID string) (*rpc.Client, err
 	return rpc.DialWebsocket(ctx, fmt.Sprintf("%s/nodes/%s/rpc", baseURL, nodeID), "")
 }
 
-// Get performs a HTTP GET request decoding the resulting JSON response
+// Get performs a HTTP GET request DEWHoding the resulting JSON response
 // into "out"
 func (c *Client) Get(path string, out interface{}) error {
 	return c.Send("GET", path, nil, out)
 }
 
 // Post performs a HTTP POST request sending "in" as the JSON body and
-// decoding the resulting JSON response into "out"
+// DEWHoding the resulting JSON response into "out"
 func (c *Client) Post(path string, in, out interface{}) error {
 	return c.Send("POST", path, in, out)
 }
@@ -229,7 +229,7 @@ func (c *Client) Delete(path string) error {
 }
 
 // Send performs a HTTP request, sending "in" as the JSON request body and
-// decoding the JSON response into "out"
+// DEWHoding the JSON response into "out"
 func (c *Client) Send(method, path string, in, out interface{}) error {
 	var body []byte
 	if in != nil {
@@ -255,7 +255,7 @@ func (c *Client) Send(method, path string, in, out interface{}) error {
 		return fmt.Errorf("unexpected HTTP status: %s: %s", res.Status, response)
 	}
 	if out != nil {
-		if err := json.NewDecoder(res.Body).Decode(out); err != nil {
+		if err := json.NewDEWHoder(res.Body).DEWHode(out); err != nil {
 			return err
 		}
 	}
@@ -339,13 +339,13 @@ func (s *Server) StartMocker(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, fmt.Sprintf("unknown mocker type %q", mockerType), http.StatusBadRequest)
 		return
 	}
-	nodeCount, err := strconv.Atoi(req.FormValue("node-count"))
+	noDEWHount, err := strconv.Atoi(req.FormValue("node-count"))
 	if err != nil {
 		http.Error(w, "invalid node-count provided", http.StatusBadRequest)
 		return
 	}
 	s.mockerStop = make(chan struct{})
-	go mockerFn(s.network, s.mockerStop, nodeCount)
+	go mockerFn(s.network, s.mockerStop, noDEWHount)
 
 	w.WriteHeader(http.StatusOK)
 }
@@ -546,7 +546,7 @@ func (s *Server) CreateSnapshot(w http.ResponseWriter, req *http.Request) {
 // LoadSnapshot loads a snapshot into the network
 func (s *Server) LoadSnapshot(w http.ResponseWriter, req *http.Request) {
 	snap := &Snapshot{}
-	if err := json.NewDecoder(req.Body).Decode(snap); err != nil {
+	if err := json.NewDEWHoder(req.Body).DEWHode(snap); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -561,9 +561,9 @@ func (s *Server) LoadSnapshot(w http.ResponseWriter, req *http.Request) {
 
 // CreateNode creates a node in the network using the given configuration
 func (s *Server) CreateNode(w http.ResponseWriter, req *http.Request) {
-	config := &adapters.NodeConfig{}
+	config := &adapters.NoDEWHonfig{}
 
-	err := json.NewDecoder(req.Body).Decode(config)
+	err := json.NewDEWHoder(req.Body).DEWHode(config)
 	if err != nil && err != io.EOF {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

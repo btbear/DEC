@@ -113,7 +113,7 @@ func (blockID BlockID) ToBase64() string {
 
 func (blockID *BlockID) FromBase64(s string) error {
 	*blockID = BlockID{} // Zero out the block ID
-	_, err := base64.StdEncoding.Decode(blockID[:], ([]byte)(s))
+	_, err := base64.StdEncoding.DEWHode(blockID[:], ([]byte)(s))
 	return err
 }
 

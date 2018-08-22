@@ -1,18 +1,18 @@
-// Copyright 2017 The go-DEC Authors
-// This file is part of go-DEC.
+// Copyright 2017 The go-DEWH Authors
+// This file is part of go-DEWH.
 //
-// go-DEC is free software: you can redistribute it and/or modify
+// go-DEWH is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-DEC is distributed in the hope that it will be useful,
+// go-DEWH is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-DEC. If not, see <http://www.gnu.org/licenses/>.
+// along with go-DEWH. If not, see <http://www.gnu.org/licenses/>.
 
 // This is a simple Whisper node. It could be used as a stand-alone bootstrap node.
 // Also, could be used for different test and diagnostics purposes.
@@ -35,16 +35,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/DEC/go-DEC/cmd/utils"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/console"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/p2p"
-	"github.com/DEC/go-DEC/p2p/discover"
-	"github.com/DEC/go-DEC/p2p/nat"
-	"github.com/DEC/go-DEC/whisper/mailserver"
-	whisper "github.com/DEC/go-DEC/whisper/whisperv6"
+	"github.com/DEWH/go-DEWH/cmd/utils"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/console"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/p2p"
+	"github.com/DEWH/go-DEWH/p2p/discover"
+	"github.com/DEWH/go-DEWH/p2p/nat"
+	"github.com/DEWH/go-DEWH/whisper/mailserver"
+	whisper "github.com/DEWH/go-DEWH/whisper/whisperv6"
 	"golang.org/x/crypto/pbkdf2"
 )
 
@@ -80,13 +80,13 @@ var (
 // cmd arguments
 var (
 	bootstrapMode  = flag.Bool("standalone", false, "boostrap node: don't initiate connection to peers, just wait for incoming connections")
-	forwarderMode  = flag.Bool("forwarder", false, "forwarder mode: only forward messages, neither encrypt nor decrypt messages")
+	forwarderMode  = flag.Bool("forwarder", false, "forwarder mode: only forward messages, neither encrypt nor DEWHrypt messages")
 	mailServerMode = flag.Bool("mailserver", false, "mail server mode: delivers expired messages on demand")
 	requestMail    = flag.Bool("mailclient", false, "request expired messages from the bootstrap server")
 	asymmetricMode = flag.Bool("asym", false, "use asymmetric encryption")
 	generateKey    = flag.Bool("generatekey", false, "generate and show the private key")
 	fileExMode     = flag.Bool("fileexchange", false, "file exchange mode")
-	fileReader     = flag.Bool("filereader", false, "load and decrypt messages saved as files, display as plain text")
+	fileReader     = flag.Bool("filereader", false, "load and DEWHrypt messages saved as files, display as plain text")
 	testMode       = flag.Bool("test", false, "use of predefined parameters for diagnostics (password, etc.)")
 	echoMode       = flag.Bool("echo", false, "echo mode: prints some arguments for diagnostics")
 
@@ -102,7 +102,7 @@ var (
 	argDBPath  = flag.String("dbpath", "", "path to the server's DB directory")
 	argIDFile  = flag.String("idfile", "", "file name with node id (private key)")
 	argEnode   = flag.String("boot", "", "bootstrap node you want to connect to (e.g. enode://e454......08d50@52.176.211.200:16428)")
-	argTopic   = flag.String("topic", "", "topic in hexadecimal format (e.g. 70a4beef)")
+	argTopic   = flag.String("topic", "", "topic in hexaDEWHimal format (e.g. 70a4beef)")
 	argSaveDir = flag.String("savedir", "", "directory where all incoming messages will be saved as files")
 )
 
@@ -118,7 +118,7 @@ func processArgs() {
 
 	if len(*argIDFile) > 0 {
 		var err error
-		nodeid, err = crypto.LoadECDSA(*argIDFile)
+		nodeid, err = crypto.LoaDEWHDSA(*argIDFile)
 		if err != nil {
 			utils.Fatalf("Failed to load file [%s]: %s.", *argIDFile, err)
 		}
@@ -132,7 +132,7 @@ func processArgs() {
 	}
 
 	if len(*argTopic) > 0 {
-		x, err := hex.DecodeString(*argTopic)
+		x, err := hex.DEWHodeString(*argTopic)
 		if err != nil {
 			utils.Fatalf("Failed to parse the topic: %s", err)
 		}
@@ -314,7 +314,7 @@ func startServer() error {
 	if *fileExMode {
 		fmt.Printf("Please type the file name to be send. To quit type: '%s'\n", quitCommand)
 	} else if *fileReader {
-		fmt.Printf("Please type the file name to be decrypted. To quit type: '%s'\n", quitCommand)
+		fmt.Printf("Please type the file name to be DEWHrypted. To quit type: '%s'\n", quitCommand)
 	} else if !*forwarderMode {
 		fmt.Printf("Please type the message. To quit type: '%s'\n", quitCommand)
 	}
@@ -334,7 +334,7 @@ func configureNode() {
 			s := scanLine("Please enter the peer's public key: ")
 			b := common.FromHex(s)
 			if b == nil {
-				utils.Fatalf("Error: can not convert hexadecimal string")
+				utils.Fatalf("Error: can not convert hexaDEWHimal string")
 			}
 			if pub, err = crypto.UnmarshalPubkey(b); err != nil {
 				utils.Fatalf("Error: invalid peer public key")
@@ -465,7 +465,7 @@ func sendLoop() {
 		sendMsg([]byte(s))
 		if *asymmetricMode {
 			// print your own message for convenience,
-			// because in asymmetric mode it is impossible to decrypt it
+			// because in asymmetric mode it is impossible to DEWHrypt it
 			timestamp := time.Now().Unix()
 			from := crypto.PubkeyToAddress(asymKey.PublicKey)
 			fmt.Printf("\n%d <%x>: %s\n", timestamp, from, s)
@@ -520,7 +520,7 @@ func fileReaderLoop() {
 				msg = env.Open(watcher2)
 			}
 			if msg == nil {
-				fmt.Printf(">>> Error: failed to decrypt the message \n")
+				fmt.Printf(">>> Error: failed to DEWHrypt the message \n")
 			} else {
 				printMessageInfo(msg)
 			}
@@ -697,7 +697,7 @@ func requestExpiredMessagesLoop() {
 		timeUpp = scanUint("Please enter the upper limit of the time range (unix timestamp): ")
 		t = scanLine("Enter the topic (hex). Press enter to request all messages, regardless of the topic: ")
 		if len(t) == whisper.TopicLength*2 {
-			x, err := hex.DecodeString(t)
+			x, err := hex.DEWHodeString(t)
 			if err != nil {
 				fmt.Printf("Failed to parse the topic: %s \n", err)
 				continue

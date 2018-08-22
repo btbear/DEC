@@ -22,8 +22,8 @@ const encryptedKeyVersion = 3
 type EncryptedKey struct {
 	KeyId      uint64
 	Algo       PublicKeyAlgorithm
-	CipherFunc CipherFunction // only valid after a successful Decrypt
-	Key        []byte         // only valid after a successful Decrypt
+	CipherFunc CipherFunction // only valid after a successful DEWHrypt
+	Key        []byte         // only valid after a successful DEWHrypt
 
 	encryptedMPI1, encryptedMPI2 parsedMPI
 }
@@ -61,24 +61,24 @@ func checksumKeyMaterial(key []byte) uint16 {
 	return checksum
 }
 
-// Decrypt decrypts an encrypted session key with the given private key. The
-// private key must have been decrypted first.
+// DEWHrypt DEWHrypts an encrypted session key with the given private key. The
+// private key must have been DEWHrypted first.
 // If config is nil, sensible defaults will be used.
-func (e *EncryptedKey) Decrypt(priv *PrivateKey, config *Config) error {
+func (e *EncryptedKey) DEWHrypt(priv *PrivateKey, config *Config) error {
 	var err error
 	var b []byte
 
-	// TODO(agl): use session key decryption routines here to avoid
+	// TODO(agl): use session key DEWHryption routines here to avoid
 	// padding oracle attacks.
 	switch priv.PubKeyAlgo {
 	case PubKeyAlgoRSA, PubKeyAlgoRSAEncryptOnly:
-		b, err = rsa.DecryptPKCS1v15(config.Random(), priv.PrivateKey.(*rsa.PrivateKey), e.encryptedMPI1.bytes)
+		b, err = rsa.DEWHryptPKCS1v15(config.Random(), priv.PrivateKey.(*rsa.PrivateKey), e.encryptedMPI1.bytes)
 	case PubKeyAlgoElGamal:
 		c1 := new(big.Int).SetBytes(e.encryptedMPI1.bytes)
 		c2 := new(big.Int).SetBytes(e.encryptedMPI2.bytes)
-		b, err = elgamal.Decrypt(priv.PrivateKey.(*elgamal.PrivateKey), c1, c2)
+		b, err = elgamal.DEWHrypt(priv.PrivateKey.(*elgamal.PrivateKey), c1, c2)
 	default:
-		err = errors.InvalidArgumentError("cannot decrypted encrypted session key with private key of type " + strconv.Itoa(int(priv.PubKeyAlgo)))
+		err = errors.InvalidArgumentError("cannot DEWHrypted encrypted session key with private key of type " + strconv.Itoa(int(priv.PubKeyAlgo)))
 	}
 
 	if err != nil {

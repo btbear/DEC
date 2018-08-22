@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package bind
 
@@ -21,9 +21,9 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/DEC/go-DEC"
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/core/types"
+	"github.com/DEWH/go-DEWH"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/core/types"
 )
 
 var (
@@ -47,9 +47,9 @@ type ContractCaller interface {
 	// CodeAt returns the code of the given account. This is needed to differentiate
 	// between contract internal errors and the local chain being out of sync.
 	CodeAt(ctx context.Context, contract common.Address, blockNumber *big.Int) ([]byte, error)
-	// ContractCall executes an DEC contract call with the specified data as the
+	// ContractCall executes an DEWH contract call with the specified data as the
 	// input.
-	CallContract(ctx context.Context, call DEC.CallMsg, blockNumber *big.Int) ([]byte, error)
+	CallContract(ctx context.Context, call DEWH.CallMsg, blockNumber *big.Int) ([]byte, error)
 }
 
 // PendingContractCaller defines methods to perform contract calls on the pending state.
@@ -58,14 +58,14 @@ type ContractCaller interface {
 type PendingContractCaller interface {
 	// PendingCodeAt returns the code of the given account in the pending state.
 	PendingCodeAt(ctx context.Context, contract common.Address) ([]byte, error)
-	// PendingCallContract executes an DEC contract call against the pending state.
-	PendingCallContract(ctx context.Context, call DEC.CallMsg) ([]byte, error)
+	// PendingCallContract executes an DEWH contract call against the pending state.
+	PendingCallContract(ctx context.Context, call DEWH.CallMsg) ([]byte, error)
 }
 
 // ContractTransactor defines the methods needed to allow operating with contract
 // on a write only basis. Beside the transacting method, the remainder are helpers
 // used when the user does not provide some needed values, but rather leaves it up
-// to the transactor to decide.
+// to the transactor to DEWHide.
 type ContractTransactor interface {
 	// PendingCodeAt returns the code of the given account in the pending state.
 	PendingCodeAt(ctx context.Context, account common.Address) ([]byte, error)
@@ -79,7 +79,7 @@ type ContractTransactor interface {
 	// There is no guarantee that this is the true gas limit requirement as other
 	// transactions may be added or removed by miners, but it should provide a basis
 	// for setting a reasonable default.
-	EstimateGas(ctx context.Context, call DEC.CallMsg) (gas uint64, err error)
+	EstimateGas(ctx context.Context, call DEWH.CallMsg) (gas uint64, err error)
 	// SendTransaction injects the transaction into the pending pool for execution.
 	SendTransaction(ctx context.Context, tx *types.Transaction) error
 }
@@ -91,11 +91,11 @@ type ContractFilterer interface {
 	// returning all the results in one batch.
 	//
 	// TODO(karalabe): Deprecate when the subscription one can return past data too.
-	FilterLogs(ctx context.Context, query DEC.FilterQuery) ([]types.Log, error)
+	FilterLogs(ctx context.Context, query DEWH.FilterQuery) ([]types.Log, error)
 
 	// SubscribeFilterLogs creates a background log filtering operation, returning
 	// a subscription immediately, which can be used to stream the found events.
-	SubscribeFilterLogs(ctx context.Context, query DEC.FilterQuery, ch chan<- types.Log) (DEC.Subscription, error)
+	SubscribeFilterLogs(ctx context.Context, query DEWH.FilterQuery, ch chan<- types.Log) (DEWH.Subscription, error)
 }
 
 // DeployBackend wraps the operations needed by WaitMined and WaitDeployed.

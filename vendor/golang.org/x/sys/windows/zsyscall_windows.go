@@ -212,7 +212,7 @@ var (
 	procWSAEnumProtocolsW                  = modws2_32.NewProc("WSAEnumProtocolsW")
 	procGetAdaptersAddresses               = modiphlpapi.NewProc("GetAdaptersAddresses")
 	procGetACP                             = modkernel32.NewProc("GetACP")
-	procMultiByteToWideChar                = modkernel32.NewProc("MultiByteToWideChar")
+	procMultiByteToWiDEWHhar                = modkernel32.NewProc("MultiByteToWiDEWHhar")
 	procTranslateNameW                     = modsecur32.NewProc("TranslateNameW")
 	procGetUserNameExW                     = modsecur32.NewProc("GetUserNameExW")
 	procNetUserGetInfo                     = modnetapi32.NewProc("NetUserGetInfo")
@@ -2234,8 +2234,8 @@ func GetACP() (acp uint32) {
 	return
 }
 
-func MultiByteToWideChar(codePage uint32, dwFlags uint32, str *byte, nstr int32, wchar *uint16, nwchar int32) (nwrite int32, err error) {
-	r0, _, e1 := syscall.Syscall6(procMultiByteToWideChar.Addr(), 6, uintptr(codePage), uintptr(dwFlags), uintptr(unsafe.Pointer(str)), uintptr(nstr), uintptr(unsafe.Pointer(wchar)), uintptr(nwchar))
+func MultiByteToWiDEWHhar(codePage uint32, dwFlags uint32, str *byte, nstr int32, wchar *uint16, nwchar int32) (nwrite int32, err error) {
+	r0, _, e1 := syscall.Syscall6(procMultiByteToWiDEWHhar.Addr(), 6, uintptr(codePage), uintptr(dwFlags), uintptr(unsafe.Pointer(str)), uintptr(nstr), uintptr(unsafe.Pointer(wchar)), uintptr(nwchar))
 	nwrite = int32(r0)
 	if nwrite == 0 {
 		if e1 != 0 {

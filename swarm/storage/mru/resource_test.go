@@ -1,18 +1,18 @@
-// Copyright 2018 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2018 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package mru
 
@@ -27,11 +27,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DEC/go-DEC/contracts/ens"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/log"
-	"github.com/DEC/go-DEC/swarm/multihash"
-	"github.com/DEC/go-DEC/swarm/storage"
+	"github.com/DEWH/go-DEWH/contracts/ens"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/log"
+	"github.com/DEWH/go-DEWH/swarm/multihash"
+	"github.com/DEWH/go-DEWH/swarm/storage"
 )
 
 var (
@@ -567,23 +567,23 @@ func TestMultihash(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	multihashdecode, err := multihash.FromMultihash(data)
+	multihashDEWHode, err := multihash.FromMultihash(data)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !bytes.Equal(multihashdecode, multihashbytes.Bytes()) {
-		t.Fatalf("Decoded hash '%x' does not match original hash '%x'", multihashdecode, multihashbytes.Bytes())
+	if !bytes.Equal(multihashDEWHode, multihashbytes.Bytes()) {
+		t.Fatalf("DEWHoded hash '%x' does not match original hash '%x'", multihashDEWHode, multihashbytes.Bytes())
 	}
 	data, err = getUpdateDirect(rh.Handler, sha1key)
 	if err != nil {
 		t.Fatal(err)
 	}
-	shadecode, err := multihash.FromMultihash(data)
+	shaDEWHode, err := multihash.FromMultihash(data)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !bytes.Equal(shadecode, sha1bytes) {
-		t.Fatalf("Decoded hash '%x' does not match original hash '%x'", shadecode, sha1bytes)
+	if !bytes.Equal(shaDEWHode, sha1bytes) {
+		t.Fatalf("DEWHoded hash '%x' does not match original hash '%x'", shaDEWHode, sha1bytes)
 	}
 	rh.Close()
 
@@ -632,23 +632,23 @@ func TestMultihash(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	multihashdecode, err = multihash.FromMultihash(data)
+	multihashDEWHode, err = multihash.FromMultihash(data)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !bytes.Equal(multihashdecode, multihashbytes.Bytes()) {
-		t.Fatalf("Decoded hash '%x' does not match original hash '%x'", multihashdecode, multihashbytes.Bytes())
+	if !bytes.Equal(multihashDEWHode, multihashbytes.Bytes()) {
+		t.Fatalf("DEWHoded hash '%x' does not match original hash '%x'", multihashDEWHode, multihashbytes.Bytes())
 	}
 	data, err = getUpdateDirect(rh2.Handler, sha1signedkey)
 	if err != nil {
 		t.Fatal(err)
 	}
-	shadecode, err = multihash.FromMultihash(data)
+	shaDEWHode, err = multihash.FromMultihash(data)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !bytes.Equal(shadecode, sha1bytes) {
-		t.Fatalf("Decoded hash '%x' does not match original hash '%x'", shadecode, sha1bytes)
+	if !bytes.Equal(shaDEWHode, sha1bytes) {
+		t.Fatalf("DEWHoded hash '%x' does not match original hash '%x'", shaDEWHode, sha1bytes)
 	}
 }
 
@@ -884,7 +884,7 @@ func newAliceSigner() *GenericSigner {
 }
 
 func newBobSigner() *GenericSigner {
-	privKey, _ := crypto.HexToECDSA("accedeaccedeaccedeaccedeaccedeaccedeaccedeaccedeaccedeaccedecaca")
+	privKey, _ := crypto.HexToECDSA("accedeaccedeaccedeaccedeaccedeaccedeaccedeaccedeaccedeacceDEWHaca")
 	return NewGenericSigner(privKey)
 }
 

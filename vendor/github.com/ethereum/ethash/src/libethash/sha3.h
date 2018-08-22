@@ -10,11 +10,11 @@ extern "C" {
 
 struct ethash_h256;
 
-#define decsha3(bits) \
+#define DEWHsha3(bits) \
 	int sha3_##bits(uint8_t*, size_t, uint8_t const*, size_t);
 
-decsha3(256)
-decsha3(512)
+DEWHsha3(256)
+DEWHsha3(512)
 
 static inline void SHA3_256(struct ethash_h256 const* ret, uint8_t const* data, size_t const size)
 {

@@ -1,18 +1,18 @@
-// Copyright 2016 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2016 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 // Contains the Whisper protocol Envelope element.
 
@@ -26,11 +26,11 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/common/math"
-	"github.com/DEC/go-DEC/crypto"
-	"github.com/DEC/go-DEC/crypto/ecies"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/common/math"
+	"github.com/DEWH/go-DEWH/crypto"
+	"github.com/DEWH/go-DEWH/crypto/ecies"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 // Envelope represents a clear-text data packet to transmit through the Whisper
@@ -163,50 +163,50 @@ func (e *Envelope) Hash() common.Hash {
 	return e.hash
 }
 
-// DecodeRLP decodes an Envelope from an RLP data stream.
-func (e *Envelope) DecodeRLP(s *rlp.Stream) error {
+// DEWHodeRLP DEWHodes an Envelope from an RLP data stream.
+func (e *Envelope) DEWHodeRLP(s *rlp.Stream) error {
 	raw, err := s.Raw()
 	if err != nil {
 		return err
 	}
-	// The decoding of Envelope uses the struct fields but also needs
+	// The DEWHoding of Envelope uses the struct fields but also needs
 	// to compute the hash of the whole RLP-encoded envelope. This
 	// type has the same structure as Envelope but is not an
-	// rlp.Decoder (does not implement DecodeRLP function).
+	// rlp.DEWHoder (does not implement DEWHodeRLP function).
 	// Only public members will be encoded.
 	type rlpenv Envelope
-	if err := rlp.DecodeBytes(raw, (*rlpenv)(e)); err != nil {
+	if err := rlp.DEWHodeBytes(raw, (*rlpenv)(e)); err != nil {
 		return err
 	}
 	e.hash = crypto.Keccak256Hash(raw)
 	return nil
 }
 
-// OpenAsymmetric tries to decrypt an envelope, potentially encrypted with a particular key.
+// OpenAsymmetric tries to DEWHrypt an envelope, potentially encrypted with a particular key.
 func (e *Envelope) OpenAsymmetric(key *ecdsa.PrivateKey) (*ReceivedMessage, error) {
 	message := &ReceivedMessage{Raw: e.Data}
-	err := message.decryptAsymmetric(key)
+	err := message.DEWHryptAsymmetric(key)
 	switch err {
 	case nil:
 		return message, nil
 	case ecies.ErrInvalidPublicKey: // addressed to somebody else
 		return nil, err
 	default:
-		return nil, fmt.Errorf("unable to open envelope, decrypt failed: %v", err)
+		return nil, fmt.Errorf("unable to open envelope, DEWHrypt failed: %v", err)
 	}
 }
 
-// OpenSymmetric tries to decrypt an envelope, potentially encrypted with a particular key.
+// OpenSymmetric tries to DEWHrypt an envelope, potentially encrypted with a particular key.
 func (e *Envelope) OpenSymmetric(key []byte) (msg *ReceivedMessage, err error) {
 	msg = &ReceivedMessage{Raw: e.Data}
-	err = msg.decryptSymmetric(key)
+	err = msg.DEWHryptSymmetric(key)
 	if err != nil {
 		msg = nil
 	}
 	return msg, err
 }
 
-// Open tries to decrypt an envelope, and populates the message fields in case of success.
+// Open tries to DEWHrypt an envelope, and populates the message fields in case of success.
 func (e *Envelope) Open(watcher *Filter) (msg *ReceivedMessage) {
 	if watcher == nil {
 		return nil

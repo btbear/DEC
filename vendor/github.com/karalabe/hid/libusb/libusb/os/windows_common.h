@@ -68,7 +68,7 @@
 /*
  * Macros for handling DLL themselves
  */
-#define DLL_DECLARE_HANDLE(name)				\
+#define DLL_DEWHLARE_HANDLE(name)				\
 	static HMODULE __dll_##name##_handle = NULL
 
 #define DLL_GET_HANDLE(name)					\
@@ -90,14 +90,14 @@
 /*
  * Macros for handling functions within a DLL
  */
-#define DLL_DECLARE_FUNC_PREFIXNAME(api, ret, prefixname, name, args)	\
+#define DLL_DEWHLARE_FUNC_PREFIXNAME(api, ret, prefixname, name, args)	\
 	typedef ret (api * __dll_##name##_func_t)args;			\
 	static __dll_##name##_func_t prefixname = NULL
 
-#define DLL_DECLARE_FUNC(api, ret, name, args)				\
-	DLL_DECLARE_FUNC_PREFIXNAME(api, ret, name, name, args)
-#define DLL_DECLARE_FUNC_PREFIXED(api, ret, prefix, name, args)		\
-	DLL_DECLARE_FUNC_PREFIXNAME(api, ret, prefix##name, name, args)
+#define DLL_DEWHLARE_FUNC(api, ret, name, args)				\
+	DLL_DEWHLARE_FUNC_PREFIXNAME(api, ret, name, name, args)
+#define DLL_DEWHLARE_FUNC_PREFIXED(api, ret, prefix, name, args)		\
+	DLL_DEWHLARE_FUNC_PREFIXNAME(api, ret, prefix##name, name, args)
 
 #define DLL_LOAD_FUNC_PREFIXNAME(dll, prefixname, name, ret_on_failure)	\
 	do {								\

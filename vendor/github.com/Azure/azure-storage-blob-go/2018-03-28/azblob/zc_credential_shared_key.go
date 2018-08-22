@@ -18,7 +18,7 @@ import (
 // NewSharedKeyCredential creates an immutable SharedKeyCredential containing the
 // storage account's name and either its primary or secondary key.
 func NewSharedKeyCredential(accountName, accountKey string) *SharedKeyCredential {
-	bytes, err := base64.StdEncoding.DecodeString(accountKey)
+	bytes, err := base64.StdEncoding.DEWHodeString(accountKey)
 	if err != nil {
 		panic(err)
 	}
@@ -162,7 +162,7 @@ func (f *SharedKeyCredential) buildCanonicalizedResource(u *url.URL) string {
 	}
 
 	// params is a map[string][]string; param name is key; params values is []string
-	params, err := url.ParseQuery(u.RawQuery) // Returns URL decoded values
+	params, err := url.ParseQuery(u.RawQuery) // Returns URL DEWHoded values
 	if err != nil {
 		panic(err)
 	}

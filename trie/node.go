@@ -1,18 +1,18 @@
-// Copyright 2014 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2014 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package trie
 
@@ -21,8 +21,8 @@ import (
 	"io"
 	"strings"
 
-	"github.com/DEC/go-DEC/common"
-	"github.com/DEC/go-DEC/rlp"
+	"github.com/DEWH/go-DEWH/common"
+	"github.com/DEWH/go-DEWH/rlp"
 )
 
 var indices = []string{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "[17]"}
@@ -35,7 +35,7 @@ type node interface {
 
 type (
 	fullNode struct {
-		Children [17]node // Actual trie node data to encode/decode (needs custom encoder)
+		Children [17]node // Actual trie node data to encode/DEWHode (needs custom encoder)
 		flags    nodeFlag
 	}
 	shortNode struct {
@@ -117,36 +117,36 @@ func (n valueNode) fstring(ind string) string {
 	return fmt.Sprintf("%x ", []byte(n))
 }
 
-func mustDecodeNode(hash, buf []byte, cachegen uint16) node {
-	n, err := decodeNode(hash, buf, cachegen)
+func mustDEWHodeNode(hash, buf []byte, cachegen uint16) node {
+	n, err := DEWHodeNode(hash, buf, cachegen)
 	if err != nil {
 		panic(fmt.Sprintf("node %x: %v", hash, err))
 	}
 	return n
 }
 
-// decodeNode parses the RLP encoding of a trie node.
-func decodeNode(hash, buf []byte, cachegen uint16) (node, error) {
+// DEWHodeNode parses the RLP encoding of a trie node.
+func DEWHodeNode(hash, buf []byte, cachegen uint16) (node, error) {
 	if len(buf) == 0 {
 		return nil, io.ErrUnexpectedEOF
 	}
 	elems, _, err := rlp.SplitList(buf)
 	if err != nil {
-		return nil, fmt.Errorf("decode error: %v", err)
+		return nil, fmt.Errorf("DEWHode error: %v", err)
 	}
 	switch c, _ := rlp.CountValues(elems); c {
 	case 2:
-		n, err := decodeShort(hash, elems, cachegen)
+		n, err := DEWHodeShort(hash, elems, cachegen)
 		return n, wrapError(err, "short")
 	case 17:
-		n, err := decodeFull(hash, elems, cachegen)
+		n, err := DEWHodeFull(hash, elems, cachegen)
 		return n, wrapError(err, "full")
 	default:
 		return nil, fmt.Errorf("invalid number of list elements: %v", c)
 	}
 }
 
-func decodeShort(hash, elems []byte, cachegen uint16) (node, error) {
+func DEWHodeShort(hash, elems []byte, cachegen uint16) (node, error) {
 	kbuf, rest, err := rlp.SplitString(elems)
 	if err != nil {
 		return nil, err
@@ -161,17 +161,17 @@ func decodeShort(hash, elems []byte, cachegen uint16) (node, error) {
 		}
 		return &shortNode{key, append(valueNode{}, val...), flag}, nil
 	}
-	r, _, err := decodeRef(rest, cachegen)
+	r, _, err := DEWHodeRef(rest, cachegen)
 	if err != nil {
 		return nil, wrapError(err, "val")
 	}
 	return &shortNode{key, r, flag}, nil
 }
 
-func decodeFull(hash, elems []byte, cachegen uint16) (*fullNode, error) {
+func DEWHodeFull(hash, elems []byte, cachegen uint16) (*fullNode, error) {
 	n := &fullNode{flags: nodeFlag{hash: hash, gen: cachegen}}
 	for i := 0; i < 16; i++ {
-		cld, rest, err := decodeRef(elems, cachegen)
+		cld, rest, err := DEWHodeRef(elems, cachegen)
 		if err != nil {
 			return n, wrapError(err, fmt.Sprintf("[%d]", i))
 		}
@@ -189,7 +189,7 @@ func decodeFull(hash, elems []byte, cachegen uint16) (*fullNode, error) {
 
 const hashLen = len(common.Hash{})
 
-func decodeRef(buf []byte, cachegen uint16) (node, []byte, error) {
+func DEWHodeRef(buf []byte, cachegen uint16) (node, []byte, error) {
 	kind, val, rest, err := rlp.Split(buf)
 	if err != nil {
 		return nil, buf, err
@@ -202,7 +202,7 @@ func decodeRef(buf []byte, cachegen uint16) (node, []byte, error) {
 			err := fmt.Errorf("oversized embedded node (size is %d bytes, want size < %d)", size, hashLen)
 			return nil, buf, err
 		}
-		n, err := decodeNode(nil, buf, cachegen)
+		n, err := DEWHodeNode(nil, buf, cachegen)
 		return n, rest, err
 	case kind == rlp.String && len(val) == 0:
 		// empty node
@@ -214,9 +214,9 @@ func decodeRef(buf []byte, cachegen uint16) (node, []byte, error) {
 	}
 }
 
-// wraps a decoding error with information about the path to the
+// wraps a DEWHoding error with information about the path to the
 // invalid child node (for debugging encoding issues).
-type decodeError struct {
+type DEWHodeError struct {
 	what  error
 	stack []string
 }
@@ -225,13 +225,13 @@ func wrapError(err error, ctx string) error {
 	if err == nil {
 		return nil
 	}
-	if decErr, ok := err.(*decodeError); ok {
-		decErr.stack = append(decErr.stack, ctx)
-		return decErr
+	if DEWHErr, ok := err.(*DEWHodeError); ok {
+		DEWHErr.stack = append(DEWHErr.stack, ctx)
+		return DEWHErr
 	}
-	return &decodeError{err, []string{ctx}}
+	return &DEWHodeError{err, []string{ctx}}
 }
 
-func (err *decodeError) Error() string {
-	return fmt.Sprintf("%v (decode path: %s)", err.what, strings.Join(err.stack, "<-"))
+func (err *DEWHodeError) Error() string {
+	return fmt.Sprintf("%v (DEWHode path: %s)", err.what, strings.Join(err.stack, "<-"))
 }

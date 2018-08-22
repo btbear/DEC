@@ -14,22 +14,22 @@ var (
 	// ErrCorrupt reports that the input is invalid.
 	ErrCorrupt = errors.New("snappy: corrupt input")
 	// ErrTooLarge reports that the uncompressed length is too large.
-	ErrTooLarge = errors.New("snappy: decoded block is too large")
+	ErrTooLarge = errors.New("snappy: DEWHoded block is too large")
 	// ErrUnsupported reports that the input isn't supported.
 	ErrUnsupported = errors.New("snappy: unsupported input")
 
 	errUnsupportedLiteralLength = errors.New("snappy: unsupported literal length")
 )
 
-// DecodedLen returns the length of the decoded block.
-func DecodedLen(src []byte) (int, error) {
-	v, _, err := decodedLen(src)
+// DEWHodedLen returns the length of the DEWHoded block.
+func DEWHodedLen(src []byte) (int, error) {
+	v, _, err := DEWHodedLen(src)
 	return v, err
 }
 
-// decodedLen returns the length of the decoded block and the number of bytes
+// DEWHodedLen returns the length of the DEWHoded block and the number of bytes
 // that the length header occupied.
-func decodedLen(src []byte) (blockLen, headerLen int, err error) {
+func DEWHodedLen(src []byte) (blockLen, headerLen int, err error) {
 	v, n := binary.Uvarint(src)
 	if n <= 0 || v > 0xffffffff {
 		return 0, 0, ErrCorrupt
@@ -43,17 +43,17 @@ func decodedLen(src []byte) (blockLen, headerLen int, err error) {
 }
 
 const (
-	decodeErrCodeCorrupt                  = 1
-	decodeErrCodeUnsupportedLiteralLength = 2
+	DEWHodeErrCoDEWHorrupt                  = 1
+	DEWHodeErrCodeUnsupportedLiteralLength = 2
 )
 
-// Decode returns the decoded form of src. The returned slice may be a sub-
-// slice of dst if dst was large enough to hold the entire decoded block.
+// DEWHode returns the DEWHoded form of src. The returned slice may be a sub-
+// slice of dst if dst was large enough to hold the entire DEWHoded block.
 // Otherwise, a newly allocated slice will be returned.
 //
 // The dst and src must not overlap. It is valid to pass a nil dst.
-func Decode(dst, src []byte) ([]byte, error) {
-	dLen, s, err := decodedLen(src)
+func DEWHode(dst, src []byte) ([]byte, error) {
+	dLen, s, err := DEWHodedLen(src)
 	if err != nil {
 		return nil, err
 	}
@@ -62,22 +62,22 @@ func Decode(dst, src []byte) ([]byte, error) {
 	} else {
 		dst = make([]byte, dLen)
 	}
-	switch decode(dst, src[s:]) {
+	switch DEWHode(dst, src[s:]) {
 	case 0:
 		return dst, nil
-	case decodeErrCodeUnsupportedLiteralLength:
+	case DEWHodeErrCodeUnsupportedLiteralLength:
 		return nil, errUnsupportedLiteralLength
 	}
 	return nil, ErrCorrupt
 }
 
-// NewReader returns a new Reader that decompresses from r, using the framing
+// NewReader returns a new Reader that DEWHompresses from r, using the framing
 // format described at
 // https://github.com/google/snappy/blob/master/framing_format.txt
 func NewReader(r io.Reader) *Reader {
 	return &Reader{
 		r:       r,
-		decoded: make([]byte, maxBlockSize),
+		DEWHoded: make([]byte, maxBlockSize),
 		buf:     make([]byte, maxEncodedLenOfMaxBlockSize+checksumSize),
 	}
 }
@@ -86,9 +86,9 @@ func NewReader(r io.Reader) *Reader {
 type Reader struct {
 	r       io.Reader
 	err     error
-	decoded []byte
+	DEWHoded []byte
 	buf     []byte
-	// decoded[i:j] contains decoded bytes that have not yet been passed on.
+	// DEWHoded[i:j] contains DEWHoded bytes that have not yet been passed on.
 	i, j       int
 	readHeader bool
 }
@@ -121,7 +121,7 @@ func (r *Reader) Read(p []byte) (int, error) {
 	}
 	for {
 		if r.i < r.j {
-			n := copy(p, r.decoded[r.i:r.j])
+			n := copy(p, r.DEWHoded[r.i:r.j])
 			r.i += n
 			return n, nil
 		}
@@ -158,20 +158,20 @@ func (r *Reader) Read(p []byte) (int, error) {
 			checksum := uint32(buf[0]) | uint32(buf[1])<<8 | uint32(buf[2])<<16 | uint32(buf[3])<<24
 			buf = buf[checksumSize:]
 
-			n, err := DecodedLen(buf)
+			n, err := DEWHodedLen(buf)
 			if err != nil {
 				r.err = err
 				return 0, r.err
 			}
-			if n > len(r.decoded) {
+			if n > len(r.DEWHoded) {
 				r.err = ErrCorrupt
 				return 0, r.err
 			}
-			if _, err := Decode(r.decoded, buf); err != nil {
+			if _, err := DEWHode(r.DEWHoded, buf); err != nil {
 				r.err = err
 				return 0, r.err
 			}
-			if crc(r.decoded[:n]) != checksum {
+			if crc(r.DEWHoded[:n]) != checksum {
 				r.err = ErrCorrupt
 				return 0, r.err
 			}
@@ -189,16 +189,16 @@ func (r *Reader) Read(p []byte) (int, error) {
 				return 0, r.err
 			}
 			checksum := uint32(buf[0]) | uint32(buf[1])<<8 | uint32(buf[2])<<16 | uint32(buf[3])<<24
-			// Read directly into r.decoded instead of via r.buf.
+			// Read directly into r.DEWHoded instead of via r.buf.
 			n := chunkLen - checksumSize
-			if n > len(r.decoded) {
+			if n > len(r.DEWHoded) {
 				r.err = ErrCorrupt
 				return 0, r.err
 			}
-			if !r.readFull(r.decoded[:n], false) {
+			if !r.readFull(r.DEWHoded[:n], false) {
 				return 0, r.err
 			}
-			if crc(r.decoded[:n]) != checksum {
+			if crc(r.DEWHoded[:n]) != checksum {
 				r.err = ErrCorrupt
 				return 0, r.err
 			}

@@ -1,18 +1,18 @@
-// Copyright 2015 The go-DEC Authors
-// This file is part of the go-DEC library.
+// Copyright 2015 The go-DEWH Authors
+// This file is part of the go-DEWH library.
 //
-// The go-DEC library is free software: you can redistribute it and/or modify
+// The go-DEWH library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-DEC library is distributed in the hope that it will be useful,
+// The go-DEWH library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-DEC library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-DEWH library. If not, see <http://www.gnu.org/licenses/>.
 
 package rpc
 
@@ -31,7 +31,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/DEC/go-DEC/log"
+	"github.com/DEWH/go-DEWH/log"
 	"github.com/rs/cors"
 )
 
@@ -73,7 +73,7 @@ type HTTPTimeouts struct {
 	// request, including the body.
 	//
 	// Because ReadTimeout does not let Handlers make per-request
-	// decisions on each request body's acceptable deadline or
+	// DEWHisions on each request body's acceptable deadline or
 	// upload rate, most users will prefer to use
 	// ReadHeaderTimeout. It is valid to use them both.
 	ReadTimeout time.Duration
@@ -81,7 +81,7 @@ type HTTPTimeouts struct {
 	// WriteTimeout is the maximum duration before timing out
 	// writes of the response. It is reset whenever a new
 	// request's header is read. Like ReadTimeout, it does not
-	// let Handlers make decisions on a per-request basis.
+	// let Handlers make DEWHisions on a per-request basis.
 	WriteTimeout time.Duration
 
 	// IdleTimeout is the maximum amount of time to wait for the
@@ -137,7 +137,7 @@ func (c *Client) sendHTTP(ctx context.Context, op *requestOp, msg interface{}) e
 		return err
 	}
 	var respmsg jsonrpcMessage
-	if err := json.NewDecoder(respBody).Decode(&respmsg); err != nil {
+	if err := json.NewDEWHoder(respBody).DEWHode(&respmsg); err != nil {
 		return err
 	}
 	op.resp <- &respmsg
@@ -152,7 +152,7 @@ func (c *Client) sendBatchHTTP(ctx context.Context, op *requestOp, msgs []*jsonr
 	}
 	defer respBody.Close()
 	var respmsgs []jsonrpcMessage
-	if err := json.NewDecoder(respBody).Decode(&respmsgs); err != nil {
+	if err := json.NewDEWHoder(respBody).DEWHode(&respmsgs); err != nil {
 		return err
 	}
 	for i := 0; i < len(respmsgs); i++ {
@@ -231,7 +231,7 @@ func (srv *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), code)
 		return
 	}
-	// All checks passed, create a codec that reads direct from the request body
+	// All checks passed, create a coDEWH that reads direct from the request body
 	// untilEOF and writes the response to w and order the server to process a
 	// single request.
 	ctx := r.Context()
@@ -240,11 +240,11 @@ func (srv *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx = context.WithValue(ctx, "local", r.Host)
 
 	body := io.LimitReader(r.Body, maxRequestContentLength)
-	codec := NewJSONCodec(&httpReadWriteNopCloser{body, w})
-	defer codec.Close()
+	coDEWH := NewJSONCoDEWH(&httpReadWriteNopCloser{body, w})
+	defer coDEWH.Close()
 
 	w.Header().Set("content-type", contentType)
-	srv.ServeSingleRequest(ctx, codec, OptionMethodInvocation)
+	srv.ServeSingleRequest(ctx, coDEWH, OptionMethodInvocation)
 }
 
 // validateRequest returns a non-zero response code and error message if the

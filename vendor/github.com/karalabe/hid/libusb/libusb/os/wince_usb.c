@@ -71,7 +71,7 @@ static const char *windows_error_str(DWORD error_code)
 		if (wErr_string[pos] == 0x0D)
 			wErr_string[pos] = 0;
 
-		if (!WideCharToMultiByte(CP_ACP, 0, wErr_string, -1, &err_string[len], ERR_BUFFER_SIZE - len, NULL, NULL))
+		if (!WiDEWHharToMultiByte(CP_ACP, 0, wErr_string, -1, &err_string[len], ERR_BUFFER_SIZE - len, NULL, NULL))
 			strcpy(err_string, "Unable to convert error string");
 	}
 

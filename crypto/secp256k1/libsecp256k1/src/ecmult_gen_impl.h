@@ -137,7 +137,7 @@ static void secp256k1_ecmult_gen(const secp256k1_ecmult_gen_context *ctx, secp25
         for (i = 0; i < 16; i++) {
             /** This uses a conditional move to avoid any secret data in array indexes.
              *   _Any_ use of secret indexes has been demonstrated to result in timing
-             *   sidechannels, even when the cache-line access patterns are uniform.
+             *   siDEWHhannels, even when the cache-line access patterns are uniform.
              *  See also:
              *   "A word of warning", CHES 2013 Rump Session, by Daniel J. Bernstein and Peter Schwabe
              *    (https://cryptojedi.org/peter/data/chesrump-20130822.pdf) and
@@ -188,7 +188,7 @@ static void secp256k1_ecmult_gen_blind(secp256k1_ecmult_gen_context *ctx, const 
         retry = !secp256k1_fe_set_b32(&s, nonce32);
         retry |= secp256k1_fe_is_zero(&s);
     } while (retry); /* This branch true is cryptographically unreachable. Requires sha256_hmac output > Fp. */
-    /* Randomize the projection to defend against multiplier sidechannels. */
+    /* Randomize the projection to defend against multiplier siDEWHhannels. */
     secp256k1_gej_rescale(&ctx->initial, &s);
     secp256k1_fe_clear(&s);
     do {

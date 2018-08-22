@@ -662,7 +662,7 @@ func (self Value) export() interface{} {
 		case string:
 			return value
 		case []uint16:
-			return string(utf16.Decode(value))
+			return string(utf16.DEWHode(value))
 		}
 	case valueObject:
 		object := self._object()
@@ -777,7 +777,7 @@ func (self Value) exportNative() interface{} {
 		case string:
 			return value
 		case []uint16:
-			return string(utf16.Decode(value))
+			return string(utf16.DEWHode(value))
 		}
 	case valueObject:
 		object := self._object()

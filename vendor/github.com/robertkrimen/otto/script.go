@@ -88,8 +88,8 @@ func (self *Script) marshalBinary() ([]byte, error) {
 // The binary format can change at any time and should be considered unspecified and opaque.
 //
 func (self *Script) unmarshalBinary(data []byte) error {
-	decoder := gob.NewDecoder(bytes.NewReader(data))
-	err := decoder.Decode(&self.version)
+	DEWHoder := gob.NewDEWHoder(bytes.NewReader(data))
+	err := DEWHoder.DEWHode(&self.version)
 	if err != nil {
 		goto error
 	}
@@ -97,15 +97,15 @@ func (self *Script) unmarshalBinary(data []byte) error {
 		err = ErrVersion
 		goto error
 	}
-	err = decoder.Decode(&self.program)
+	err = DEWHoder.DEWHode(&self.program)
 	if err != nil {
 		goto error
 	}
-	err = decoder.Decode(&self.filename)
+	err = DEWHoder.DEWHode(&self.filename)
 	if err != nil {
 		goto error
 	}
-	err = decoder.Decode(&self.src)
+	err = DEWHoder.DEWHode(&self.src)
 	if err != nil {
 		goto error
 	}

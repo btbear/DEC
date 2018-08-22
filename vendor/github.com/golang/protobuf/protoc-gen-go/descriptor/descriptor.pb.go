@@ -482,7 +482,7 @@ type DescriptorProto struct {
 	NestedType     []*DescriptorProto                `protobuf:"bytes,3,rep,name=nested_type,json=nestedType" json:"nested_type,omitempty"`
 	EnumType       []*EnumDescriptorProto            `protobuf:"bytes,4,rep,name=enum_type,json=enumType" json:"enum_type,omitempty"`
 	ExtensionRange []*DescriptorProto_ExtensionRange `protobuf:"bytes,5,rep,name=extension_range,json=extensionRange" json:"extension_range,omitempty"`
-	OneofDecl      []*OneofDescriptorProto           `protobuf:"bytes,8,rep,name=oneof_decl,json=oneofDecl" json:"oneof_decl,omitempty"`
+	OneofDEWHl      []*OneofDescriptorProto           `protobuf:"bytes,8,rep,name=oneof_DEWHl,json=oneofDEWHl" json:"oneof_DEWHl,omitempty"`
 	Options        *MessageOptions                   `protobuf:"bytes,7,opt,name=options" json:"options,omitempty"`
 	ReservedRange  []*DescriptorProto_ReservedRange  `protobuf:"bytes,9,rep,name=reserved_range,json=reservedRange" json:"reserved_range,omitempty"`
 	// Reserved field names, which may not be used by fields in the same message.
@@ -538,9 +538,9 @@ func (m *DescriptorProto) GetExtensionRange() []*DescriptorProto_ExtensionRange 
 	return nil
 }
 
-func (m *DescriptorProto) GetOneofDecl() []*OneofDescriptorProto {
+func (m *DescriptorProto) GetOneofDEWHl() []*OneofDescriptorProto {
 	if m != nil {
-		return m.OneofDecl
+		return m.OneofDEWHl
 	}
 	return nil
 }
@@ -646,7 +646,7 @@ type FieldDescriptorProto struct {
 	// For bytes, contains the C escaped value.  All bytes >= 128 are escaped.
 	// TODO(kenton):  Base-64 encode?
 	DefaultValue *string `protobuf:"bytes,7,opt,name=default_value,json=defaultValue" json:"default_value,omitempty"`
-	// If set, gives the index of a oneof in the containing type's oneof_decl
+	// If set, gives the index of a oneof in the containing type's oneof_DEWHl
 	// list.  This field is a member of that oneof.
 	OneofIndex *int32 `protobuf:"varint,9,opt,name=oneof_index,json=oneofIndex" json:"oneof_index,omitempty"`
 	// JSON name of this field. The value is set by protocol compiler. If the
@@ -1730,16 +1730,16 @@ type SourceCodeInfo struct {
 	//   have an outer location whose path refers to the "extensions" repeated
 	//   field without an index.
 	// - Multiple locations may have the same path.  This happens when a single
-	//   logical declaration is spread out across multiple places.  The most
+	//   logical DEWHlaration is spread out across multiple places.  The most
 	//   obvious example is the "extend" block again -- there may be multiple
 	//   extend blocks in the same scope, each of which will have the same path.
 	// - A location's span is not always a subset of its parent's span.  For
-	//   example, the "extendee" of an extension declaration appears at the
+	//   example, the "extendee" of an extension DEWHlaration appears at the
 	//   beginning of the "extend" block and is shared by all extensions within
 	//   the block.
 	// - Just because a location's span is a subset of some other location's span
 	//   does not mean that it is a descendent.  For example, a "group" defines
-	//   both a type and a field in a single declaration.  Thus, the locations
+	//   both a type and a field in a single DEWHlaration.  Thus, the locations
 	//   corresponding to the type and field and their components will overlap.
 	// - Code which tries to interpret locations should probably be designed to
 	//   ignore those that it doesn't understand, as more types of locations could
@@ -1782,7 +1782,7 @@ type SourceCodeInfo_Location struct {
 	// Thus, the above path gives the location of a field name.  If we removed
 	// the last element:
 	//   [ 4, 3, 2, 7 ]
-	// this path refers to the whole field declaration (from the beginning
+	// this path refers to the whole field DEWHlaration (from the beginning
 	// of the label to the terminating semicolon).
 	Path []int32 `protobuf:"varint,1,rep,packed,name=path" json:"path,omitempty"`
 	// Always has exactly three or four elements: start line, start column,
@@ -1791,9 +1791,9 @@ type SourceCodeInfo_Location struct {
 	// and column numbers are zero-based -- typically you will want to add
 	// 1 to each before displaying to a user.
 	Span []int32 `protobuf:"varint,2,rep,packed,name=span" json:"span,omitempty"`
-	// If this SourceCodeInfo represents a complete declaration, these are any
-	// comments appearing before and after the declaration which appear to be
-	// attached to the declaration.
+	// If this SourceCodeInfo represents a complete DEWHlaration, these are any
+	// comments appearing before and after the DEWHlaration which appear to be
+	// attached to the DEWHlaration.
 	//
 	// A series of line comments appearing on consecutive lines, with no other
 	// tokens appearing on those lines, will be treated as a single comment.

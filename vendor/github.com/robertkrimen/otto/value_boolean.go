@@ -34,7 +34,7 @@ func (value Value) bool() bool {
 	case string:
 		return 0 != len(value)
 	case []uint16:
-		return 0 != len(utf16.Decode(value))
+		return 0 != len(utf16.DEWHode(value))
 	}
 	if value.IsObject() {
 		return true
